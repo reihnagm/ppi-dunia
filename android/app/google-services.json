@@ -1,0 +1,158 @@
+{
+  "project_info": {
+    "project_number": "224199405058",
+    "project_id": "koperasi-yamaha",
+    "storage_bucket": "koperasi-yamaha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:3834f499293b2e85eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.hp3ki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-3mmdv8c4d38buspsslm8haqbq3q2fsvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "1a2b105ca03cbd3d4242cf12361da7442884fb5c"
+          }
+        },
+        {
+          "client_id": "224199405058-haggckleatcb2ii3djfvatmnp1s72dcp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "2afb07e07c41e6723ad6b169b5f2bee6bbb677fa"
+          }
+        },
+        {
+          "client_id": "224199405058-njo7o14or6u208hh3u6srpitfgtchjrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "9e0c1f5bbd4dbc7694b4b523d67472e5926e8efb"
+          }
+        },
+        {
+          "client_id": "224199405058-okijvjoomq4669t82d4ghiur0t1ieqnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "26c25f31d7068883650e9b9fbbe31ad0847ce2ad"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:11394a42fb1043c3eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.koperasiyamaha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-1in8g856jc8oamc44oq420q13o31lgp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.koperasiyamaha",
+            "certificate_hash": "9e0c1f5bbd4dbc7694b4b523d67472e5926e8efb"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:4ef43c4ca48ca3d2eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.ppidunia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
