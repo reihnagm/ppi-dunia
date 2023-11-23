@@ -1,10 +1,10 @@
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ppidunia/utils/box_shadow.dart';
-import 'package:ppidunia/utils/color_resources.dart';
-import 'package:ppidunia/utils/custom_themes.dart';
-import 'package:ppidunia/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/box_shadow.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/custom_themes.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
 
 import 'package:ppidunia/views/basewidgets/button/bounce.dart';
 

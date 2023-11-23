@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ppidunia/data/models/news/news.dart';
+import 'package:ppidunia/features/news/data/models/news.dart';
 import '../../dummy_data/news/mock_news.dart';
 
 void main() {

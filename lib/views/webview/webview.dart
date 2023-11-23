@@ -5,8 +5,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ppidunia/utils/color_resources.dart';
-import 'package:ppidunia/utils/constant.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/consts/api_const.dart';
 
 import 'package:ppidunia/views/basewidgets/loader/square.dart';
 import 'package:ppidunia/views/basewidgets/appbar/custom.dart';
@@ -69,7 +69,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     WebView(
                       javascriptMode: JavascriptMode.unrestricted,
                       initialUrl: widget.url,
-                      userAgent: AppConstants.mobileUa,
+                      userAgent: ApiConsts.mobileUa,
                       gestureNavigationEnabled: true,
                       onWebViewCreated: (WebViewController webViewController) {
                         controller.future.then((value) => controllerGlobal = value);

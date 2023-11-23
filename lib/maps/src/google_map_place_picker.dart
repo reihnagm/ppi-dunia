@@ -11,7 +11,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 import '../../maps/google_maps_place_picker.dart';
 import '../../maps/providers/place_provider.dart';

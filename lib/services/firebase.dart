@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:ppidunia/views/screens/inbox/inbox_screen_model.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/features/inbox/presentation/pages/inbox_screen_model.dart';
 import 'package:soundpool/soundpool.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:ppidunia/data/repository/firebase/firebase.dart';
+import 'package:ppidunia/features/firebase/data/repositories/firebase.dart';
 
 import 'package:ppidunia/services/database.dart';
 import 'package:ppidunia/services/notification.dart';
 
-import 'package:ppidunia/utils/helper.dart';
-import 'package:ppidunia/utils/exceptions.dart';
-import 'package:ppidunia/utils/shared_preferences.dart';
+import 'package:ppidunia/common/helpers/unique_util.dart';
+import 'package:ppidunia/common/errors/exceptions.dart';
+import 'package:ppidunia/common/utils/shared_preferences.dart';
 
 enum InitFCMStatus { loading, loaded, error, idle }
 
@@ -58,7 +59,9 @@ class FirebaseProvider with ChangeNotifier {
     Soundpool soundpool = Soundpool.fromOptions(
       options: SoundpoolOptions.kDefault,
     );
-    int soundId = await rootBundle.load("assets/sounds/notification.mp3").then((ByteData soundData) {
+    int soundId = await rootBundle
+        .load(AssetsConst.audioNotifMpThree)
+        .then((ByteData soundData) {
       return soundpool.load(soundData);
     });
     await soundpool.play(soundId);
@@ -90,7 +93,9 @@ class FirebaseProvider with ChangeNotifier {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification notification = message.notification!;
       Map<String, dynamic> data = message.data;
-      int soundId = await rootBundle.load("assets/sounds/notification.mp3").then((ByteData soundData) {
+      int soundId = await rootBundle
+          .load(AssetsConst.audioNotifMpThree)
+          .then((ByteData soundData) {
         return soundpool.load(soundData);
       });
       await soundpool.play(soundId);
@@ -98,7 +103,7 @@ class FirebaseProvider with ChangeNotifier {
         ism.getInboxes();
       });
       NotificationService.showNotification(
-        id: Helper.createUniqueId(),
+        id: UniqueHelper.createUniqueId(),
         title: notification.title,
         body: notification.body,
         payload: data,

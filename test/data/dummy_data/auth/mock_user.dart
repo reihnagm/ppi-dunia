@@ -1,4 +1,4 @@
-import 'package:ppidunia/data/models/auth/user.dart';
+import 'package:ppidunia/features/auth/data/models/user.dart';
 
 class MockUser {
   static const UserData expectedUserData = UserData(

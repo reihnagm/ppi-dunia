@@ -1,4 +1,4 @@
-import 'package:ppidunia/data/models/country/country.dart';
+import 'package:ppidunia/features/country/data/models/country.dart';
 
 class MockCountry {
   static const CountryData expectedCountryData = CountryData(
