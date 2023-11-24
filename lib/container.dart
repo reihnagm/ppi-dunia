@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ppidunia/services/firebase.dart';
 import 'package:ppidunia/services/location.dart';
 
-import 'package:ppidunia/providers/location/location.dart';
 import 'package:ppidunia/providers/banner/banner.dart';
+import 'package:ppidunia/providers/location/location.dart';
 import 'package:ppidunia/providers/profile/profile.dart';
 
 import 'package:ppidunia/data/repository/profile/profile.dart';
@@ -91,8 +91,10 @@ Future<void> init() async {
     fr: getIt(),
     ism: getIt()
   ));
-  getIt.registerFactory(() => LocalizationProvider( ));
-  getIt.registerFactory(() => LocationProvider( ));
+  getIt.registerFactory(() => LocalizationProvider());
+  
+  getIt.registerFactory(() => LocationProvider());
+
   getIt.registerLazySingleton(() => FeedScreenModel(
     fr: getIt()
   ));

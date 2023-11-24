@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ppidunia/utils/modal.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -193,6 +196,67 @@ class FeedList extends StatelessWidget {
                                               
                                           ],
                                         ),
+
+
+                                        fsm.feeds[i].user.uid == SharedPrefs.getUserId() 
+                                        ? const SizedBox()
+                                        : PopupMenuButton(
+                                            color: Colors.white,
+                                            itemBuilder: (BuildContext buildContext) { 
+                                              return [
+                                                PopupMenuItem(
+                                                  value: "/report-user",
+                                                  child: Text("Block content",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 11.sp
+                                                    )
+                                                  )
+                                                ),
+                                                PopupMenuItem(
+                                                  value: "/report-user",
+                                                  child: Text("Block user",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 11.sp
+                                                    )
+                                                  )
+                                                ),
+                                                PopupMenuItem(
+                                                  value: "/report-user",
+                                                  child: Text("It's spam",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 11.sp
+                                                    )
+                                                  )
+                                                ),
+                                                PopupMenuItem(
+                                                  value: "/report-user",
+                                                  child: Text("Nudity or sexual activity",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 11.sp
+                                                    )
+                                                  )
+                                                ),
+                                                PopupMenuItem(
+                                                  value: "/report-user",
+                                                  child: Text("False Information",
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 11.sp
+                                                    )
+                                                  )
+                                                )
+                                              ];
+                                            },
+                                            onSelected: (route) async {
+                                              if(route == "/report-user") {
+                                                await GeneralModal.reportUser();
+                                             }
+                                            },
+                                          ),
 
                                       fsm.feeds[i].user.uid == SharedPrefs.getUserId() 
                                       ? PopupMenuButton(

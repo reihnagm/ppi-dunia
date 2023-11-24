@@ -97,6 +97,7 @@ dev_dependencies:
 
   #L
   localization: ^2.1.0
+  lottie: ^2.7.0
   location_permissions: ^4.0.1
   loading:
     git: https://github.com/bradintheusa/loading
@@ -145,6 +146,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/lottie/
     - assets/sounds/
     - assets/language/
     - assets/images/

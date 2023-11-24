@@ -54,7 +54,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {  
  
   Future<void> getData() async {  
-    await Geolocator.requestPermission();
+    // await Geolocator.requestPermission();
     if(mounted) {
       NotificationService.init();
     }

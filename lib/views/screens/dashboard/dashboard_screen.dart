@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ppidunia/utils/modal.dart';
 import 'package:provider/provider.dart';
 
 import 'package:ppidunia/services/firebase.dart';
 
-import 'package:ppidunia/providers/location/location.dart';
+// import 'package:ppidunia/providers/location/location.dart';
 
 import 'package:ppidunia/views/basewidgets/snackbar/snackbar.dart';
 
@@ -20,7 +21,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   late DashboardScreenModel dsm;
   late FirebaseProvider fp;
   late InboxScreenModel ism;
-  late LocationProvider lp;
+  // late LocationProvider lp;
 
   dynamic currentBackPressTime;
 
@@ -42,15 +43,20 @@ class DashboardScreenState extends State<DashboardScreen> {
     timeDilation = 1.0;
     dsm = context.read<DashboardScreenModel>();
     fp = context.read<FirebaseProvider>();
-    lp = context.read<LocationProvider>();
+    // lp = context.read<LocationProvider>();
     ism = context.read<InboxScreenModel>();
 
     if(mounted) {
       ism.getReadCount();
     }
 
+    if(!mounted) return;
+      Future.delayed(Duration.zero, () {
+        GeneralModal.termsAndCondition();
+      });
+
     if(mounted) {
-      lp.getCurrentPosition();
+      // lp.getCurrentPosition();
     }
 
     if(mounted) {
@@ -111,13 +117,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                         size: 30.0,
                       ) 
                     : Badge(
-                        child:  Icon(Icons.notifications,
+                        label: Text(ism.readCount.toString()
+                      ),
+                        child: Icon(Icons.notifications,
                           size: 30.0,
                           color: dsm.indexWidget == 1
                             ? ColorResources.white : ColorResources.textGreyPrimary,
                         ) ,
-                        label: Text(ism.readCount.toString()
-                      ),
                     )
     ,                 tooltip: 'Inbox',
                     label: 'Inbox',

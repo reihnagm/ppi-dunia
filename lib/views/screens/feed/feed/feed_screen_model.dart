@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:location_permissions/location_permissions.dart' as lp;
+// import 'package:geolocator/geolocator.dart';
+// import 'package:location_permissions/location_permissions.dart' as lp;
 
 import 'package:ppidunia/data/models/country/branch.dart';
 import 'package:ppidunia/data/models/feed/feed.dart';
@@ -33,7 +33,7 @@ class FeedScreenModel with ChangeNotifier {
 
   int selectedVarTag = 0;
 
-  bool isLocationServiceEnabled = false;
+  // bool isLocationServiceEnabled = false;
 
   late TextEditingController searchC;
   late ScrollController countriesC;
@@ -91,13 +91,13 @@ class FeedScreenModel with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  Future<void> listenForPermissionStatus() async {
-    lp.ServiceStatus serviceStatus = await lp.LocationPermissions().checkServiceStatus();
-    if (serviceStatus == lp.ServiceStatus.enabled) {
-      isLocationServiceEnabled = true;
-      Future.delayed(Duration.zero, () => notifyListeners());
-    }
-  }
+  // Future<void> listenForPermissionStatus() async {
+  //   lp.ServiceStatus serviceStatus = await lp.LocationPermissions().checkServiceStatus();
+  //   if (serviceStatus == lp.ServiceStatus.enabled) {
+  //     isLocationServiceEnabled = true;
+  //     Future.delayed(Duration.zero, () => notifyListeners());
+  //   }
+  // }
   
   Future<void> getFeedTag() async {
     setStateGetBranchStatus(GetBranchStatus.loading);
@@ -123,8 +123,8 @@ class FeedScreenModel with ChangeNotifier {
   }
 
   Future<void> getLocation() async {
-    Position p = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    SharedPrefs.writeLatLng(p.latitude, p.longitude);
+    // Position p = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    // SharedPrefs.writeLatLng(p.latitude, p.longitude);
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 

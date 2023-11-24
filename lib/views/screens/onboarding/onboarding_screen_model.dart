@@ -8,6 +8,6 @@ class OnboardingScreenModel with ChangeNotifier {
     Future.delayed(const Duration(seconds: 4), () {
       _isChangeContent = !_isChangeContent;
       notifyListeners();
-    } ,);
+    });
   }
 }

@@ -66,7 +66,7 @@ class SplashScreenState extends State<SplashScreen> {
                   clipBehavior: Clip.none,
                   children: [
                     Center(
-                      child:  Hero(
+                      child: Hero(
                         tag: 'logo-welcome',
                         child: Container(
                           width: 400.0,

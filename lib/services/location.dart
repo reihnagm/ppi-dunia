@@ -44,10 +44,10 @@ class PermissionChecker extends StatefulWidget {
   const PermissionChecker({Key? key}) : super(key: key);
 
   @override
-  _PermissionCheckerState createState() => _PermissionCheckerState();
+  PermissionCheckerState createState() => PermissionCheckerState();
 }
 
-class _PermissionCheckerState extends State<PermissionChecker> {
+class PermissionCheckerState extends State<PermissionChecker> {
   bool loading = false;
 
   late ServiceStatus serviceStatus;
