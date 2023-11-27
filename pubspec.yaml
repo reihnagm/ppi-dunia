@@ -150,6 +150,7 @@ flutter:
     - assets/sounds/
     - assets/language/
     - assets/images/
+    - assets/images/kta/
     - assets/images/auth/
     - assets/images/default/
     - assets/images/icons/
