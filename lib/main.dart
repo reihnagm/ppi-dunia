@@ -3,11 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:ppidunia/utils/global.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:device_preview/device_preview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:ppidunia/container.dart' as core;
-
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:ppidunia/providers.dart';
@@ -46,13 +45,13 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {  
+class MyAppState extends State<MyApp> with WidgetsBindingObserver {  
  
   Future<void> getData() async {  
-    // await Geolocator.requestPermission();
+    await Geolocator.requestPermission();
     if(mounted) {
       NotificationService.init();
     }
@@ -114,8 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       minTextAdapt: true,
       splitScreenMode: true,
       designSize: const Size(360, 690),
-      builder: (context, child) {
-        ScreenUtil.init(context);
+      builder: (_, __) {
         return MaterialApp(
           title: 'PPI Dunia',
           debugShowCheckedModeBanner: false,

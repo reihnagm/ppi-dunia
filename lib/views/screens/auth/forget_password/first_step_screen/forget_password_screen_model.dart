@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'package:ppidunia/data/repository/auth/auth.dart';
+
 import 'package:ppidunia/localization/language_constraints.dart';
+
 import 'package:ppidunia/services/navigation.dart';
+
 import 'package:ppidunia/utils/color_resources.dart';
 import 'package:ppidunia/utils/exceptions.dart';
 import 'package:ppidunia/utils/shared_preferences.dart';
+
 import 'package:ppidunia/views/basewidgets/snackbar/snackbar.dart';
 import 'package:ppidunia/views/basewidgets/textfield/textfield.dart';
+
 import 'package:ppidunia/views/screens/auth/forget_password/second_step_screen/new_password_state.dart';
 
 enum ForgetPasswordStatus { idle, loading, success, error }
