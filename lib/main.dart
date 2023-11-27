@@ -6,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:device_preview/device_preview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:geolocator/geolocator.dart';
-
 import 'package:ppidunia/container.dart' as core;
 
 import 'package:firebase_core/firebase_core.dart';
