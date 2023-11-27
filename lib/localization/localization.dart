@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ppidunia/utils/constant.dart';
-import 'package:ppidunia/utils/shared_preferences.dart';
+import 'package:ppidunia/common/consts/api_const.dart';
+import 'package:ppidunia/common/utils/shared_preferences.dart';
 
 class LocalizationProvider extends ChangeNotifier {
 
@@ -29,9 +29,9 @@ class LocalizationProvider extends ChangeNotifier {
     }else {
       _locale = const Locale('id', 'ID');
     }
-    for (var language in AppConstants.languages) {
+    for (var language in ApiConsts.languages) {
       if(language.languageCode == _locale.languageCode) {
-        _languageIndex = AppConstants.languages.indexOf(language);
+        _languageIndex = ApiConsts.languages.indexOf(language);
       }
     }
     _saveLanguage(_locale);
@@ -40,9 +40,9 @@ class LocalizationProvider extends ChangeNotifier {
 
   void _loadCurrentLanguage() async {
     _locale = Locale(SharedPrefs.getLanguageCode(), SharedPrefs.getCountryCode());
-    for (var language in AppConstants.languages) {
+    for (var language in ApiConsts.languages) {
       if(language.languageCode == _locale.languageCode) {
-        _languageIndex = AppConstants.languages.indexOf(language);
+        _languageIndex = ApiConsts.languages.indexOf(language);
       }
     }
     Future.delayed(Duration.zero, () => notifyListeners());
@@ -65,15 +65,15 @@ class LocalizationProvider extends ChangeNotifier {
       _isIndonesian = true;
       _isEnglish = false;
       setLanguage(Locale(
-        AppConstants.languages[0].languageCode!,
-        AppConstants.languages[0].countryCode,
+        ApiConsts.languages[0].languageCode!,
+        ApiConsts.languages[0].countryCode,
       ));
     } else {
       _isIndonesian = false;
       _isEnglish = true;
       setLanguage(Locale(
-        AppConstants.languages[1].languageCode!,
-        AppConstants.languages[1].countryCode,
+        ApiConsts.languages[1].languageCode!,
+        ApiConsts.languages[1].countryCode,
       ));
     }
     Future.delayed(Duration.zero, () => notifyListeners());

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:ppidunia/utils/constant.dart';
+import 'package:ppidunia/common/consts/api_const.dart';
 
 class AppLocalization {
   AppLocalization(this.locale);
@@ -35,7 +35,7 @@ class _DemoLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> 
   @override
   bool isSupported(Locale locale) {
     List<String> _languageString = [];
-    for (var language in AppConstants.languages) {
+    for (var language in ApiConsts.languages) {
       _languageString.add(language.languageCode!);
     }
     return _languageString.contains(locale.languageCode);

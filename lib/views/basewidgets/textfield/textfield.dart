@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ppidunia/utils/color_resources.dart';
-import 'package:ppidunia/utils/custom_themes.dart';
-import 'package:ppidunia/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/custom_themes.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
 
 extension EmailValidator on String {
   bool isValidEmail() {

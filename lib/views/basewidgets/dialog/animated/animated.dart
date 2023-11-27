@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 void showAnimatedDialog(BuildContext context, Widget dialog, {bool isFlip = false, bool dismissible = true}) {
   showGeneralDialog(

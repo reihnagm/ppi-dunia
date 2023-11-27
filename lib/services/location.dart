@@ -5,8 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:location/location.dart' as l;
 
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 class UserLocation {
   final double latitude;
@@ -44,10 +45,10 @@ class PermissionChecker extends StatefulWidget {
   const PermissionChecker({Key? key}) : super(key: key);
 
   @override
-  _PermissionCheckerState createState() => _PermissionCheckerState();
+  PermissionCheckerState createState() => PermissionCheckerState();
 }
 
-class _PermissionCheckerState extends State<PermissionChecker> {
+class PermissionCheckerState extends State<PermissionChecker> {
   bool loading = false;
 
   late ServiceStatus serviceStatus;
@@ -105,7 +106,7 @@ class _PermissionCheckerState extends State<PermissionChecker> {
           children: [
             SizedBox(
               width: screenSize.width / 2,
-              child: Image.asset("assets/images/logo/logo.png"),
+              child: Image.asset(AssetsConst.imageLogoPpi),
             ),
             const SizedBox(height: 30),
             !loading

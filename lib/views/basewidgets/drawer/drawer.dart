@@ -19,8 +19,10 @@
 // import 'package:ppidunia/utils/custom_themes.dart';
 // import 'package:ppidunia/utils/dimensions.dart';
 
-// import 'package:ppidunia/views/screens/auth/sign_in/sign_in.dart';
+// import 'package:ppidunia/features/auth/presentation/pages/sign_in/sign_in.dart';
 // import 'package:ppidunia/views/webview/webview.dart';
+
+// import 'package:ppidunia/common/consts/assets_const.dart';
 
 // class DrawerWidget extends StatefulWidget {
 //   const DrawerWidget({ Key? key }) : super(key: key);
@@ -285,12 +287,12 @@
 //     );
 //   }
 
-//   AwesomeDialog buildSignOutPopup(BuildContext context) {
+// AwesomeDialog buildSignOutPopup(BuildContext context) {
 //     return AwesomeDialog(
 //       context: context,
 //       animType: AnimType.scale,
 //       dialogType: DialogType.question,
-//       customHeader: Image.asset('assets/images/avatar/avatar-logout.png',
+//       customHeader: Image.asset(AssetsConst.imageAvatarLogout,
 //         height: 160.0,
 //         width: 160.0,
 //         fit: BoxFit.fitHeight,

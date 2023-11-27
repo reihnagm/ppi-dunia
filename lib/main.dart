@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ppidunia/utils/global.dart';
+import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:device_preview/device_preview.dart';
@@ -17,15 +18,14 @@ import 'package:ppidunia/providers.dart';
 import 'package:ppidunia/services/firebase.dart'; 
 import 'package:ppidunia/services/notification.dart';
 
-import 'package:ppidunia/views/screens/splash/splash_state.dart';
+import 'package:ppidunia/features/splash/presentation/pages/splash_state.dart';
 
-import 'package:ppidunia/data/models/language/language.dart';
+import 'package:ppidunia/features/language/data/models/language.dart';
 
 import 'package:ppidunia/localization/app_localization.dart';
 import 'package:ppidunia/localization/localization.dart';
 
-import 'package:ppidunia/utils/shared_preferences.dart';
-import 'package:ppidunia/utils/constant.dart';
+import 'package:ppidunia/common/consts/api_const.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,7 +109,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     List<Locale> locals = [];
-    for (LanguageModel language in AppConstants.languages) {
+    for (LanguageModel language in ApiConsts.languages) {
       locals.add(Locale(language.languageCode!, language.countryCode));
     }
     return ScreenUtilInit(

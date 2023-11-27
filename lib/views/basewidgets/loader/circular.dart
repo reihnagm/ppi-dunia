@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 class Loader extends StatelessWidget {
   final Color? color;

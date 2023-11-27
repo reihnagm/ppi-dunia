@@ -1,6 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController? controller;

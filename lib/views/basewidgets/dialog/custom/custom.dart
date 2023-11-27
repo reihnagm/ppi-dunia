@@ -1,9 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:ppidunia/services/navigation.dart';
-import 'package:ppidunia/utils/color_resources.dart';
-import 'package:ppidunia/utils/custom_themes.dart';
-import 'package:ppidunia/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/custom_themes.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
 
 class CustomDialog {
 

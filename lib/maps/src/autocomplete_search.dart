@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 import '../providers/place_provider.dart';
 import '../providers/search_provider.dart';

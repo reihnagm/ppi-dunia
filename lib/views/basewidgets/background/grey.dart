@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 
 class GreyBackgroundWidget extends StatelessWidget {
   const GreyBackgroundWidget({
@@ -18,7 +19,7 @@ class GreyBackgroundWidget extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/background/bg-plain.png'),
+          image: AssetImage(AssetsConst.imageBackgroundPlain),
           fit: BoxFit.fill,
         ),
       ),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:ppidunia/localization/language_constraints.dart';
 
-import 'package:ppidunia/utils/custom_themes.dart';
-import 'package:ppidunia/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/custom_themes.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 
 class CreditsWidget extends StatelessWidget {
   final Size screenSize;
@@ -24,7 +25,7 @@ class CreditsWidget extends StatelessWidget {
             : Dimensions.fontSizeLarge,
           ),
         ),
-        Image.asset('assets/images/logo/logo-omega.png',
+        Image.asset(AssetsConst.imageLogoOmega,
           width: screenSize.width * 0.15,
         ),
         const SizedBox(width: 10,),
@@ -35,7 +36,7 @@ class CreditsWidget extends StatelessWidget {
             : Dimensions.fontSizeLarge,
           ),
         ),
-        Image.asset('assets/images/logo/LOGO-INOVATIF78.png',
+        Image.asset(AssetsConst.imageLogoInovatif,
           width: screenSize.width * 0.15,
         ),
       ],

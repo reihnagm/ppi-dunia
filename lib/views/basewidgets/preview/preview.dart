@@ -9,13 +9,13 @@ import 'package:gallery_saver/gallery_saver.dart';
 
 import 'package:ppidunia/services/navigation.dart';
 
-import 'package:ppidunia/utils/custom_themes.dart';
-import 'package:ppidunia/utils/dimensions.dart';
-import 'package:ppidunia/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/custom_themes.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 import 'package:ppidunia/localization/language_constraints.dart';
 
-import 'package:ppidunia/views/basewidgets/snackbar/snackbar.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 
 class PreviewImageScreen extends StatefulWidget {
   const PreviewImageScreen({

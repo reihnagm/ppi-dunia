@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ppidunia/data/models/country/country.dart';
+import 'package:ppidunia/features/country/data/models/country.dart';
 
 import '../../dummy_data/country/mock_country.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
-import 'package:ppidunia/utils/color_resources.dart';
-import 'package:ppidunia/views/basewidgets/snackbar/snackbar.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 
 dynamic currentBackPressTime;
 
