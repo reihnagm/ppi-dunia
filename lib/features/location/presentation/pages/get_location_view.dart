@@ -152,13 +152,8 @@ class GetLocationView extends GetLocationViewModel {
                                     loading || placemark.isEmpty
                                         ? "Waiting..."
                                         : Platform.isIOS
-                                            ? placemark[0].locality! +
-                                                ", " +
-                                                placemark[0].country!
-                                            : placemark[0]
-                                                    .subAdministrativeArea! +
-                                                ", " +
-                                                placemark[0].country!,
+                                            ? "${placemark[0].locality!}, ${placemark[0].country!}"
+                                            : "${placemark[0].subAdministrativeArea!}, ${placemark[0].country!}",
                                     style: const TextStyle(
                                         color: ColorResources.blue,
                                         fontSize: 16.0,

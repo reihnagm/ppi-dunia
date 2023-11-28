@@ -5,8 +5,6 @@ import 'package:ppidunia/features/country/data/models/branch.dart';
 import 'package:ppidunia/features/feed/data/models/feed.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:location_permissions/location_permissions.dart' as lp;
 
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';

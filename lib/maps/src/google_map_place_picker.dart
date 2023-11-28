@@ -95,7 +95,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
     );
 
     if (response.errorMessage?.isNotEmpty == true || response.status == "REQUEST_DENIED") {
-      debugPrint("Camera Location Search Error: " + response.errorMessage!);
+      debugPrint("Camera Location Search Error: ${response.errorMessage!}");
       if (onSearchFailed != null) {
         onSearchFailed!(response.status);
       }
@@ -110,7 +110,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
       );
 
       if (detailResponse.errorMessage?.isNotEmpty == true || detailResponse.status == "REQUEST_DENIED") {
-        debugPrint("Fetching details by placeId Error: " + detailResponse.errorMessage!);
+        debugPrint(
+            "Fetching details by placeId Error: ${detailResponse.errorMessage!}");
         if (onSearchFailed != null) {
           onSearchFailed!(detailResponse.status);
         }

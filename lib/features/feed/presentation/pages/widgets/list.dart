@@ -124,7 +124,7 @@ class FeedList extends StatelessWidget {
                                     },
                                     errorWidget: (BuildContext context,
                                         String url, dynamic error) {
-                                      return CircleAvatar(
+                                      return const CircleAvatar(
                                         radius: 25.0,
                                         backgroundImage: AssetImage(
                                             AssetsConst.imageLogoPpi),

@@ -37,7 +37,7 @@ class CheckboxAgreement extends StatelessWidget {
                     NS.pushDefault(context, const TermsOfUseScreen());
                   },
               ),
-              TextSpan(text: ' ' + getTranslated("REGISTER_AGREEMENT_2")),
+              TextSpan(text: ' ${getTranslated("REGISTER_AGREEMENT_2")}'),
               TextSpan(
                 text: ' ' + getTranslated("OUR_PRIVACY_POLICY") + ".",
                 style: sfProRegular.copyWith(

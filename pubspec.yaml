@@ -14,25 +14,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-dependency_overrides:
-  wakelock_windows: any
-  win32: any
-
-#flutter_launcher_icons:
-#  android: "launcher_icon"
-#  ios: true
-#  remove_alpha_ios: true
-#  image_path: "assets/images/logo/app-icon.jpg"
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
   #A
   awesome_dialog: ^3.0.2
-  
+
   #B
-  build_runner: ^2.4.4
   bottom_picker: ^2.0.1
 
   #C
@@ -41,25 +26,15 @@ dev_dependencies:
   chewie: ^1.7.0
 
   #D
-  date_time_picker:
-    git:
-      url: https://github.com/DavidHDJ/date_time_picker.git
-      ref: 2.1.1
   dio: ^5.3.2
   delayed_display: ^2.0.0
-  device_preview: ^1.1.0
-#  device_preview:
-#   git:
-#      url: https://github.com/bradrushworth/flutter_device_preview.git
-#      path: device_preview
 
   #E
   equatable: ^2.0.5
   external_path: ^1.0.3
-
+  
   # Firebase
   firebase_core: ^1.10.5
-  firebase_core_platform_interface: 4.5.1
   firebase_messaging: ^11.2.14
 
   #F
@@ -89,8 +64,7 @@ dev_dependencies:
   #H
   http: ^0.13.5
   hex: ^0.2.0
-  http_mock_adapter: ^0.4.4
-  
+
   #I
   image_picker: ^0.8.4+2
   image_cropper: ^1.4.1
@@ -104,12 +78,11 @@ dev_dependencies:
   lecle_flutter_absolute_path: ^0.0.2
 
   #M
-  mockito: ^5.0.8
   multi_image_picker_plus: ^0.0.3
 
   #N
   new_version_plus: ^0.0.1+4
-  
+
   #P
   photo_view: ^0.14.0
   permission_handler: ^10.4.3
@@ -139,6 +112,46 @@ dev_dependencies:
 
   #W
   webview_flutter: ^3.0.4
+  intl: ^0.18.1
+  path: ^1.8.3
+  video_player: ^2.8.1
+  
+dependency_overrides:
+  wakelock_windows: any
+  win32: any
+
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  remove_alpha_ios: true
+#  image_path: "assets/images/logo/app-icon.jpg"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  #B
+  build_runner: ^2.4.4
+
+  #D
+  date_time_picker:
+    git:
+      url: https://github.com/DavidHDJ/date_time_picker.git
+      ref: 2.1.1
+#  device_preview:
+#   git:
+#      url: https://github.com/bradrushworth/flutter_device_preview.git
+#      path: device_preview
+  device_preview: ^1.1.0
+
+  # Firebase
+  firebase_core_platform_interface: 4.5.1
+
+  #H
+  http_mock_adapter: ^0.4.4
+
+  #M
+  mockito: ^5.0.8
 
 flutter:
 

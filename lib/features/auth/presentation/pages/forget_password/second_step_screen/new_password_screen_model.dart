@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:ppidunia/features/auth/data/repositories/auth.dart';
 import 'package:ppidunia/features/auth/presentation/pages/sign_in/sign_in_state.dart';
