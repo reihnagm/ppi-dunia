@@ -34,8 +34,8 @@ dependencies:
   external_path: ^1.0.3
   
   # Firebase
-  firebase_core: ^1.10.5
-  firebase_messaging: ^11.2.14
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.8
 
   #F
   flutter_launcher_icons: "^0.13.1"
@@ -115,6 +115,10 @@ dependencies:
   intl: ^0.18.1
   path: ^1.8.3
   video_player: ^2.8.1
+  full_screen_image: ^2.0.0
+  syncfusion_flutter_pdf: ^23.2.6
+  open_file: ^3.3.2
+  device_preview: ^1.1.0
   
 dependency_overrides:
   wakelock_windows: any
@@ -142,10 +146,9 @@ dev_dependencies:
 #   git:
 #      url: https://github.com/bradrushworth/flutter_device_preview.git
 #      path: device_preview
-  device_preview: ^1.1.0
 
   # Firebase
-  firebase_core_platform_interface: 4.5.1
+  firebase_core_platform_interface: 5.0.0
 
   #H
   http_mock_adapter: ^0.4.4

@@ -4,6 +4,8 @@ import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
+import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -106,30 +108,38 @@ class FeedList extends StatelessWidget {
                               children: [
                                 Expanded(
                                   flex: 7,
-                                  child: CachedNetworkImage(
-                                    imageUrl: fsm.feeds[i].user.avatar,
-                                    imageBuilder: (BuildContext context,
-                                        ImageProvider<Object> imageProvider) {
-                                      return CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundImage: imageProvider,
-                                      );
+                                  child: InkWell(
+                                    onTap: () {
+                                      NS.push(
+                                          context,
+                                          ProfileViewScreen(
+                                              userId: fsm.feeds[i].user.uid));
                                     },
-                                    placeholder:
-                                        (BuildContext context, String url) {
-                                      return const CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundColor: Color(0xFF637687),
-                                      );
-                                    },
-                                    errorWidget: (BuildContext context,
-                                        String url, dynamic error) {
-                                      return const CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundImage: AssetImage(
-                                            AssetsConst.imageLogoPpi),
-                                      );
-                                    },
+                                    child: CachedNetworkImage(
+                                      imageUrl: fsm.feeds[i].user.avatar,
+                                      imageBuilder: (BuildContext context,
+                                          ImageProvider<Object> imageProvider) {
+                                        return CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundImage: imageProvider,
+                                        );
+                                      },
+                                      placeholder:
+                                          (BuildContext context, String url) {
+                                        return const CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundColor: Color(0xFF637687),
+                                        );
+                                      },
+                                      errorWidget: (BuildContext context,
+                                          String url, dynamic error) {
+                                        return const CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundImage: AssetImage(
+                                              AssetsConst.imageLogoPpi),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Expanded(
@@ -153,19 +163,29 @@ class FeedList extends StatelessWidget {
                                                 constraints:
                                                     const BoxConstraints(
                                                         maxWidth: 110.0),
-                                                child: Text(
-                                                    fsm.feeds[i].user.name,
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                        color: ColorResources
-                                                            .white,
-                                                        fontSize: Dimensions
-                                                            .fontSizeLarge,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontFamily: 'SF Pro')),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    NS.push(
+                                                        context,
+                                                        ProfileViewScreen(
+                                                            userId: fsm.feeds[i]
+                                                                .user.uid));
+                                                  },
+                                                  child: Text(
+                                                      fsm.feeds[i].user.name,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                          color: ColorResources
+                                                              .white,
+                                                          fontSize: Dimensions
+                                                              .fontSizeLarge,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily:
+                                                              'SF Pro')),
+                                                ),
                                               ),
                                               const SizedBox(width: 10.0),
                                               const Text("•",
@@ -300,72 +320,106 @@ class FeedList extends StatelessWidget {
                                       ),
                                       if (fsm.feeds[i].feedType == "image")
                                         if (fsm.feeds[i].media.length == 1)
-                                          CachedNetworkImage(
-                                            imageUrl:
-                                                fsm.feeds[i].media[0].path,
-                                            imageBuilder: (BuildContext context,
-                                                ImageProvider imageProvider) {
-                                              return Container(
-                                                width: double.infinity,
-                                                height: 180.0,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        fit: BoxFit.scaleDown,
-                                                        image: imageProvider)),
-                                              );
-                                            },
-                                            placeholder: (BuildContext context,
-                                                String val) {
-                                              return Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[200]!,
-                                                child: Card(
-                                                  margin: EdgeInsets.zero,
-                                                  color: ColorResources.white,
-                                                  elevation: 4.0,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18.0)),
-                                                  child: Container(
+                                          InkWell(
+                                            onTap: () => NS.push(
+                                              context,
+                                              ClippedPhotoView(
+                                                image:
+                                                    fsm.feeds[i].media[0].path,
+                                              ),
+                                            ),
+                                            child: Hero(
+                                              tag: "image-view",
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    fsm.feeds[i].media[0].path,
+                                                imageBuilder:
+                                                    (BuildContext context,
+                                                        ImageProvider
+                                                            imageProvider) {
+                                                  return Container(
+                                                    width: double.infinity,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    height: 180.0,
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                        color: ColorResources
-                                                            .white),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            errorWidget: (BuildContext context,
-                                                String text, dynamic _) {
-                                              return Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[200]!,
-                                                child: Card(
-                                                  margin: EdgeInsets.zero,
-                                                  color: ColorResources.white,
-                                                  elevation: 4.0,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18.0)),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                        color: ColorResources
-                                                            .white),
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                                        image: DecorationImage(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            fit:
+                                                                BoxFit.fitWidth,
+                                                            image:
+                                                                imageProvider)),
+                                                  );
+                                                },
+                                                placeholder:
+                                                    (BuildContext context,
+                                                        String val) {
+                                                  return Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey[300]!,
+                                                    highlightColor:
+                                                        Colors.grey[200]!,
+                                                    child: Card(
+                                                      margin: EdgeInsets.zero,
+                                                      color:
+                                                          ColorResources.white,
+                                                      elevation: 4.0,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18.0)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        18.0),
+                                                            color:
+                                                                ColorResources
+                                                                    .white),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                errorWidget:
+                                                    (BuildContext context,
+                                                        String text,
+                                                        dynamic _) {
+                                                  return Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey[300]!,
+                                                    highlightColor:
+                                                        Colors.grey[200]!,
+                                                    child: Card(
+                                                      margin: EdgeInsets.zero,
+                                                      color:
+                                                          ColorResources.white,
+                                                      elevation: 4.0,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18.0)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        18.0),
+                                                            color:
+                                                                ColorResources
+                                                                    .white),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
                                           ),
                                       if (fsm.feeds[i].media.length > 1)
                                         CarouselSlider.builder(
@@ -388,53 +442,65 @@ class FeedList extends StatelessWidget {
                                             itemCount:
                                                 fsm.feeds[i].media.length,
                                             itemBuilder: (BuildContext context,
-                                                int i, int z) {
-                                              return CachedNetworkImage(
-                                                imageUrl:
-                                                    fsm.feeds[i].media[i].path,
-                                                imageBuilder:
-                                                    (BuildContext context,
-                                                        ImageProvider
-                                                            imageProvider) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            fit: BoxFit.contain,
-                                                            image:
-                                                                imageProvider)),
-                                                  );
-                                                },
-                                                placeholder:
-                                                    (BuildContext context,
-                                                        String val) {
-                                                  return Container(
-                                                    decoration: const BoxDecoration(
-                                                        image: DecorationImage(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            fit: BoxFit.contain,
-                                                            image: AssetImage(
-                                                                AssetsConst
-                                                                    .imageDefault))),
-                                                  );
-                                                },
-                                                errorWidget:
-                                                    (BuildContext context,
-                                                        String text,
-                                                        dynamic _) {
-                                                  return Container(
-                                                    decoration: const BoxDecoration(
-                                                        image: DecorationImage(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            fit: BoxFit.contain,
-                                                            image: AssetImage(
-                                                                AssetsConst
-                                                                    .imageDefault))),
-                                                  );
-                                                },
+                                                int x, int z) {
+                                              return InkWell(
+                                                onTap: () => NS.push(
+                                                  context,
+                                                  ClippedPhotoView(
+                                                    image: fsm
+                                                        .feeds[i].media[x].path,
+                                                  ),
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: fsm
+                                                      .feeds[i].media[x].path,
+                                                  imageBuilder:
+                                                      (BuildContext context,
+                                                          ImageProvider
+                                                              imageProvider) {
+                                                    return Container(
+                                                      decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              fit: BoxFit
+                                                                  .fitWidth,
+                                                              image:
+                                                                  imageProvider)),
+                                                    );
+                                                  },
+                                                  placeholder:
+                                                      (BuildContext context,
+                                                          String val) {
+                                                    return Container(
+                                                      decoration: const BoxDecoration(
+                                                          image: DecorationImage(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                              image: AssetImage(
+                                                                  AssetsConst
+                                                                      .imageDefault))),
+                                                    );
+                                                  },
+                                                  errorWidget:
+                                                      (BuildContext context,
+                                                          String text,
+                                                          dynamic _) {
+                                                    return Container(
+                                                      decoration: const BoxDecoration(
+                                                          image: DecorationImage(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                              image: AssetImage(
+                                                                  AssetsConst
+                                                                      .imageDefault))),
+                                                    );
+                                                  },
+                                                ),
                                               );
                                             }),
                                       if (fsm.feeds[i].media.length > 1)

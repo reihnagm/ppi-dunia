@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ppidunia/features/auth/data/models/user.dart';
 import 'package:ppidunia/features/auth/data/repositories/auth.dart';
 import 'package:ppidunia/features/auth/presentation/pages/sign_up/second_step_screen/study_abroad_status_state.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
@@ -154,14 +153,13 @@ class SignUpScreenModel with ChangeNotifier implements SignUpScreenModelData {
       required String lastName}) async {
     setStateRegisterStatus(RegisterStatus.loading);
     try {
-      UserModel um = await ar.register(
-          email: email,
-          password: password,
-          firstName: firstName,
-          lastName: lastName);
-      Data authData = um.data!;
       SharedPrefs.writeEmailOTP(email);
-      SharedPrefs.writeRegisterData(authData: authData, password: password);
+      SharedPrefs.writeRegisterData(
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      );
       NS.pushDefault(context, const StudyAbroadStatusScreen());
       setStateRegisterStatus(RegisterStatus.success);
       notifyListeners();

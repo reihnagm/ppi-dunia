@@ -100,6 +100,7 @@
     "NO_INTERNET": "No internet connection, please try again.",
     "ARE_YOU_SURE_WANT_DELETE_AN_ACCOUNT": "Are you sure you want to delete your account? All your data will be lost, such as your profile, forums, and so on.",
     "ARE_YOU_SURE_WANT_BROADCAST_EVIDENCE": "Are you sure want to Broadcast Evidence",
+    "CAPTION_EMPTY":"Caption cannot be empty",
     "YES": "Yes",
     "NO": "No",
     "SKIP?": "Skip?",

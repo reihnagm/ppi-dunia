@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppidunia/features/profil/presentation/pages/profil_update/profile_update_state.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -22,7 +23,7 @@ class FeedPersonalInfo extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         width: double.infinity,
-        height: 80.0,
+        height: 82.0,
         padding: const EdgeInsets.all(5.0),
         margin: const EdgeInsets.symmetric(
           vertical: 20.0,
@@ -47,30 +48,50 @@ class FeedPersonalInfo extends StatelessWidget {
                             radius: 60.0,
                             backgroundColor: Color(0xFF637687),
                           )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                context.read<ProfileProvider>().pd.avatar!,
-                            imageBuilder: (BuildContext context,
-                                ImageProvider<Object> imageProvider) {
-                              return CircleAvatar(
-                                radius: 60.0,
-                                backgroundImage: imageProvider,
-                              );
-                            },
-                            placeholder: (BuildContext context, String url) {
-                              return const CircleAvatar(
-                                radius: 60.0,
-                                backgroundColor: Color(0xFF637687),
-                              );
-                            },
-                            errorWidget: (BuildContext context, String url,
-                                dynamic error) {
-                              return const CircleAvatar(
-                                radius: 60.0,
-                                backgroundImage:
-                                    AssetImage('assets/images/default/ava.jpg'),
-                              );
-                            },
+                        : Stack(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl:
+                                    context.read<ProfileProvider>().pd.avatar!,
+                                imageBuilder: (BuildContext context,
+                                    ImageProvider<Object> imageProvider) {
+                                  return CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundImage: imageProvider,
+                                  );
+                                },
+                                placeholder:
+                                    (BuildContext context, String url) {
+                                  return const CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundColor: Color(0xFF637687),
+                                  );
+                                },
+                                errorWidget: (BuildContext context, String url,
+                                    dynamic error) {
+                                  return const CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundImage: AssetImage(
+                                        'assets/images/default/ava.jpg'),
+                                  );
+                                },
+                              ),
+                              Positioned(
+                                right: 18.0,
+                                bottom: 0.0,
+                                child: InkWell(
+                                  onTap: () {
+                                    NS.push(
+                                        context, const ProfileUpdateScreen());
+                                  },
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: ColorResources.white,
+                                    size: 20.0,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,16 +115,22 @@ class FeedPersonalInfo extends StatelessWidget {
                             : context.watch<ProfileProvider>().profileStatus ==
                                     ProfileStatus.empty
                                 ? const SizedBox()
-                                : Text(
-                                    context
-                                        .read<ProfileProvider>()
-                                        .pd
-                                        .fullname!,
-                                    style: const TextStyle(
-                                        color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeExtraLarge,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'SF Pro'),
+                                : SizedBox(
+                                    width: 120,
+                                    child: Text(
+                                      context
+                                          .read<ProfileProvider>()
+                                          .pd
+                                          .fullname!,
+                                      maxLines: 2,
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
+                                    ),
                                   )
                   ],
                 )

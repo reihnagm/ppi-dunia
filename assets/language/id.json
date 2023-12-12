@@ -100,6 +100,7 @@
     "NO_INTERNET": "Tidak ada koneksi internet, mohon coba lagi.",
     "ARE_YOU_SURE_WANT_DELETE_AN_ACCOUNT": "Apakah kamu yakin ingin menghapus akun ? Semua data data kamu akan hilang, seperti Profil, Forum dan sebagainya",
     "ARE_YOU_SURE_WANT_BROADCAST_EVIDENCE": "Apakah kamu yakin ingin Mensyiarkan Peristiwa",
+    "CAPTION_EMPTY":"Keterangan tidak boleh kosong",
     "YES": "Ya",
     "NO": "Tidak",
     "SKIP?": "Lewati?",

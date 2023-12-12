@@ -32,7 +32,9 @@ class AssetsConst {
   static const imageAvatarWelcome = "assets/images/avatar/avatar-welcome.png";
 
   //Card Image
-  static const imageIcCard = "assets/images/card/ic-card.png";
+  static const imageIcCard = "assets/images/card/ic-card-new.png";
+  static const imageIcCardDefault =
+      "assets/images/card/ic-card-new-default.png";
 
   // Default Image
   static const imageDefaultAva = "assets/images/default/ava.png";
@@ -67,6 +69,8 @@ class AssetsConst {
   static const imageIcVehicle = "assets/images/icons/ic-vehicle.png";
   static const imageIcVideo = "assets/images/icons/ic-video.png";
   static const imageIcWritePost = "assets/images/icons/ic-write-post.png";
+  static const imageIcEmail = "assets/images/icons/ic-email.png";
+  static const imageIcPhone = "assets/images/icons/ic-phone.png";
 
   //Audio Source
   static const audioNotifMpThree = "assets/sounds/notification.mp3";

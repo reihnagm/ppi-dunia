@@ -1,9 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 
 import 'package:ppidunia/features/media/data/repositories/media.dart';
 
@@ -16,6 +23,7 @@ import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
+import 'package:ppidunia/services/navigation.dart';
 
 enum FeedStatus { idle, loading, loaded, empty, error }
 
@@ -42,7 +50,12 @@ class ProfileProvider with ChangeNotifier {
 
   String progress = "";
 
+  late TextEditingController firstNameC;
+  late TextEditingController lastNameC;
   late TextEditingController searchC;
+  late TextEditingController emailC;
+  late TextEditingController phoneC;
+  late TextEditingController countryC;
 
   Timer? debounce;
 
@@ -51,6 +64,9 @@ class ProfileProvider with ChangeNotifier {
 
   ProfileData _pd = ProfileData();
   ProfileData get pd => _pd;
+
+  ProfileData _pdd = ProfileData();
+  ProfileData get pdd => _pdd;
 
   List<FeedData> _feeds = [];
   List<FeedData> get feeds => [..._feeds];
@@ -171,10 +187,56 @@ class ProfileProvider with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
+  Future<void> updateProfileUser(BuildContext context) async {
+    try {
+      await pr.updateProfile(
+        firtNameC: firstNameC.text,
+        lastNameC: lastNameC.text,
+        email: emailC.text,
+        userId: SharedPrefs.getUserId(),
+        phone: phoneC.text,
+      );
+      NS.pop(context);
+      ShowSnackbar.snackbar(
+        context,
+        "Berhasil Ubah Profile",
+        '',
+        ColorResources.black,
+        const Duration(seconds: 3),
+      );
+      setStateProfileStatus(ProfileStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+      setStateProfileStatus(ProfileStatus.error);
+        ShowSnackbar.snackbar(
+          context,
+          e.toString(),
+          '',
+          ColorResources.redHealth,
+          const Duration(seconds: 3),
+        );
+    } catch (e) {
+      debugPrint(e.toString());
+      setStateProfileStatus(ProfileStatus.error);
+    }
+  }
+
   Future<void> getProfile() async {
     try {
       ProfileModel? pm = await pr.getProfile(userId: SharedPrefs.getUserId());
       _pd = pm!.data;
+      setStateProfileStatus(ProfileStatus.loaded);
+    } on CustomException catch (_) {
+      setStateProfileStatus(ProfileStatus.error);
+    } catch (_) {
+      setStateProfileStatus(ProfileStatus.error);
+    }
+  }
+
+  Future<void> getProfileUser({required String userId}) async {
+    try {
+      ProfileModel? pmd = await pr.getProfile(userId: userId);
+      _pdd = pmd!.data;
       setStateProfileStatus(ProfileStatus.loaded);
     } on CustomException catch (_) {
       setStateProfileStatus(ProfileStatus.error);
@@ -196,7 +258,36 @@ class ProfileProvider with ChangeNotifier {
     hasMore = true;
 
     try {
-      FeedModel fm = await pr.getFeeds(pageKey: pageKey, search: search);
+      FeedModel fm = await pr.getFeeds(
+        pageKey: pageKey,
+        search: search,
+      );
+      _feeds = [];
+      _feeds.addAll(fm.data);
+      setStateFeedStatus(FeedStatus.loaded);
+
+      if (feeds.isEmpty) {
+        setStateFeedStatus(FeedStatus.empty);
+      }
+      Future.delayed(Duration.zero, () => notifyListeners());
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+      setStateFeedStatus(FeedStatus.error);
+    } catch (_) {
+      setStateFeedStatus(FeedStatus.error);
+    }
+  }
+
+  Future<void> getFeedsUser({required String userId}) async {
+    pageKey = 1;
+    hasMore = true;
+
+    try {
+      FeedModel fm = await pr.getFeedsUser(
+        pageKey: pageKey,
+        search: search,
+        userId: userId,
+      );
       _feeds = [];
       _feeds.addAll(fm.data);
       setStateFeedStatus(FeedStatus.loaded);
@@ -277,5 +368,17 @@ class ProfileProvider with ChangeNotifier {
     } on CustomException catch (e) {
       debugPrint(e.toString());
     } catch (_) {}
+  }
+
+  Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
+    final path = (await getExternalStorageDirectory())?.path;
+    final file = File('$path/$fileName');
+    await file.writeAsBytes(bytes, flush: true);
+    OpenFile.open('$path/$fileName');
+  }
+
+  Future<Uint8List> readImageData(String name) async {
+    final data = await rootBundle.load('assets/images/card/$name');
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   }
 }

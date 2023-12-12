@@ -5,8 +5,6 @@ import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_state.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
@@ -86,78 +84,102 @@ class FeedScreenState extends State<FeedScreen> {
         drawer: DrawerScreen(
           gk: gk,
         ),
-        body: SlidingUpPanel(
-          margin: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
-          isDraggable: true,
-          backdropTapClosesPanel: false,
-          panelSnapping: true,
-          minHeight: 350.h,
-          maxHeight: 520.h,
-          color: ColorResources.bgSecondaryColor,
-          controller: fsm.panelC,
-          panelBuilder: (ScrollController sc) {
-            return NotificationListener(
-              onNotification: (ScrollNotification notification) {
-                if (notification is ScrollEndNotification) {
-                  if (fsm.hasMore) {
-                    fsm.loadMoreFeed();
-                  }
-                }
-                return false;
-              },
-              child: CustomScrollView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                controller: sc,
-                slivers: [
-                  SliverList(
-                      delegate: SliverChildListDelegate([
-                    Center(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-                        child: const Icon(
-                          Icons.keyboard_arrow_up,
-                          color: ColorResources.hintColor,
-                          size: 40.0,
-                        ),
-                      ),
-                    ),
-                    const FeedSearch(),
-                    const FeedTag(),
-                    const FeedList()
-                  ]))
-                ],
-              ),
-            );
-          },
-          body: SafeArea(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return RefreshIndicator(
-                  onRefresh: () {
-                    return Future.sync(() {
-                      pp.getProfile();
-                      fsm.getFeeds();
-                      ism.getReadCount();
-                    });
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            int deviceMaxHeight =
+                int.parse(constraints.maxHeight.toStringAsFixed(0));
+            return SlidingUpPanel(
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              isDraggable: true,
+              backdropTapClosesPanel: false,
+              panelSnapping: true,
+              minHeight: deviceMaxHeight < 600
+                  ? constraints.maxHeight * .38
+                  : deviceMaxHeight < 800
+                      ? constraints.maxHeight * .45
+                      : constraints.maxHeight * .53,
+              maxHeight: deviceMaxHeight < 600
+                  ? constraints.maxHeight * .76
+                  : deviceMaxHeight < 800
+                      ? constraints.maxHeight * .81
+                      : constraints.maxHeight * .83,
+              color: ColorResources.bgSecondaryColor,
+              controller: fsm.panelC,
+              panelBuilder: (ScrollController sc) {
+                return NotificationListener(
+                  onNotification: (ScrollNotification notification) {
+                    if (notification is ScrollEndNotification) {
+                      if (fsm.hasMore) {
+                        fsm.loadMoreFeed();
+                      }
+                    }
+                    return false;
                   },
                   child: CustomScrollView(
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
+                    controller: sc,
                     slivers: [
-                      FeedPersonalInfo(
-                        gk: gk,
-                      ),
-                      const FeedBanner()
+                      SliverList(
+                          delegate: SliverChildListDelegate([
+                        Center(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 3.0, bottom: 3.0),
+                                child: const Icon(
+                                  Icons.keyboard_arrow_up,
+                                  color: ColorResources.hintColor,
+                                  size: 40.0,
+                                ),
+                              ),
+                              // Text(
+                              //   '$deviceMaxHeight',
+                              //   style: const TextStyle(color: Colors.white),
+                              // )
+                            ],
+                          ),
+                        ),
+                        const FeedSearch(),
+                        const FeedTag(),
+                        const FeedList()
+                      ]))
                     ],
                   ),
                 );
               },
-            ),
-          ),
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+              body: SafeArea(
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return RefreshIndicator(
+                      onRefresh: () {
+                        return Future.sync(() {
+                          pp.getProfile();
+                          fsm.getFeeds();
+                          ism.getReadCount();
+                        });
+                      },
+                      child: CustomScrollView(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        slivers: [
+                          FeedPersonalInfo(
+                            gk: gk,
+                          ),
+                          const FeedBanner()
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(18.0),
+                  topRight: Radius.circular(18.0)),
+            );
+          },
         ));
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:ppidunia/common/helpers/unique_util.dart';
 import 'package:ppidunia/features/auth/data/models/user.dart';
 import 'package:ppidunia/common/consts/api_const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -76,11 +77,14 @@ class SharedPrefs {
   }
 
   static void writeRegisterData(
-      {required Data authData, required String password}) {
-    _instance!.setString("reg_userid", authData.user?.id ?? "-");
-    _instance!.setString("reg_firstname", authData.user?.firstName ?? "-");
-    _instance!.setString("reg_lastname", authData.user?.lastName ?? "-");
-    _instance!.setString("reg_email", authData.user?.email ?? "-");
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String password}) {
+    _instance!.setString("reg_userid", UniqueHelper.createUniqueV4Id());
+    _instance!.setString("reg_firstname", firstName);
+    _instance!.setString("reg_lastname", lastName);
+    _instance!.setString("reg_email", email);
     _instance!.setString("reg_password", password);
   }
 

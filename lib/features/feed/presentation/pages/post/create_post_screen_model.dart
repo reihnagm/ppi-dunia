@@ -222,9 +222,15 @@ class CreatePostModel with ChangeNotifier {
     try {
       String feedId = const Uuid().v4();
 
-      // if(postC.text.isEmpty) {
-      //   return;
-      // }
+      if (postC.text.isEmpty) {
+        return ShowSnackbar.snackbar(
+          context,
+          getTranslated("CAPTION_EMPTY"),
+          '',
+          ColorResources.redHealth,
+          const Duration(seconds: 6),
+        );
+      }
 
       setStateSharePostStatus(SharePostStatus.loading);
 

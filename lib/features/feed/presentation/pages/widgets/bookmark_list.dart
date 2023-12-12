@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -234,72 +236,103 @@ class BookmarkList extends StatelessWidget {
                                       const SizedBox(height: 8.0),
                                       if (bsm.feeds[i].feedType == "image")
                                         if (bsm.feeds[i].media.length == 1)
-                                          CachedNetworkImage(
-                                            imageUrl:
-                                                bsm.feeds[i].media[0].path,
-                                            imageBuilder: (BuildContext context,
-                                                ImageProvider imageProvider) {
-                                              return Container(
-                                                width: double.infinity,
-                                                height: 180.0,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        fit: BoxFit.scaleDown,
-                                                        image: imageProvider)),
-                                              );
-                                            },
-                                            placeholder: (BuildContext context,
-                                                String val) {
-                                              return Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[200]!,
-                                                child: Card(
-                                                  margin: EdgeInsets.zero,
-                                                  color: ColorResources.white,
-                                                  elevation: 4.0,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18.0)),
-                                                  child: Container(
+                                          InkWell(
+                                            onTap: () => NS.push(
+                                              context,
+                                              ClippedPhotoView(
+                                                image:
+                                                    bsm.feeds[i].media[0].path,
+                                              ),
+                                            ),
+                                            child: Hero(
+                                              tag: "image-view",
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    bsm.feeds[i].media[0].path,
+                                                imageBuilder:
+                                                    (BuildContext context,
+                                                        ImageProvider
+                                                            imageProvider) {
+                                                  return Container(
+                                                    width: double.infinity,
+                                                    height: 180.0,
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                        color: ColorResources
-                                                            .white),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            errorWidget: (BuildContext context,
-                                                String text, dynamic _) {
-                                              return Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[200]!,
-                                                child: Card(
-                                                  margin: EdgeInsets.zero,
-                                                  color: ColorResources.white,
-                                                  elevation: 4.0,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18.0)),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(18.0),
-                                                        color: ColorResources
-                                                            .white),
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                                        image: DecorationImage(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            fit:
+                                                                BoxFit.fitWidth,
+                                                            image:
+                                                                imageProvider)),
+                                                  );
+                                                },
+                                                placeholder:
+                                                    (BuildContext context,
+                                                        String val) {
+                                                  return Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey[300]!,
+                                                    highlightColor:
+                                                        Colors.grey[200]!,
+                                                    child: Card(
+                                                      margin: EdgeInsets.zero,
+                                                      color:
+                                                          ColorResources.white,
+                                                      elevation: 4.0,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18.0)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        18.0),
+                                                            color:
+                                                                ColorResources
+                                                                    .white),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                errorWidget:
+                                                    (BuildContext context,
+                                                        String text,
+                                                        dynamic _) {
+                                                  return Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey[300]!,
+                                                    highlightColor:
+                                                        Colors.grey[200]!,
+                                                    child: Card(
+                                                      margin: EdgeInsets.zero,
+                                                      color:
+                                                          ColorResources.white,
+                                                      elevation: 4.0,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          18.0)),
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        18.0),
+                                                            color:
+                                                                ColorResources
+                                                                    .white),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
                                           ),
                                       if (bsm.feeds[i].media.length > 1)
                                         CarouselSlider.builder(
@@ -322,10 +355,10 @@ class BookmarkList extends StatelessWidget {
                                             itemCount:
                                                 bsm.feeds[i].media.length,
                                             itemBuilder: (BuildContext context,
-                                                int i, int z) {
+                                                int x, int z) {
                                               return CachedNetworkImage(
                                                 imageUrl:
-                                                    bsm.feeds[i].media[i].path,
+                                                    bsm.feeds[i].media[x].path,
                                                 imageBuilder:
                                                     (BuildContext context,
                                                         ImageProvider
@@ -335,7 +368,8 @@ class BookmarkList extends StatelessWidget {
                                                         image: DecorationImage(
                                                             alignment: Alignment
                                                                 .centerLeft,
-                                                            fit: BoxFit.contain,
+                                                            fit:
+                                                                BoxFit.fitWidth,
                                                             image:
                                                                 imageProvider)),
                                                   );

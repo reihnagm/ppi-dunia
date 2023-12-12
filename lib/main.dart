@@ -4,7 +4,7 @@ import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:device_preview/device_preview.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:geolocator/geolocator.dart';
@@ -15,7 +15,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:ppidunia/providers.dart';
 
-import 'package:ppidunia/services/firebase.dart'; 
+import 'package:ppidunia/services/firebase.dart';
 import 'package:ppidunia/services/notification.dart';
 
 import 'package:ppidunia/features/splash/presentation/pages/splash_state.dart';
@@ -37,12 +37,11 @@ Future<void> main() async {
   ]);
   await core.init();
   await SharedPrefs.initSharedPreferences();
-  runApp(
-    MultiProvider(
-      providers: providers,
-      child: const MyApp(),
-    ));
-  }
+  runApp(MultiProvider(
+    providers: providers,
+    child: const MyApp(),
+  ));
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -51,14 +50,13 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {  
- 
-  Future<void> getData() async {  
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  Future<void> getData() async {
     await Geolocator.requestPermission();
-    if(mounted) {
+    if (mounted) {
       NotificationService.init();
     }
-    if(mounted) {
+    if (mounted) {
       context.read<FirebaseProvider>().setupInteractedMessage(context);
     }
   }
@@ -71,26 +69,25 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // - Inactive (App Partially Visible - App not focused)
     // - Paused (App in Background)
     // - Detached (View Destroyed - App Closed)
-    if(state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed) {
       debugPrint("=== APP RESUME ===");
     }
-    if(state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.inactive) {
       debugPrint("=== APP INACTIVE ===");
     }
-    if(state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.paused) {
       debugPrint("=== APP PAUSED ===");
     }
-    if(state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.detached) {
       debugPrint("=== APP CLOSED ===");
     }
   }
 
-  void listenOnClickNotifications() => NotificationService.onNotifications.stream.listen(onClickedNotification);
-  void onClickedNotification(String? payload) {
-    
-  }
+  void listenOnClickNotifications() =>
+      NotificationService.onNotifications.stream.listen(onClickedNotification);
+  void onClickedNotification(String? payload) {}
 
-  @override 
+  @override
   void initState() {
     super.initState();
 
@@ -101,7 +98,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     listenOnClickNotifications();
   }
 
-  @override 
+  @override
   void dispose() {
     super.dispose();
   }
@@ -128,12 +125,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          scaffoldMessengerKey: scaffoldKey, 
+          scaffoldMessengerKey: scaffoldKey,
           navigatorKey: navigatorKey,
           supportedLocales: locals,
           home: const SplashScreen(),
         );
-      }, 
+      },
     );
   }
 }
