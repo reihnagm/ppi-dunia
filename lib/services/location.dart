@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:location/location.dart' as l;
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
@@ -17,28 +16,6 @@ class UserLocation {
     required this.latitude, 
     required this.longitude
   });
-}
-
-class LocationService {
-  late UserLocation currentLocation;
-  l.Location location = l.Location();
-
-  StreamController<UserLocation> locationC = StreamController<UserLocation>.broadcast();
-
-  LocationService() {
-    location.requestPermission().then((granted) {
-      if (granted == l.PermissionStatus.granted) {
-        location.onLocationChanged.listen((locationData) {
-          locationC.add(UserLocation(
-            latitude: locationData.latitude!,
-            longitude: locationData.longitude!,
-          ));
-        });
-      }
-    });
-  }
-
-  Stream<UserLocation> get locationStream => locationC.stream;
 }
 
 class PermissionChecker extends StatefulWidget {

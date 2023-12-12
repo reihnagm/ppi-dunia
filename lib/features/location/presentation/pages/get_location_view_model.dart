@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location_permissions/location_permissions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ppidunia/features/location/presentation/pages/get_location.dart';
@@ -103,27 +101,10 @@ abstract class GetLocationViewModel extends State<GetLocation>
     // Navigate Push Replacement
   }
 
-  Future<void> listenForPermissionStatus() async {
-    final Future<ServiceStatus> serviceStatus =
-        LocationPermissions().checkServiceStatus();
-
-    serviceStatus.then((ServiceStatus serviceStatus) {
-      if (serviceStatus == ServiceStatus.enabled) {
-        setState(() {
-          isLocationServiceEnabled = true;
-        });
-      }
-    }).catchError((e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    listenForPermissionStatus();
     checkLocation();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       loader();

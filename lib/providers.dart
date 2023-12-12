@@ -30,8 +30,6 @@ import 'package:ppidunia/features/feed/presentation/pages/bookmarks/bookmark_scr
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_screen_model.dart';
 import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
 
-import 'package:ppidunia/services/location.dart';
-
 import 'container.dart' as c;
 
 List<SingleChildWidget> providers = [
@@ -65,10 +63,6 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider(create: (_) => c.getIt<TermsOfUseScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<PrivacyPolicyScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<LocationProvider>()),
-  StreamProvider<UserLocation>(
-    initialData: UserLocation(latitude: 0.0, longitude: 0.0),
-    create: (_) => LocationService().locationStream,
-  ),
 
   Provider.value(value: const <String, dynamic>{})
 ];

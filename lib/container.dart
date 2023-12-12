@@ -7,7 +7,6 @@ import 'package:ppidunia/features/feed/presentation/pages/post/create_post_scree
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ppidunia/services/firebase.dart';
-import 'package:ppidunia/services/location.dart';
 
 import 'package:ppidunia/features/location/presentation/providers/location.dart';
 import 'package:ppidunia/features/banner/presentation/providers/banner.dart';
@@ -50,8 +49,6 @@ import 'features/feed/data/reposiotories/feed.dart';
 final getIt = GetIt.instance;
 
 Future<void> init() async {
-  getIt.registerLazySingleton(() => LocationService());
-
   //Api
   getIt.registerLazySingleton(() => AuthRepo(
     dioClient: null,
