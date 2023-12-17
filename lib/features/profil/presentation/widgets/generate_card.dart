@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
@@ -22,7 +23,8 @@ Future<void> generateCard({
 
   page.graphics.drawString(
     context.read<ProfileProvider>().pd.fullname!.toUpperCase(),
-    PdfStandardFont(PdfFontFamily.helvetica, 16, style: PdfFontStyle.bold),
+    PdfStandardFont(PdfFontFamily.helvetica, Dimensions.fontSizeSmall,
+        style: PdfFontStyle.bold),
     bounds: Rect.fromLTWH(230, 420, 250, pageSize.height),
     format: PdfStringFormat(
         wordWrap: PdfWordWrapType.word, alignment: PdfTextAlignment.center),
@@ -31,7 +33,7 @@ Future<void> generateCard({
   context.read<ProfileProvider>().pd.country!.name != "Indonesia"
       ? page.graphics.drawString(
           '${context.read<ProfileProvider>().pd.position} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
-          PdfStandardFont(PdfFontFamily.helvetica, 15),
+          PdfStandardFont(PdfFontFamily.helvetica, Dimensions.fontSizeSmall),
           bounds: const Rect.fromLTWH(230, 460, 250, 300),
           format: PdfStringFormat(
               wordWrap: PdfWordWrapType.word,

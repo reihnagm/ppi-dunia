@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/features/country/data/models/branch.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
@@ -80,12 +81,34 @@ class CreatePostModel with ChangeNotifier {
                   child: Text(
                     getTranslated("CAMERA"),
                   ),
-                  onPressed: () => Navigator.pop(context, ImageSource.camera),
+                  onPressed: () async {
+                    try {
+                      PermissionStatus statusStorage =
+                          await Permission.camera.status;
+                      if (!statusStorage.isGranted) {
+                        await Permission.camera.request();
+                      }
+                      Navigator.pop(context, ImageSource.camera);
+                    } catch (e, stacktrace) {
+                      debugPrint(stacktrace.toString());
+                    }
+                  },
                 ),
                 MaterialButton(
-                    child: Text(getTranslated("GALLERY")),
-                    onPressed: () =>
-                        Navigator.pop(context, ImageSource.gallery))
+                  child: const Text("Gallery"),
+                  onPressed: () async {
+                    try {
+                      PermissionStatus statusStorage =
+                          await Permission.photos.status;
+                      if (!statusStorage.isGranted) {
+                        await Permission.photos.request();
+                      }
+                      Navigator.pop(context, ImageSource.gallery);
+                    } catch (e, stacktrace) {
+                      debugPrint(stacktrace.toString());
+                    }
+                  },
+                )
               ],
             ));
     if (imageSource == ImageSource.camera) {

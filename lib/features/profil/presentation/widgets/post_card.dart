@@ -9,10 +9,12 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -217,271 +219,201 @@ Widget postCard({
                                           fontFamily: 'SF Pro'),
                                     ),
                                     const SizedBox(height: 8.0),
-                                    if (pp.feeds[i].feedType == "image")
-                                      if (pp.feeds[i].media.length == 1)
-                                        CachedNetworkImage(
-                                          imageUrl: pp.feeds[i].media[0].path,
-                                          imageBuilder: (BuildContext context,
-                                              ImageProvider imageProvider) {
-                                            return Container(
-                                              width: double.infinity,
-                                              height: 180.0,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      fit: BoxFit.fitWidth,
-                                                      image: imageProvider)),
-                                            );
-                                          },
-                                          placeholder: (BuildContext context,
-                                              String val) {
-                                            return Shimmer.fromColors(
-                                              baseColor: Colors.grey[300]!,
-                                              highlightColor: Colors.grey[200]!,
-                                              child: Card(
-                                                margin: EdgeInsets.zero,
-                                                color: ColorResources.white,
-                                                elevation: 4.0,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            18.0)),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18.0),
-                                                      color:
-                                                          ColorResources.white),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          errorWidget: (BuildContext context,
-                                              String text, dynamic _) {
-                                            return Shimmer.fromColors(
-                                              baseColor: Colors.grey[300]!,
-                                              highlightColor: Colors.grey[200]!,
-                                              child: Card(
-                                                margin: EdgeInsets.zero,
-                                                color: ColorResources.white,
-                                                elevation: 4.0,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            18.0)),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              18.0),
-                                                      color:
-                                                          ColorResources.white),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                    if (pp.feeds[i].media.length > 1)
-                                      CarouselSlider.builder(
-                                          options: CarouselOptions(
-                                            autoPlay: false,
-                                            height: 180.0,
-                                            enlargeCenterPage: true,
-                                            viewportFraction: 1.0,
-                                            enlargeStrategy:
-                                                CenterPageEnlargeStrategy.scale,
-                                            initialPage: pp.currentIndex,
-                                            onPageChanged: (int i,
-                                                CarouselPageChangedReason
-                                                    reason) {
-                                              pp.onChangeCurrentMultipleImg(i);
-                                            },
-                                          ),
-                                          itemCount: pp.feeds[i].media.length,
-                                          itemBuilder: (BuildContext context,
-                                              int i, int z) {
-                                            return CachedNetworkImage(
-                                              imageUrl:
-                                                  pp.feeds[i].media[i].path,
-                                              imageBuilder: (BuildContext
-                                                      context,
-                                                  ImageProvider imageProvider) {
-                                                return Container(
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          fit: BoxFit.contain,
-                                                          image:
-                                                              imageProvider)),
-                                                );
-                                              },
-                                              placeholder:
-                                                  (BuildContext context,
-                                                      String val) {
-                                                return Container(
-                                                  decoration: const BoxDecoration(
-                                                      image: DecorationImage(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          fit: BoxFit.contain,
-                                                          image: AssetImage(
-                                                              AssetsConst
-                                                                  .imageDefault))),
-                                                );
-                                              },
-                                              errorWidget:
-                                                  (BuildContext context,
-                                                      String text, dynamic _) {
-                                                return Container(
-                                                  decoration: const BoxDecoration(
-                                                      image: DecorationImage(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          fit: BoxFit.contain,
-                                                          image: AssetImage(
-                                                              AssetsConst
-                                                                  .imageDefault))),
-                                                );
-                                              },
-                                            );
-                                          }),
-                                    if (pp.feeds[i].media.length > 1)
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: pp.feeds[i].media.map((z) {
-                                          int index =
-                                              pp.feeds[i].media.indexOf(z);
-                                          return Container(
-                                            width: 8.0,
-                                            height: 8.0,
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 10.0,
-                                                horizontal: 2.0),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color:
-                                                  pp.currentIndexMultipleImg ==
-                                                          index
-                                                      ? ColorResources
-                                                          .bluePrimary
-                                                      : ColorResources.dimGrey,
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    if (pp.feeds[i].feedType == "video")
-                                      VideoPlay(
-                                          dataSource:
-                                              pp.feeds[i].media[0].path),
-                                    if (pp.feeds[i].feedType == "document")
-                                      Container(
-                                          width: double.infinity,
-                                          margin: const EdgeInsets.only(
-                                            top: 15.0,
-                                          ),
-                                          padding: const EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              color: ColorResources
-                                                  .greyDarkPrimary),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 150.0,
-                                                    child: Text(
-                                                        pp.feeds[i].media[0]
-                                                            .path
-                                                            .split('/')
-                                                            .last,
-                                                        maxLines: 3,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            color:
-                                                                ColorResources
-                                                                    .white,
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily:
-                                                                'SF Pro')),
-                                                  ),
-                                                  const SizedBox(height: 6.0),
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Text(
-                                                          "${getTranslated("FILE_SIZE")} :",
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  ColorResources
-                                                                      .white,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeLarge,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
-                                                      const SizedBox(
-                                                          width: 8.0),
-                                                      Text(
-                                                          pp.feeds[i].media[0]
-                                                              .size
-                                                              .toString(),
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  ColorResources
-                                                                      .white,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeLarge,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                              IconButton(
-                                                icon:
-                                                    const Icon(Icons.download),
-                                                onPressed: () async {
-                                                  await DownloadHelper
-                                                      .downloadDoc(
-                                                          context: context,
-                                                          url: pp.feeds[i]
-                                                              .media[0].path);
-                                                },
-                                                color: ColorResources.white,
-                                              )
-                                            ],
-                                          )),
                                   ],
                                 ),
                               )
                             ],
                           ),
                         ),
+                        if (pp.feeds[i].feedType == "image")
+                          if (pp.feeds[i].media.length == 1)
+                            InkWell(
+                              onTap: () => NS.push(
+                                context,
+                                ClippedPhotoView(
+                                  image: pp.feeds[i].media[0].path,
+                                ),
+                              ),
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0, vertical: 20.0),
+                                  child: imageCard(
+                                      pp.feeds[i].media[0].path, 180.0, 12.0)),
+                            ),
+                        if (pp.feeds[i].media.length > 1)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25.0, vertical: 10.0),
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20)),
+                              child: CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                    autoPlay: false,
+                                    height: 180.0,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 1.0,
+                                    enlargeStrategy:
+                                        CenterPageEnlargeStrategy.scale,
+                                    initialPage: pp.currentIndex,
+                                    onPageChanged: (int i,
+                                        CarouselPageChangedReason reason) {
+                                      pp.onChangeCurrentMultipleImg(i);
+                                    },
+                                  ),
+                                  itemCount: pp.feeds[i].media.length,
+                                  itemBuilder:
+                                      (BuildContext context, int x, int z) {
+                                    return InkWell(
+                                      onTap: () => NS.push(
+                                        context,
+                                        ClippedPhotoView(
+                                          image: pp.feeds[i].media[x].path,
+                                        ),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: pp.feeds[i].media[x].path,
+                                        imageBuilder: (BuildContext context,
+                                            ImageProvider imageProvider) {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    fit: BoxFit.cover,
+                                                    image: imageProvider)),
+                                          );
+                                        },
+                                        placeholder:
+                                            (BuildContext context, String val) {
+                                          return Container(
+                                            decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    fit: BoxFit.contain,
+                                                    image: AssetImage(
+                                                        AssetsConst
+                                                            .imageDefault))),
+                                          );
+                                        },
+                                        errorWidget: (BuildContext context,
+                                            String text, dynamic _) {
+                                          return Container(
+                                            decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    fit: BoxFit.contain,
+                                                    image: AssetImage(
+                                                        AssetsConst
+                                                            .imageDefault))),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                        if (pp.feeds[i].media.length > 1)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14.0, vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: pp.feeds[i].media.map((z) {
+                                int index = pp.feeds[i].media.indexOf(z);
+                                return Container(
+                                  width: 8.0,
+                                  height: 8.0,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 2.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: pp.currentIndexMultipleImg == index
+                                        ? ColorResources.bluePrimary
+                                        : ColorResources.dimGrey,
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        if (pp.feeds[i].feedType == "video")
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14.0, vertical: 10.0),
+                              child: VideoPlay(
+                                  dataSource: pp.feeds[i].media[0].path)),
+                        if (pp.feeds[i].feedType == "document")
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14.0, vertical: 10.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: ColorResources.greyDarkPrimary),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: 150.0,
+                                      child: Text(
+                                          pp.feeds[i].media[0].path
+                                              .split('/')
+                                              .last,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: ColorResources.white,
+                                              fontSize:
+                                                  Dimensions.fontSizeDefault,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SF Pro')),
+                                    ),
+                                    const SizedBox(height: 6.0),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text("${getTranslated("FILE_SIZE")} :",
+                                            style: const TextStyle(
+                                                color: ColorResources.white,
+                                                fontSize:
+                                                    Dimensions.fontSizeDefault,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SF Pro')),
+                                        const SizedBox(width: 8.0),
+                                        Text(
+                                            pp.feeds[i].media[0].size
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: ColorResources.white,
+                                                fontSize:
+                                                    Dimensions.fontSizeDefault,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SF Pro')),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.download),
+                                  onPressed: () async {
+                                    await DownloadHelper.downloadDoc(
+                                        context: context,
+                                        url: pp.feeds[i].media[0].path);
+                                  },
+                                  color: ColorResources.white,
+                                )
+                              ],
+                            ),
+                          ),
                         Container(
                           height: 35.0,
                           decoration: const BoxDecoration(

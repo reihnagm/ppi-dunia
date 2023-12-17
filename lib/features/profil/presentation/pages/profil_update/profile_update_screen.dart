@@ -77,30 +77,6 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                         fontWeight: FontWeight.w600,
                         fontFamily: 'SF Pro'),
                   ),
-                  actions: [
-                    pp.file != null
-                        ? Container(
-                            margin:
-                                const EdgeInsets.only(top: 17.0, right: 18.0),
-                            child: InkWell(
-                              onTap: () async {
-                                await pp.uploadProfile();
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Upload',
-                                  style: TextStyle(
-                                      color: ColorResources.blue,
-                                      fontSize: Dimensions.fontSizeLarge,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'SF Pro'),
-                                ),
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
-                  ],
                   leading: CupertinoNavigationBarBackButton(
                     color: ColorResources.blue,
                     onPressed: () {
@@ -226,23 +202,36 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             ],
                           ),
                         ),
-                        inputField("First Name", pp.firstNameC, Icons.person,
-                            TextInputType.text),
+                        inputField(
+                            textInput: "First Name",
+                            controller: pp.firstNameC,
+                            iconData: Icons.person,
+                            keyboardType: TextInputType.text),
                         const SizedBox(
                           height: 30.0,
                         ),
-                        inputField("Last Name", pp.lastNameC,
-                            Icons.person_sharp, TextInputType.text),
+                        inputField(
+                            textInput: "Last Name",
+                            controller: pp.lastNameC,
+                            iconData: Icons.person_sharp,
+                            keyboardType: TextInputType.text),
                         const SizedBox(
                           height: 30.0,
                         ),
-                        inputField("Email", pp.emailC, Icons.email,
-                            TextInputType.emailAddress),
+                        inputField(
+                            textInput: "Email",
+                            controller: pp.emailC,
+                            iconData: Icons.email,
+                            keyboardType: TextInputType.emailAddress),
                         const SizedBox(
                           height: 30.0,
                         ),
-                        inputField("Phone", pp.phoneC, Icons.call,
-                            TextInputType.phone),
+                        inputField(
+                            textInput: "Phone",
+                            controller: pp.phoneC,
+                            iconData: Icons.call,
+                            keyboardType: TextInputType.phone,
+                            maxLength: 13),
                         const SizedBox(height: 30.0),
                         // inputField("Collage", pp.countryC, Icons.school,
                         //     TextInputType.emailAddress),
@@ -253,15 +242,16 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorResources.black),
+                                backgroundColor: ColorResources.redHealth),
                             onPressed: () async {
-                              pp.updateProfileUser(context);
+                              pp.updateProfileUser(context, pp.file);
                             },
                             child: const Text(
                               'Update',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         )
@@ -278,14 +268,18 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   }
 }
 
-Widget inputField(String textInput, TextEditingController controller,
-    IconData iconData, TextInputType? keyboardType) {
+Widget inputField({
+  required String textInput,
+  required TextEditingController controller,
+  required IconData iconData,
+  TextInputType? keyboardType,
+  int? maxLength,
+}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: [
       Text(textInput,
-          maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
               color: ColorResources.white,
@@ -296,6 +290,7 @@ Widget inputField(String textInput, TextEditingController controller,
       TextFormField(
         controller: controller,
         focusNode: null,
+        maxLength: maxLength,
         keyboardType: keyboardType,
         validator: (String? val) {
           if (val!.isEmpty) {

@@ -12,130 +12,160 @@ Widget profileCard({
 }) {
   final width = MediaQuery.of(context).size.width;
   print('Width : $width');
-  return Stack(
-    clipBehavior: Clip.none,
-    alignment: Alignment.bottomCenter,
-    children: [
-      Image.asset(
-        AssetsConst.imageIcCardDefault,
-        width: double.infinity,
-        height: 300.0,
-      ),
-      Positioned(
-        right: width < 400 ? 5 : 20,
-        bottom: 62,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+    child: Column(
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.bottomCenter,
           children: [
-            Row(
-              children: [
-                Image.asset(
-                  AssetsConst.imageIcEmail,
-                  width: 30.0,
-                  height: 30.0,
+            Container(
+              decoration: const BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 15.0,
+                      offset: Offset(0.0, 0.75))
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  AssetsConst.imageIcCardDefault,
+                  width: double.infinity,
+                  height: 224.0,
+                  fit: BoxFit.fill,
                 ),
-                SizedBox(
-                  width: 170,
-                  child: Text(
-                    context.read<ProfileProvider>().pd.email != ""
-                        ? context.read<ProfileProvider>().pd.email!
-                        : "-",
-                    style: const TextStyle(
-                      color: ColorResources.white,
-                      fontSize: Dimensions.fontSizeDefault,
-                      fontWeight: FontWeight.w600,
-                      overflow: TextOverflow.ellipsis,
-                      fontFamily: 'SF Pro',
-                    ),
-                    maxLines: 1,
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-              ],
+              ),
             ),
-            Row(
-              children: [
-                Image.asset(
-                  AssetsConst.imageIcPhone,
-                  width: 30.0,
-                  height: 30.0,
+            Positioned(
+              right: width < 400 ? 10 : 10,
+              top: width < 400 ? 60 : 60,
+              child: SizedBox(
+                width: width < 400 ? 170 : 200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        context.read<ProfileProvider>().pd.fullname != ""
+                            ? context
+                                .read<ProfileProvider>()
+                                .pd
+                                .fullname!
+                                .toUpperCase()
+                            : "-",
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: ColorResources.white,
+                          fontSize: Dimensions.fontSizeDefault,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'SF Pro',
+                        ),
+                      ),
+                    ),
+                    context.read<ProfileProvider>().pd.country!.name !=
+                            "Indonesia"
+                        ? Text(
+                            '${context.read<ProfileProvider>().pd.position?.toUpperCase()} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: ColorResources.white,
+                              fontSize: Dimensions.fontSizeDefault,
+                              fontFamily: 'SF Pro',
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
                 ),
-                Text(
-                  context.read<ProfileProvider>().pd.phone != ""
-                      ? context.read<ProfileProvider>().pd.phone!
-                      : "-",
-                  style: const TextStyle(
-                    color: ColorResources.white,
-                    fontSize: Dimensions.fontSizeDefault,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'SF Pro',
+              ),
+            ),
+            Positioned(
+              right: width < 400 ? 10 : 10,
+              bottom: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        AssetsConst.imageIcEmail,
+                        width: 30.0,
+                        height: 30.0,
+                      ),
+                      SizedBox(
+                        width: width < 400 ? 140 : 170,
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: Text(
+                            context.read<ProfileProvider>().pd.email != ""
+                                ? context.read<ProfileProvider>().pd.email!
+                                : "-",
+                            style: const TextStyle(
+                              color: ColorResources.white,
+                              fontSize: Dimensions.fontSizeSmall,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'SF Pro',
+                            ),
+                            maxLines: 2,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Row(
+                    children: [
+                      Image.asset(
+                        AssetsConst.imageIcPhone,
+                        width: 30.0,
+                        height: 30.0,
+                      ),
+                      Text(
+                        context.read<ProfileProvider>().pd.phone != ""
+                            ? context.read<ProfileProvider>().pd.phone!
+                            : "-",
+                        style: const TextStyle(
+                          color: ColorResources.white,
+                          fontSize: Dimensions.fontSizeSmall,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'SF Pro',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-      ),
-      Positioned(
-        left: width < 400 ? 150 : 190,
-        top: width < 400 ? 100 : 90,
-        child: SizedBox(
-          width: 200,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                context.read<ProfileProvider>().pd.fullname != ""
-                    ? context.read<ProfileProvider>().pd.fullname!.toUpperCase()
-                    : "-",
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: ColorResources.white,
-                  fontSize: Dimensions.fontSizeDefault,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'SF Pro',
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => generateCard(pp: pp, context: context),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.download,
+                    size: 20,
+                    color: ColorResources.white,
+                  ),
+                  Text(
+                    "Dowload KTA",
+                    style: TextStyle(color: ColorResources.white),
+                  )
+                ],
               ),
-              context.read<ProfileProvider>().pd.country!.name != "Indonesia"
-                  ? Text(
-                      '${context.read<ProfileProvider>().pd.position} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: ColorResources.white,
-                        fontSize: Dimensions.fontSizeDefault,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'SF Pro',
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-        ),
-      ),
-      Positioned(
-        right: 20,
-        bottom: 210,
-        child: GestureDetector(
-          onTap: () => generateCard(pp: pp, context: context),
-          child: Container(
-            width: 30,
-            height: 30,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.white.withOpacity(0.20),
             ),
-            child: const Icon(
-              Icons.download,
-              color: Colors.white,
-              size: 20.0,
-            ),
-          ),
+          ],
         ),
-      )
-    ],
+      ],
+    ),
   );
 }

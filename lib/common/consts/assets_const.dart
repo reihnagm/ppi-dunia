@@ -62,7 +62,7 @@ class AssetsConst {
   static const imageIcNotification = "assets/images/icons/ic-notification.png";
   static const imageIcParty = "assets/images/icons/ic-party.png";
   static const imageIcPhoto = "assets/images/icons/ic-photo.png";
-  static const imageIcPoll = "assets/images/icons/ic-poll.png";
+  static const imageIcPoll = "assets/images/icons/oll.png";
   static const imageIcRepeat = "assets/images/icons/ic-repeat.png";
   static const imageIcSaveFill = "assets/images/icons/ic-save-fill.png";
   static const imageIcSettings = "assets/images/icons/ic-settings.png";
@@ -71,6 +71,9 @@ class AssetsConst {
   static const imageIcWritePost = "assets/images/icons/ic-write-post.png";
   static const imageIcEmail = "assets/images/icons/ic-email.png";
   static const imageIcPhone = "assets/images/icons/ic-phone.png";
+  static const imageIcPopUpDelete = "assets/images/icons/ic-pop-up-delete.png";
+  static const imageIcPopUpLogout = "assets/images/icons/ic-pop-up-logout.png";
+  static const imageIcPopUpSos = "assets/images/icons/ic-pop-up-sos.png";
 
   //Audio Source
   static const audioNotifMpThree = "assets/sounds/notification.mp3";

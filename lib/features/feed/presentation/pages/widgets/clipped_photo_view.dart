@@ -13,7 +13,10 @@ class ClippedPhotoView extends StatelessWidget {
       child: Center(
         child: ClipRect(
           child: PhotoView(
-            imageProvider: NetworkImage(image),
+            imageProvider: Image.network(
+              image,
+              fit: BoxFit.contain,
+            ).image,
             minScale: PhotoViewComputedScale.contained * 0.8,
             maxScale: PhotoViewComputedScale.covered * 2,
             // loadingBuilder: (context, event) =>

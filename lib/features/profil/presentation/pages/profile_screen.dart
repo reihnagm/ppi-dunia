@@ -96,30 +96,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                             fontFamily: 'SF Pro'),
                       ),
                       centerTitle: false,
-                      actions: [
-                        pp.file != null
-                            ? Container(
-                                margin: const EdgeInsets.only(
-                                    top: 17.0, right: 18.0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    await pp.uploadProfile();
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Upload',
-                                      style: TextStyle(
-                                          color: ColorResources.blue,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                      ],
                       leading: CupertinoNavigationBarBackButton(
                         color: ColorResources.blue,
                         onPressed: () {
@@ -129,10 +105,13 @@ class ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SliverList(
                         delegate: SliverChildListDelegate([
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: searchBar(pp: pp),
+                      ),
                       context.read<ProfileProvider>().pd.role == "user"
                           ? profileCard(context: context, pp: pp)
                           : const SizedBox(),
-                      searchBar(pp: pp),
                       postCard(pp: pp),
                     ]))
                   ],

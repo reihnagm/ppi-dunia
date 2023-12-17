@@ -10,6 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 
 import 'package:ppidunia/features/media/data/repositories/media.dart';
@@ -23,7 +24,9 @@ import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
+import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/textfield/textfield.dart';
 
 enum FeedStatus { idle, loading, loaded, empty, error }
 
@@ -56,6 +59,11 @@ class ProfileProvider with ChangeNotifier {
   late TextEditingController emailC;
   late TextEditingController phoneC;
   late TextEditingController countryC;
+
+  FocusNode firstNameFn = FocusNode();
+  FocusNode lastNameFn = FocusNode();
+  FocusNode emailFn = FocusNode();
+  FocusNode numberFn = FocusNode();
 
   Timer? debounce;
 
@@ -103,12 +111,34 @@ class ProfileProvider with ChangeNotifier {
               actions: [
                 MaterialButton(
                   child: const Text("Camera"),
-                  onPressed: () => Navigator.pop(context, ImageSource.camera),
+                  onPressed: () async {
+                    try {
+                      PermissionStatus statusStorage =
+                          await Permission.camera.status;
+                      if (!statusStorage.isGranted) {
+                        await Permission.camera.request();
+                      }
+                      Navigator.pop(context, ImageSource.camera);
+                    } catch (e, stacktrace) {
+                      debugPrint(stacktrace.toString());
+                    }
+                  },
                 ),
                 MaterialButton(
-                    child: const Text("Gallery"),
-                    onPressed: () =>
-                        Navigator.pop(context, ImageSource.gallery))
+                  child: const Text("Gallery"),
+                  onPressed: () async {
+                    try {
+                      PermissionStatus statusStorage =
+                          await Permission.photos.status;
+                      if (!statusStorage.isGranted) {
+                        await Permission.photos.request();
+                      }
+                      Navigator.pop(context, ImageSource.gallery);
+                    } catch (e, stacktrace) {
+                      debugPrint(stacktrace.toString());
+                    }
+                  },
+                )
               ],
             ));
     if (imageSource != null) {
@@ -181,40 +211,94 @@ class ProfileProvider with ChangeNotifier {
   Future<void> uploadProfile() async {
     Map<String, dynamic> d = await mr.postMedia(folder: "images", media: file!);
     await pr.updateProfilePicture(
-        avatar: d["data"]["path"], userId: SharedPrefs.getUserId());
+        avatar: file == null ? "" : d["data"]["path"],
+        userId: SharedPrefs.getUserId());
     file = null;
     getProfile();
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  Future<void> updateProfileUser(BuildContext context) async {
-    try {
-      await pr.updateProfile(
-        firtNameC: firstNameC.text,
-        lastNameC: lastNameC.text,
-        email: emailC.text,
-        userId: SharedPrefs.getUserId(),
-        phone: phoneC.text,
-      );
-      NS.pop(context);
+  bool submissionValidation(
+    BuildContext context,
+    String firstName,
+    String lastName,
+    String email,
+    String number,
+  ) {
+    if (firstName.isEmpty) {
       ShowSnackbar.snackbar(
-        context,
-        "Berhasil Ubah Profile",
-        '',
-        ColorResources.black,
-        const Duration(seconds: 3),
-      );
+          context, getTranslated('FIRST_NAME_EMPTY'), '', ColorResources.error);
+      firstNameFn.requestFocus();
+      return false;
+    } else if (lastName.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('LAST_NAME_EMPTY'), '', ColorResources.error);
+      lastNameFn.requestFocus();
+      return false;
+    } else if (email.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('EMAIL_EMPTY'), '', ColorResources.error);
+      emailFn.requestFocus();
+      return false;
+    } else if (!email.isValidEmail()) {
+      ShowSnackbar.snackbar(context, getTranslated('INVALID_FORMAT_EMAIL'), '',
+          ColorResources.error);
+      emailFn.requestFocus();
+      return false;
+    } else if (number == "") {
+      ShowSnackbar.snackbar(
+          context, getTranslated('LAST_NAME_EMPTY'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    } else if (number.length < 10) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('LAST_NAME_EMPTY'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> updateProfileUser(BuildContext context, file) async {
+    try {
+      final firstName = firstNameC.text.trim();
+      final lastName = lastNameC.text.trim();
+      final email = emailC.text.trim();
+      final phone = phoneC.text;
+      print('Phone : $phone');
+      final bool isClear =
+          submissionValidation(context, firstName, lastName, email, phone);
+      if (isClear) {
+        file == null
+            ? await pr.updateProfile(
+                firtNameC: firstNameC.text,
+                lastNameC: lastNameC.text,
+                email: emailC.text,
+                userId: SharedPrefs.getUserId(),
+                phone: phoneC.text,
+              )
+            : await uploadProfile();
+        getProfile();
+        NS.pop(context);
+        ShowSnackbar.snackbar(
+          context,
+          "Berhasil Ubah Profile",
+          '',
+          ColorResources.black,
+          const Duration(seconds: 3),
+        );
+      }
       setStateProfileStatus(ProfileStatus.loaded);
     } on CustomException catch (e) {
       debugPrint(e.toString());
       setStateProfileStatus(ProfileStatus.error);
-        ShowSnackbar.snackbar(
-          context,
-          e.toString(),
-          '',
-          ColorResources.redHealth,
-          const Duration(seconds: 3),
-        );
+      ShowSnackbar.snackbar(
+        context,
+        e.toString(),
+        '',
+        ColorResources.redHealth,
+        const Duration(seconds: 3),
+      );
     } catch (e) {
       debugPrint(e.toString());
       setStateProfileStatus(ProfileStatus.error);

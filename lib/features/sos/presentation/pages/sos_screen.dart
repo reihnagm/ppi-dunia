@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:provider/provider.dart';
 
 import 'package:ppidunia/localization/language_constraints.dart';
@@ -107,13 +108,23 @@ class SosScreenState extends State<SosScreen> {
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
             showAnimatedDialog(
-                context,
-                Dialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
+              context,
+              Dialog(
+                backgroundColor: Colors.transparent,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 300,
+                  height: 200,
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: ColorResources.black, width: 2),
+                      color: Colors.white,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(20.0))),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -125,7 +136,7 @@ class SosScreenState extends State<SosScreen> {
                               style: const TextStyle(
                                   color: ColorResources.greyDarkPrimary,
                                   fontSize: Dimensions.fontSizeLarge,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w600,
                                   fontFamily: 'SF Pro'),
                             ),
                           ),
@@ -176,7 +187,24 @@ class SosScreenState extends State<SosScreen> {
                           )
                         ],
                       ),
-                    )));
+                      Positioned(
+                        bottom: 100,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              AssetsConst.imageIcPopUpSos,
+                              width: 270,
+                              height: 270,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

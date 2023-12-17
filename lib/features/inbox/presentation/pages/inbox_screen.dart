@@ -76,6 +76,72 @@ class InboxScreenState extends State<InboxScreen> {
                         automaticallyImplyLeading: false,
                         centerTitle: true,
                       ),
+                      SliverList(
+                          delegate: SliverChildListDelegate([
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: Container(
+                                margin:
+                                    EdgeInsets.only(left: 20.0, right: 10.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: ColorResources.white),
+                                    color: ColorResources.transparent),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Broadcast",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize:
+                                                Dimensions.fontSizeDefault,
+                                            color: ColorResources.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 13.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                          width: 1.5,
+                                          color: ColorResources.white),
+                                      color: ColorResources.transparent),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "SOS",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Dimensions.fontSizeDefault,
+                                              color: ColorResources.white),
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        )
+                      ])),
                       Consumer<InboxScreenModel>(
                         builder: (BuildContext context, InboxScreenModel ism,
                             Widget? child) {
@@ -118,7 +184,6 @@ class InboxScreenState extends State<InboxScreen> {
                                   ),
                                 ));
                           }
-
                           return SliverPadding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 16.0),
@@ -296,8 +361,7 @@ class InboxScreenState extends State<InboxScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                    MainAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
                                                   Column(
@@ -309,13 +373,35 @@ class InboxScreenState extends State<InboxScreen> {
                                                     children: [
                                                       Text(
                                                         ism.id[i].title!,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                             color: ColorResources
                                                                 .greyLightPrimary,
                                                             fontSize: Dimensions
                                                                 .fontSizeLarge,
-                                                            fontWeight:
-                                                                FontWeight.w600,
+                                                            fontWeight: ism
+                                                                        .id[i]
+                                                                        .read !=
+                                                                    true
+                                                                ? FontWeight
+                                                                    .bold
+                                                                : null,
+                                                            fontFamily:
+                                                                'SF Pro'),
+                                                      ),
+                                                      Text(
+                                                        ism.id[i].createdAt!,
+                                                        style: TextStyle(
+                                                            color: ColorResources
+                                                                .greyLightPrimary,
+                                                            fontSize: Dimensions
+                                                                .fontSizeSmall,
+                                                            fontWeight: ism
+                                                                        .id[i]
+                                                                        .read !=
+                                                                    true
+                                                                ? FontWeight
+                                                                    .bold
+                                                                : null,
                                                             fontFamily:
                                                                 'SF Pro'),
                                                       ),
@@ -331,42 +417,24 @@ class InboxScreenState extends State<InboxScreen> {
                                                           textAlign:
                                                               TextAlign.start,
                                                           maxLines: 2,
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                               color: ColorResources
                                                                   .greyLightPrimary,
                                                               fontSize: Dimensions
                                                                   .fontSizeDefault,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
+                                                              fontWeight: ism
+                                                                          .id[i]
+                                                                          .read !=
+                                                                      true
+                                                                  ? FontWeight
+                                                                      .bold
+                                                                  : null,
                                                               fontFamily:
                                                                   'SF Pro'),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                  ism.id[i].read == true
-                                                      ? Container(
-                                                          width: 10.0,
-                                                          height: 18,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                                  color:
-                                                                      ColorResources
-                                                                          .black,
-                                                                  shape: BoxShape
-                                                                      .circle),
-                                                        )
-                                                      : Container(
-                                                          width: 10.0,
-                                                          height: 18,
-                                                          decoration: const BoxDecoration(
-                                                              color:
-                                                                  ColorResources
-                                                                      .success,
-                                                              shape: BoxShape
-                                                                  .circle),
-                                                        )
                                                 ],
                                               )
                                             ],

@@ -1,5 +1,7 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +40,8 @@ Future<void> main() async {
   await SharedPrefs.initSharedPreferences();
   runApp(MultiProvider(
     providers: providers,
-    child: const MyApp(),
+    child: DevicePreview(
+        enabled: true, builder: (BuildContext context) => const MyApp()),
   ));
 }
 

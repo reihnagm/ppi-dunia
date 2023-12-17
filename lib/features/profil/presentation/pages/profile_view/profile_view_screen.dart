@@ -225,37 +225,62 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                         Positioned(
                           left: 30,
                           bottom: 20,
-                          child: SizedBox(
-                            width: 200,
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.school,
-                                  size: 20,
-                                  color: Colors.white,
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                context
+                                        .read<ProfileProvider>()
+                                        .pdd
+                                        .country
+                                        ?.name ??
+                                    "-",
+                                style: const TextStyle(
+                                  color: ColorResources.white,
+                                  fontSize: Dimensions.marginSizeDefault,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'SF Pro',
                                 ),
-                                const SizedBox(
-                                  width: 5,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Icon(
+                                Icons.school,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                context
+                                        .read<ProfileProvider>()
+                                        .pdd
+                                        .country
+                                        ?.branch ??
+                                    "-",
+                                style: const TextStyle(
+                                  color: ColorResources.white,
+                                  fontSize: Dimensions.marginSizeDefault,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'SF Pro',
                                 ),
-                                Text(
-                                  context
-                                          .read<ProfileProvider>()
-                                          .pdd
-                                          .country
-                                          ?.name ??
-                                      "-",
-                                  style: const TextStyle(
-                                    color: ColorResources.white,
-                                    fontSize: Dimensions.marginSizeDefault,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'SF Pro',
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                ),
-                              ],
-                            ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
                           ),
                         )
                       ],

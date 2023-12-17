@@ -6,7 +6,8 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
+import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
@@ -109,38 +110,14 @@ class FeedList extends StatelessWidget {
                                 Expanded(
                                   flex: 7,
                                   child: InkWell(
-                                    onTap: () {
-                                      NS.push(
-                                          context,
-                                          ProfileViewScreen(
-                                              userId: fsm.feeds[i].user.uid));
-                                    },
-                                    child: CachedNetworkImage(
-                                      imageUrl: fsm.feeds[i].user.avatar,
-                                      imageBuilder: (BuildContext context,
-                                          ImageProvider<Object> imageProvider) {
-                                        return CircleAvatar(
-                                          radius: 25.0,
-                                          backgroundImage: imageProvider,
-                                        );
+                                      onTap: () {
+                                        NS.push(
+                                            context,
+                                            ProfileViewScreen(
+                                                userId: fsm.feeds[i].user.uid));
                                       },
-                                      placeholder:
-                                          (BuildContext context, String url) {
-                                        return const CircleAvatar(
-                                          radius: 25.0,
-                                          backgroundColor: Color(0xFF637687),
-                                        );
-                                      },
-                                      errorWidget: (BuildContext context,
-                                          String url, dynamic error) {
-                                        return const CircleAvatar(
-                                          radius: 25.0,
-                                          backgroundImage: AssetImage(
-                                              AssetsConst.imageLogoPpi),
-                                        );
-                                      },
-                                    ),
-                                  ),
+                                      child: imageAvatar(
+                                          fsm.feeds[i].user.avatar, 25)),
                                 ),
                                 Expanded(
                                   flex: 28,
@@ -318,329 +295,205 @@ class FeedList extends StatelessWidget {
                                             fontSize: Dimensions.fontSizeLarge,
                                             fontFamily: 'SF Pro'),
                                       ),
-                                      if (fsm.feeds[i].feedType == "image")
-                                        if (fsm.feeds[i].media.length == 1)
-                                          InkWell(
-                                            onTap: () => NS.push(
-                                              context,
-                                              ClippedPhotoView(
-                                                image:
-                                                    fsm.feeds[i].media[0].path,
-                                              ),
-                                            ),
-                                            child: Hero(
-                                              tag: "image-view",
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    fsm.feeds[i].media[0].path,
-                                                imageBuilder:
-                                                    (BuildContext context,
-                                                        ImageProvider
-                                                            imageProvider) {
-                                                  return Container(
-                                                    width: double.infinity,
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            top: 10),
-                                                    height: 180.0,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            fit:
-                                                                BoxFit.fitWidth,
-                                                            image:
-                                                                imageProvider)),
-                                                  );
-                                                },
-                                                placeholder:
-                                                    (BuildContext context,
-                                                        String val) {
-                                                  return Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey[300]!,
-                                                    highlightColor:
-                                                        Colors.grey[200]!,
-                                                    child: Card(
-                                                      margin: EdgeInsets.zero,
-                                                      color:
-                                                          ColorResources.white,
-                                                      elevation: 4.0,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          18.0)),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        18.0),
-                                                            color:
-                                                                ColorResources
-                                                                    .white),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                                errorWidget:
-                                                    (BuildContext context,
-                                                        String text,
-                                                        dynamic _) {
-                                                  return Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey[300]!,
-                                                    highlightColor:
-                                                        Colors.grey[200]!,
-                                                    child: Card(
-                                                      margin: EdgeInsets.zero,
-                                                      color:
-                                                          ColorResources.white,
-                                                      elevation: 4.0,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          18.0)),
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        18.0),
-                                                            color:
-                                                                ColorResources
-                                                                    .white),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                      if (fsm.feeds[i].media.length > 1)
-                                        CarouselSlider.builder(
-                                            options: CarouselOptions(
-                                              autoPlay: false,
-                                              height: 180.0,
-                                              enlargeCenterPage: true,
-                                              viewportFraction: 1.0,
-                                              enlargeStrategy:
-                                                  CenterPageEnlargeStrategy
-                                                      .scale,
-                                              initialPage: fsm.currentIndex,
-                                              onPageChanged: (int i,
-                                                  CarouselPageChangedReason
-                                                      reason) {
-                                                fsm.onChangeCurrentMultipleImg(
-                                                    i);
-                                              },
-                                            ),
-                                            itemCount:
-                                                fsm.feeds[i].media.length,
-                                            itemBuilder: (BuildContext context,
-                                                int x, int z) {
-                                              return InkWell(
-                                                onTap: () => NS.push(
-                                                  context,
-                                                  ClippedPhotoView(
-                                                    image: fsm
-                                                        .feeds[i].media[x].path,
-                                                  ),
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: fsm
-                                                      .feeds[i].media[x].path,
-                                                  imageBuilder:
-                                                      (BuildContext context,
-                                                          ImageProvider
-                                                              imageProvider) {
-                                                    return Container(
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              fit: BoxFit
-                                                                  .fitWidth,
-                                                              image:
-                                                                  imageProvider)),
-                                                    );
-                                                  },
-                                                  placeholder:
-                                                      (BuildContext context,
-                                                          String val) {
-                                                    return Container(
-                                                      decoration: const BoxDecoration(
-                                                          image: DecorationImage(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              image: AssetImage(
-                                                                  AssetsConst
-                                                                      .imageDefault))),
-                                                    );
-                                                  },
-                                                  errorWidget:
-                                                      (BuildContext context,
-                                                          String text,
-                                                          dynamic _) {
-                                                    return Container(
-                                                      decoration: const BoxDecoration(
-                                                          image: DecorationImage(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              image: AssetImage(
-                                                                  AssetsConst
-                                                                      .imageDefault))),
-                                                    );
-                                                  },
-                                                ),
-                                              );
-                                            }),
-                                      if (fsm.feeds[i].media.length > 1)
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: fsm.feeds[i].media.map((z) {
-                                            int index =
-                                                fsm.feeds[i].media.indexOf(z);
-                                            return Container(
-                                              width: 8.0,
-                                              height: 8.0,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10.0,
-                                                      horizontal: 2.0),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                    fsm.currentIndexMultipleImg ==
-                                                            index
-                                                        ? ColorResources
-                                                            .bluePrimary
-                                                        : ColorResources
-                                                            .dimGrey,
-                                              ),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      if (fsm.feeds[i].feedType == "video")
-                                        VideoPlay(
-                                            dataSource:
-                                                fsm.feeds[i].media[0].path),
-                                      if (fsm.feeds[i].feedType == "document")
-                                        Container(
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                              top: 4.0,
-                                            ),
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                color: ColorResources
-                                                    .greyDarkPrimary),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 150.0,
-                                                      child: Text(
-                                                          fsm.feeds[i].media[0]
-                                                              .path
-                                                              .split('/')
-                                                              .last,
-                                                          maxLines: 3,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  ColorResources
-                                                                      .white,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeDefault,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
-                                                    ),
-                                                    const SizedBox(height: 6.0),
-                                                    Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Text(
-                                                            "${getTranslated("FILE_SIZE")} :",
-                                                            style: const TextStyle(
-                                                                color:
-                                                                    ColorResources
-                                                                        .white,
-                                                                fontSize: Dimensions
-                                                                    .fontSizeDefault,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontFamily:
-                                                                    'SF Pro')),
-                                                        const SizedBox(
-                                                            width: 8.0),
-                                                        Text(
-                                                            fsm.feeds[i].media[0].size
-                                                                .toString(),
-                                                            style: const TextStyle(
-                                                                color:
-                                                                    ColorResources
-                                                                        .white,
-                                                                fontSize: Dimensions
-                                                                    .fontSizeDefault,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontFamily:
-                                                                    'SF Pro')),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                                IconButton(
-                                                  icon: const Icon(
-                                                      Icons.download),
-                                                  onPressed: () async {
-                                                    await DownloadHelper
-                                                        .downloadDoc(
-                                                            context: context,
-                                                            url: fsm.feeds[i]
-                                                                .media[0].path);
-                                                  },
-                                                  color: ColorResources.white,
-                                                )
-                                              ],
-                                            )),
                                     ],
                                   ),
                                 )
                               ],
                             ),
                           ),
+                          if (fsm.feeds[i].feedType == "image")
+                            if (fsm.feeds[i].media.length == 1)
+                              InkWell(
+                                onTap: () => NS.push(
+                                  context,
+                                  ClippedPhotoView(
+                                    image: fsm.feeds[i].media[0].path,
+                                  ),
+                                ),
+                                child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 25.0, vertical: 20.0),
+                                    child: imageCard(fsm.feeds[i].media[0].path,
+                                        180.0, 12.0)),
+                              ),
+                          if (fsm.feeds[i].media.length > 1)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25.0, vertical: 10.0),
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                child: CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      autoPlay: false,
+                                      height: 180.0,
+                                      enlargeCenterPage: true,
+                                      viewportFraction: 1.0,
+                                      enlargeStrategy:
+                                          CenterPageEnlargeStrategy.scale,
+                                      initialPage: fsm.currentIndex,
+                                      onPageChanged: (int i,
+                                          CarouselPageChangedReason reason) {
+                                        fsm.onChangeCurrentMultipleImg(i);
+                                      },
+                                    ),
+                                    itemCount: fsm.feeds[i].media.length,
+                                    itemBuilder:
+                                        (BuildContext context, int x, int z) {
+                                      return InkWell(
+                                        onTap: () => NS.push(
+                                          context,
+                                          ClippedPhotoView(
+                                            image: fsm.feeds[i].media[x].path,
+                                          ),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl: fsm.feeds[i].media[x].path,
+                                          imageBuilder: (BuildContext context,
+                                              ImageProvider imageProvider) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      fit: BoxFit.cover,
+                                                      image: imageProvider)),
+                                            );
+                                          },
+                                          placeholder: (BuildContext context,
+                                              String val) {
+                                            return Container(
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      fit: BoxFit.contain,
+                                                      image: AssetImage(
+                                                          AssetsConst
+                                                              .imageDefault))),
+                                            );
+                                          },
+                                          errorWidget: (BuildContext context,
+                                              String text, dynamic _) {
+                                            return Container(
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      fit: BoxFit.contain,
+                                                      image: AssetImage(
+                                                          AssetsConst
+                                                              .imageDefault))),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ),
+                          if (fsm.feeds[i].media.length > 1)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14.0, vertical: 10.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: fsm.feeds[i].media.map((z) {
+                                  int index = fsm.feeds[i].media.indexOf(z);
+                                  return Container(
+                                    width: 8.0,
+                                    height: 8.0,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 2.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color:
+                                          fsm.currentIndexMultipleImg == index
+                                              ? ColorResources.bluePrimary
+                                              : ColorResources.dimGrey,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          if (fsm.feeds[i].feedType == "video")
+                            Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14.0, vertical: 10.0),
+                                child: VideoPlay(
+                                    dataSource: fsm.feeds[i].media[0].path)),
+                          if (fsm.feeds[i].feedType == "document")
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14.0, vertical: 10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: ColorResources.greyDarkPrimary),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 150.0,
+                                        child: Text(
+                                            fsm.feeds[i].media[0].path
+                                                .split('/')
+                                                .last,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                color: ColorResources.white,
+                                                fontSize:
+                                                    Dimensions.fontSizeDefault,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SF Pro')),
+                                      ),
+                                      const SizedBox(height: 6.0),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                              "${getTranslated("FILE_SIZE")} :",
+                                              style: const TextStyle(
+                                                  color: ColorResources.white,
+                                                  fontSize: Dimensions
+                                                      .fontSizeDefault,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SF Pro')),
+                                          const SizedBox(width: 8.0),
+                                          Text(
+                                              fsm.feeds[i].media[0].size
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: ColorResources.white,
+                                                  fontSize: Dimensions
+                                                      .fontSizeDefault,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SF Pro')),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.download),
+                                    onPressed: () async {
+                                      await DownloadHelper.downloadDoc(
+                                          context: context,
+                                          url: fsm.feeds[i].media[0].path);
+                                    },
+                                    color: ColorResources.white,
+                                  )
+                                ],
+                              ),
+                            ),
                           Container(
                             height: 35.0,
                             decoration: const BoxDecoration(

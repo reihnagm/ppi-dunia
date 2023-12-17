@@ -20,7 +20,7 @@ class FeedSearch extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 22,
+              flex: 8,
               child: Container(
                   margin: const EdgeInsets.only(left: 12.0, right: 12.0),
                   height: 50.0,
