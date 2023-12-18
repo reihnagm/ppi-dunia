@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
@@ -65,7 +66,7 @@ class SignInScreenState extends State<SignInScreen> {
                   ],
                 ),
                 content: SignInFormWidget(viewModel: viewModel),
-                contentHeight: 0.3,
+                contentHeight: 0.22.h,
                 bottom: const Hero(
                     tag: 'smooth-btn',
                     child: Material(

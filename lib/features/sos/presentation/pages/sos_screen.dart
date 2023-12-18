@@ -60,11 +60,11 @@ class SosScreenState extends State<SosScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Center(
+                            Center(
                               child: Text(
-                                "What's the\nEmergency ?",
+                                getTranslated("WHATS_EMERGENCY"),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: ColorResources.white,
                                     fontSize: Dimensions.fontSizeOverLarge,
                                     fontWeight: FontWeight.w600,
@@ -72,19 +72,25 @@ class SosScreenState extends State<SosScreen> {
                               ),
                             ),
                             const SizedBox(height: 50.0),
-                            sosWidget('ic-vehicle.png', 'Vehicle Issue',
+                            sosWidget(
+                                'ic-vehicle.png',
+                                getTranslated("VEHICLE_ISSUE"),
                                 'I need help, an incident has occurred'),
                             const SizedBox(height: 35.0),
-                            sosWidget('ic-injury.png', 'Sickness or Injury',
+                            sosWidget(
+                                'ic-injury.png',
+                                getTranslated("SICKNESS_OR_INJURY"),
                                 'I need help, an incident has occurred'),
                             const SizedBox(height: 35.0),
-                            sosWidget('ic-crime.png', 'Crime',
+                            sosWidget('ic-crime.png', getTranslated("CRIME"),
                                 'I need help, an incident has occurred'),
                             const SizedBox(height: 35.0),
-                            sosWidget('ic-lost.png', 'Lost or Trapped',
+                            sosWidget(
+                                'ic-lost.png',
+                                getTranslated("LOST_OR_TRAPPED"),
                                 'I need help, an incident has occurred'),
                             const SizedBox(height: 35.0),
-                            sosWidget('ic-fire.png', 'Fire',
+                            sosWidget('ic-fire.png', getTranslated("FIRE"),
                                 'I need help, an incident has occurred'),
                           ],
                         ),
@@ -110,7 +116,6 @@ class SosScreenState extends State<SosScreen> {
             showAnimatedDialog(
               context,
               Dialog(
-                backgroundColor: Colors.transparent,
                 child: Container(
                   alignment: Alignment.center,
                   width: 300,
@@ -126,71 +131,99 @@ class SosScreenState extends State<SosScreen> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          const SizedBox(height: 20.0),
+                          const SizedBox(height: 55.0),
                           Center(
                             child: Text(
-                              "${getTranslated("ARE_YOU_SURE_WANT_BROADCAST_EVIDENCE")} $title ?",
+                              "${getTranslated("ARE_YOU_SURE_WANT_BROADCAST_EVIDENCE").toUpperCase()} ${title.toUpperCase()} ?",
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                  color: ColorResources.greyDarkPrimary,
-                                  fontSize: Dimensions.fontSizeLarge,
+                                  color: ColorResources.black,
+                                  fontSize: Dimensions.fontSizeExtraLarge,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'SF Pro'),
                             ),
                           ),
-                          const SizedBox(height: 30.0),
-                          Container(
-                            margin:
-                                const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    NS.pop(context);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      getTranslated("NO"),
-                                      style: const TextStyle(
-                                          color: ColorResources.greyDarkPrimary,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'SF Pro'),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 20.0),
-                                InkWell(
-                                  onTap: () async {
-                                    await ssm.sendSos(context,
-                                        title: title, message: message);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      getTranslated("YES"),
-                                      style: const TextStyle(
-                                          color: ColorResources.greyDarkPrimary,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'SF Pro'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
                         ],
                       ),
                       Positioned(
-                        bottom: 100,
+                        bottom: -45,
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width > 400
+                              ? 275
+                              : 265,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  NS.pop(context);
+                                },
+                                style: ButtonStyle(
+                                  padding:
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 40)),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          ColorResources.blueDrawerPrimary),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  getTranslated("NO").toUpperCase(),
+                                  style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.fontSizeLarge,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro'),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  await ssm.sendSos(context,
+                                      title: title, message: message);
+                                },
+                                style: ButtonStyle(
+                                  padding:
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 40)),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          ColorResources.redHealth),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  getTranslated("YES").toUpperCase(),
+                                  style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.fontSizeLarge,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 110,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(
                               AssetsConst.imageIcPopUpSos,
@@ -199,7 +232,7 @@ class SosScreenState extends State<SosScreen> {
                             )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

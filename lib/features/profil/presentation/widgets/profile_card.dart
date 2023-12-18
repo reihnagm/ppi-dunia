@@ -4,6 +4,7 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/features/profil/presentation/widgets/generate_card.dart';
+import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:provider/provider.dart';
 
 Widget profileCard({
@@ -149,16 +150,16 @@ Widget profileCard({
           children: [
             TextButton(
               onPressed: () => generateCard(pp: pp, context: context),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.download,
                     size: 20,
                     color: ColorResources.white,
                   ),
                   Text(
-                    "Dowload KTA",
-                    style: TextStyle(color: ColorResources.white),
+                    getTranslated("DOWNLOAD_CARD"),
+                    style: const TextStyle(color: ColorResources.white),
                   )
                 ],
               ),

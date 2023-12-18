@@ -45,10 +45,11 @@ class StudyAbroadStatusScreenState extends State<StudyAbroadStatusScreen> {
                       child: Text(
                         getTranslated('ASK_STUDY_ABROAD'),
                         style: sfProRegular.copyWith(
-                          fontSize: Dimensions.fontSizeTitle,
+                          fontSize: Dimensions.fontSizeOverLarge,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
+                        maxLines: 2,
                       ),
                     ),
                     content: const StudyAbroadRadioList(),

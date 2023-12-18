@@ -20,7 +20,7 @@ class FeedSearch extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 8,
+              flex: 14,
               child: Container(
                   margin: const EdgeInsets.only(left: 12.0, right: 12.0),
                   height: 50.0,
@@ -90,23 +90,23 @@ class FeedSearch extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Material(
-                      color: ColorResources.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8.0),
-                        onTap: () {
-                          debugPrint("test");
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            AssetsConst.imageIcList,
-                            fit: BoxFit.scaleDown,
-                            width: 30.0,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Material(
+                    //   color: ColorResources.transparent,
+                    //   child: InkWell(
+                    //     borderRadius: BorderRadius.circular(8.0),
+                    //     onTap: () {
+                    //       debugPrint("test");
+                    //     },
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Image.asset(
+                    //         AssetsConst.imageIcList,
+                    //         fit: BoxFit.scaleDown,
+                    //         width: 30.0,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ))
           ],

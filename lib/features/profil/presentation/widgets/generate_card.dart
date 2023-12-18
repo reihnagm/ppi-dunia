@@ -25,19 +25,20 @@ Future<void> generateCard({
     context.read<ProfileProvider>().pd.fullname!.toUpperCase(),
     PdfStandardFont(PdfFontFamily.helvetica, Dimensions.fontSizeSmall,
         style: PdfFontStyle.bold),
-    bounds: Rect.fromLTWH(230, 420, 250, pageSize.height),
+    bounds: Rect.fromLTWH(240, 440, 250, pageSize.height),
     format: PdfStringFormat(
         wordWrap: PdfWordWrapType.word, alignment: PdfTextAlignment.center),
     brush: PdfBrushes.white,
   );
   context.read<ProfileProvider>().pd.country!.name != "Indonesia"
       ? page.graphics.drawString(
-          '${context.read<ProfileProvider>().pd.position} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
+          '${context.read<ProfileProvider>().pd.position!.toUpperCase()} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
           PdfStandardFont(PdfFontFamily.helvetica, Dimensions.fontSizeSmall),
-          bounds: const Rect.fromLTWH(230, 460, 250, 300),
+          bounds: const Rect.fromLTWH(240, 460, 250, 300),
           format: PdfStringFormat(
-              wordWrap: PdfWordWrapType.word,
-              alignment: PdfTextAlignment.center),
+            wordWrap: PdfWordWrapType.word,
+            alignment: PdfTextAlignment.center,
+          ),
           brush: PdfBrushes.white,
         )
       : const SizedBox();

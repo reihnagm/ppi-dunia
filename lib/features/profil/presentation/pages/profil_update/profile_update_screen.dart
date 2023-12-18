@@ -70,7 +70,7 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 SliverAppBar(
                   backgroundColor: ColorResources.bgSecondaryColor,
                   title: Text(
-                    "Ubah ${getTranslated("PROFILE")}",
+                    "Change ${getTranslated("PROFILE")}",
                     style: const TextStyle(
                         color: ColorResources.blue,
                         fontSize: Dimensions.fontSizeLarge,

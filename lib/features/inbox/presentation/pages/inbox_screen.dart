@@ -266,83 +266,83 @@ class InboxScreenState extends State<InboxScreen> {
                                                         ),
                                                         const SizedBox(
                                                             height: 30.0),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 15.0,
-                                                                  right: 15.0),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  if (Platform
-                                                                      .isAndroid) {
-                                                                    Uri uri = Uri
-                                                                        .parse(
-                                                                            "google.navigation:q=${ism.id[i].lat},${ism.id[i].lng}&mode=d");
-                                                                    if (await canLaunchUrl(
-                                                                        uri)) {
-                                                                      await launchUrl(
-                                                                          uri);
-                                                                    } else {
-                                                                      throw 'Could not launch ${uri.toString()}';
-                                                                    }
-                                                                  } else {
-                                                                    String
-                                                                        urlAppleMaps =
-                                                                        'https://maps.apple.com/?q=${ism.id[i].lat},${ism.id[i].lng}';
-                                                                    String url =
-                                                                        'comgooglemaps://?saddr=&daddr=${ism.id[i].lat},${ism.id[i].lng}&directionsmode=driving';
-                                                                    if (await canLaunchUrl(
-                                                                        Uri.parse(
-                                                                            url))) {
-                                                                      await launchUrl(
-                                                                          Uri.parse(
-                                                                              url));
-                                                                    } else if (await canLaunchUrl(
-                                                                        Uri.parse(
-                                                                            urlAppleMaps))) {
-                                                                      await launchUrl(
-                                                                          Uri.parse(
-                                                                              urlAppleMaps));
-                                                                    } else {
-                                                                      throw 'Could not launch $url';
-                                                                    }
-                                                                  }
-                                                                },
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          8.0),
-                                                                  child: Text(
-                                                                    getTranslated(
-                                                                        "LOOK_ON_THE_MAP"),
-                                                                    style: const TextStyle(
-                                                                        color: ColorResources
-                                                                            .greyDarkPrimary,
-                                                                        fontSize:
-                                                                            Dimensions
-                                                                                .fontSizeLarge,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
-                                                                        fontFamily:
-                                                                            'SF Pro'),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
+                                                        // Container(
+                                                        //   margin:
+                                                        //       const EdgeInsets
+                                                        //           .only(
+                                                        //           left: 15.0,
+                                                        //           right: 15.0),
+                                                        //   child: Row(
+                                                        //     mainAxisAlignment:
+                                                        //         MainAxisAlignment
+                                                        //             .end,
+                                                        //     mainAxisSize:
+                                                        //         MainAxisSize
+                                                        //             .max,
+                                                        //     children: [
+                                                        //       InkWell(
+                                                        //         onTap:
+                                                        //             () async {
+                                                        //           if (Platform
+                                                        //               .isAndroid) {
+                                                        //             Uri uri = Uri
+                                                        //                 .parse(
+                                                        //                     "google.navigation:q=${ism.id[i].lat},${ism.id[i].lng}&mode=d");
+                                                        //             if (await canLaunchUrl(
+                                                        //                 uri)) {
+                                                        //               await launchUrl(
+                                                        //                   uri);
+                                                        //             } else {
+                                                        //               throw 'Could not launch ${uri.toString()}';
+                                                        //             }
+                                                        //           } else {
+                                                        //             String
+                                                        //                 urlAppleMaps =
+                                                        //                 'https://maps.apple.com/?q=${ism.id[i].lat},${ism.id[i].lng}';
+                                                        //             String url =
+                                                        //                 'comgooglemaps://?saddr=&daddr=${ism.id[i].lat},${ism.id[i].lng}&directionsmode=driving';
+                                                        //             if (await canLaunchUrl(
+                                                        //                 Uri.parse(
+                                                        //                     url))) {
+                                                        //               await launchUrl(
+                                                        //                   Uri.parse(
+                                                        //                       url));
+                                                        //             } else if (await canLaunchUrl(
+                                                        //                 Uri.parse(
+                                                        //                     urlAppleMaps))) {
+                                                        //               await launchUrl(
+                                                        //                   Uri.parse(
+                                                        //                       urlAppleMaps));
+                                                        //             } else {
+                                                        //               throw 'Could not launch $url';
+                                                        //             }
+                                                        //           }
+                                                        //         },
+                                                        //         child: Padding(
+                                                        //           padding:
+                                                        //               const EdgeInsets
+                                                        //                   .all(
+                                                        //                   8.0),
+                                                        //           child: Text(
+                                                        //             getTranslated(
+                                                        //                 "LOOK_ON_THE_MAP"),
+                                                        //             style: const TextStyle(
+                                                        //                 color: ColorResources
+                                                        //                     .greyDarkPrimary,
+                                                        //                 fontSize:
+                                                        //                     Dimensions
+                                                        //                         .fontSizeLarge,
+                                                        //                 fontWeight:
+                                                        //                     FontWeight
+                                                        //                         .w400,
+                                                        //                 fontFamily:
+                                                        //                     'SF Pro'),
+                                                        //           ),
+                                                        //         ),
+                                                        //       ),
+                                                        //     ],
+                                                        //   ),
+                                                        // )
                                                       ],
                                                     ),
                                                   )));

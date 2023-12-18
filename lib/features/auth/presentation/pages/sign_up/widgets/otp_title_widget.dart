@@ -35,7 +35,7 @@ class OtpTitleTextWidget extends StatelessWidget {
                     height: 15,
                   ),
                   Text(
-                    "${getTranslated('ENTER_OTP')}, ${model.oldEmail}",
+                    "${getTranslated('ENTER_OTP')} ${model.oldEmail}",
                     style: sfProRegular.copyWith(
                       fontSize: Dimensions.fontSizeLarge,
                       color: ColorResources.hintColor,

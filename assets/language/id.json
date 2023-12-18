@@ -74,6 +74,8 @@
     "CONFIRM_PASSWORD": "Konfirmasi Kata Sandi",
     "LAST_NAME_EMPTY": "Isi nama belakang Anda",
     "LAST_NAME_HINT": "Silakan masukkan nama belakang Anda",
+    "PHONE_EMPTY": "Harap isi nomor telepon Anda",
+    "PHONE_LENGTH": "Nomor telepon Anda kurang dari 10 nomor",
     "LAST_NAME": "Nama Belakang",
     "FIRST_NAME_EMPTY": "Isi nama depan Anda",
     "FIRST_NAME_HINT": "Silakan masukkan nama depan Anda",
@@ -127,5 +129,12 @@
     "LANGUAGE": "Bahasa",
     "GOOD_MORNING": "Selamat Pagi",
     "GOOD_EVENING": "Selamat Siang",
-    "GOOD_AFTERNOON": "Selamat Sore"
+    "GOOD_AFTERNOON": "Selamat Sore",
+    "WHATS_EMERGENCY": "Apa Daruratnya?",
+    "VEHICLE_ISSUE": "Masalah Kendaraan",
+    "SICKNESS_OR_INJURY": "Sakit atau Cedera",
+    "CRIME": "Kejahatan",
+    "LOST_OR_TRAPPED": "Hilang atau Terjebak",
+    "FIRE": "Kebakaran",
+    "DOWNLOAD_CARD": "Unduh Kartu Anggota"
 }  

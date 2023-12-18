@@ -74,6 +74,8 @@
     "CONFIRM_PASSWORD": "Confirm Password",
     "LAST_NAME_EMPTY": "Please fill in your last name",
     "LAST_NAME_HINT": "Enter your last name",
+    "PHONE_EMPTY": "Please fill in your phone number",
+    "PHONE_LENGTH": "Your phone number is less than 10 number",
     "LAST_NAME": "Last Name",
     "FIRST_NAME_EMPTY": "Please fill in your first name",
     "FIRST_NAME_HINT": "Enter your first name",
@@ -127,5 +129,12 @@
     "GOOD_EVENING": "Good Evening",
     "GOOD_AFTERNOON": "Good Afternoon",
     "SETTINGS": "Settings",
-    "LANGUAGE": "Language"
+    "LANGUAGE": "Language",
+    "WHATS_EMERGENCY": "What's the\nEmergency ?",
+    "VEHICLE_ISSUE": "Vehicle Issue",
+    "SICKNESS_OR_INJURY": "Sickness or Injury",
+    "CRIME": "Crime",
+    "LOST_OR_TRAPPED": "Lost or Trapped",
+    "FIRE": "Fire",
+    "DOWNLOAD_CARD": "Download Member card"
 }

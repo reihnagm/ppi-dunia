@@ -8,6 +8,7 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
+import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -289,374 +290,308 @@ class CommentScreenState extends State<CommentScreen> {
                                                             fontFamily:
                                                                 'SF Pro'),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 10.0),
-                                                      if (c.feedDetailData
-                                                              .feedType ==
-                                                          "image")
-                                                        if (c
-                                                                .feedDetailData
-                                                                .media!
-                                                                .length ==
-                                                            1)
-                                                          FullScreenWidget(
-                                                            disposeLevel:
-                                                                DisposeLevel
-                                                                    .Low,
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl: c
-                                                                  .feedDetailData
-                                                                  .media![0]
-                                                                  .path,
-                                                              imageBuilder: (BuildContext
-                                                                      context,
-                                                                  ImageProvider
-                                                                      imageProvider) {
-                                                                return Container(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 180.0,
-                                                                  decoration: BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                          alignment: Alignment
-                                                                              .centerLeft,
-                                                                          fit: BoxFit
-                                                                              .fitWidth,
-                                                                          image:
-                                                                              imageProvider)),
-                                                                );
-                                                              },
-                                                              placeholder:
-                                                                  (BuildContext
-                                                                          context,
-                                                                      String
-                                                                          val) {
-                                                                return Shimmer
-                                                                    .fromColors(
-                                                                  baseColor:
-                                                                      Colors.grey[
-                                                                          300]!,
-                                                                  highlightColor:
-                                                                      Colors.grey[
-                                                                          200]!,
-                                                                  child: Card(
-                                                                    margin:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    color: ColorResources
-                                                                        .white,
-                                                                    elevation:
-                                                                        4.0,
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(18.0)),
-                                                                    child:
-                                                                        Container(
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              18.0),
-                                                                          color:
-                                                                              ColorResources.white),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                              errorWidget:
-                                                                  (BuildContext
-                                                                          context,
-                                                                      String
-                                                                          text,
-                                                                      dynamic
-                                                                          _) {
-                                                                return Shimmer
-                                                                    .fromColors(
-                                                                  baseColor:
-                                                                      Colors.grey[
-                                                                          300]!,
-                                                                  highlightColor:
-                                                                      Colors.grey[
-                                                                          200]!,
-                                                                  child: Card(
-                                                                    margin:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    color: ColorResources
-                                                                        .white,
-                                                                    elevation:
-                                                                        4.0,
-                                                                    shape: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(18.0)),
-                                                                    child:
-                                                                        Container(
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              18.0),
-                                                                          color:
-                                                                              ColorResources.white),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                                      if (c.feedDetailData
-                                                              .media!.length >
-                                                          1)
-                                                        CarouselSlider.builder(
-                                                            carouselController:
-                                                                c.carouselC,
-                                                            options:
-                                                                CarouselOptions(
-                                                              autoPlay: false,
-                                                              height: 180.0,
-                                                              enlargeCenterPage:
-                                                                  true,
-                                                              viewportFraction:
-                                                                  1.0,
-                                                              enlargeStrategy:
-                                                                  CenterPageEnlargeStrategy
-                                                                      .scale,
-                                                              initialPage: c
-                                                                  .currentIndex,
-                                                              onPageChanged: (int
-                                                                      i,
-                                                                  CarouselPageChangedReason
-                                                                      reason) {
-                                                                c.onChangeCurrentMultipleImg(
-                                                                    i);
-                                                              },
-                                                            ),
-                                                            itemCount: c
-                                                                .feedDetailData
-                                                                .media!
-                                                                .length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int i,
-                                                                    int z) {
-                                                              return InkWell(
-                                                                onTap: () =>
-                                                                    NS.push(
-                                                                  context,
-                                                                  ClippedPhotoView(
-                                                                    image: c
-                                                                        .feedDetailData
-                                                                        .media![
-                                                                            i]
-                                                                        .path,
-                                                                  ),
-                                                                ),
-                                                                child: Hero(
-                                                                  tag:
-                                                                      "image-view",
-                                                                  child:
-                                                                      CachedNetworkImage(
-                                                                    imageUrl: c
-                                                                        .feedDetailData
-                                                                        .media![
-                                                                            i]
-                                                                        .path,
-                                                                    imageBuilder: (BuildContext
-                                                                            context,
-                                                                        ImageProvider
-                                                                            imageProvider) {
-                                                                      return Container(
-                                                                        decoration: BoxDecoration(
-                                                                            image: DecorationImage(
-                                                                                alignment: Alignment.centerLeft,
-                                                                                fit: BoxFit.fitWidth,
-                                                                                image: imageProvider)),
-                                                                      );
-                                                                    },
-                                                                    placeholder: (BuildContext
-                                                                            context,
-                                                                        String
-                                                                            val) {
-                                                                      return Container(
-                                                                        decoration: const BoxDecoration(
-                                                                            image: DecorationImage(
-                                                                                alignment: Alignment.centerLeft,
-                                                                                fit: BoxFit.contain,
-                                                                                image: AssetImage(AssetsConst.imageDefault))),
-                                                                      );
-                                                                    },
-                                                                    errorWidget: (BuildContext
-                                                                            context,
-                                                                        String
-                                                                            text,
-                                                                        dynamic
-                                                                            _) {
-                                                                      return Container(
-                                                                        decoration: const BoxDecoration(
-                                                                            image: DecorationImage(
-                                                                                alignment: Alignment.centerLeft,
-                                                                                fit: BoxFit.contain,
-                                                                                image: AssetImage(AssetsConst.imageDefault))),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }),
-                                                      if (c.feedDetailData
-                                                              .media!.length >
-                                                          1)
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: c
-                                                              .feedDetailData
-                                                              .media!
-                                                              .map((i) {
-                                                            int index = c
-                                                                .feedDetailData
-                                                                .media!
-                                                                .indexOf(i);
-                                                            return Container(
-                                                              width: 8.0,
-                                                              height: 8.0,
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      vertical:
-                                                                          10.0,
-                                                                      horizontal:
-                                                                          2.0),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: c.currentIndexMultipleImg ==
-                                                                        index
-                                                                    ? ColorResources
-                                                                        .bluePrimary
-                                                                    : ColorResources
-                                                                        .dimGrey,
-                                                              ),
-                                                            );
-                                                          }).toList(),
-                                                        ),
-                                                      if (c.feedDetailData
-                                                              .feedType ==
-                                                          "video")
-                                                        VideoPlay(
-                                                            dataSource: c
-                                                                .feedDetailData
-                                                                .media![0]
-                                                                .path),
-                                                      if (c.feedDetailData
-                                                              .feedType ==
-                                                          "document")
-                                                        Container(
-                                                            width:
-                                                                double.infinity,
-                                                            margin: const EdgeInsets
-                                                                .only(
-                                                              top: 4.0,
-                                                            ),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8.0),
-                                                                color: ColorResources
-                                                                    .greyDarkPrimary),
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width:
-                                                                          150.0,
-                                                                      child: Text(
-                                                                          c.feedDetailData.media![0].path
-                                                                              .split(
-                                                                                  '/')
-                                                                              .last,
-                                                                          maxLines:
-                                                                              3,
-                                                                          overflow: TextOverflow
-                                                                              .ellipsis,
-                                                                          style: const TextStyle(
-                                                                              color: ColorResources.white,
-                                                                              fontSize: Dimensions.fontSizeDefault,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontFamily: 'SF Pro')),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            6.0),
-                                                                    Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: [
-                                                                        Text(
-                                                                            "${getTranslated("FILE_SIZE")} :",
-                                                                            style: const TextStyle(
-                                                                                color: ColorResources.white,
-                                                                                fontSize: Dimensions.fontSizeDefault,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                fontFamily: 'SF Pro')),
-                                                                        const SizedBox(
-                                                                            width:
-                                                                                8.0),
-                                                                        Text(
-                                                                            c.feedDetailData.media![0].size
-                                                                                .toString(),
-                                                                            style: const TextStyle(
-                                                                                color: ColorResources.white,
-                                                                                fontSize: Dimensions.fontSizeDefault,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                fontFamily: 'SF Pro')),
-                                                                      ],
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                IconButton(
-                                                                  icon: const Icon(
-                                                                      Icons
-                                                                          .download),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await c.downloadDoc(
-                                                                        context,
-                                                                        c
-                                                                            .feedDetailData
-                                                                            .media![0]
-                                                                            .path);
-                                                                  },
-                                                                  color:
-                                                                      ColorResources
-                                                                          .white,
-                                                                )
-                                                              ],
-                                                            )),
                                                     ],
                                                   ),
                                                 )
                                               ],
                                             ),
                                           ),
+                                          if (c.feedDetailData.feedType ==
+                                              "image")
+                                            if (c.feedDetailData.media!
+                                                    .length ==
+                                                1)
+                                              InkWell(
+                                                onTap: () => NS.push(
+                                                  context,
+                                                  ClippedPhotoView(
+                                                    image: c.feedDetailData
+                                                        .media![0].path,
+                                                  ),
+                                                ),
+                                                child: Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 25.0,
+                                                        vertical: 20.0),
+                                                    child: imageCard(
+                                                        c.feedDetailData
+                                                            .media![0].path,
+                                                        180.0,
+                                                        12.0)),
+                                              ),
+                                          if (c.feedDetailData.media!.length >
+                                              1)
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 25.0,
+                                                vertical: 10.0,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(20)),
+                                                child: CarouselSlider.builder(
+                                                    carouselController:
+                                                        c.carouselC,
+                                                    options: CarouselOptions(
+                                                      autoPlay: false,
+                                                      height: 180.0,
+                                                      enlargeCenterPage: true,
+                                                      viewportFraction: 1.0,
+                                                      enlargeStrategy:
+                                                          CenterPageEnlargeStrategy
+                                                              .scale,
+                                                      initialPage:
+                                                          c.currentIndex,
+                                                      onPageChanged: (int i,
+                                                          CarouselPageChangedReason
+                                                              reason) {
+                                                        c.onChangeCurrentMultipleImg(
+                                                            i);
+                                                      },
+                                                    ),
+                                                    itemCount: c.feedDetailData
+                                                        .media!.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int i, int z) {
+                                                      return InkWell(
+                                                        onTap: () => NS.push(
+                                                          context,
+                                                          ClippedPhotoView(
+                                                            image: c
+                                                                .feedDetailData
+                                                                .media![i]
+                                                                .path,
+                                                          ),
+                                                        ),
+                                                        child: Hero(
+                                                          tag: "image-view",
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: c
+                                                                .feedDetailData
+                                                                .media![i]
+                                                                .path,
+                                                            imageBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    ImageProvider
+                                                                        imageProvider) {
+                                                              return Container(
+                                                                decoration: BoxDecoration(
+                                                                    image: DecorationImage(
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .centerLeft,
+                                                                        fit: BoxFit
+                                                                            .fitWidth,
+                                                                        image:
+                                                                            imageProvider)),
+                                                              );
+                                                            },
+                                                            placeholder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    String
+                                                                        val) {
+                                                              return Container(
+                                                                decoration: const BoxDecoration(
+                                                                    image: DecorationImage(
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .centerLeft,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                        image: AssetImage(
+                                                                            AssetsConst.imageDefault))),
+                                                              );
+                                                            },
+                                                            errorWidget:
+                                                                (BuildContext
+                                                                        context,
+                                                                    String text,
+                                                                    dynamic _) {
+                                                              return Container(
+                                                                decoration: const BoxDecoration(
+                                                                    image: DecorationImage(
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .centerLeft,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                        image: AssetImage(
+                                                                            AssetsConst.imageDefault))),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }),
+                                              ),
+                                            ),
+                                          if (c.feedDetailData.media!.length >
+                                              1)
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 25.0,
+                                                vertical: 10.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: c
+                                                    .feedDetailData.media!
+                                                    .map((i) {
+                                                  int index = c
+                                                      .feedDetailData.media!
+                                                      .indexOf(i);
+                                                  return Container(
+                                                    width: 8.0,
+                                                    height: 8.0,
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10.0,
+                                                        horizontal: 2.0),
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                          c.currentIndexMultipleImg ==
+                                                                  index
+                                                              ? ColorResources
+                                                                  .bluePrimary
+                                                              : ColorResources
+                                                                  .dimGrey,
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            ),
+                                          if (c.feedDetailData.feedType ==
+                                              "video")
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 25.0,
+                                                vertical: 10.0,
+                                              ),
+                                              child: VideoPlay(
+                                                  dataSource: c.feedDetailData
+                                                      .media![0].path),
+                                            ),
+                                          if (c.feedDetailData.feedType ==
+                                              "document")
+                                            Container(
+                                              width: double.infinity,
+                                              margin: const EdgeInsets.only(
+                                                top: 4.0,
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  color: ColorResources
+                                                      .greyDarkPrimary),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 150.0,
+                                                        child: Text(
+                                                            c.feedDetailData
+                                                                .media![0].path
+                                                                .split('/')
+                                                                .last,
+                                                            maxLines: 3,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: const TextStyle(
+                                                                color:
+                                                                    ColorResources
+                                                                        .white,
+                                                                fontSize: Dimensions
+                                                                    .fontSizeDefault,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontFamily:
+                                                                    'SF Pro')),
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 6.0),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Text(
+                                                              "${getTranslated("FILE_SIZE")} :",
+                                                              style: const TextStyle(
+                                                                  color:
+                                                                      ColorResources
+                                                                          .white,
+                                                                  fontSize:
+                                                                      Dimensions
+                                                                          .fontSizeDefault,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontFamily:
+                                                                      'SF Pro')),
+                                                          const SizedBox(
+                                                              width: 8.0),
+                                                          Text(
+                                                              c
+                                                                  .feedDetailData
+                                                                  .media![0]
+                                                                  .size
+                                                                  .toString(),
+                                                              style: const TextStyle(
+                                                                  color:
+                                                                      ColorResources
+                                                                          .white,
+                                                                  fontSize:
+                                                                      Dimensions
+                                                                          .fontSizeDefault,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontFamily:
+                                                                      'SF Pro')),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  IconButton(
+                                                    icon: const Icon(
+                                                        Icons.download),
+                                                    onPressed: () async {
+                                                      await c.downloadDoc(
+                                                          context,
+                                                          c.feedDetailData
+                                                              .media![0].path);
+                                                    },
+                                                    color: ColorResources.white,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           Container(
                                             height: 35.0,
                                             decoration: const BoxDecoration(

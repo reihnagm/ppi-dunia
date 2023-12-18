@@ -62,7 +62,7 @@ class AssetsConst {
   static const imageIcNotification = "assets/images/icons/ic-notification.png";
   static const imageIcParty = "assets/images/icons/ic-party.png";
   static const imageIcPhoto = "assets/images/icons/ic-photo.png";
-  static const imageIcPoll = "assets/images/icons/oll.png";
+  static const imageIcPoll = "assets/images/icons/ic-poll.png";
   static const imageIcRepeat = "assets/images/icons/ic-repeat.png";
   static const imageIcSaveFill = "assets/images/icons/ic-save-fill.png";
   static const imageIcSettings = "assets/images/icons/ic-settings.png";

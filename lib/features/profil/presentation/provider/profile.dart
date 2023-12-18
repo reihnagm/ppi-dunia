@@ -245,14 +245,14 @@ class ProfileProvider with ChangeNotifier {
           ColorResources.error);
       emailFn.requestFocus();
       return false;
-    } else if (number == "") {
+    } else if (number.isEmpty) {
       ShowSnackbar.snackbar(
-          context, getTranslated('LAST_NAME_EMPTY'), '', ColorResources.error);
+          context, getTranslated('PHONE_EMPTY'), '', ColorResources.error);
       numberFn.requestFocus();
       return false;
     } else if (number.length < 10) {
       ShowSnackbar.snackbar(
-          context, getTranslated('LAST_NAME_EMPTY'), '', ColorResources.error);
+          context, getTranslated('PHONE_LENGTH'), '', ColorResources.error);
       numberFn.requestFocus();
       return false;
     }
