@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profil_update/profile_update_state.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -50,31 +51,44 @@ class FeedPersonalInfo extends StatelessWidget {
                           )
                         : Stack(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl:
-                                    context.read<ProfileProvider>().pd.avatar!,
-                                imageBuilder: (BuildContext context,
-                                    ImageProvider<Object> imageProvider) {
-                                  return CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundImage: imageProvider,
-                                  );
-                                },
-                                placeholder:
-                                    (BuildContext context, String url) {
-                                  return const CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundColor: Color(0xFF637687),
-                                  );
-                                },
-                                errorWidget: (BuildContext context, String url,
-                                    dynamic error) {
-                                  return const CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundImage: AssetImage(
-                                        'assets/images/default/ava.jpg'),
-                                  );
-                                },
+                              InkWell(
+                                onTap: () => NS.push(
+                                  context,
+                                  ClippedPhotoView(
+                                    image: context
+                                        .read<ProfileProvider>()
+                                        .pd
+                                        .avatar!,
+                                  ),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: context
+                                      .read<ProfileProvider>()
+                                      .pd
+                                      .avatar!,
+                                  imageBuilder: (BuildContext context,
+                                      ImageProvider<Object> imageProvider) {
+                                    return CircleAvatar(
+                                      radius: 60.0,
+                                      backgroundImage: imageProvider,
+                                    );
+                                  },
+                                  placeholder:
+                                      (BuildContext context, String url) {
+                                    return const CircleAvatar(
+                                      radius: 60.0,
+                                      backgroundColor: Color(0xFF637687),
+                                    );
+                                  },
+                                  errorWidget: (BuildContext context,
+                                      String url, dynamic error) {
+                                    return const CircleAvatar(
+                                      radius: 60.0,
+                                      backgroundImage: AssetImage(
+                                          'assets/images/default/ava.jpg'),
+                                    );
+                                  },
+                                ),
                               ),
                               Positioned(
                                 right: 18.0,

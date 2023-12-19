@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/features/profil/presentation/widgets/post_card.dart';
@@ -167,37 +168,49 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                                     )
                                   : Stack(
                                       children: [
-                                        CachedNetworkImage(
-                                          imageUrl: context
-                                                  .read<ProfileProvider>()
-                                                  .pdd
-                                                  .avatar ??
-                                              "-",
-                                          imageBuilder: (BuildContext context,
-                                              ImageProvider<Object>
-                                                  imageProvider) {
-                                            return CircleAvatar(
-                                              radius: 40.0,
-                                              backgroundImage: imageProvider,
-                                            );
-                                          },
-                                          placeholder: (BuildContext context,
-                                              String url) {
-                                            return const CircleAvatar(
-                                              radius: 40.0,
-                                              backgroundColor:
-                                                  Color(0xFF637687),
-                                            );
-                                          },
-                                          errorWidget: (BuildContext context,
-                                              String url, dynamic error) {
-                                            return const CircleAvatar(
-                                              radius: 40.0,
-                                              backgroundImage: AssetImage(
-                                                'assets/images/default/ava.jpg',
-                                              ),
-                                            );
-                                          },
+                                        InkWell(
+                                          onTap: () => NS.push(
+                                            context,
+                                            ClippedPhotoView(
+                                              image: context
+                                                      .read<ProfileProvider>()
+                                                      .pdd
+                                                      .avatar ??
+                                                  "-",
+                                            ),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: context
+                                                    .read<ProfileProvider>()
+                                                    .pdd
+                                                    .avatar ??
+                                                "-",
+                                            imageBuilder: (BuildContext context,
+                                                ImageProvider<Object>
+                                                    imageProvider) {
+                                              return CircleAvatar(
+                                                radius: 40.0,
+                                                backgroundImage: imageProvider,
+                                              );
+                                            },
+                                            placeholder: (BuildContext context,
+                                                String url) {
+                                              return const CircleAvatar(
+                                                radius: 40.0,
+                                                backgroundColor:
+                                                    Color(0xFF637687),
+                                              );
+                                            },
+                                            errorWidget: (BuildContext context,
+                                                String url, dynamic error) {
+                                              return const CircleAvatar(
+                                                radius: 40.0,
+                                                backgroundImage: AssetImage(
+                                                  'assets/images/default/ava.jpg',
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         )
                                       ],
                                     ),

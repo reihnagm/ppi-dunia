@@ -23,10 +23,7 @@ class FirebaseProvider with ChangeNotifier {
   final FirebaseRepo fr;
   final InboxScreenModel ism;
 
-  FirebaseProvider({
-    required this.fr,
-    required this.ism
-  });
+  FirebaseProvider({required this.fr, required this.ism});
 
   InitFCMStatus _initFCMStatus = InitFCMStatus.idle;
   InitFCMStatus get initFCMStatus => _initFCMStatus;
@@ -36,24 +33,22 @@ class FirebaseProvider with ChangeNotifier {
   final soundpool = Soundpool.fromOptions(
     options: SoundpoolOptions.kDefault,
   );
-  
+
   void setStateInitFCMStatus(InitFCMStatus initFCMStatus) {
     _initFCMStatus = initFCMStatus;
-    Future.delayed(Duration.zero, () =>  notifyListeners());
+    Future.delayed(Duration.zero, () => notifyListeners());
   }
 
   static Future<void> firebaseBackgroundHandler(RemoteMessage message) async {
     await Firebase.initializeApp();
     Map<String, dynamic> data = message.data;
-    if(data != {}) {
-      if(data["type"] != null) {
-        await DBHelper.setAccountActive("accounts", 
-          data: {
-            "id": 1,
-            "status": "approval",
-            "createdAt": DateTime.now().toIso8601String()
-          }
-        );
+    if (data != {}) {
+      if (data["type"] != null) {
+        await DBHelper.setAccountActive("accounts", data: {
+          "id": 1,
+          "status": "approval",
+          "createdAt": DateTime.now().toIso8601String()
+        });
       }
     }
     Soundpool soundpool = Soundpool.fromOptions(
@@ -83,7 +78,7 @@ class FirebaseProvider with ChangeNotifier {
       setStateInitFCMStatus(InitFCMStatus.loaded);
     } on CustomException catch (_) {
       setStateInitFCMStatus(InitFCMStatus.error);
-    } catch(e) {
+    } catch (e) {
       debugPrint(e.toString());
       setStateInitFCMStatus(InitFCMStatus.error);
     }
@@ -111,6 +106,6 @@ class FirebaseProvider with ChangeNotifier {
     });
   }
 
-  double get getCurrentLat => SharedPrefs.getLat();  
-  double get getCurrentLng => SharedPrefs.getLng();  
+  double get getCurrentLat => SharedPrefs.getLat();
+  double get getCurrentLng => SharedPrefs.getLng();
 }

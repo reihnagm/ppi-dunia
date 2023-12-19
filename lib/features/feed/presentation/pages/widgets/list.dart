@@ -6,6 +6,7 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
+import 'package:ppidunia/views/basewidgets/dialog/animated/animated.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -110,12 +111,12 @@ class FeedList extends StatelessWidget {
                                 Expanded(
                                   flex: 7,
                                   child: InkWell(
-                                      onTap: () {
-                                        NS.push(
+                                      onTap: () => NS.push(
                                             context,
-                                            ProfileViewScreen(
-                                                userId: fsm.feeds[i].user.uid));
-                                      },
+                                            ClippedPhotoView(
+                                              image: fsm.feeds[i].user.avatar,
+                                            ),
+                                          ),
                                       child: imageAvatar(
                                           fsm.feeds[i].user.avatar, 25)),
                                 ),
@@ -157,7 +158,7 @@ class FeedList extends StatelessWidget {
                                                           color: ColorResources
                                                               .white,
                                                           fontSize: Dimensions
-                                                              .fontSizeLarge,
+                                                              .fontSizeDefault,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontFamily:
@@ -276,11 +277,185 @@ class FeedList extends StatelessWidget {
                                                   },
                                                   onSelected:
                                                       (String route) async {
-                                                    if (route == "/delete") {
-                                                      await fsm.delete(
-                                                          feedId:
-                                                              fsm.feeds[i].uid);
-                                                    }
+                                                    showAnimatedDialog(
+                                                      context,
+                                                      Dialog(
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 300,
+                                                          height: 200,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10.0),
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color:
+                                                                      ColorResources
+                                                                          .black,
+                                                                  width: 2),
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .all(
+                                                                      Radius.circular(
+                                                                          20.0))),
+                                                          child: Stack(
+                                                            clipBehavior:
+                                                                Clip.none,
+                                                            children: [
+                                                              const Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  SizedBox(
+                                                                      height:
+                                                                          90.0),
+                                                                  Center(
+                                                                    child: Text(
+                                                                      "Are you sure you deleted it ?",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          color: ColorResources
+                                                                              .black,
+                                                                          fontSize: Dimensions
+                                                                              .fontSizeExtraLarge,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          fontFamily:
+                                                                              'SF Pro'),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Positioned(
+                                                                bottom: -45,
+                                                                child:
+                                                                    Container(
+                                                                  width:
+                                                                      MediaQuery.sizeOf(context).width >
+                                                                              400
+                                                                          ? 275
+                                                                          : 265,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      ElevatedButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          NS.pop(
+                                                                              context);
+                                                                        },
+                                                                        style:
+                                                                            ButtonStyle(
+                                                                          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical: 15,
+                                                                              horizontal: 40)),
+                                                                          backgroundColor:
+                                                                              MaterialStateProperty.all<Color>(ColorResources.pinkWoman),
+                                                                          shape:
+                                                                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                            RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(18.0),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          getTranslated("NO")
+                                                                              .toUpperCase(),
+                                                                          style: const TextStyle(
+                                                                              color: ColorResources.white,
+                                                                              fontSize: Dimensions.fontSizeDefault,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontFamily: 'SF Pro'),
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          print(
+                                                                              "Click");
+                                                                          if (route ==
+                                                                              "/delete") {
+                                                                            await fsm.delete(feedId: fsm.feeds[i].uid);
+                                                                          }
+                                                                          NS.pop(
+                                                                              context);
+                                                                        },
+                                                                        style:
+                                                                            ButtonStyle(
+                                                                          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets
+                                                                              .symmetric(
+                                                                              vertical: 15,
+                                                                              horizontal: 40)),
+                                                                          backgroundColor:
+                                                                              MaterialStateProperty.all<Color>(ColorResources.redHealth),
+                                                                          shape:
+                                                                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                                            RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(18.0),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        child:
+                                                                            Text(
+                                                                          getTranslated("YES")
+                                                                              .toUpperCase(),
+                                                                          style: const TextStyle(
+                                                                              color: ColorResources.white,
+                                                                              fontSize: Dimensions.fontSizeDefault,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontFamily: 'SF Pro'),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Positioned(
+                                                                bottom: 110,
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Image.asset(
+                                                                      AssetsConst
+                                                                          .imageIcPopUpDelete,
+                                                                      width:
+                                                                          270,
+                                                                      height:
+                                                                          270,
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
                                                   },
                                                 )
                                               : const SizedBox()
@@ -292,7 +467,8 @@ class FeedList extends StatelessWidget {
                                         maxLines: 4,
                                         style: const TextStyle(
                                             color: ColorResources.hintColor,
-                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontSize:
+                                                Dimensions.fontSizeDefault,
                                             fontFamily: 'SF Pro'),
                                       ),
                                     ],

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:ppidunia/common/utils/color_resources.dart';
@@ -83,8 +80,39 @@ class InboxScreenState extends State<InboxScreen> {
                             Expanded(
                               flex: 8,
                               child: Container(
-                                margin:
-                                    EdgeInsets.only(left: 20.0, right: 10.0),
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 13.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                          width: 1.5,
+                                          color: ColorResources.white),
+                                      color: ColorResources.transparent),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: () {
+                                        ism.getInboxes();
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "SOS",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Dimensions.fontSizeDefault,
+                                              color: ColorResources.white),
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 20.0, right: 10.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
                                     border: Border.all(
@@ -94,7 +122,9 @@ class InboxScreenState extends State<InboxScreen> {
                                 child: Material(
                                   color: Colors.transparent,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      ism.getInboxesBroadcast();
+                                    },
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Text(
@@ -109,35 +139,6 @@ class InboxScreenState extends State<InboxScreen> {
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10.0, right: 13.0),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      border: Border.all(
-                                          width: 1.5,
-                                          color: ColorResources.white),
-                                      color: ColorResources.transparent),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () {},
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "SOS",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize:
-                                                  Dimensions.fontSizeDefault,
-                                              color: ColorResources.white),
-                                        ),
-                                      ),
-                                    ),
-                                  )),
                             ),
                           ],
                         )

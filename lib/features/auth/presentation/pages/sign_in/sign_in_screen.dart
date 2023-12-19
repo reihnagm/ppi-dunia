@@ -66,7 +66,8 @@ class SignInScreenState extends State<SignInScreen> {
                   ],
                 ),
                 content: SignInFormWidget(viewModel: viewModel),
-                contentHeight: 0.22.h,
+                contentHeight:
+                    MediaQuery.sizeOf(context).height < 700 ? 0.3.h : 0.22.h,
                 bottom: const Hero(
                     tag: 'smooth-btn',
                     child: Material(

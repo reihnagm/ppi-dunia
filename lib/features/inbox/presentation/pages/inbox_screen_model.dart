@@ -72,6 +72,29 @@ class InboxScreenModel with ChangeNotifier {
     }
   }
 
+  Future<void> getInboxesBroadcast() async {
+    pageKey = 1;
+
+    try {
+      InboxModel im = await ir.getInbox(
+          pageKey: pageKey, type: "default", userId: SharedPrefs.getUserId());
+      _id = [];
+      _id.addAll(im.data!);
+      setStateInboxStatus(InboxStatus.loaded);
+
+      if (id.isEmpty) {
+        setStateInboxStatus(InboxStatus.empty);
+      }
+
+      getReadCount();
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+      setStateInboxStatus(InboxStatus.error);
+    } catch (_) {
+      setStateInboxStatus(InboxStatus.error);
+    }
+  }
+
   Future<void> inboxDetail({required String inboxId}) async {
     try {
       await ir.updateInbox(inboxId: inboxId, userId: SharedPrefs.getUserId());
