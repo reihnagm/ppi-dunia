@@ -48,7 +48,7 @@ class BookmarkList extends StatelessWidget {
                   getTranslated("PLEASE_TRY_AGAIN_LATER"),
                   style: const TextStyle(
                       color: ColorResources.greyLightPrimary,
-                      fontSize: Dimensions.fontSizeOverLarge,
+                      fontSize: Dimensions.fontSizeDefault,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'SF Pro'),
                 ),
@@ -63,7 +63,7 @@ class BookmarkList extends StatelessWidget {
                   getTranslated("NO_BOOKMARK"),
                   style: const TextStyle(
                       color: ColorResources.greyLightPrimary,
-                      fontSize: Dimensions.fontSizeOverLarge,
+                      fontSize: Dimensions.fontSizeDefault,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'SF Pro'),
                 ),
@@ -229,7 +229,7 @@ class BookmarkList extends StatelessWidget {
                                         style: const TextStyle(
                                             color: ColorResources.hintColor,
                                             fontSize:
-                                                Dimensions.fontSizeOverLarge,
+                                                Dimensions.fontSizeDefault,
                                             fontFamily: 'SF Pro'),
                                       ),
                                     ],

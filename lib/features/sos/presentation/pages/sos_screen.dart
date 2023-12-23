@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/utils/global.dart';
 import 'package:provider/provider.dart';
+import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -113,130 +116,12 @@ class SosScreenState extends State<SosScreen> {
         child: InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
-            showAnimatedDialog(
-              context,
-              Dialog(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 300,
-                  height: 200,
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: ColorResources.black, width: 2),
-                      color: Colors.white,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(20.0))),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          const SizedBox(height: 55.0),
-                          Center(
-                            child: Text(
-                              "${getTranslated("ARE_YOU_SURE_WANT_BROADCAST_EVIDENCE").toUpperCase()} ${title.toUpperCase()} ?",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: ColorResources.black,
-                                  fontSize: Dimensions.fontSizeExtraLarge,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Positioned(
-                        bottom: -45,
-                        child: Container(
-                          width: MediaQuery.sizeOf(context).width > 400
-                              ? 275
-                              : 265,
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  NS.pop(context);
-                                },
-                                style: ButtonStyle(
-                                  padding:
-                                      MaterialStateProperty.all<EdgeInsets>(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 15, horizontal: 40)),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          ColorResources.blueDrawerPrimary),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  getTranslated("NO").toUpperCase(),
-                                  style: const TextStyle(
-                                      color: ColorResources.white,
-                                      fontSize: Dimensions.fontSizeLarge,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'SF Pro'),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await ssm.sendSos(context,
-                                      title: title, message: message);
-                                },
-                                style: ButtonStyle(
-                                  padding:
-                                      MaterialStateProperty.all<EdgeInsets>(
-                                          const EdgeInsets.symmetric(
-                                              vertical: 15, horizontal: 40)),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          ColorResources.redHealth),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    ),
-                                  ),
-                                ),
-                                child: Text(
-                                  getTranslated("YES").toUpperCase(),
-                                  style: const TextStyle(
-                                      color: ColorResources.white,
-                                      fontSize: Dimensions.fontSizeLarge,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'SF Pro'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 110,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              AssetsConst.imageIcPopUpSos,
-                              width: 270,
-                              height: 270,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            GeneralModal.showConfirmModals(
+              image: AssetsConst.imageIcPopUpSos,
+              msg: "Do you need help immediately?",
+              onPressed: () async {
+                await ssm.sendSos(context, title: title, message: message);
+              },
             );
           },
           child: Padding(

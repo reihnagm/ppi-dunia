@@ -49,6 +49,9 @@ class CreatePostScreenState extends State<CreatePostScreen> {
 
   @override
   void dispose() {
+    cpm.pickedFile = [];
+    cpm.videoFile = null;
+    cpm.docFile = null;
     super.dispose();
   }
 
@@ -381,19 +384,27 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                         .profileStatus ==
                                                     ProfileStatus.empty
                                                 ? const SizedBox()
-                                                : Text(
-                                                    context
-                                                        .read<ProfileProvider>()
-                                                        .pd
-                                                        .fullname!,
-                                                    style: const TextStyle(
+                                                : SizedBox(
+                                                    width: 150,
+                                                    child: Text(
+                                                      context
+                                                          .read<
+                                                              ProfileProvider>()
+                                                          .pd
+                                                          .fullname!,
+                                                      style: const TextStyle(
                                                         color: ColorResources
                                                             .white,
                                                         fontSize: Dimensions
                                                             .fontSizeDefault,
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        fontFamily: 'SF Pro'),
+                                                        fontFamily: 'SF Pro',
+                                                      ),
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
                                                   ),
                                     const SizedBox(width: 16.0),
                                     c.getBranchStatus == GetBranchStatus.loading
@@ -576,11 +587,17 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                 width: double.infinity,
                                 height: 180.0,
                                 margin: const EdgeInsets.only(
-                                    top: 15.0, left: 20.0),
-                                child: Image.file(
-                                  File(cpm.pickedFile[0].path),
-                                  alignment: Alignment.centerLeft,
-                                  fit: BoxFit.fitHeight,
+                                  top: 15.0,
+                                  left: 20.0,
+                                  right: 20.0,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.file(
+                                    File(cpm.pickedFile[0].path),
+                                    alignment: Alignment.centerLeft,
+                                    fit: BoxFit.cover,
+                                  ),
                                 )),
                           if (cpm.isImage != null && cpm.pickedFile.length > 1)
                             Container(
@@ -608,11 +625,18 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                         width: double.infinity,
                                         height: 180.0,
                                         margin: const EdgeInsets.only(
-                                            top: 15.0, left: 20.0),
-                                        child: Image.file(
-                                          File(cpm.pickedFile[i].path),
-                                          alignment: Alignment.centerLeft,
-                                          fit: BoxFit.fitHeight,
+                                          top: 15.0,
+                                          left: 20.0,
+                                          right: 20.0,
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.file(
+                                            File(cpm.pickedFile[i].path),
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ));
                                   }),
                             ),

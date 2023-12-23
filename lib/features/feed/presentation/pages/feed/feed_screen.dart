@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_state.dart';
 import 'package:provider/provider.dart';
@@ -100,10 +102,10 @@ class FeedScreenState extends State<FeedScreen> {
                       ? constraints.maxHeight * .45
                       : constraints.maxHeight * .53,
               maxHeight: deviceMaxHeight < 600
-                  ? constraints.maxHeight * .74
-                  : deviceMaxHeight < 820
-                      ? constraints.maxHeight * .80
-                      : constraints.maxHeight * .85,
+                  ? constraints.maxHeight * .76
+                  : deviceMaxHeight < 800
+                      ? constraints.maxHeight * .81
+                      : constraints.maxHeight * .80,
               color: ColorResources.bgSecondaryColor,
               controller: fsm.panelC,
               panelBuilder: (ScrollController sc) {
@@ -135,10 +137,10 @@ class FeedScreenState extends State<FeedScreen> {
                                   size: 40.0,
                                 ),
                               ),
-                              Text(
-                                '$deviceMaxHeight',
-                                style: const TextStyle(color: Colors.white),
-                              )
+                              // Text(
+                              //   '$deviceMaxHeight',
+                              //   style: const TextStyle(color: Colors.white),
+                              // )
                             ],
                           ),
                         ),

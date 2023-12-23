@@ -40,7 +40,7 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: providers,
     child: DevicePreview(
-        enabled: true, builder: (BuildContext context) => const MyApp()),
+        enabled: false, builder: (BuildContext context) => const MyApp()),
   ));
 }
 

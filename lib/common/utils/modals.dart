@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
+import 'package:ppidunia/localization/language_constraints.dart';
+import 'package:provider/provider.dart';
 
 class GeneralModal {
   static Future<Object?> termsAndCondition() async {
@@ -115,59 +121,287 @@ class GeneralModal {
   static Future<void> reportUser() async {
     return showDialog(
       context: navigatorKey.currentContext!,
-      barrierDismissible: false,
-      useSafeArea: true,
       builder: (context) {
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: Center(
-              child: Container(
-            width: 300.h,
-            height: 350.h,
-            padding: const EdgeInsets.all(20.0),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                LottieBuilder.asset(
-                  'assets/lottie/info.json',
-                  width: 200.0,
-                  height: 200.0,
-                ),
-                Text(
-                  "Apakah Kamu yakin ingin lapor ?",
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontSize: 11.0.sp, fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Batal'))),
-                    const SizedBox(width: 30.0),
-                    Expanded(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('Ok'))),
-                  ],
-                )
-              ],
-            ),
-          )),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      width: 300.w,
+                      height: 400.h,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                              left: 20.w,
+                              right: 20.w,
+                              bottom: 20.h,
+                              child: Container(
+                                height: 200.h,
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    color: Colors.white),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "Are you sure you want to report ?",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              )),
+                          Positioned(
+                            bottom: 0.0,
+                            left: 60.w,
+                            right: 60.w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            ColorResources.pinkWoman),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          color: ColorResources.black,
+                                          width: 2,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    getTranslated("NO").toUpperCase(),
+                                    style: const TextStyle(
+                                        color: ColorResources.white,
+                                        fontSize: Dimensions.fontSizeLarge,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'SF Pro'),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            ColorResources.redHealth),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          color: ColorResources.black,
+                                          width: 2,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    getTranslated("YES").toUpperCase(),
+                                    style: const TextStyle(
+                                        color: ColorResources.white,
+                                        fontSize: Dimensions.fontSizeLarge,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'SF Pro'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 0.0,
+                            left: 0.0,
+                            right: 0.0,
+                            child: Image.asset(
+                              AssetsConst.imageIcPopUpLogout,
+                              width: 250.0,
+                              height: 250.0,
+                            ),
+                          ),
+                        ],
+                      ))
+                ]),
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<void> showConfirmModals({
+    required String msg,
+    required String image,
+    String? titleYes,
+    bool? isLoading,
+    required Function() onPressed,
+  }) async {
+    return showDialog(
+      context: navigatorKey.currentContext!,
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      width: 300.w,
+                      height: 400.h,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                              left: 20.w,
+                              right: 20.w,
+                              bottom: 20.h,
+                              child: Container(
+                                height: 200.h,
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    color: Colors.white),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      msg,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              )),
+                          Positioned(
+                            bottom: 0.0,
+                            left: 60.w,
+                            right: 60.w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        spreadRadius: 2,
+                                        blurRadius: 10,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ColorResources.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      getTranslated("NO").toUpperCase(),
+                                      style: const TextStyle(
+                                          color: ColorResources.redHealth,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        spreadRadius: 2,
+                                        blurRadius: 10,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: context
+                                                .watch<SosScreenModel>()
+                                                .sosStatus ==
+                                            SosStatus.loading
+                                        ? null
+                                        : onPressed,
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 15,
+                                      shadowColor: ColorResources.black,
+                                      backgroundColor: ColorResources.redHealth,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                    ),
+                                    child: context
+                                                .watch<SosScreenModel>()
+                                                .sosStatus ==
+                                            SosStatus.loading
+                                        ? const Text('.....',
+                                            style: TextStyle(
+                                                color: ColorResources.white,
+                                                fontSize:
+                                                    Dimensions.fontSizeLarge,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SF Pro'))
+                                        : Text(
+                                            titleYes ??
+                                                getTranslated("YES")
+                                                    .toUpperCase(),
+                                            style: const TextStyle(
+                                                color: ColorResources.white,
+                                                fontSize:
+                                                    Dimensions.fontSizeLarge,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SF Pro'),
+                                          ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            top: 0.0,
+                            left: 0.0,
+                            right: 0.0,
+                            child: Image.asset(
+                              image,
+                              width: 250.0,
+                              height: 250.0,
+                            ),
+                          ),
+                        ],
+                      ))
+                ]),
+          ),
         );
       },
     );

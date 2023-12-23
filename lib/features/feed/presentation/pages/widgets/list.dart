@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
+import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
+import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
@@ -112,11 +115,9 @@ class FeedList extends StatelessWidget {
                                   flex: 7,
                                   child: InkWell(
                                       onTap: () => NS.push(
-                                            context,
-                                            ClippedPhotoView(
-                                              image: fsm.feeds[i].user.avatar,
-                                            ),
-                                          ),
+                                          context,
+                                          ProfileViewScreen(
+                                              userId: fsm.feeds[i].user.uid)),
                                       child: imageAvatar(
                                           fsm.feeds[i].user.avatar, 25)),
                                 ),
@@ -176,7 +177,9 @@ class FeedList extends StatelessWidget {
                                                           FontWeight.w600,
                                                       fontFamily: 'SF Pro')),
                                               const SizedBox(width: 5.0),
-                                              Text(fsm.feeds[i].createdAt,
+                                              Text(
+                                                  DateHelper.formatDateTime(
+                                                      fsm.feeds[i].createdAt),
                                                   style: const TextStyle(
                                                       color: ColorResources
                                                           .greyDarkPrimary,
@@ -277,184 +280,28 @@ class FeedList extends StatelessWidget {
                                                   },
                                                   onSelected:
                                                       (String route) async {
-                                                    showAnimatedDialog(
-                                                      context,
-                                                      Dialog(
-                                                        child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 300,
-                                                          height: 200,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(10.0),
-                                                          decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color:
-                                                                      ColorResources
-                                                                          .black,
-                                                                  width: 2),
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .all(
-                                                                      Radius.circular(
-                                                                          20.0))),
-                                                          child: Stack(
-                                                            clipBehavior:
-                                                                Clip.none,
-                                                            children: [
-                                                              const Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  SizedBox(
-                                                                      height:
-                                                                          90.0),
-                                                                  Center(
-                                                                    child: Text(
-                                                                      "Are you sure you deleted it ?",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: TextStyle(
-                                                                          color: ColorResources
-                                                                              .black,
-                                                                          fontSize: Dimensions
-                                                                              .fontSizeExtraLarge,
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontFamily:
-                                                                              'SF Pro'),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Positioned(
-                                                                bottom: -45,
-                                                                child:
-                                                                    Container(
-                                                                  width:
-                                                                      MediaQuery.sizeOf(context).width >
-                                                                              400
-                                                                          ? 275
-                                                                          : 265,
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          8.0),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      ElevatedButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          NS.pop(
-                                                                              context);
-                                                                        },
-                                                                        style:
-                                                                            ButtonStyle(
-                                                                          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets
-                                                                              .symmetric(
-                                                                              vertical: 15,
-                                                                              horizontal: 40)),
-                                                                          backgroundColor:
-                                                                              MaterialStateProperty.all<Color>(ColorResources.pinkWoman),
-                                                                          shape:
-                                                                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                            RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(18.0),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        child:
-                                                                            Text(
-                                                                          getTranslated("NO")
-                                                                              .toUpperCase(),
-                                                                          style: const TextStyle(
-                                                                              color: ColorResources.white,
-                                                                              fontSize: Dimensions.fontSizeDefault,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontFamily: 'SF Pro'),
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          print(
-                                                                              "Click");
-                                                                          if (route ==
-                                                                              "/delete") {
-                                                                            await fsm.delete(feedId: fsm.feeds[i].uid);
-                                                                          }
-                                                                          NS.pop(
-                                                                              context);
-                                                                        },
-                                                                        style:
-                                                                            ButtonStyle(
-                                                                          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets
-                                                                              .symmetric(
-                                                                              vertical: 15,
-                                                                              horizontal: 40)),
-                                                                          backgroundColor:
-                                                                              MaterialStateProperty.all<Color>(ColorResources.redHealth),
-                                                                          shape:
-                                                                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                                            RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(18.0),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        child:
-                                                                            Text(
-                                                                          getTranslated("YES")
-                                                                              .toUpperCase(),
-                                                                          style: const TextStyle(
-                                                                              color: ColorResources.white,
-                                                                              fontSize: Dimensions.fontSizeDefault,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontFamily: 'SF Pro'),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Positioned(
-                                                                bottom: 110,
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Image.asset(
-                                                                      AssetsConst
-                                                                          .imageIcPopUpDelete,
-                                                                      width:
-                                                                          270,
-                                                                      height:
-                                                                          270,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
+                                                    GeneralModal
+                                                        .showConfirmModals(
+                                                      image: AssetsConst
+                                                          .imageIcPopUpDelete,
+                                                      msg:
+                                                          "Are you sure want to delete ?",
+                                                      onPressed: () async {
+                                                        if (route ==
+                                                            "/delete") {
+                                                          await fsm.delete(
+                                                              feedId: fsm
+                                                                  .feeds[i]
+                                                                  .uid);
+                                                        }
+                                                        NS.pop(context);
+                                                        ShowSnackbar.snackbar(
+                                                            context,
+                                                            "Successfully delete a post",
+                                                            '',
+                                                            ColorResources
+                                                                .success);
+                                                      },
                                                     );
                                                   },
                                                 )

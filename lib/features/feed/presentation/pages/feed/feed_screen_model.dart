@@ -32,7 +32,9 @@ class FeedScreenModel with ChangeNotifier {
 
   late TextEditingController searchC;
   late ScrollController countriesC;
-  late PanelController panelC;
+
+  PanelController panelC = PanelController();
+  late ScrollController sc;
 
   String branch = '';
   String search = '';
@@ -97,12 +99,11 @@ class FeedScreenModel with ChangeNotifier {
   Future<void> getFeedTag() async {
     setStateGetBranchStatus(GetBranchStatus.loading);
     try {
-      _branches = [];
       _branches.add(BranchData(
           uid: '5762f643-ba53-4ddd-bb4d-ccf319678de3', branch: 'All'));
       BranchModel bm = await fr.getFeedTag();
+      _branches = [];
       _branches.addAll(bm.data);
-      _branches.removeAt(1);
       setStateGetBranchStatus(GetBranchStatus.loaded);
       if (branches.isEmpty) {
         setStateGetBranchStatus(GetBranchStatus.empty);

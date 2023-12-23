@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
@@ -41,8 +42,9 @@ Widget profileCard({
               ),
             ),
             Positioned(
-              right: width < 400 ? 10 : 10,
-              top: width < 400 ? 60 : 60,
+              left: 145.0.w,
+              right: 10.0.w,
+              top: 50.h,
               child: SizedBox(
                 width: width < 400 ? 170 : 200,
                 child: Column(
@@ -71,14 +73,17 @@ Widget profileCard({
                     ),
                     context.read<ProfileProvider>().pd.country!.name !=
                             "Indonesia"
-                        ? Text(
-                            '${context.read<ProfileProvider>().pd.position?.toUpperCase()} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: ColorResources.white,
-                              fontSize: Dimensions.fontSizeDefault,
-                              fontFamily: 'SF Pro',
+                        ? FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              '${context.read<ProfileProvider>().pd.position?.toUpperCase()} PPI ${context.read<ProfileProvider>().pd.country!.name?.toUpperCase() ?? "-"}',
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: ColorResources.white,
+                                fontSize: Dimensions.fontSizeDefault,
+                                fontFamily: 'SF Pro',
+                              ),
                             ),
                           )
                         : const SizedBox(),
@@ -87,8 +92,9 @@ Widget profileCard({
               ),
             ),
             Positioned(
-              right: width < 400 ? 10 : 10,
-              bottom: 20,
+              left: 145.0.w,
+              right: 10.0.w,
+              bottom: 20.h,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

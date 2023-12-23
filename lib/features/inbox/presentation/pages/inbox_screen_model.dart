@@ -41,20 +41,22 @@ class InboxScreenModel with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  Future<void> loadMoreInbox() async {
+  Future<void> loadMoreInbox({String? type}) async {
     pageKey++;
     InboxModel im = await ir.getInbox(
-        pageKey: pageKey, type: "sos", userId: SharedPrefs.getUserId());
+        pageKey: pageKey, type: type ?? "sos", userId: SharedPrefs.getUserId());
     _id.addAll(im.data!);
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  Future<void> getInboxes() async {
+  Future<void> getInboxes({String? type}) async {
     pageKey = 1;
 
     try {
       InboxModel im = await ir.getInbox(
-          pageKey: pageKey, type: "sos", userId: SharedPrefs.getUserId());
+          pageKey: pageKey,
+          type: type ?? "sos",
+          userId: SharedPrefs.getUserId());
       _id = [];
       _id.addAll(im.data!);
       setStateInboxStatus(InboxStatus.loaded);
@@ -95,11 +97,12 @@ class InboxScreenModel with ChangeNotifier {
     }
   }
 
-  Future<void> inboxDetail({required String inboxId}) async {
+  Future<void> inboxDetail(
+      {required String inboxId, required String type}) async {
     try {
       await ir.updateInbox(inboxId: inboxId, userId: SharedPrefs.getUserId());
       getReadCount();
-      getInboxes();
+      getInboxes(type: type);
     } on CustomException catch (e) {
       debugPrint(e.toString());
     } catch (_) {}

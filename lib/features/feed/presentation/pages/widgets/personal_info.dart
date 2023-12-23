@@ -51,44 +51,31 @@ class FeedPersonalInfo extends StatelessWidget {
                           )
                         : Stack(
                             children: [
-                              InkWell(
-                                onTap: () => NS.push(
-                                  context,
-                                  ClippedPhotoView(
-                                    image: context
-                                        .read<ProfileProvider>()
-                                        .pd
-                                        .avatar!,
-                                  ),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: context
-                                      .read<ProfileProvider>()
-                                      .pd
-                                      .avatar!,
-                                  imageBuilder: (BuildContext context,
-                                      ImageProvider<Object> imageProvider) {
-                                    return CircleAvatar(
-                                      radius: 60.0,
-                                      backgroundImage: imageProvider,
-                                    );
-                                  },
-                                  placeholder:
-                                      (BuildContext context, String url) {
-                                    return const CircleAvatar(
-                                      radius: 60.0,
-                                      backgroundColor: Color(0xFF637687),
-                                    );
-                                  },
-                                  errorWidget: (BuildContext context,
-                                      String url, dynamic error) {
-                                    return const CircleAvatar(
-                                      radius: 60.0,
-                                      backgroundImage: AssetImage(
-                                          'assets/images/default/ava.jpg'),
-                                    );
-                                  },
-                                ),
+                              CachedNetworkImage(
+                                imageUrl:
+                                    context.read<ProfileProvider>().pd.avatar!,
+                                imageBuilder: (BuildContext context,
+                                    ImageProvider<Object> imageProvider) {
+                                  return CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundImage: imageProvider,
+                                  );
+                                },
+                                placeholder:
+                                    (BuildContext context, String url) {
+                                  return const CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundColor: Color(0xFF637687),
+                                  );
+                                },
+                                errorWidget: (BuildContext context, String url,
+                                    dynamic error) {
+                                  return const CircleAvatar(
+                                    radius: 60.0,
+                                    backgroundImage: AssetImage(
+                                        'assets/images/default/ava.jpg'),
+                                  );
+                                },
                               ),
                               Positioned(
                                 right: 18.0,

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
+import 'package:ppidunia/services/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 
-import 'package:ppidunia/views/basewidgets/dialog/animated/animated.dart';
-
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_screen_model.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_state.dart';
+
+int index = 0;
+String type = "sos";
 
 class InboxScreenState extends State<InboxScreen> {
   late InboxScreenModel ism;
@@ -21,7 +24,7 @@ class InboxScreenState extends State<InboxScreen> {
     ism = context.read<InboxScreenModel>();
 
     if (mounted) {
-      ism.getInboxes();
+      ism.getInboxes(type: type);
     }
   }
 
@@ -36,6 +39,8 @@ class InboxScreenState extends State<InboxScreen> {
   }
 
   Widget buildUI() {
+    print('Index : $index');
+    print('Type : $type');
     return Scaffold(
         backgroundColor: ColorResources.bgSecondaryColor,
         body: LayoutBuilder(
@@ -43,7 +48,7 @@ class InboxScreenState extends State<InboxScreen> {
             return RefreshIndicator(
                 onRefresh: () {
                   return Future.sync(() {
-                    ism.getInboxes();
+                    ism.getInboxes(type: type);
                   });
                 },
                 child: NotificationListener(
@@ -51,7 +56,7 @@ class InboxScreenState extends State<InboxScreen> {
                     if (notification is ScrollEndNotification) {
                       if (notification.metrics.pixels ==
                           notification.metrics.maxScrollExtent) {
-                        ism.loadMoreInbox();
+                        ism.loadMoreInbox(type: type);
                       }
                     }
                     return false;
@@ -89,12 +94,18 @@ class InboxScreenState extends State<InboxScreen> {
                                           color: ColorResources.white),
                                       color: ColorResources.transparent),
                                   child: Material(
-                                    color: Colors.transparent,
+                                    color: index == 0
+                                        ? Colors.white
+                                        : Colors.transparent,
                                     child: InkWell(
                                       onTap: () {
+                                        setState(() {
+                                          index = 0;
+                                          type = "sos";
+                                        });
                                         ism.getInboxes();
                                       },
-                                      child: const Padding(
+                                      child: Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text(
                                           "SOS",
@@ -102,7 +113,9 @@ class InboxScreenState extends State<InboxScreen> {
                                           style: TextStyle(
                                               fontSize:
                                                   Dimensions.fontSizeDefault,
-                                              color: ColorResources.white),
+                                              color: index == 0
+                                                  ? ColorResources.black
+                                                  : ColorResources.white),
                                         ),
                                       ),
                                     ),
@@ -118,14 +131,20 @@ class InboxScreenState extends State<InboxScreen> {
                                     border: Border.all(
                                         width: 1.5,
                                         color: ColorResources.white),
-                                    color: ColorResources.transparent),
+                                    color: index == 1
+                                        ? Colors.white
+                                        : Colors.transparent),
                                 child: Material(
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
-                                      ism.getInboxesBroadcast();
+                                      setState(() {
+                                        index = 1;
+                                        type = "default";
+                                      });
+                                      ism.getInboxes(type: type);
                                     },
-                                    child: const Padding(
+                                    child: Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Text(
                                         "Broadcast",
@@ -133,7 +152,9 @@ class InboxScreenState extends State<InboxScreen> {
                                         style: TextStyle(
                                             fontSize:
                                                 Dimensions.fontSizeDefault,
-                                            color: ColorResources.white),
+                                            color: index == 1
+                                                ? ColorResources.black
+                                                : ColorResources.white),
                                       ),
                                     ),
                                   ),
@@ -204,152 +225,21 @@ class InboxScreenState extends State<InboxScreen> {
                                         borderRadius:
                                             BorderRadius.circular(12.0),
                                         onTap: () async {
-                                          showAnimatedDialog(
-                                              context,
-                                              Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        const SizedBox(
-                                                            height: 20.0),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Text(
-                                                              ism.id[i].user!
-                                                                  .name!,
-                                                              style: const TextStyle(
-                                                                  color: ColorResources
-                                                                      .greyDarkPrimary,
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeLarge,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontFamily:
-                                                                      'SF Pro'),
-                                                            ),
-                                                            const SizedBox(
-                                                                height: 10.0),
-                                                            Text(
-                                                              ism.id[i].user!
-                                                                  .email!,
-                                                              style: const TextStyle(
-                                                                  color: ColorResources
-                                                                      .greyDarkPrimary,
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeLarge,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontFamily:
-                                                                      'SF Pro'),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 30.0),
-                                                        // Container(
-                                                        //   margin:
-                                                        //       const EdgeInsets
-                                                        //           .only(
-                                                        //           left: 15.0,
-                                                        //           right: 15.0),
-                                                        //   child: Row(
-                                                        //     mainAxisAlignment:
-                                                        //         MainAxisAlignment
-                                                        //             .end,
-                                                        //     mainAxisSize:
-                                                        //         MainAxisSize
-                                                        //             .max,
-                                                        //     children: [
-                                                        //       InkWell(
-                                                        //         onTap:
-                                                        //             () async {
-                                                        //           if (Platform
-                                                        //               .isAndroid) {
-                                                        //             Uri uri = Uri
-                                                        //                 .parse(
-                                                        //                     "google.navigation:q=${ism.id[i].lat},${ism.id[i].lng}&mode=d");
-                                                        //             if (await canLaunchUrl(
-                                                        //                 uri)) {
-                                                        //               await launchUrl(
-                                                        //                   uri);
-                                                        //             } else {
-                                                        //               throw 'Could not launch ${uri.toString()}';
-                                                        //             }
-                                                        //           } else {
-                                                        //             String
-                                                        //                 urlAppleMaps =
-                                                        //                 'https://maps.apple.com/?q=${ism.id[i].lat},${ism.id[i].lng}';
-                                                        //             String url =
-                                                        //                 'comgooglemaps://?saddr=&daddr=${ism.id[i].lat},${ism.id[i].lng}&directionsmode=driving';
-                                                        //             if (await canLaunchUrl(
-                                                        //                 Uri.parse(
-                                                        //                     url))) {
-                                                        //               await launchUrl(
-                                                        //                   Uri.parse(
-                                                        //                       url));
-                                                        //             } else if (await canLaunchUrl(
-                                                        //                 Uri.parse(
-                                                        //                     urlAppleMaps))) {
-                                                        //               await launchUrl(
-                                                        //                   Uri.parse(
-                                                        //                       urlAppleMaps));
-                                                        //             } else {
-                                                        //               throw 'Could not launch $url';
-                                                        //             }
-                                                        //           }
-                                                        //         },
-                                                        //         child: Padding(
-                                                        //           padding:
-                                                        //               const EdgeInsets
-                                                        //                   .all(
-                                                        //                   8.0),
-                                                        //           child: Text(
-                                                        //             getTranslated(
-                                                        //                 "LOOK_ON_THE_MAP"),
-                                                        //             style: const TextStyle(
-                                                        //                 color: ColorResources
-                                                        //                     .greyDarkPrimary,
-                                                        //                 fontSize:
-                                                        //                     Dimensions
-                                                        //                         .fontSizeLarge,
-                                                        //                 fontWeight:
-                                                        //                     FontWeight
-                                                        //                         .w400,
-                                                        //                 fontFamily:
-                                                        //                     'SF Pro'),
-                                                        //           ),
-                                                        //         ),
-                                                        //       ),
-                                                        //     ],
-                                                        //   ),
-                                                        // )
-                                                      ],
-                                                    ),
-                                                  )));
-
+                                          NS.push(
+                                            context,
+                                            DetailInbox(
+                                              type: type,
+                                              title: ism.id[i].title ?? "-",
+                                              name: ism.id[i].user!.name ?? "-",
+                                              date: ism.id[i].createdAt!,
+                                              description:
+                                                  ism.id[i].description!,
+                                            ),
+                                          );
                                           await ism.inboxDetail(
-                                              inboxId: ism.id[i].id!);
+                                            inboxId: ism.id[i].id!,
+                                            type: type,
+                                          );
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(16.0),

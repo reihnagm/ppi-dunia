@@ -170,6 +170,7 @@ flutter:
     - assets/images/background/
     - assets/images/logo/
     - assets/images/onboarding/
+    - assets/lottie/
   
   fonts:
     - family: SF Pro
