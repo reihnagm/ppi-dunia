@@ -6,11 +6,13 @@ import 'package:ppidunia/common/extensions/snackbar.dart';
 
 dynamic currentBackPressTime;
 
-Future<bool> willPopScope(BuildContext context)  {
+Future<bool> willPopScope(BuildContext context) {
   DateTime now = DateTime.now();
-  if (currentBackPressTime == null || now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
+  if (currentBackPressTime == null ||
+      now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
     currentBackPressTime = now;
-    ShowSnackbar.snackbar(context, getTranslated("PRESS_TWICE_BACK"), "", ColorResources.black);
+    ShowSnackbar.snackbar(
+        context, getTranslated("PRESS_TWICE_BACK"), "", ColorResources.black);
     return Future.value(false);
   }
   SystemNavigator.pop();

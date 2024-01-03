@@ -289,7 +289,7 @@ Widget postCard({
                                                 image: DecorationImage(
                                                     alignment:
                                                         Alignment.centerLeft,
-                                                    fit: BoxFit.contain,
+                                                    fit: BoxFit.cover,
                                                     image: AssetImage(
                                                         AssetsConst
                                                             .imageDefault))),
@@ -302,7 +302,7 @@ Widget postCard({
                                                 image: DecorationImage(
                                                     alignment:
                                                         Alignment.centerLeft,
-                                                    fit: BoxFit.contain,
+                                                    fit: BoxFit.cover,
                                                     image: AssetImage(
                                                         AssetsConst
                                                             .imageDefault))),
@@ -348,6 +348,8 @@ Widget postCard({
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 14.0, vertical: 10.0),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 14.0, vertical: 12.0),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0),
                                 color: ColorResources.greyDarkPrimary),

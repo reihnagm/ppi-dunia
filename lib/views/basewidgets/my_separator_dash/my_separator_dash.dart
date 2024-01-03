@@ -4,7 +4,8 @@ class MySeparatorDash extends StatelessWidget {
   final double height;
   final Color color;
 
-  const MySeparatorDash({Key? key, this.height = 1, this.color = Colors.black}) : super(key: key);
+  const MySeparatorDash({Key? key, this.height = 1, this.color = Colors.black})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

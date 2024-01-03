@@ -9,8 +9,10 @@ class SquareLoader extends StatefulWidget {
     this.itemBuilder,
     this.duration = const Duration(milliseconds: 500),
     this.controller,
-  })  : assert(!(itemBuilder is IndexedWidgetBuilder && color is Color) && !(itemBuilder == null && color == null),
-  'You should specify either a itemBuilder or a color'),
+  })  : assert(
+            !(itemBuilder is IndexedWidgetBuilder && color is Color) &&
+                !(itemBuilder == null && color == null),
+            'You should specify either a itemBuilder or a color'),
         assert(size != null),
         super(key: key);
 
@@ -24,7 +26,8 @@ class SquareLoader extends StatefulWidget {
   _SquareLoaderState createState() => _SquareLoaderState();
 }
 
-class _SquareLoaderState extends State<SquareLoader> with SingleTickerProviderStateMixin {
+class _SquareLoaderState extends State<SquareLoader>
+    with SingleTickerProviderStateMixin {
   AnimationController? controller;
   Animation<double>? animationCurve;
   Animation<double>? animationSize;
@@ -33,10 +36,12 @@ class _SquareLoaderState extends State<SquareLoader> with SingleTickerProviderSt
   void initState() {
     super.initState();
 
-    controller = (widget.controller ?? AnimationController(vsync: this, duration: widget.duration))
+    controller = (widget.controller ??
+        AnimationController(vsync: this, duration: widget.duration))
       ..addListener(() => setState(() {}))
       ..repeat(reverse: true);
-    final animation = CurvedAnimation(parent: controller!, curve: Curves.easeInOutCubic);
+    final animation =
+        CurvedAnimation(parent: controller!, curve: Curves.easeInOutCubic);
     animationCurve = Tween(begin: 1.0, end: 0.0).animate(animation);
     animationSize = Tween(begin: 0.5, end: 1.0).animate(animation);
   }
@@ -62,12 +67,13 @@ class _SquareLoaderState extends State<SquareLoader> with SingleTickerProviderSt
     );
   }
 
-  Widget _itemBuilder(int index, double curveValue) => widget.itemBuilder != null
-      ? widget.itemBuilder!(context, index)
-      : DecoratedBox(
-    decoration: BoxDecoration(
-      color: widget.color,
-      borderRadius: BorderRadius.all(Radius.circular(curveValue)),
-    ),
-  );
+  Widget _itemBuilder(int index, double curveValue) =>
+      widget.itemBuilder != null
+          ? widget.itemBuilder!(context, index)
+          : DecoratedBox(
+              decoration: BoxDecoration(
+                color: widget.color,
+                borderRadius: BorderRadius.all(Radius.circular(curveValue)),
+              ),
+            );
 }

@@ -14,10 +14,8 @@ import 'package:ppidunia/views/basewidgets/appbar/custom.dart';
 class WebViewScreen extends StatefulWidget {
   final String title;
   final String url;
-  const WebViewScreen({Key? key, 
-    required this.url, 
-    required this.title
-  }) : super(key: key);
+  const WebViewScreen({Key? key, required this.url, required this.title})
+      : super(key: key);
 
   @override
   _WebViewScreenState createState() => _WebViewScreenState();
@@ -44,7 +42,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
-  @override 
+  @override
   void dispose() {
     super.dispose();
   }
@@ -61,7 +59,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
               Expanded(
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -72,17 +69,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       userAgent: ApiConsts.mobileUa,
                       gestureNavigationEnabled: true,
                       onWebViewCreated: (WebViewController webViewController) {
-                        controller.future.then((value) => controllerGlobal = value);
+                        controller.future
+                            .then((value) => controllerGlobal = value);
                         controller.complete(webViewController);
                       },
-                      navigationDelegate: (NavigationRequest request) async {             
+                      navigationDelegate: (NavigationRequest request) async {
                         if (request.url.contains('tel:')) {
                           await launch(request.url);
                           return NavigationDecision.prevent;
-                        } else if(request.url.contains('whatsapp:')) {
+                        } else if (request.url.contains('whatsapp:')) {
                           await launch(request.url);
-                          return NavigationDecision.prevent; 
-                        } else if(request.url.contains('mailto:')) {
+                          return NavigationDecision.prevent;
+                        } else if (request.url.contains('mailto:')) {
                           await launch(request.url);
                           return NavigationDecision.prevent;
                         }
@@ -95,12 +93,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
                         setState(() => isLoading = false);
                       },
                     ),
-                    isLoading 
-                    ? const Center(
-                      child: SquareLoader(
-                        color: ColorResources.primary
-                      ),
-                    ) : const SizedBox.shrink(),
+                    isLoading
+                        ? const Center(
+                            child: SquareLoader(color: ColorResources.primary),
+                          )
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -112,7 +109,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   Future<bool> exitApp() async {
-    if(controllerGlobal != null) {
+    if (controllerGlobal != null) {
       if (await controllerGlobal!.canGoBack()) {
         controllerGlobal!.goBack();
         return Future.value(false);

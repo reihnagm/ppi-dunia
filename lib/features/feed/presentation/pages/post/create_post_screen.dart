@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/photo_view_assets.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -385,7 +386,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                     ProfileStatus.empty
                                                 ? const SizedBox()
                                                 : SizedBox(
-                                                    width: 150,
+                                                    width: 100,
                                                     child: Text(
                                                       context
                                                           .read<
@@ -417,137 +418,141 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                 ? Container()
                                                 : Flexible(
                                                     child: IntrinsicWidth(
-                                                      child: ConstrainedBox(
-                                                        constraints:
-                                                            const BoxConstraints(
-                                                                maxWidth: 250),
-                                                        child:
-                                                            DropdownButtonFormField<
-                                                                String>(
-                                                          style: const TextStyle(
-                                                              fontSize: Dimensions
-                                                                  .fontSizeDefault,
-                                                              color:
-                                                                  ColorResources
-                                                                      .black),
-                                                          decoration:
-                                                              const InputDecoration(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                    8.0),
-                                                            isDense: true,
-                                                            border: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: ColorResources
-                                                                        .greyLightPrimary),
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            30.0))),
-                                                            focusedBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: ColorResources
-                                                                        .greyLightPrimary),
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            30.0))),
-                                                            enabledBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: ColorResources
-                                                                        .greyLightPrimary),
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            30.0))),
-                                                            errorBorder: OutlineInputBorder(
-                                                                borderSide: BorderSide(
-                                                                    color: ColorResources
-                                                                        .greyLightPrimary),
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            30.0))),
-                                                            prefixIcon: Padding(
-                                                              padding:
+                                                      child: SizedBox(
+                                                        width: 200,
+                                                        child: ConstrainedBox(
+                                                          constraints:
+                                                              const BoxConstraints(
+                                                                  maxWidth:
+                                                                      250),
+                                                          child:
+                                                              DropdownButtonFormField<
+                                                                  String>(
+                                                            style: const TextStyle(
+                                                                fontSize: Dimensions
+                                                                    .fontSizeDefault,
+                                                                color:
+                                                                    ColorResources
+                                                                        .black),
+                                                            decoration:
+                                                                const InputDecoration(
+                                                              contentPadding:
                                                                   EdgeInsets
-                                                                      .all(
-                                                                          10.0),
-                                                              child: Image(
-                                                                image: AssetImage(
-                                                                    AssetsConst
-                                                                        .imageIcEarth),
-                                                                height: 0.0,
-                                                                width: 0.0,
+                                                                      .all(8.0),
+                                                              isDense: true,
+                                                              border: OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      color: ColorResources
+                                                                          .greyLightPrimary),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              30.0))),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      color: ColorResources
+                                                                          .greyLightPrimary),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              30.0))),
+                                                              enabledBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      color: ColorResources
+                                                                          .greyLightPrimary),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              30.0))),
+                                                              errorBorder: OutlineInputBorder(
+                                                                  borderSide: BorderSide(
+                                                                      color: ColorResources
+                                                                          .greyLightPrimary),
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              30.0))),
+                                                              prefixIcon:
+                                                                  Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            10.0),
+                                                                child: Image(
+                                                                  image: AssetImage(
+                                                                      AssetsConst
+                                                                          .imageIcEarth),
+                                                                  height: 0.0,
+                                                                  width: 0.0,
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                          icon: const Icon(
-                                                            Icons
-                                                                .arrow_drop_down,
-                                                            size: 25.0,
-                                                            color: ColorResources
-                                                                .greyLightPrimary,
-                                                          ),
-                                                          onChanged:
-                                                              (String? value) {
-                                                            c.onSelectBranch(
-                                                                value!);
-                                                          },
-                                                          value: c.selectedBranch ==
-                                                                  'Anyone'
-                                                              ? getTranslated(
-                                                                  "ANYONE")
-                                                              : c.selectedBranch ==
-                                                                      'Semuanya'
-                                                                  ? getTranslated(
-                                                                      "ANYONE")
-                                                                  : c.selectedBranch,
-                                                          selectedItemBuilder:
-                                                              (BuildContext
-                                                                  context) {
-                                                            return c.branches
-                                                                .map((String
-                                                                    value) {
-                                                              return Center(
-                                                                child: Text(
-                                                                  c.selectedBranch ==
-                                                                          'Anyone'
-                                                                      ? getTranslated(
-                                                                          "ANYONE")
-                                                                      : c.selectedBranch ==
-                                                                              'Semuanya'
-                                                                          ? getTranslated(
-                                                                              "ANYONE")
-                                                                          : c.selectedBranch,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        Dimensions
-                                                                            .fontSizeDefault,
-                                                                    fontFamily:
-                                                                        'SF Pro',
-                                                                    color: ColorResources
-                                                                        .greyLightPrimary,
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              size: 25.0,
+                                                              color: ColorResources
+                                                                  .greyLightPrimary,
+                                                            ),
+                                                            onChanged: (String?
+                                                                value) {
+                                                              c.onSelectBranch(
+                                                                  value!);
+                                                            },
+                                                            value: c.selectedBranch ==
+                                                                    'Anyone'
+                                                                ? getTranslated(
+                                                                    "ANYONE")
+                                                                : c.selectedBranch ==
+                                                                        'Semuanya'
+                                                                    ? getTranslated(
+                                                                        "ANYONE")
+                                                                    : c.selectedBranch,
+                                                            selectedItemBuilder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return c.branches
+                                                                  .map((String
+                                                                      value) {
+                                                                return Center(
+                                                                  child: Text(
+                                                                    c.selectedBranch ==
+                                                                            'Anyone'
+                                                                        ? getTranslated(
+                                                                            "ANYONE")
+                                                                        : c.selectedBranch ==
+                                                                                'Semuanya'
+                                                                            ? getTranslated("ANYONE")
+                                                                            : c.selectedBranch,
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          Dimensions
+                                                                              .fontSizeSmall,
+                                                                      fontFamily:
+                                                                          'SF Pro',
+                                                                      color: ColorResources
+                                                                          .greyLightPrimary,
+                                                                    ),
                                                                   ),
-                                                                ),
+                                                                );
+                                                              }).toList();
+                                                            },
+                                                            items: c.branches.map<
+                                                                DropdownMenuItem<
+                                                                    String>>((String
+                                                                value) {
+                                                              return DropdownMenuItem<
+                                                                  String>(
+                                                                value: value,
+                                                                child: Text(value ==
+                                                                        'Anyone'
+                                                                    ? getTranslated(
+                                                                        'ANYONE')
+                                                                    : value),
                                                               );
-                                                            }).toList();
-                                                          },
-                                                          items: c.branches.map<
-                                                              DropdownMenuItem<
-                                                                  String>>((String
-                                                              value) {
-                                                            return DropdownMenuItem<
-                                                                String>(
-                                                              value: value,
-                                                              child: Text(value ==
-                                                                      'Anyone'
-                                                                  ? getTranslated(
-                                                                      'ANYONE')
-                                                                  : value),
-                                                            );
-                                                          }).toList(),
+                                                            }).toList(),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -585,7 +590,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                           if (cpm.isImage != null && cpm.pickedFile.length == 1)
                             Container(
                                 width: double.infinity,
-                                height: 180.0,
+                                height: 200.0,
                                 margin: const EdgeInsets.only(
                                   top: 15.0,
                                   left: 20.0,
@@ -593,53 +598,125 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.file(
-                                    File(cpm.pickedFile[0].path),
-                                    alignment: Alignment.centerLeft,
-                                    fit: BoxFit.cover,
+                                  child: InkWell(
+                                    onTap: () => NS.push(
+                                      context,
+                                      PhotoViewAssets(
+                                        image: cpm.pickedFile[0],
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      fit: StackFit.expand,
+                                      children: [
+                                        Image.file(
+                                          File(cpm.pickedFile[0].path),
+                                          alignment: Alignment.centerLeft,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Positioned(
+                                          top: 10,
+                                          right: 10,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(
+                                                () =>
+                                                    cpm.pickedFile.removeAt(0),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 35,
+                                              height: 35,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white
+                                                    .withOpacity(0.20),
+                                              ),
+                                              child: const Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                                size: 20.0,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 )),
                           if (cpm.isImage != null && cpm.pickedFile.length > 1)
-                            Container(
-                              width: double.infinity,
-                              height: 180.0,
-                              margin: const EdgeInsets.only(
-                                top: 15.0,
-                              ),
-                              child: CarouselSlider.builder(
-                                  options: CarouselOptions(
-                                      autoPlay: false,
+                            CarouselSlider.builder(
+                                options: CarouselOptions(
+                                    autoPlay: false,
+                                    height: 180.0,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 1.0,
+                                    enlargeStrategy:
+                                        CenterPageEnlargeStrategy.scale,
+                                    onPageChanged: (int i,
+                                        CarouselPageChangedReason reason) {
+                                      cpm.onChangeCurrentMultipleImg(i);
+                                    }),
+                                itemCount: cpm.pickedFile.length,
+                                itemBuilder:
+                                    (BuildContext context, int i, int z) {
+                                  return Container(
+                                      width: double.infinity,
                                       height: 180.0,
-                                      enlargeCenterPage: true,
-                                      viewportFraction: 1.0,
-                                      enlargeStrategy:
-                                          CenterPageEnlargeStrategy.scale,
-                                      onPageChanged: (int i,
-                                          CarouselPageChangedReason reason) {
-                                        cpm.onChangeCurrentMultipleImg(i);
-                                      }),
-                                  itemCount: cpm.pickedFile.length,
-                                  itemBuilder:
-                                      (BuildContext context, int i, int z) {
-                                    return Container(
-                                        width: double.infinity,
-                                        height: 180.0,
-                                        margin: const EdgeInsets.only(
-                                          top: 15.0,
-                                          left: 20.0,
-                                          right: 20.0,
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.file(
-                                            File(cpm.pickedFile[i].path),
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.cover,
+                                      margin: const EdgeInsets.only(
+                                        top: 15.0,
+                                        left: 20.0,
+                                        right: 20.0,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: InkWell(
+                                          onTap: () => NS.push(
+                                            context,
+                                            PhotoViewAssets(
+                                              image: cpm.pickedFile[i],
+                                            ),
                                           ),
-                                        ));
-                                  }),
-                            ),
+                                          child: Stack(
+                                            fit: StackFit.expand,
+                                            children: [
+                                              Image.file(
+                                                File(cpm.pickedFile[i].path),
+                                                alignment: Alignment.centerLeft,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Positioned(
+                                                top: 10,
+                                                right: 10,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(
+                                                      () => cpm.pickedFile
+                                                          .removeAt(i),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: 35,
+                                                    height: 35,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: Colors.white
+                                                          .withOpacity(0.20),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.delete,
+                                                      color: Colors.white,
+                                                      size: 20.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                                }),
                           if (cpm.isImage != null && cpm.pickedFile.length > 1)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -661,13 +738,51 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                             ),
                           if (cpm.videoFile != null)
                             Container(
+                              alignment: Alignment.center,
                               width: double.infinity,
-                              margin:
-                                  const EdgeInsets.only(top: 15.0, left: 20.0),
-                              child: Image.memory(
-                                cpm.videoFileThumbnail!,
-                                height: 180.0,
-                                alignment: Alignment.centerLeft,
+                              margin: const EdgeInsets.only(
+                                top: 15.0,
+                                left: 20.0,
+                                right: 20.0,
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.memory(
+                                      cpm.videoFileThumbnail!,
+                                      width: double.infinity,
+                                      height: 200.0,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 10,
+                                    right: 10,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          cpm.videoFile = null;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 35,
+                                        height: 35,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white.withOpacity(0.20),
+                                        ),
+                                        child: const Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                          size: 20.0,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           if (cpm.videoFile != null)
@@ -684,12 +799,14 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                             fontWeight: FontWeight.w600,
                                             fontFamily: 'SF Pro')),
                                     const SizedBox(width: 8.0),
-                                    Text(cpm.videoSize.toString(),
-                                        style: const TextStyle(
-                                            color: ColorResources.white,
-                                            fontSize: Dimensions.fontSizeLarge,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SF Pro')),
+                                    Text(
+                                      cpm.videoSize.toString(),
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
+                                    ),
                                   ],
                                 )),
                           if (cpm.docFile != null)
@@ -705,12 +822,38 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(cpm.docName.toString(),
-                                        style: const TextStyle(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 300,
+                                          child: Text(
+                                              cpm.docName
+                                                  .toString()
+                                                  .replaceAll("%23", " "),
+                                              style: const TextStyle(
+                                                  color: ColorResources.white,
+                                                  fontSize:
+                                                      Dimensions.fontSizeLarge,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SF Pro')),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              cpm.docFile = null;
+                                            });
+                                          },
+                                          child: const Icon(
+                                            Icons.delete,
                                             color: ColorResources.white,
-                                            fontSize: Dimensions.fontSizeLarge,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SF Pro')),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                     const SizedBox(height: 6.0),
                                     Row(
                                       children: [

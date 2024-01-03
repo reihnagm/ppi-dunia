@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:linkfy_text/linkfy_text.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
@@ -13,6 +14,7 @@ import 'package:ppidunia/views/basewidgets/dialog/animated/animated.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ppidunia/views/webview/webview.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -308,6 +310,39 @@ class FeedList extends StatelessWidget {
                                               : const SizedBox()
                                         ],
                                       ),
+                                      // LinkifyText(fsm.feeds[i].caption,
+                                      //     overflow: TextOverflow.ellipsis,
+                                      //     maxLines: 4,
+                                      //     textStyle: const TextStyle(
+                                      //         color: ColorResources.hintColor,
+                                      //         fontSize:
+                                      //             Dimensions.fontSizeDefault,
+                                      //         fontFamily: 'SF Pro'),
+                                      //     linkStyle: const TextStyle(
+                                      //         color: Colors.blue),
+                                      //     linkTypes: const [
+                                      //       LinkType.url,
+                                      //       LinkType.userTag,
+                                      //       LinkType.hashTag,
+                                      //       LinkType.email
+                                      //     ], onTap: (link) {
+                                      //   if (link.type == LinkType.email) {
+                                      //     print("email pressed");
+                                      //   } else if (link.type == LinkType.url) {
+                                      //     NS.push(
+                                      //       context,
+                                      //       WebViewScreen(
+                                      //           title: link.value.toString(),
+                                      //           url: link.value.toString()),
+                                      //     );
+                                      //   } else if (link.type ==
+                                      //       LinkType.userTag) {
+                                      //     print("@mention pressed");
+                                      //   } else if (link.type ==
+                                      //       LinkType.hashTag) {
+                                      //     print("#hashtag pressed");
+                                      //   }
+                                      // }),
                                       Text(
                                         fsm.feeds[i].caption,
                                         overflow: TextOverflow.ellipsis,
@@ -390,7 +425,7 @@ class FeedList extends StatelessWidget {
                                                   image: DecorationImage(
                                                       alignment:
                                                           Alignment.centerLeft,
-                                                      fit: BoxFit.contain,
+                                                      fit: BoxFit.cover,
                                                       image: AssetImage(
                                                           AssetsConst
                                                               .imageDefault))),
@@ -403,7 +438,7 @@ class FeedList extends StatelessWidget {
                                                   image: DecorationImage(
                                                       alignment:
                                                           Alignment.centerLeft,
-                                                      fit: BoxFit.contain,
+                                                      fit: BoxFit.cover,
                                                       image: AssetImage(
                                                           AssetsConst
                                                               .imageDefault))),
@@ -450,6 +485,8 @@ class FeedList extends StatelessWidget {
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 14.0, vertical: 10.0),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 14.0, vertical: 12.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: ColorResources.greyDarkPrimary),

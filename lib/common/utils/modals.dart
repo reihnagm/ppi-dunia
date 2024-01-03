@@ -167,62 +167,72 @@ class GeneralModal {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorResources.pinkWoman),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color: ColorResources.black,
-                                          width: 2,
-                                        ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        spreadRadius: 4,
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 3),
+                                      )
+                                    ],
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ColorResources.pinkWoman,
+                                      shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(18.0),
                                       ),
                                     ),
-                                  ),
-                                  child: Text(
-                                    getTranslated("NO").toUpperCase(),
-                                    style: const TextStyle(
-                                        color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'SF Pro'),
+                                    child: Text(
+                                      getTranslated("NO").toUpperCase(),
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
+                                    ),
                                   ),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorResources.redHealth),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          color: ColorResources.black,
-                                          width: 2,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0),
                                     ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        spreadRadius: 4,
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 3),
+                                      )
+                                    ],
                                   ),
-                                  child: Text(
-                                    getTranslated("YES").toUpperCase(),
-                                    style: const TextStyle(
-                                        color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'SF Pro'),
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              ColorResources.redHealth),
+                                    ),
+                                    child: Text(
+                                      getTranslated("YES").toUpperCase(),
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -313,36 +323,54 @@ class GeneralModal {
                                       ),
                                     ],
                                   ),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: ColorResources.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(20.0),
                                       ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 4,
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 3),
+                                        )
+                                      ],
                                     ),
-                                    child: Text(
-                                      getTranslated("NO").toUpperCase(),
-                                      style: const TextStyle(
-                                          color: ColorResources.redHealth,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: ColorResources.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        getTranslated("NO").toUpperCase(),
+                                        style: const TextStyle(
+                                            color: ColorResources.redHealth,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro'),
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                    boxShadow: <BoxShadow>[
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(20.0),
+                                    ),
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 2,
+                                        spreadRadius: 4,
                                         blurRadius: 10,
-                                        offset: Offset(0, 3),
-                                      ),
+                                        offset: const Offset(0, 3),
+                                      )
                                     ],
                                   ),
                                   child: ElevatedButton(
@@ -352,37 +380,24 @@ class GeneralModal {
                                             SosStatus.loading
                                         ? null
                                         : onPressed,
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 15,
-                                      shadowColor: ColorResources.black,
-                                      backgroundColor: ColorResources.redHealth,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              ColorResources.redHealth),
                                     ),
-                                    child: context
-                                                .watch<SosScreenModel>()
-                                                .sosStatus ==
-                                            SosStatus.loading
-                                        ? const Text('.....',
-                                            style: TextStyle(
-                                                color: ColorResources.white,
-                                                fontSize:
-                                                    Dimensions.fontSizeLarge,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'SF Pro'))
-                                        : Text(
-                                            titleYes ??
-                                                getTranslated("YES")
-                                                    .toUpperCase(),
-                                            style: const TextStyle(
-                                                color: ColorResources.white,
-                                                fontSize:
-                                                    Dimensions.fontSizeLarge,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'SF Pro'),
-                                          ),
+                                    child: Text(
+                                      context
+                                                  .watch<SosScreenModel>()
+                                                  .sosStatus ==
+                                              SosStatus.loading
+                                          ? "..."
+                                          : getTranslated("YES").toUpperCase(),
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
+                                    ),
                                   ),
                                 ),
                               ],

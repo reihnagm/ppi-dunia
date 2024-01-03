@@ -10,19 +10,15 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 class SearchWidget extends StatelessWidget {
   final String? hintText;
   final String? type;
-  const SearchWidget({Key? key, 
-    this.hintText,
-    this.type
-  }) : super(key: key);
+  const SearchWidget({Key? key, this.hintText, this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         // if(type == "commerce") {
         //   NS.push(context, const SearchProductScreen(typeProduct: "commerce"));
-        // } 
+        // }
       },
       child: Container(
         padding: const EdgeInsets.all(12.0),
@@ -36,30 +32,26 @@ class SearchWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const Icon(
-                    Icons.search,
-                    size: 20.0,
-                    color: ColorResources.primary,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Text(hintText!, 
-                    style: sfProRegular.copyWith(
-                      fontSize: Dimensions.fontSizeDefault,
-                      color: ColorResources.primary 
+                margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const Icon(
+                      Icons.search,
+                      size: 20.0,
+                      color: ColorResources.primary,
                     ),
-                    overflow: TextOverflow.ellipsis
-                  )
-                ],
-              ) 
-            ),
-          ], 
+                    const SizedBox(width: 10.0),
+                    Text(hintText!,
+                        style: sfProRegular.copyWith(
+                            fontSize: Dimensions.fontSizeDefault,
+                            color: ColorResources.primary),
+                        overflow: TextOverflow.ellipsis)
+                  ],
+                )),
+          ],
         ),
       ),
     );
-
   }
 }

@@ -365,66 +365,64 @@ class CommentScreenState extends State<CommentScreen> {
                                                                 .path,
                                                           ),
                                                         ),
-                                                        child: Hero(
-                                                          tag: "image-view",
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl: c
-                                                                .feedDetailData
-                                                                .media![i]
-                                                                .path,
-                                                            imageBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    ImageProvider
-                                                                        imageProvider) {
-                                                              return Container(
-                                                                decoration: BoxDecoration(
-                                                                    image: DecorationImage(
-                                                                        alignment:
-                                                                            Alignment
-                                                                                .centerLeft,
-                                                                        fit: BoxFit
-                                                                            .fitWidth,
-                                                                        image:
-                                                                            imageProvider)),
-                                                              );
-                                                            },
-                                                            placeholder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    String
-                                                                        val) {
-                                                              return Container(
-                                                                decoration: const BoxDecoration(
-                                                                    image: DecorationImage(
-                                                                        alignment:
-                                                                            Alignment
-                                                                                .centerLeft,
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                        image: AssetImage(
-                                                                            AssetsConst.imageDefault))),
-                                                              );
-                                                            },
-                                                            errorWidget:
-                                                                (BuildContext
-                                                                        context,
-                                                                    String text,
-                                                                    dynamic _) {
-                                                              return Container(
-                                                                decoration: const BoxDecoration(
-                                                                    image: DecorationImage(
-                                                                        alignment:
-                                                                            Alignment
-                                                                                .centerLeft,
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                        image: AssetImage(
-                                                                            AssetsConst.imageDefault))),
-                                                              );
-                                                            },
-                                                          ),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: c
+                                                              .feedDetailData
+                                                              .media![i]
+                                                              .path,
+                                                          imageBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  ImageProvider
+                                                                      imageProvider) {
+                                                            return Container(
+                                                              decoration: BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      image:
+                                                                          imageProvider)),
+                                                            );
+                                                          },
+                                                          placeholder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  String val) {
+                                                            return Container(
+                                                              decoration: const BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      image: AssetImage(
+                                                                          AssetsConst
+                                                                              .imageDefault))),
+                                                            );
+                                                          },
+                                                          errorWidget:
+                                                              (BuildContext
+                                                                      context,
+                                                                  String text,
+                                                                  dynamic _) {
+                                                            return Container(
+                                                              decoration: const BoxDecoration(
+                                                                  image: DecorationImage(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      image: AssetImage(
+                                                                          AssetsConst
+                                                                              .imageDefault))),
+                                                            );
+                                                          },
                                                         ),
                                                       );
                                                     }),
@@ -484,11 +482,14 @@ class CommentScreenState extends State<CommentScreen> {
                                               "document")
                                             Container(
                                               width: double.infinity,
-                                              margin: const EdgeInsets.only(
-                                                top: 4.0,
-                                              ),
                                               padding:
-                                                  const EdgeInsets.all(8.0),
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 14.0,
+                                                      vertical: 10.0),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 14.0,
+                                                      vertical: 12.0),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(

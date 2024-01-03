@@ -117,20 +117,29 @@ class FeedPersonalInfo extends StatelessWidget {
                                     ProfileStatus.empty
                                 ? const SizedBox()
                                 : SizedBox(
-                                    width: 120,
-                                    child: Text(
-                                      context
-                                          .read<ProfileProvider>()
-                                          .pd
-                                          .fullname!,
-                                      maxLines: 2,
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
+                                    width:
+                                        MediaQuery.sizeOf(context).width < 400
+                                            ? 120
+                                            : 150,
+                                    child: InkWell(
+                                      onTap: () {
+                                        NS.push(context,
+                                            const ProfileUpdateScreen());
+                                      },
+                                      child: Text(
+                                        context
+                                            .read<ProfileProvider>()
+                                            .pd
+                                            .fullname!,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro'),
+                                      ),
                                     ),
                                   )
                   ],

@@ -28,9 +28,9 @@ class CustomButton extends StatelessWidget {
   final bool isPrefixIcon;
 
   const CustomButton({
-    Key? key, 
-    required this.onTap, 
-    this.btnTxt, 
+    Key? key,
+    required this.onTap,
+    this.btnTxt,
     this.customText = false,
     this.text,
     this.width = double.infinity,
@@ -53,51 +53,47 @@ class CustomButton extends StatelessWidget {
     return Bouncing(
       onPress: isLoading ? null : onTap,
       child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          boxShadow: isBoxShadow 
-          ? boxShadow 
-          : [],
-          color: btnColor,
-          border: Border.all(
-            color: isBorder 
-            ? btnBorderColor 
-            : Colors.transparent,
-          ),
-          borderRadius: isBorderRadius 
-          ? BorderRadius.circular(sizeBorderRadius)
-          : null
-        ),
-        child: isLoading 
-        ? Center(
-            child: SpinKitFadingCircle(
-              color: loadingColor,
-              size: 25.0
-            ),
-          )
-        : Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isPrefixIcon ? const SizedBox(width: 15,) : Container(),
-            isPrefixIcon
-              ? prefixIcon!
-              : Container(),
-            isPrefixIcon ? const SizedBox(width: 15,) : Container(),
-            customText
-              ? text!
-              : Center(
-                child: Text(btnTxt ?? "...",
-                  style: sfProRegular.copyWith(
-                    color: btnTextColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: Dimensions.fontSizeExtraLarge,
-                  ) 
-                ),
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              boxShadow: isBoxShadow ? boxShadow : [],
+              color: btnColor,
+              border: Border.all(
+                color: isBorder ? btnBorderColor : Colors.transparent,
               ),
-          ],
-        )
-      ),
+              borderRadius: isBorderRadius
+                  ? BorderRadius.circular(sizeBorderRadius)
+                  : null),
+          child: isLoading
+              ? Center(
+                  child: SpinKitFadingCircle(color: loadingColor, size: 25.0),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    isPrefixIcon
+                        ? const SizedBox(
+                            width: 15,
+                          )
+                        : Container(),
+                    isPrefixIcon ? prefixIcon! : Container(),
+                    isPrefixIcon
+                        ? const SizedBox(
+                            width: 15,
+                          )
+                        : Container(),
+                    customText
+                        ? text!
+                        : Center(
+                            child: Text(btnTxt ?? "...",
+                                style: sfProRegular.copyWith(
+                                  color: btnTextColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: Dimensions.fontSizeExtraLarge,
+                                )),
+                          ),
+                  ],
+                )),
     );
   }
 }

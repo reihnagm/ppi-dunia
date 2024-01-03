@@ -286,7 +286,7 @@ class BookmarkList extends StatelessWidget {
                                                 image: DecorationImage(
                                                     alignment:
                                                         Alignment.centerLeft,
-                                                    fit: BoxFit.fitWidth,
+                                                    fit: BoxFit.cover,
                                                     image: imageProvider)),
                                           );
                                         },
@@ -297,7 +297,7 @@ class BookmarkList extends StatelessWidget {
                                                 image: DecorationImage(
                                                     alignment:
                                                         Alignment.centerLeft,
-                                                    fit: BoxFit.contain,
+                                                    fit: BoxFit.cover,
                                                     image: AssetImage(
                                                         AssetsConst
                                                             .imageDefault))),
@@ -310,7 +310,7 @@ class BookmarkList extends StatelessWidget {
                                                 image: DecorationImage(
                                                     alignment:
                                                         Alignment.centerLeft,
-                                                    fit: BoxFit.contain,
+                                                    fit: BoxFit.cover,
                                                     image: AssetImage(
                                                         AssetsConst
                                                             .imageDefault))),
@@ -354,10 +354,10 @@ class BookmarkList extends StatelessWidget {
                           if (bsm.feeds[i].feedType == "document")
                             Container(
                               width: double.infinity,
-                              margin: const EdgeInsets.only(
-                                top: 15.0,
-                              ),
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14.0, vertical: 10.0),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 14.0, vertical: 12.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: ColorResources.greyDarkPrimary),
