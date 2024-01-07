@@ -21,7 +21,6 @@ class DashboardScreenState extends State<DashboardScreen> {
   late DashboardScreenModel dsm;
   late FirebaseProvider fp;
   late InboxScreenModel ism;
-  // late LocationProvider lp;
 
   dynamic currentBackPressTime;
 
@@ -45,15 +44,10 @@ class DashboardScreenState extends State<DashboardScreen> {
     timeDilation = 1.0;
     dsm = context.read<DashboardScreenModel>();
     fp = context.read<FirebaseProvider>();
-    // lp = context.read<LocationProvider>();
     ism = context.read<InboxScreenModel>();
 
     if (mounted) {
       ism.getReadCount();
-    }
-
-    if (mounted) {
-      // lp.getCurrentPosition();
     }
 
     if (mounted) {

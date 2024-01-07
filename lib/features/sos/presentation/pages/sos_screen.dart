@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
-import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/services/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/localization/language_constraints.dart';
-import 'package:ppidunia/services/navigation.dart';
 
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 
-import 'package:ppidunia/views/basewidgets/dialog/animated/animated.dart';
 import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
 
 import 'package:ppidunia/features/sos/presentation/pages/sos_state.dart';
@@ -120,7 +118,16 @@ class SosScreenState extends State<SosScreen> {
               image: AssetsConst.imageIcPopUpSos,
               msg: "Do you need help immediately?",
               onPressed: () async {
-                await ssm.sendSos(context, title: title, message: message);
+                try {
+                    await Permission.location.request();
+                  if (await Permission.location.request().isGranted) {
+                    await ssm.sendSos(context, title: title, message: message);
+                  } else {
+                    NS.pop(context);
+                  }
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
               },
             );
           },

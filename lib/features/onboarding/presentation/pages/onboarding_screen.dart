@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/notification/provider/notification.dart';
 
 import 'package:provider/provider.dart';
 
@@ -17,13 +19,21 @@ class OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   void initState() {
+    super.initState();
     viewModel = context.read<OnboardingScreenModel>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       viewModel.setChangeContent();
     });
+    Future<void> getData() async {
+      if (!mounted) return;
+      navigatorKey.currentContext!
+          .read<NotificationNotifier>()
+          .initNotification();
 
-    super.initState();
+      if (!mounted) return;
+      navigatorKey.currentContext!.read<NotificationNotifier>().initLocation();
+    }
   }
 
   @override

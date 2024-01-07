@@ -51,112 +51,84 @@ final getIt = GetIt.instance;
 Future<void> init() async {
   //Api
   getIt.registerLazySingleton(() => AuthRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => ProfileRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => FeedRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => MaintenanceRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => InboxRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => FirebaseRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => SosRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => BannerRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => MediaRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => BookmarkRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
   getIt.registerLazySingleton(() => CommentRepo(
-    dioClient: null,
-  ));
+        dioClient: null,
+      ));
 
   //Provider
-  getIt.registerFactory(() => FirebaseProvider(
-    fr: getIt(),
-    ism: getIt()
-  ));
+  getIt.registerFactory(() => FirebaseProvider(fr: getIt(), ism: getIt()));
   getIt.registerFactory(() => LocalizationProvider());
   getIt.registerFactory(() => LocationProvider());
-  getIt.registerLazySingleton(() => FeedScreenModel(
-    fr: getIt()
-  ));
-  getIt.registerLazySingleton(() => SosScreenModel(
-    sr: getIt(),
-    lp: getIt()
-  ));
-  getIt.registerLazySingleton(() => CommentScreenModel(
-    cr: getIt(),
-    fr: getIt(),
-    pp: getIt()
-  ));
-  getIt.registerLazySingleton(() => BookmarkScreenModel(
-    br: getIt(),
-    fr: getIt()
-  ));
+  getIt.registerLazySingleton(() => FeedScreenModel(fr: getIt()));
+  getIt.registerLazySingleton(() => SosScreenModel(sr: getIt(), lp: getIt()));
+  getIt.registerLazySingleton(
+      () => CommentScreenModel(cr: getIt(), fr: getIt(), pp: getIt()));
+  getIt.registerLazySingleton(
+      () => BookmarkScreenModel(br: getIt(), fr: getIt()));
   getIt.registerLazySingleton(() => DashboardScreenModel());
-  getIt.registerLazySingleton(() => CreatePostModel(
-    fsm: getIt(),
-    fr: getIt(),
-    mr: getIt()
-  ));
+  getIt.registerLazySingleton(
+      () => CreatePostModel(fsm: getIt(), fr: getIt(), mr: getIt()));
   getIt.registerLazySingleton(() => SplashScreenModel(mr: getIt()));
-  getIt.registerLazySingleton(() => BannerProvider(
-    br: getIt()
-  ));
-  getIt.registerLazySingleton(() => ProfileProvider(
-    pr: getIt(),
-    fr: getIt(),
-    mr: getIt()
-  ));
-  getIt.registerLazySingleton(() => ComingSoonScreenModel(
-  ));
-  getIt.registerLazySingleton(() => UpdateScreenModel(
-  ));
+  getIt.registerLazySingleton(() => BannerProvider(br: getIt()));
+  getIt.registerLazySingleton(
+      () => ProfileProvider(pr: getIt(), fr: getIt(), mr: getIt()));
+  getIt.registerLazySingleton(() => ComingSoonScreenModel());
+  getIt.registerLazySingleton(() => UpdateScreenModel());
   getIt.registerLazySingleton(() => OnboardingScreenModel());
   getIt.registerLazySingleton(() => SignInScreenModel(
-    ar: getIt(),
-  ));
+        ar: getIt(),
+      ));
   getIt.registerLazySingleton(() => ForgetPasswordScreenModel(
-    ar: getIt(),
-  ));
+        ar: getIt(),
+      ));
   getIt.registerLazySingleton(() => ChangePasswordScreenModel(
-    ar: getIt(),
-  ));
+        ar: getIt(),
+      ));
   getIt.registerLazySingleton(() => NewPasswordScreenModel(
-    ar: getIt(),
-  ));
-  getIt.registerLazySingleton(() => InboxScreenModel(
-    ir: getIt()
-  ));
+        ar: getIt(),
+      ));
+  getIt.registerLazySingleton(() => InboxScreenModel(ir: getIt()));
   getIt.registerLazySingleton(() => SignUpScreenModel(
-    ar: getIt(),
-  ));
+        ar: getIt(),
+      ));
   getIt.registerLazySingleton(() => StudyAbroadStatusScreenModel(
-    ar: getIt(),
-  ));
+        ar: getIt(),
+      ));
   getIt.registerLazySingleton(() => OtpScreenModel(
-    ar: getIt(),
-  ));
-  getIt.registerLazySingleton(() => TermsOfUseScreenModel(
-  ));
-  getIt.registerLazySingleton(() => PrivacyPolicyScreenModel(
-  ));
+        ar: getIt(),
+      ));
+  getIt.registerLazySingleton(() => TermsOfUseScreenModel());
+  getIt.registerLazySingleton(() => PrivacyPolicyScreenModel());
 
-  
   //External
   SharedPreferences sp = await SharedPreferences.getInstance();
   getIt.registerLazySingleton(() => sp);

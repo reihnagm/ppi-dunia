@@ -74,7 +74,7 @@ class BookmarkScreenState extends State<BookmarkScreen> {
                     const SliverAppBar(
                       backgroundColor: ColorResources.transparent,
                       title: Text(
-                        "Bookmark",
+                        "Favourites",
                         style: TextStyle(
                             color: ColorResources.greyLightPrimary,
                             fontSize: Dimensions.fontSizeOverLarge,

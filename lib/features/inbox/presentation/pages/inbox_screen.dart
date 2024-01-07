@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -231,7 +232,8 @@ class InboxScreenState extends State<InboxScreen> {
                                               type: type,
                                               title: ism.id[i].title ?? "-",
                                               name: ism.id[i].user!.name ?? "-",
-                                              date: ism.id[i].createdAt!,
+                                              date: DateHelper.formatDateTime(
+                                                  ism.id[i].createdAt!),
                                               description:
                                                   ism.id[i].description!,
                                             ),
@@ -262,39 +264,54 @@ class InboxScreenState extends State<InboxScreen> {
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
-                                                      Text(
-                                                        ism.id[i].title!,
-                                                        style: TextStyle(
-                                                            color: ColorResources
-                                                                .greyLightPrimary,
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge,
-                                                            fontWeight: ism
-                                                                        .id[i]
-                                                                        .read !=
-                                                                    true
-                                                                ? FontWeight
-                                                                    .bold
-                                                                : null,
-                                                            fontFamily:
-                                                                'SF Pro'),
+                                                      SizedBox(
+                                                        width: 300.0,
+                                                        child: Text(
+                                                          ism.id[i].title!,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              color: ColorResources
+                                                                  .greyLightPrimary,
+                                                              fontSize: Dimensions
+                                                                  .fontSizeLarge,
+                                                              fontWeight: ism
+                                                                          .id[i]
+                                                                          .read !=
+                                                                      true
+                                                                  ? FontWeight
+                                                                      .bold
+                                                                  : null,
+                                                              fontFamily:
+                                                                  'SF Pro'),
+                                                          maxLines: 2,
+                                                        ),
                                                       ),
-                                                      Text(
-                                                        ism.id[i].createdAt!,
-                                                        style: TextStyle(
-                                                            color: ColorResources
-                                                                .greyLightPrimary,
-                                                            fontSize: Dimensions
-                                                                .fontSizeSmall,
-                                                            fontWeight: ism
-                                                                        .id[i]
-                                                                        .read !=
-                                                                    true
-                                                                ? FontWeight
-                                                                    .bold
-                                                                : null,
-                                                            fontFamily:
-                                                                'SF Pro'),
+                                                      SizedBox(
+                                                        width: 300.0,
+                                                        child: Text(
+                                                          DateHelper
+                                                              .formatDateTime(ism
+                                                                  .id[i]
+                                                                  .createdAt!),
+                                                          style: TextStyle(
+                                                              color: ColorResources
+                                                                  .greyLightPrimary,
+                                                              fontSize: Dimensions
+                                                                  .fontSizeSmall,
+                                                              fontWeight: ism
+                                                                          .id[i]
+                                                                          .read !=
+                                                                      true
+                                                                  ? FontWeight
+                                                                      .bold
+                                                                  : null,
+                                                              fontFamily:
+                                                                  'SF Pro'),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
                                                       ),
                                                       const SizedBox(
                                                           height: 10.0),

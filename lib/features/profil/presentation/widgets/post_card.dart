@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
@@ -159,7 +160,9 @@ Widget postCard({
                                                     fontWeight: FontWeight.w600,
                                                     fontFamily: 'SF Pro')),
                                             const SizedBox(width: 5.0),
-                                            Text(pp.feeds[i].createdAt,
+                                            Text(
+                                                DateHelper.formatDateTime(pp
+                                                    .feeds[i].createdAt),
                                                 style: const TextStyle(
                                                     color: ColorResources
                                                         .greyDarkPrimary,

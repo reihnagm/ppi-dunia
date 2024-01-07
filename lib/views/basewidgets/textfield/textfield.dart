@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/custom_themes.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
@@ -156,12 +155,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         hintStyle: sfProRegular.copyWith(
           color: Colors.grey,
-          fontSize: Dimensions.fontSizeLarge,
+          fontSize: Dimensions.fontSizeSmall,
           fontWeight: FontWeight.w500,
         ),
         labelText: widget.labelText,
         labelStyle: sfProRegular.copyWith(
-          fontSize: Dimensions.paddingSizeLarge.sp,
+          fontSize: Dimensions.paddingSizeLarge,
         ),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),

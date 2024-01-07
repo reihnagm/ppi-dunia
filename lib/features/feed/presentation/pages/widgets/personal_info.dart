@@ -40,59 +40,44 @@ class FeedPersonalInfo extends StatelessWidget {
                 context.watch<ProfileProvider>().profileStatus ==
                         ProfileStatus.loading
                     ? const CircleAvatar(
-                        radius: 60.0,
+                        radius: 40.0,
                         backgroundColor: Color(0xFF637687),
                       )
                     : context.watch<ProfileProvider>().profileStatus ==
                             ProfileStatus.error
                         ? const CircleAvatar(
-                            radius: 60.0,
+                            radius: 40.0,
                             backgroundColor: Color(0xFF637687),
                           )
-                        : Stack(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl:
-                                    context.read<ProfileProvider>().pd.avatar!,
-                                imageBuilder: (BuildContext context,
-                                    ImageProvider<Object> imageProvider) {
-                                  return CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundImage: imageProvider,
-                                  );
-                                },
-                                placeholder:
-                                    (BuildContext context, String url) {
-                                  return const CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundColor: Color(0xFF637687),
-                                  );
-                                },
-                                errorWidget: (BuildContext context, String url,
-                                    dynamic error) {
-                                  return const CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundImage: AssetImage(
-                                        'assets/images/default/ava.jpg'),
-                                  );
-                                },
-                              ),
-                              Positioned(
-                                right: 18.0,
-                                bottom: 0.0,
-                                child: InkWell(
-                                  onTap: () {
-                                    NS.push(
-                                        context, const ProfileUpdateScreen());
-                                  },
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: ColorResources.white,
-                                    size: 20.0,
-                                  ),
-                                ),
-                              )
-                            ],
+                        : InkWell(
+                            onTap: () {
+                              NS.push(context, const ProfileUpdateScreen());
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  context.read<ProfileProvider>().pd.avatar!,
+                              imageBuilder: (BuildContext context,
+                                  ImageProvider<Object> imageProvider) {
+                                return CircleAvatar(
+                                  radius: 40.0,
+                                  backgroundImage: imageProvider,
+                                );
+                              },
+                              placeholder: (BuildContext context, String url) {
+                                return const CircleAvatar(
+                                  radius: 40.0,
+                                  backgroundColor: Color(0xFF637687),
+                                );
+                              },
+                              errorWidget: (BuildContext context, String url,
+                                  dynamic error) {
+                                return const CircleAvatar(
+                                  radius: 40.0,
+                                  backgroundImage: AssetImage(
+                                      'assets/images/default/ava.jpg'),
+                                );
+                              },
+                            ),
                           ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

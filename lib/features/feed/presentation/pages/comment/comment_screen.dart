@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
@@ -254,8 +255,9 @@ class CommentScreenState extends State<CommentScreen> {
                                                               const SizedBox(
                                                                   width: 5.0),
                                                               Text(
-                                                                  c.feedDetailData
-                                                                      .createdAt!,
+                                                                  DateHelper.formatDateTime(
+                                                                      c.feedDetailData
+                                                                          .createdAt!),
                                                                   style: const TextStyle(
                                                                       color: ColorResources
                                                                           .greyDarkPrimary,
@@ -1009,11 +1011,15 @@ class CommentScreenState extends State<CommentScreen> {
                                                           const SizedBox(
                                                               height: 5.0),
                                                           Text(
-                                                              c.comments[i]
-                                                                  .createdAt,
+                                                              DateHelper
+                                                                  .formatDateTime(c
+                                                                      .comments[
+                                                                          i]
+                                                                      .createdAt),
                                                               style: const TextStyle(
-                                                                  color: ColorResources
-                                                                      .greyDarkPrimary,
+                                                                  color:
+                                                                      ColorResources
+                                                                          .greyDarkPrimary,
                                                                   fontSize:
                                                                       Dimensions
                                                                           .fontSizeExtraSmall,

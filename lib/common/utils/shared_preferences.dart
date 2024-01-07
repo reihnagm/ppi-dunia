@@ -63,8 +63,7 @@ class SharedPrefs {
   }
 
   static String getCurrentNameAddress() {
-    return _instance!.getString("currentNameAddress") ??
-        "Lokasi tidak ditemukan";
+    return _instance!.getString("currentNameAddress") ?? "Location not found";
   }
 
   static void writeRegCountryId(String? value) {

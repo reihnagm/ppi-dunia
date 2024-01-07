@@ -135,46 +135,44 @@ class FeedList extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
+                                          Container(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 170.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                NS.push(
+                                                    context,
+                                                    ProfileViewScreen(
+                                                        userId: fsm.feeds[i]
+                                                            .user.uid));
+                                              },
+                                              child: Text(
+                                                  fsm.feeds[i].user.name,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      color:
+                                                          ColorResources.white,
+                                                      fontSize: Dimensions
+                                                          .fontSizeSmall,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'SF Pro')),
+                                            ),
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              Container(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 110.0),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    NS.push(
-                                                        context,
-                                                        ProfileViewScreen(
-                                                            userId: fsm.feeds[i]
-                                                                .user.uid));
-                                                  },
-                                                  child: Text(
-                                                      fsm.feeds[i].user.name,
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          color: ColorResources
-                                                              .white,
-                                                          fontSize: Dimensions
-                                                              .fontSizeDefault,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily:
-                                                              'SF Pro')),
-                                                ),
-                                              ),
                                               const SizedBox(width: 10.0),
                                               const Text("•",
                                                   style: TextStyle(
                                                       color: ColorResources
                                                           .greyDarkPrimary,
                                                       fontSize: Dimensions
-                                                          .fontSizeDefault,
+                                                          .fontSizeSmall,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontFamily: 'SF Pro')),
@@ -192,165 +190,15 @@ class FeedList extends StatelessWidget {
                                                       fontFamily: 'SF Pro')),
                                             ],
                                           ),
-                                          fsm.feeds[i].user.uid ==
-                                                  SharedPrefs.getUserId()
-                                              ? const SizedBox()
-                                              : PopupMenuButton(
-                                                  color: Colors.white,
-                                                  itemBuilder: (BuildContext
-                                                      buildContext) {
-                                                    return [
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "Block content",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "Block user",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "It's spam",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "Nudity or sexual activity",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "False Information",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp)))
-                                                    ];
-                                                  },
-                                                  onSelected: (route) async {
-                                                    if (route ==
-                                                        "/report-user") {
-                                                      await GeneralModal
-                                                          .reportUser();
-                                                    }
-                                                  },
-                                                ),
-                                          fsm.feeds[i].user.uid ==
-                                                  SharedPrefs.getUserId()
-                                              ? PopupMenuButton(
-                                                  color: ColorResources.white,
-                                                  itemBuilder: (BuildContext
-                                                      buildContext) {
-                                                    return [
-                                                      PopupMenuItem(
-                                                          value: "/delete",
-                                                          child: Text(
-                                                              getTranslated(
-                                                                  "DELETE"),
-                                                              style: const TextStyle(
-                                                                  color: ColorResources
-                                                                      .greyDarkPrimary,
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeDefault,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontFamily:
-                                                                      'SF Pro'))),
-                                                    ];
-                                                  },
-                                                  onSelected:
-                                                      (String route) async {
-                                                    GeneralModal
-                                                        .showConfirmModals(
-                                                      image: AssetsConst
-                                                          .imageIcPopUpDelete,
-                                                      msg:
-                                                          "Are you sure want to delete ?",
-                                                      onPressed: () async {
-                                                        if (route ==
-                                                            "/delete") {
-                                                          await fsm.delete(
-                                                              feedId: fsm
-                                                                  .feeds[i]
-                                                                  .uid);
-                                                        }
-                                                        NS.pop(context);
-                                                        ShowSnackbar.snackbar(
-                                                            context,
-                                                            "Successfully delete a post",
-                                                            '',
-                                                            ColorResources
-                                                                .success);
-                                                      },
-                                                    );
-                                                  },
-                                                )
-                                              : const SizedBox()
                                         ],
                                       ),
-                                      // LinkifyText(fsm.feeds[i].caption,
-                                      //     overflow: TextOverflow.ellipsis,
-                                      //     maxLines: 4,
-                                      //     textStyle: const TextStyle(
-                                      //         color: ColorResources.hintColor,
-                                      //         fontSize:
-                                      //             Dimensions.fontSizeDefault,
-                                      //         fontFamily: 'SF Pro'),
-                                      //     linkStyle: const TextStyle(
-                                      //         color: Colors.blue),
-                                      //     linkTypes: const [
-                                      //       LinkType.url,
-                                      //       LinkType.userTag,
-                                      //       LinkType.hashTag,
-                                      //       LinkType.email
-                                      //     ], onTap: (link) {
-                                      //   if (link.type == LinkType.email) {
-                                      //     print("email pressed");
-                                      //   } else if (link.type == LinkType.url) {
-                                      //     NS.push(
-                                      //       context,
-                                      //       WebViewScreen(
-                                      //           title: link.value.toString(),
-                                      //           url: link.value.toString()),
-                                      //     );
-                                      //   } else if (link.type ==
-                                      //       LinkType.userTag) {
-                                      //     print("@mention pressed");
-                                      //   } else if (link.type ==
-                                      //       LinkType.hashTag) {
-                                      //     print("#hashtag pressed");
-                                      //   }
-                                      // }),
                                       Text(
                                         fsm.feeds[i].caption,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 4,
                                         style: const TextStyle(
                                             color: ColorResources.hintColor,
-                                            fontSize:
-                                                Dimensions.fontSizeDefault,
+                                            fontSize: Dimensions.fontSizeSmall,
                                             fontFamily: 'SF Pro'),
                                       ),
                                     ],
@@ -512,7 +360,7 @@ class FeedList extends StatelessWidget {
                                             style: const TextStyle(
                                                 color: ColorResources.white,
                                                 fontSize:
-                                                    Dimensions.fontSizeDefault,
+                                                    Dimensions.fontSizeSmall,
                                                 fontWeight: FontWeight.w600,
                                                 fontFamily: 'SF Pro')),
                                       ),
@@ -524,8 +372,8 @@ class FeedList extends StatelessWidget {
                                               "${getTranslated("FILE_SIZE")} :",
                                               style: const TextStyle(
                                                   color: ColorResources.white,
-                                                  fontSize: Dimensions
-                                                      .fontSizeDefault,
+                                                  fontSize:
+                                                      Dimensions.fontSizeSmall,
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: 'SF Pro')),
                                           const SizedBox(width: 8.0),
@@ -534,8 +382,8 @@ class FeedList extends StatelessWidget {
                                                   .toString(),
                                               style: const TextStyle(
                                                   color: ColorResources.white,
-                                                  fontSize: Dimensions
-                                                      .fontSizeDefault,
+                                                  fontSize:
+                                                      Dimensions.fontSizeSmall,
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: 'SF Pro')),
                                         ],
@@ -627,7 +475,7 @@ class FeedList extends StatelessWidget {
                                                                   ColorResources
                                                                       .white,
                                                               fontSize: Dimensions
-                                                                  .fontSizeDefault,
+                                                                  .fontSizeSmall,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,
@@ -692,7 +540,7 @@ class FeedList extends StatelessWidget {
                                                                   ColorResources
                                                                       .white,
                                                               fontSize: Dimensions
-                                                                  .fontSizeDefault,
+                                                                  .fontSizeSmall,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,
@@ -743,6 +591,114 @@ class FeedList extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                      fsm.feeds[i].user.uid ==
+                                              SharedPrefs.getUserId()
+                                          ? const SizedBox()
+                                          : PopupMenuButton(
+                                              color: Colors.white,
+                                              iconColor: Colors.white,
+                                              iconSize: 20,
+                                              itemBuilder:
+                                                  (BuildContext buildContext) {
+                                                return [
+                                                  PopupMenuItem(
+                                                      value: "/report-user",
+                                                      child: Text(
+                                                          "Block content",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize:
+                                                                  11.sp))),
+                                                  PopupMenuItem(
+                                                      value: "/report-user",
+                                                      child: Text("Block user",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize:
+                                                                  11.sp))),
+                                                  PopupMenuItem(
+                                                      value: "/report-user",
+                                                      child: Text("It's spam",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize:
+                                                                  11.sp))),
+                                                  PopupMenuItem(
+                                                      value: "/report-user",
+                                                      child: Text(
+                                                          "Nudity or sexual activity",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize:
+                                                                  11.sp))),
+                                                  PopupMenuItem(
+                                                      value: "/report-user",
+                                                      child: Text(
+                                                          "False Information",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 11.sp)))
+                                                ];
+                                              },
+                                              onSelected: (route) async {
+                                                if (route == "/report-user") {
+                                                  await GeneralModal
+                                                      .reportUser();
+                                                }
+                                              },
+                                            ),
+                                      fsm.feeds[i].user.uid ==
+                                              SharedPrefs.getUserId()
+                                          ? PopupMenuButton(
+                                              color: ColorResources.white,
+                                              itemBuilder:
+                                                  (BuildContext buildContext) {
+                                                return [
+                                                  PopupMenuItem(
+                                                      value: "/delete",
+                                                      child: Text(
+                                                          getTranslated(
+                                                              "DELETE"),
+                                                          style: const TextStyle(
+                                                              color: ColorResources
+                                                                  .greyDarkPrimary,
+                                                              fontSize: Dimensions
+                                                                  .fontSizeSmall,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontFamily:
+                                                                  'SF Pro'))),
+                                                ];
+                                              },
+                                              onSelected: (String route) async {
+                                                GeneralModal.showConfirmModals(
+                                                  image: AssetsConst
+                                                      .imageIcPopUpDelete,
+                                                  msg:
+                                                      "Are you sure want to delete ?",
+                                                  onPressed: () async {
+                                                    if (route == "/delete") {
+                                                      await fsm.delete(
+                                                          feedId:
+                                                              fsm.feeds[i].uid);
+                                                    }
+                                                    NS.pop(context);
+                                                    ShowSnackbar.snackbar(
+                                                        context,
+                                                        "Successfully delete a post",
+                                                        '',
+                                                        ColorResources.success);
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          : const SizedBox()
                                     ],
                                   ),
                                 ),

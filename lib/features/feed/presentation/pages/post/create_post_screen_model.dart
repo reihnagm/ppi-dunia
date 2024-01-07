@@ -98,12 +98,12 @@ class CreatePostModel with ChangeNotifier {
                   child: const Text("Gallery"),
                   onPressed: () async {
                     try {
-                      PermissionStatus statusStorage =
+                      PermissionStatus statusPost =
                           await Permission.photos.status;
-                      if (!statusStorage.isGranted) {
+                      if (!statusPost.isGranted) {
                         await Permission.photos.request();
+                        Navigator.pop(context, ImageSource.gallery);
                       }
-                      Navigator.pop(context, ImageSource.gallery);
                     } catch (e, stacktrace) {
                       debugPrint(stacktrace.toString());
                     }

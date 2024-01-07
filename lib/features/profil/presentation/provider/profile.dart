@@ -113,12 +113,12 @@ class ProfileProvider with ChangeNotifier {
                   child: const Text("Camera"),
                   onPressed: () async {
                     try {
-                      PermissionStatus statusStorage =
+                      PermissionStatus statusCamera =
                           await Permission.camera.status;
-                      if (!statusStorage.isGranted) {
+                      if (!statusCamera.isGranted) {
                         await Permission.camera.request();
+                        Navigator.pop(context, ImageSource.camera);
                       }
-                      Navigator.pop(context, ImageSource.camera);
                     } catch (e, stacktrace) {
                       debugPrint(stacktrace.toString());
                     }
@@ -128,12 +128,15 @@ class ProfileProvider with ChangeNotifier {
                   child: const Text("Gallery"),
                   onPressed: () async {
                     try {
-                      PermissionStatus statusStorage =
+                      final notificationRequest =
+                          await Permission.photos.request();
+                      PermissionStatus statusPost =
                           await Permission.photos.status;
-                      if (!statusStorage.isGranted) {
+                      if (notificationRequest.isDenied ||
+                          notificationRequest.isPermanentlyDenied) {
                         await Permission.photos.request();
+                        Navigator.pop(context, ImageSource.gallery);
                       }
-                      Navigator.pop(context, ImageSource.gallery);
                     } catch (e, stacktrace) {
                       debugPrint(stacktrace.toString());
                     }

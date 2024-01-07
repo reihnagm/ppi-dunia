@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
@@ -173,7 +174,9 @@ class BookmarkList extends StatelessWidget {
                                                           FontWeight.w600,
                                                       fontFamily: 'SF Pro')),
                                               const SizedBox(width: 5.0),
-                                              Text(bsm.feeds[i].createdAt,
+                                              Text(
+                                                  DateHelper.formatDateTime(
+                                                      bsm.feeds[i].createdAt),
                                                   style: const TextStyle(
                                                       color: ColorResources
                                                           .greyDarkPrimary,
