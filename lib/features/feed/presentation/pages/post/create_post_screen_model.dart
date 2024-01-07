@@ -83,14 +83,14 @@ class CreatePostModel with ChangeNotifier {
                   ),
                   onPressed: () async {
                     try {
-                      PermissionStatus statusStorage =
-                          await Permission.camera.status;
-                      if (!statusStorage.isGranted) {
-                        await Permission.camera.request();
+                      await Permission.camera.request();
+                      if (await Permission.camera.request().isGranted) {
+                        Navigator.pop(context, ImageSource.camera);
+                      } else {
+                        NS.pop(context);
                       }
-                      Navigator.pop(context, ImageSource.camera);
-                    } catch (e, stacktrace) {
-                      debugPrint(stacktrace.toString());
+                    } catch (e) {
+                      debugPrint(e.toString());
                     }
                   },
                 ),
@@ -98,14 +98,16 @@ class CreatePostModel with ChangeNotifier {
                   child: const Text("Gallery"),
                   onPressed: () async {
                     try {
-                      PermissionStatus statusPost =
-                          await Permission.photos.status;
-                      if (!statusPost.isGranted) {
-                        await Permission.photos.request();
+                      await Permission.storage.request();
+                      if (await Permission.storage.request().isGranted) {
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, ImageSource.gallery);
+                      } else {
+                        // ignore: use_build_context_synchronously
+                        NS.pop(context);
                       }
-                    } catch (e, stacktrace) {
-                      debugPrint(stacktrace.toString());
+                    } catch (e) {
+                      debugPrint(e.toString());
                     }
                   },
                 )

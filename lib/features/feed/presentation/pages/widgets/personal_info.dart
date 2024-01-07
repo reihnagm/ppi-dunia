@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profil_update/profile_update_state.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -24,8 +23,8 @@ class FeedPersonalInfo extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         width: double.infinity,
-        height: 82.0,
-        padding: const EdgeInsets.all(5.0),
+        height: 100.0,
+        padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
         margin: const EdgeInsets.symmetric(
           vertical: 20.0,
         ),
@@ -40,13 +39,13 @@ class FeedPersonalInfo extends StatelessWidget {
                 context.watch<ProfileProvider>().profileStatus ==
                         ProfileStatus.loading
                     ? const CircleAvatar(
-                        radius: 40.0,
+                        radius: 30.0,
                         backgroundColor: Color(0xFF637687),
                       )
                     : context.watch<ProfileProvider>().profileStatus ==
                             ProfileStatus.error
                         ? const CircleAvatar(
-                            radius: 40.0,
+                            radius: 30.0,
                             backgroundColor: Color(0xFF637687),
                           )
                         : InkWell(
@@ -59,26 +58,29 @@ class FeedPersonalInfo extends StatelessWidget {
                               imageBuilder: (BuildContext context,
                                   ImageProvider<Object> imageProvider) {
                                 return CircleAvatar(
-                                  radius: 40.0,
+                                  radius: 30.0,
                                   backgroundImage: imageProvider,
                                 );
                               },
                               placeholder: (BuildContext context, String url) {
                                 return const CircleAvatar(
-                                  radius: 40.0,
+                                  radius: 30.0,
                                   backgroundColor: Color(0xFF637687),
                                 );
                               },
                               errorWidget: (BuildContext context, String url,
                                   dynamic error) {
                                 return const CircleAvatar(
-                                  radius: 40.0,
+                                  radius: 30.0,
                                   backgroundImage: AssetImage(
                                       'assets/images/default/ava.jpg'),
                                 );
                               },
                             ),
                           ),
+                const SizedBox(
+                  width: 10,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -105,26 +107,20 @@ class FeedPersonalInfo extends StatelessWidget {
                                     width:
                                         MediaQuery.sizeOf(context).width < 400
                                             ? 120
-                                            : 150,
-                                    child: InkWell(
-                                      onTap: () {
-                                        NS.push(context,
-                                            const ProfileUpdateScreen());
-                                      },
-                                      child: Text(
-                                        context
-                                            .read<ProfileProvider>()
-                                            .pd
-                                            .fullname!,
-                                        maxLines: 2,
-                                        softWrap: true,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: ColorResources.white,
-                                            fontSize: Dimensions.fontSizeLarge,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SF Pro'),
-                                      ),
+                                            : 200,
+                                    child: Text(
+                                      context
+                                          .read<ProfileProvider>()
+                                          .pd
+                                          .fullname!,
+                                      maxLines: 2,
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeDefault,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro'),
                                     ),
                                   )
                   ],

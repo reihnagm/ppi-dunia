@@ -113,14 +113,14 @@ class ProfileProvider with ChangeNotifier {
                   child: const Text("Camera"),
                   onPressed: () async {
                     try {
-                      PermissionStatus statusCamera =
-                          await Permission.camera.status;
-                      if (!statusCamera.isGranted) {
-                        await Permission.camera.request();
+                      await Permission.camera.request();
+                      if (await Permission.camera.request().isGranted) {
                         Navigator.pop(context, ImageSource.camera);
+                      } else {
+                        NS.pop(context);
                       }
-                    } catch (e, stacktrace) {
-                      debugPrint(stacktrace.toString());
+                    } catch (e) {
+                      debugPrint(e.toString());
                     }
                   },
                 ),
@@ -128,17 +128,16 @@ class ProfileProvider with ChangeNotifier {
                   child: const Text("Gallery"),
                   onPressed: () async {
                     try {
-                      final notificationRequest =
-                          await Permission.photos.request();
-                      PermissionStatus statusPost =
-                          await Permission.photos.status;
-                      if (notificationRequest.isDenied ||
-                          notificationRequest.isPermanentlyDenied) {
-                        await Permission.photos.request();
+                      await Permission.storage.request();
+                      if (await Permission.storage.request().isGranted) {
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, ImageSource.gallery);
+                      } else {
+                        // ignore: use_build_context_synchronously
+                        NS.pop(context);
                       }
-                    } catch (e, stacktrace) {
-                      debugPrint(stacktrace.toString());
+                    } catch (e) {
+                      debugPrint(e.toString());
                     }
                   },
                 )

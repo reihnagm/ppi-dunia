@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
-import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/auth/presentation/pages/sign_in/sign_in_state.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 
 import 'package:ppidunia/localization/language_constraints.dart';
-import 'package:ppidunia/localization/localization.dart';
 
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 
 import 'package:ppidunia/services/navigation.dart';
-
-import 'package:ppidunia/views/basewidgets/dialog/animated/animated.dart';
 
 class DrawerScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> gk;
@@ -31,7 +25,7 @@ class DrawerScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             // Container(

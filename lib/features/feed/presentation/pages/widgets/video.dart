@@ -5,27 +5,23 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlay extends StatefulWidget {
   final String dataSource;
-  const VideoPlay({
-    required this.dataSource,
-    super.key
-  });
+  const VideoPlay({required this.dataSource, super.key});
 
   @override
   State<VideoPlay> createState() => _VideoPlayState();
 }
 
 class _VideoPlayState extends State<VideoPlay> {
-
   ChewieController? chewieC;
   late VideoPlayerController videoC;
-  
-  @override 
+
+  @override
   void initState() {
     super.initState();
     initializePlayer();
   }
 
-  @override 
+  @override
   void dispose() {
     videoC.dispose();
     chewieC?.dispose();
@@ -35,7 +31,7 @@ class _VideoPlayState extends State<VideoPlay> {
 
   Future<void> initializePlayer() async {
     videoC = VideoPlayerController.networkUrl(Uri.parse(widget.dataSource));
-    
+
     await Future.wait([
       videoC.initialize(),
     ]);
@@ -48,18 +44,16 @@ class _VideoPlayState extends State<VideoPlay> {
       looping: false,
     );
 
-    setState(() { });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return chewieC != null && chewieC!.videoPlayerController.value.isInitialized
-    ? AspectRatio(
-        aspectRatio: videoC.value.aspectRatio,
-        child: Chewie(
-          controller: chewieC!
-        ),
-      )
-    : Container();
+        ? AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Chewie(controller: chewieC!),
+          )
+        : Container();
   }
 }

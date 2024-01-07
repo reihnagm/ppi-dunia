@@ -8,11 +8,12 @@ class NotificationService {
   static final onNotifications = BehaviorSubject<String>();
 
   static Future notificationDetails() async {
-    AndroidNotificationDetails androidNotificationDetails = const AndroidNotificationDetails(
+    AndroidNotificationDetails androidNotificationDetails =
+        const AndroidNotificationDetails(
       'notification',
       'notification_channel',
       channelDescription: 'notification_channel',
-      importance: Importance.max, 
+      importance: Importance.max,
       priority: Priority.high,
       playSound: false,
       channelShowBadge: true,
@@ -27,42 +28,38 @@ class NotificationService {
         presentAlert: true,
       ),
     );
-  } 
+  }
 
   static Future init() async {
-    InitializationSettings settings =  const InitializationSettings(
-      android: AndroidInitializationSettings('@drawable/ic_notification'),
-      iOS: IOSInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-        defaultPresentAlert: true,
-        defaultPresentBadge: true,
-        defaultPresentSound: true,
-      )
-    );
+    InitializationSettings settings = const InitializationSettings(
+        android: AndroidInitializationSettings('@drawable/ic_notification'),
+        iOS: IOSInitializationSettings(
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+          defaultPresentAlert: true,
+          defaultPresentBadge: true,
+          defaultPresentSound: true,
+        ));
 
-    await notifications.initialize(
-      settings,
-      onSelectNotification: (payload) async {
-        onNotifications.add(payload!);
-      }
-    );
+    await notifications.initialize(settings,
+        onSelectNotification: (payload) async {
+      onNotifications.add(payload!);
+    });
   }
 
   static Future showNotification({
     int? id,
-    String? title, 
+    String? title,
     String? body,
     Map<String, dynamic>? payload,
   }) async {
     notifications.show(
-      id!, 
-      title, 
-      body, 
+      id!,
+      title,
+      body,
       await notificationDetails(),
       payload: json.encode(payload),
     );
   }
-
 }

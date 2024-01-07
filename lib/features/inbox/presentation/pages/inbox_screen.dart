@@ -40,8 +40,6 @@ class InboxScreenState extends State<InboxScreen> {
   }
 
   Widget buildUI() {
-    print('Index : $index');
-    print('Type : $type');
     return Scaffold(
         backgroundColor: ColorResources.bgSecondaryColor,
         body: LayoutBuilder(
@@ -86,41 +84,42 @@ class InboxScreenState extends State<InboxScreen> {
                             Expanded(
                               flex: 8,
                               child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10.0, right: 13.0),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      border: Border.all(
-                                          width: 1.5,
-                                          color: ColorResources.white),
-                                      color: ColorResources.transparent),
-                                  child: Material(
+                                margin: const EdgeInsets.only(
+                                    left: 20.0, right: 10.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: Border.all(
+                                        width: 1.5,
+                                        color: ColorResources.white),
                                     color: index == 0
                                         ? Colors.white
-                                        : Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          index = 0;
-                                          type = "sos";
-                                        });
-                                        ism.getInboxes();
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "SOS",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize:
-                                                  Dimensions.fontSizeDefault,
-                                              color: index == 0
-                                                  ? ColorResources.black
-                                                  : ColorResources.white),
-                                        ),
+                                        : Colors.transparent),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        index = 0;
+                                        type = "sos";
+                                      });
+                                      ism.getInboxes(type: type);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "SOS",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize:
+                                                Dimensions.fontSizeDefault,
+                                            color: index == 0
+                                                ? ColorResources.black
+                                                : ColorResources.white),
                                       ),
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ),
                             Expanded(
                               flex: 8,
@@ -216,10 +215,12 @@ class InboxScreenState extends State<InboxScreen> {
                                     width: double.infinity,
                                     margin: const EdgeInsets.only(
                                         top: 10.0, bottom: 10.0),
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(12.0)),
-                                        color: ColorResources.greyPrimary),
+                                        color: ism.id[i].read != true
+                                            ? ColorResources.grey
+                                            : ColorResources.greyPrimary),
                                     child: Material(
                                       color: ColorResources.transparent,
                                       child: InkWell(
@@ -275,13 +276,9 @@ class InboxScreenState extends State<InboxScreen> {
                                                                   .greyLightPrimary,
                                                               fontSize: Dimensions
                                                                   .fontSizeLarge,
-                                                              fontWeight: ism
-                                                                          .id[i]
-                                                                          .read !=
-                                                                      true
-                                                                  ? FontWeight
-                                                                      .bold
-                                                                  : null,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontFamily:
                                                                   'SF Pro'),
                                                           maxLines: 2,
