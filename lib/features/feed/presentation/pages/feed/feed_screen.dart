@@ -97,7 +97,7 @@ class FeedScreenState extends State<FeedScreen> {
               backdropTapClosesPanel: false,
               panelSnapping: true,
               minHeight: deviceMaxHeight < 600
-                  ? constraints.maxHeight * .38
+                  ? constraints.maxHeight * .35
                   : deviceMaxHeight < 800
                       ? constraints.maxHeight * .45
                       : constraints.maxHeight * .53,

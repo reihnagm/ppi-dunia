@@ -39,13 +39,13 @@ class FeedPersonalInfo extends StatelessWidget {
                 context.watch<ProfileProvider>().profileStatus ==
                         ProfileStatus.loading
                     ? const CircleAvatar(
-                        radius: 30.0,
+                        radius: 25.0,
                         backgroundColor: Color(0xFF637687),
                       )
                     : context.watch<ProfileProvider>().profileStatus ==
                             ProfileStatus.error
                         ? const CircleAvatar(
-                            radius: 30.0,
+                            radius: 25.0,
                             backgroundColor: Color(0xFF637687),
                           )
                         : InkWell(
@@ -58,20 +58,20 @@ class FeedPersonalInfo extends StatelessWidget {
                               imageBuilder: (BuildContext context,
                                   ImageProvider<Object> imageProvider) {
                                 return CircleAvatar(
-                                  radius: 30.0,
+                                  radius: 25.0,
                                   backgroundImage: imageProvider,
                                 );
                               },
                               placeholder: (BuildContext context, String url) {
                                 return const CircleAvatar(
-                                  radius: 30.0,
+                                  radius: 25.0,
                                   backgroundColor: Color(0xFF637687),
                                 );
                               },
                               errorWidget: (BuildContext context, String url,
                                   dynamic error) {
                                 return const CircleAvatar(
-                                  radius: 30.0,
+                                  radius: 25.0,
                                   backgroundImage: AssetImage(
                                       'assets/images/default/ava.jpg'),
                                 );
@@ -113,12 +113,11 @@ class FeedPersonalInfo extends StatelessWidget {
                                           .read<ProfileProvider>()
                                           .pd
                                           .fullname!,
-                                      maxLines: 2,
                                       softWrap: true,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeDefault,
+                                          fontSize: Dimensions.fontSizeLarge,
                                           fontWeight: FontWeight.w600,
                                           fontFamily: 'SF Pro'),
                                     ),
@@ -141,7 +140,7 @@ class FeedPersonalInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
                         AssetsConst.imageIcNotification,
-                        width: 25.0,
+                        width: 20.0,
                         fit: BoxFit.scaleDown,
                       ),
                     ),
@@ -156,7 +155,7 @@ class FeedPersonalInfo extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
                         AssetsConst.imageIcSettings,
-                        width: 25.0,
+                        width: 20.0,
                         fit: BoxFit.scaleDown,
                       ),
                     ),

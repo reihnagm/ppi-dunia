@@ -58,7 +58,7 @@ class CreatePostModel with ChangeNotifier {
   List<Asset> resultList = [];
   List<File> files = [];
 
-  String selectedBranch = 'Anyone';
+  String selectedBranch = 'All';
 
   List<String> _branches = [];
   List<String> get branches => [..._branches];
@@ -87,7 +87,8 @@ class CreatePostModel with ChangeNotifier {
                       if (await Permission.camera.request().isGranted) {
                         Navigator.pop(context, ImageSource.camera);
                       } else {
-                        NS.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context, false);
                       }
                     } catch (e) {
                       debugPrint(e.toString());
@@ -100,11 +101,9 @@ class CreatePostModel with ChangeNotifier {
                     try {
                       await Permission.storage.request();
                       if (await Permission.storage.request().isGranted) {
-                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, ImageSource.gallery);
                       } else {
-                        // ignore: use_build_context_synchronously
-                        NS.pop(context);
+                        Navigator.pop(context, false);
                       }
                     } catch (e) {
                       debugPrint(e.toString());
@@ -218,7 +217,7 @@ class CreatePostModel with ChangeNotifier {
       _branches = [];
       BranchModel bm = await fr.getBranches();
       for (BranchData bd in bm.data) {
-        if (bd.branch == 'Anyone') {
+        if (bd.branch == 'ALL') {
           _branches.add(getTranslated("ANYONE"));
         } else {
           _branches.add(bd.branch);

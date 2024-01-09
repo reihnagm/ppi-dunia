@@ -31,9 +31,6 @@ class OtpTitleTextWidget extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
                   Text(
                     "${getTranslated('ENTER_OTP')} ${model.oldEmail}",
                     style: sfProRegular.copyWith(

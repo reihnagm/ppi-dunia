@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/location/presentation/providers/location.dart';
 import 'package:ppidunia/features/notification/provider/notification.dart';
 
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
           .initNotification();
 
       if (!mounted) return;
-      navigatorKey.currentContext!.read<NotificationNotifier>().initLocation();
+      navigatorKey.currentContext!.read<LocationProvider>().initLocation();
     }
   }
 

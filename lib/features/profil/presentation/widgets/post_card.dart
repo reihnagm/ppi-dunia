@@ -125,105 +125,75 @@ Widget postCard({
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            SizedBox(
-                                              width: 110.0,
-                                              child: Text(pp.feeds[i].user.name,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          ColorResources.white,
-                                                      fontSize: Dimensions
-                                                          .fontSizeLarge,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: 'SF Pro')),
-                                            ),
-                                            const SizedBox(width: 10.0),
-                                            const Text("•",
-                                                style: TextStyle(
-                                                    color: ColorResources
-                                                        .greyDarkPrimary,
-                                                    fontSize: Dimensions
-                                                        .fontSizeDefault,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'SF Pro')),
-                                            const SizedBox(width: 5.0),
-                                            Text(
-                                                DateHelper.formatDateTime(pp
-                                                    .feeds[i].createdAt),
-                                                style: const TextStyle(
-                                                    color: ColorResources
-                                                        .greyDarkPrimary,
-                                                    fontSize: Dimensions
-                                                        .fontSizeExtraSmall,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'SF Pro')),
-                                          ],
-                                        ),
-                                        pp.feeds[i].user.uid ==
-                                                SharedPrefs.getUserId()
-                                            ? PopupMenuButton(
-                                                color: ColorResources.white,
-                                                itemBuilder: (BuildContext
-                                                    buildContext) {
-                                                  return [
-                                                    PopupMenuItem(
-                                                        value: "/delete",
-                                                        child: Text(
-                                                            getTranslated(
-                                                                "DELETE"),
-                                                            style: const TextStyle(
-                                                                color: ColorResources
-                                                                    .greyDarkPrimary,
-                                                                fontSize: Dimensions
-                                                                    .fontSizeDefault,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontFamily:
-                                                                    'SF Pro'))),
-                                                  ];
-                                                },
-                                                onSelected:
-                                                    (String route) async {
-                                                  if (route == "/delete") {
-                                                    await pp.delete(
-                                                        feedId:
-                                                            pp.feeds[i].uid);
-                                                  }
-                                                },
-                                              )
-                                            : const SizedBox()
-                                      ],
+                                    const SizedBox(
+                                      height: 5,
                                     ),
-                                    const SizedBox(height: 5.0),
+                                    Text(pp.feeds[i].user.name,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro')),
+                                    const SizedBox(width: 10.0),
                                     Text(
-                                      pp.feeds[i].caption,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 4,
-                                      style: const TextStyle(
-                                          color: ColorResources.hintColor,
-                                          fontSize:
-                                              Dimensions.fontSizeOverLarge,
-                                          fontFamily: 'SF Pro'),
-                                    ),
-                                    const SizedBox(height: 8.0),
+                                        DateHelper.formatDateTime(
+                                            pp.feeds[i].createdAt),
+                                        style: const TextStyle(
+                                            color:
+                                                ColorResources.greyDarkPrimary,
+                                            fontSize:
+                                                Dimensions.fontSizeExtraSmall,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro')),
+                                    pp.feeds[i].user.uid ==
+                                            SharedPrefs.getUserId()
+                                        ? PopupMenuButton(
+                                            color: ColorResources.white,
+                                            itemBuilder:
+                                                (BuildContext buildContext) {
+                                              return [
+                                                PopupMenuItem(
+                                                    value: "/delete",
+                                                    child: Text(
+                                                        getTranslated("DELETE"),
+                                                        style: const TextStyle(
+                                                            color: ColorResources
+                                                                .greyDarkPrimary,
+                                                            fontSize: Dimensions
+                                                                .fontSizeDefault,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily:
+                                                                'SF Pro'))),
+                                              ];
+                                            },
+                                            onSelected: (String route) async {
+                                              if (route == "/delete") {
+                                                await pp.delete(
+                                                    feedId: pp.feeds[i].uid);
+                                              }
+                                            },
+                                          )
+                                        : const SizedBox(),
                                   ],
                                 ),
                               )
                             ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 25.0, left: 25.0, bottom: 10.0, top: 5),
+                          child: Text(
+                            pp.feeds[i].caption,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                            style: const TextStyle(
+                                color: ColorResources.hintColor,
+                                fontSize: Dimensions.fontSizeSmall,
+                                fontFamily: 'SF Pro'),
                           ),
                         ),
                         if (pp.feeds[i].feedType == "image")
@@ -243,78 +213,76 @@ Widget postCard({
                             ),
                         if (pp.feeds[i].media.length > 1)
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 25.0, vertical: 10.0),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
-                              child: CarouselSlider.builder(
-                                  options: CarouselOptions(
-                                    autoPlay: false,
-                                    height: 180.0,
-                                    enlargeCenterPage: true,
-                                    viewportFraction: 1.0,
-                                    enlargeStrategy:
-                                        CenterPageEnlargeStrategy.scale,
-                                    initialPage: pp.currentIndex,
-                                    onPageChanged: (int i,
-                                        CarouselPageChangedReason reason) {
-                                      pp.onChangeCurrentMultipleImg(i);
-                                    },
-                                  ),
-                                  itemCount: pp.feeds[i].media.length,
-                                  itemBuilder:
-                                      (BuildContext context, int x, int z) {
-                                    return InkWell(
-                                      onTap: () => NS.push(
-                                        context,
-                                        ClippedPhotoView(
-                                          image: pp.feeds[i].media[x].path,
-                                        ),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: CarouselSlider.builder(
+                                options: CarouselOptions(
+                                  autoPlay: false,
+                                  height: 180.0,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 1.0,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.scale,
+                                  initialPage: pp.currentIndex,
+                                  onPageChanged: (int i,
+                                      CarouselPageChangedReason reason) {
+                                    pp.onChangeCurrentMultipleImg(i);
+                                  },
+                                ),
+                                itemCount: pp.feeds[i].media.length,
+                                itemBuilder:
+                                    (BuildContext context, int x, int z) {
+                                  return InkWell(
+                                    onTap: () => NS.push(
+                                      context,
+                                      ClippedPhotoView(
+                                        image: pp.feeds[i].media[x].path,
                                       ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: pp.feeds[i].media[x].path,
-                                        imageBuilder: (BuildContext context,
-                                            ImageProvider imageProvider) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    fit: BoxFit.cover,
-                                                    image: imageProvider)),
-                                          );
-                                        },
-                                        placeholder:
-                                            (BuildContext context, String val) {
-                                          return Container(
-                                            decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    fit: BoxFit.cover,
-                                                    image: AssetImage(
-                                                        AssetsConst
-                                                            .imageDefault))),
-                                          );
-                                        },
-                                        errorWidget: (BuildContext context,
-                                            String text, dynamic _) {
-                                          return Container(
-                                            decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    fit: BoxFit.cover,
-                                                    image: AssetImage(
-                                                        AssetsConst
-                                                            .imageDefault))),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  }),
-                            ),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: pp.feeds[i].media[x].path,
+                                      imageBuilder: (BuildContext context,
+                                          ImageProvider imageProvider) {
+                                        return Container(
+                                          width: double.infinity,
+                                          height: 180.0,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              image: DecorationImage(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  fit: BoxFit.cover,
+                                                  image: imageProvider)),
+                                        );
+                                      },
+                                      placeholder:
+                                          (BuildContext context, String val) {
+                                        return Container(
+                                          decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(AssetsConst
+                                                      .imageDefault))),
+                                        );
+                                      },
+                                      errorWidget: (BuildContext context,
+                                          String text, dynamic _) {
+                                        return Container(
+                                          decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(AssetsConst
+                                                      .imageDefault))),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }),
                           ),
                         if (pp.feeds[i].media.length > 1)
                           Container(

@@ -100,9 +100,11 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      width: 380,
-                      height: 100,
+                      padding: const EdgeInsets.only(
+                          left: 100.0, top: 10.0, right: 0.0),
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      height: 50,
                       decoration: const ShapeDecoration(
                         color: ColorResources.black,
                         shape: RoundedRectangleBorder(
@@ -120,15 +122,26 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                           )
                         ],
                       ),
+                      child: Text(
+                        context.read<ProfileProvider>().pdd.fullname ?? "-",
+                        style: const TextStyle(
+                          color: ColorResources.white,
+                          fontSize: Dimensions.fontSizeOverLarge,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'SF Pro',
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                     Stack(
                       clipBehavior: Clip.none,
                       children: [
                         Container(
                           margin:
-                              const EdgeInsets.only(left: 12.0, right: 12.0),
-                          width: 380,
-                          height: 150,
+                              const EdgeInsets.only(left: 15.0, right: 15.0),
+                          height: 70,
                           decoration: const ShapeDecoration(
                             color: ColorResources.greyDarkPrimary,
                             shape: RoundedRectangleBorder(
@@ -149,7 +162,7 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                         ),
                         Positioned(
                           left: 30,
-                          bottom: 100,
+                          bottom: 10,
                           child: context
                                       .watch<ProfileProvider>()
                                       .profileStatus ==
@@ -216,105 +229,76 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                                     ),
                         ),
                         Positioned(
-                          left: 30,
-                          bottom: 50,
-                          child: SizedBox(
-                            width: 200,
-                            child: Text(
-                              context.read<ProfileProvider>().pdd.fullname ??
-                                  "-",
-                              style: const TextStyle(
-                                color: ColorResources.white,
-                                fontSize: Dimensions.fontSizeExtraLarge,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'SF Pro',
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 30,
-                          bottom: 20,
-                          child: Row(
+                          top: 5.0,
+                          left: 120.0,
+                          right: 0,
+                          child: Column(
                             children: [
-                              const Icon(
-                                Icons.location_on,
-                                size: 20,
-                                color: Colors.white,
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    context
+                                            .read<ProfileProvider>()
+                                            .pdd
+                                            .country
+                                            ?.name ??
+                                        "-",
+                                    style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.marginSizeDefault,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro',
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
                               ),
                               const SizedBox(
-                                width: 5,
+                                height: 10,
                               ),
-                              Text(
-                                context
-                                        .read<ProfileProvider>()
-                                        .pdd
-                                        .country
-                                        ?.name ??
-                                    "-",
-                                style: const TextStyle(
-                                  color: ColorResources.white,
-                                  fontSize: Dimensions.marginSizeDefault,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro',
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Icon(
-                                Icons.school,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                context
-                                        .read<ProfileProvider>()
-                                        .pdd
-                                        .country
-                                        ?.branch ??
-                                    "-",
-                                style: const TextStyle(
-                                  color: ColorResources.white,
-                                  fontSize: Dimensions.marginSizeDefault,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro',
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.school,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    context
+                                            .read<ProfileProvider>()
+                                            .pdd
+                                            .country
+                                            ?.branch ??
+                                        "-",
+                                    style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.marginSizeDefault,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro',
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         )
                       ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      width: 350,
-                      child: Text(
-                        'Post ${context.read<ProfileProvider>().pdd.fullname ?? "-"}',
-                        style: const TextStyle(
-                          color: ColorResources.white,
-                          fontSize: Dimensions.fontSizeOverLarge,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'SF Pro',
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                      ),
                     ),
                     postCard(pp: pp),
                   ],

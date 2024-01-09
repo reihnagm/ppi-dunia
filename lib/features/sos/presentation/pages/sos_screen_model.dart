@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/features/sos/data/repositories/sos.dart';
 
@@ -36,6 +39,27 @@ class SosScreenModel with ChangeNotifier {
       {required String title, required String message}) async {
     setStateSosStatus(SosStatus.loading);
     try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
+
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+
+      Placemark place = placemarks[0];
+
+      lp.setLatLng(position.latitude, position.longitude);
+
+      SharedPrefs.writeCurrentAddress(
+          "${place.thoroughfare} ${place.subThoroughfare} \n${place.locality}, ${place.postalCode}");
+
+      if (lp.getCurrentLat == 0.0 || lp.getCurrentLng == 0.0) {
+        GeneralModal.info(msg: "Location not found", isBackHome: true);
+        return;
+      }
+
+      debugPrint(position.latitude.toString());
+      debugPrint(position.longitude.toString());
+
       await sr.sendSos(
         title: title,
         message: "$message at ${lp.getCurrentNameAddress}",

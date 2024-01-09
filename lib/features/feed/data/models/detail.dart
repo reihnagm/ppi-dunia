@@ -13,13 +13,15 @@ class FeedDetailModel {
     required this.data,
   });
 
-  factory FeedDetailModel.fromJson(Map<String, dynamic> json) => FeedDetailModel(
-    status: json["status"],
-    error: json["error"],
-    message: json["message"],
-    commentPaginate: CommentPaginateModel.fromJson(json["comment_paginate"]),
-    data: FeedDetailData.fromJson(json["data"]),
-  );
+  factory FeedDetailModel.fromJson(Map<String, dynamic> json) =>
+      FeedDetailModel(
+        status: json["status"],
+        error: json["error"],
+        message: json["message"],
+        commentPaginate:
+            CommentPaginateModel.fromJson(json["comment_paginate"]),
+        data: FeedDetailData.fromJson(json["data"]),
+      );
 }
 
 class CommentPaginateModel {
@@ -43,16 +45,17 @@ class CommentPaginateModel {
     required this.prevUrl,
   });
 
-  factory CommentPaginateModel.fromJson(Map<String, dynamic> json) => CommentPaginateModel(
-    hasMore: json["has_more"],
-    total: json["total"],
-    perPage: json["per_page"],
-    nextPage: json["next_page"],
-    prevPage: json["prev_page"],
-    currentPage: json["current_page"],
-    nextUrl: json["next_url"],
-    prevUrl: json["prev_url"],
-  );
+  factory CommentPaginateModel.fromJson(Map<String, dynamic> json) =>
+      CommentPaginateModel(
+        hasMore: json["has_more"],
+        total: json["total"],
+        perPage: json["per_page"],
+        nextPage: json["next_page"],
+        prevPage: json["prev_page"],
+        currentPage: json["current_page"],
+        nextUrl: json["next_url"],
+        prevUrl: json["prev_url"],
+      );
 }
 
 class FeedDetailData {
@@ -81,32 +84,27 @@ class FeedDetailData {
   });
 
   factory FeedDetailData.fromJson(Map<String, dynamic> json) => FeedDetailData(
-    uid: json["uid"],
-    caption: json["caption"],
-    media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
-    user: User.fromJson(json["user"]),
-    feedComments: FeedComments.fromJson(json["feed_comments"]),
-    feedLikes: FeedLikes.fromJson(json["feed_likes"]),
-    feedBookmarks: FeedBookmarks.fromJson(json["feed_bookmarks"]),
-    country: CountryModel.fromJson(json["country"]),
-    feedType: json["feed_type"],
-    createdAt: json["created_at"],
-  );
+        uid: json["uid"],
+        caption: json["caption"],
+        media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+        user: User.fromJson(json["user"]),
+        feedComments: FeedComments.fromJson(json["feed_comments"]),
+        feedLikes: FeedLikes.fromJson(json["feed_likes"]),
+        feedBookmarks: FeedBookmarks.fromJson(json["feed_bookmarks"]),
+        country: CountryModel.fromJson(json["country"]),
+        feedType: json["feed_type"],
+        createdAt: json["created_at"],
+      );
 }
 
 class Media {
   String path;
   String size;
 
-  Media({
-    required this.path,
-    required this.size
-  });
+  Media({required this.path, required this.size});
 
-  factory Media.fromJson(Map<String, dynamic> json) => Media(
-    path: json["path"],
-    size: json["size"]
-  );
+  factory Media.fromJson(Map<String, dynamic> json) =>
+      Media(path: json["path"], size: json["size"]);
 }
 
 class CountryModel {
@@ -117,8 +115,8 @@ class CountryModel {
   });
 
   factory CountryModel.fromJson(Map<String, dynamic> json) => CountryModel(
-    branch: json["branch"],
-  );
+        branch: json["branch"],
+      );
 }
 
 class FeedBookmarks {
@@ -131,9 +129,10 @@ class FeedBookmarks {
   });
 
   factory FeedBookmarks.fromJson(Map<String, dynamic> json) => FeedBookmarks(
-    total: json["total"],
-    bookmarks: List<UserLikes>.from(json["bookmarks"].map((x) => UserLikes.fromJson(x))),
-  );
+        total: json["total"],
+        bookmarks: List<UserLikes>.from(
+            json["bookmarks"].map((x) => UserLikes.fromJson(x))),
+      );
 }
 
 class FeedComments {
@@ -146,9 +145,10 @@ class FeedComments {
   });
 
   factory FeedComments.fromJson(Map<String, dynamic> json) => FeedComments(
-    total: json["total"],
-    comments: List<Comment>.from(json["comments"].map((x) => Comment.fromJson(x))),
-  );
+        total: json["total"],
+        comments: List<Comment>.from(
+            json["comments"].map((x) => Comment.fromJson(x))),
+      );
 }
 
 class Comment {
@@ -169,13 +169,13 @@ class Comment {
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-    uid: json["uid"],
-    comment: json["comment"],
-    createdAt: json["created_at"],
-    commentLikes: CommentLikes.fromJson(json["comment_likes"]),
-    commentReplies: CommentReplies.fromJson(json["comment_replies"]),
-    user: User.fromJson(json["user"]),
-  );
+        uid: json["uid"],
+        comment: json["comment"],
+        createdAt: json["created_at"],
+        commentLikes: CommentLikes.fromJson(json["comment_likes"]),
+        commentReplies: CommentReplies.fromJson(json["comment_replies"]),
+        user: User.fromJson(json["user"]),
+      );
 }
 
 class CommentLikes {
@@ -188,9 +188,10 @@ class CommentLikes {
   });
 
   factory CommentLikes.fromJson(Map<String, dynamic> json) => CommentLikes(
-    total: json["total"],
-    likes: List<CommentLikesLike>.from(json["likes"].map((x) => CommentLikesLike.fromJson(x))),
-  );
+        total: json["total"],
+        likes: List<CommentLikesLike>.from(
+            json["likes"].map((x) => CommentLikesLike.fromJson(x))),
+      );
 }
 
 class CommentLikesLike {
@@ -202,10 +203,11 @@ class CommentLikesLike {
     required this.user,
   });
 
-  factory CommentLikesLike.fromJson(Map<String, dynamic> json) => CommentLikesLike(
-    uid: json["uid"],
-    user: User.fromJson(json["user"]),
-  );
+  factory CommentLikesLike.fromJson(Map<String, dynamic> json) =>
+      CommentLikesLike(
+        uid: json["uid"],
+        user: User.fromJson(json["user"]),
+      );
 }
 
 class FeedLikes {
@@ -218,9 +220,10 @@ class FeedLikes {
   });
 
   factory FeedLikes.fromJson(Map<String, dynamic> json) => FeedLikes(
-    total: json["total"],
-    likes: List<UserLikes>.from(json["likes"].map((x) => UserLikes.fromJson(x))),
-  );
+        total: json["total"],
+        likes: List<UserLikes>.from(
+            json["likes"].map((x) => UserLikes.fromJson(x))),
+      );
 }
 
 class UserLikes {
@@ -231,8 +234,8 @@ class UserLikes {
   });
 
   factory UserLikes.fromJson(Map<String, dynamic> json) => UserLikes(
-    user: User.fromJson(json["user"]),
-  );
+        user: User.fromJson(json["user"]),
+      );
 }
 
 class User {
@@ -247,15 +250,15 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    uid: json["uid"],
-    avatar: json["avatar"],
-    name: json["name"],
-  );
+        uid: json["uid"],
+        avatar: json["avatar"],
+        name: json["name"],
+      );
 }
 
 class CommentReplies {
   int total;
-  List<dynamic> replies;
+  List<Reply> replies;
 
   CommentReplies({
     required this.total,
@@ -263,7 +266,26 @@ class CommentReplies {
   });
 
   factory CommentReplies.fromJson(Map<String, dynamic> json) => CommentReplies(
-    total: json["total"],
-    replies: List<dynamic>.from(json["replies"].map((x) => x)),
-  );
+        total: json["total"],
+        replies:
+            List<Reply>.from(json["replies"].map((x) => Reply.fromJson(x))),
+      );
+}
+
+class Reply {
+  String uid;
+  String reply;
+  User user;
+
+  Reply({
+    required this.uid,
+    required this.reply,
+    required this.user,
+  });
+
+  factory Reply.fromJson(Map<String, dynamic> json) => Reply(
+        uid: json["uid"],
+        reply: json["reply"],
+        user: User.fromJson(json["user"]),
+      );
 }

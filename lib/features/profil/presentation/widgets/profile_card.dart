@@ -72,7 +72,9 @@ Widget profileCard({
                       ),
                     ),
                     context.read<ProfileProvider>().pd.country!.name !=
-                            "Indonesia"
+                                "Indonesia" &&
+                            context.read<ProfileProvider>().pd.country!.name !=
+                                ""
                         ? FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(

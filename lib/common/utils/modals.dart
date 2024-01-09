@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -124,208 +126,55 @@ class GeneralModal {
     return showDialog(
       context: navigatorKey.currentContext!,
       builder: (context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: 300.w,
-                      height: 400.h,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                              left: 20.w,
-                              right: 20.w,
-                              bottom: 20.h,
-                              child: Container(
-                                height: 200.h,
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    color: Colors.white),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "Are you sure you want to report ?",
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Positioned(
-                            bottom: 0.0,
-                            left: 60.w,
-                            right: 60.w,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: 300.w,
+                        height: 400.h,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned(
+                                left: 20.w,
+                                right: 20.w,
+                                bottom: 20.h,
+                                child: Container(
+                                  height: 200.h,
+                                  padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(20.0),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 4,
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 3),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      color: Colors.white),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Are you sure you want to report ?",
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black),
                                       )
                                     ],
                                   ),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: ColorResources.pinkWoman,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      getTranslated("NO").toUpperCase(),
-                                      style: const TextStyle(
-                                          color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(20.0),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 4,
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 3),
-                                      )
-                                    ],
-                                  ),
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      Navigator.pop(context);
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              ColorResources.redHealth),
-                                    ),
-                                    child: Text(
-                                      getTranslated("YES").toUpperCase(),
-                                      style: const TextStyle(
-                                          color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            top: 0.0,
-                            left: 0.0,
-                            right: 0.0,
-                            child: Image.asset(
-                              AssetsConst.imageIcPopUpLogout,
-                              width: 250.0,
-                              height: 250.0,
-                            ),
-                          ),
-                        ],
-                      ))
-                ]),
-          ),
-        );
-      },
-    );
-  }
-
-  static Future<void> showConfirmModals({
-    required String msg,
-    required String image,
-    String? titleYes,
-    bool? isLoading,
-    required Function() onPressed,
-  }) async {
-    return showDialog(
-      context: navigatorKey.currentContext!,
-      builder: (context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: 300.w,
-                      height: 400.h,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                              left: 20.w,
-                              right: 20.w,
-                              bottom: 20.h,
-                              child: Container(
-                                height: 200.h,
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    color: Colors.white),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      msg,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 13.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                              )),
-                          Positioned(
-                            bottom: 0.0,
-                            left: 60.w,
-                            right: 60.w,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 2,
-                                        blurRadius: 10,
-                                        offset: Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Container(
+                                )),
+                            Positioned(
+                              bottom: 0.0,
+                              left: 60.w,
+                              right: 60.w,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(20.0),
@@ -344,7 +193,8 @@ class GeneralModal {
                                         Navigator.pop(context);
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: ColorResources.white,
+                                        backgroundColor:
+                                            ColorResources.pinkWoman,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(18.0),
@@ -353,71 +203,235 @@ class GeneralModal {
                                       child: Text(
                                         getTranslated("NO").toUpperCase(),
                                         style: const TextStyle(
-                                            color: ColorResources.redHealth,
+                                            color: ColorResources.white,
                                             fontSize: Dimensions.fontSizeLarge,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: 'SF Pro'),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(20.0),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 4,
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 3),
+                                        )
+                                      ],
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 4,
-                                        blurRadius: 10,
-                                        offset: const Offset(0, 3),
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                ColorResources.redHealth),
+                                      ),
+                                      child: Text(
+                                        getTranslated("YES").toUpperCase(),
+                                        style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Image.asset(
+                                AssetsConst.imageIcPopUpLogout,
+                                width: 250.0,
+                                height: 250.0,
+                              ),
+                            ),
+                          ],
+                        ))
+                  ]),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<void> showConfirmModals({
+    required String msg,
+    required String image,
+    String? titleYes,
+    bool? isLoading,
+    required Function() onPressed,
+  }) async {
+    return showDialog(
+      context: navigatorKey.currentContext!,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: 300.w,
+                        height: 400.h,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned(
+                                left: 20.w,
+                                right: 20.w,
+                                bottom: 20.h,
+                                child: Container(
+                                  height: 200.h,
+                                  padding: const EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      color: Colors.white),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        msg,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black),
                                       )
                                     ],
                                   ),
-                                  child: ElevatedButton(
-                                    onPressed: context
-                                                .watch<SosScreenModel>()
-                                                .sosStatus ==
-                                            SosStatus.loading
-                                        ? null
-                                        : onPressed,
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              ColorResources.redHealth),
+                                )),
+                            Positioned(
+                              bottom: 0.0,
+                              left: 60.w,
+                              right: 60.w,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 10,
+                                          offset: Offset(0, 3),
+                                        ),
+                                      ],
                                     ),
-                                    child: Text(
-                                      context
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(20.0),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.2),
+                                            spreadRadius: 4,
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 3),
+                                          )
+                                        ],
+                                      ),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: ColorResources.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(18.0),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          getTranslated("NO").toUpperCase(),
+                                          style: const TextStyle(
+                                              color: ColorResources.redHealth,
+                                              fontSize:
+                                                  Dimensions.fontSizeLarge,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SF Pro'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 4,
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 3),
+                                        )
+                                      ],
+                                    ),
+                                    child: ElevatedButton(
+                                      onPressed: context
                                                   .watch<SosScreenModel>()
                                                   .sosStatus ==
                                               SosStatus.loading
-                                          ? "..."
-                                          : getTranslated("YES").toUpperCase(),
-                                      style: const TextStyle(
-                                          color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
+                                          ? null
+                                          : onPressed,
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                ColorResources.redHealth),
+                                      ),
+                                      child: Text(
+                                        context
+                                                    .watch<SosScreenModel>()
+                                                    .sosStatus ==
+                                                SosStatus.loading
+                                            ? "..."
+                                            : getTranslated("YES")
+                                                .toUpperCase(),
+                                        style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro'),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Positioned(
-                            top: 0.0,
-                            left: 0.0,
-                            right: 0.0,
-                            child: Image.asset(
-                              image,
-                              width: 250.0,
-                              height: 250.0,
+                            Positioned(
+                              top: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Image.asset(
+                                image,
+                                width: 250.0,
+                                height: 250.0,
+                              ),
                             ),
-                          ),
-                        ],
-                      ))
-                ]),
+                          ],
+                        ))
+                  ]),
+            ),
           ),
         );
       },
@@ -427,6 +441,86 @@ class GeneralModal {
   static Future<void> dialogRequestNotification({
     required String msg,
   }) {
+    return showDialog(
+      context: navigatorKey.currentContext!,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: 300.w,
+                        height: 400.h,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned(
+                                left: 20.w,
+                                right: 20.w,
+                                bottom: 20.h,
+                                child: Container(
+                                  height: 200.h,
+                                  padding: const EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      color: Colors.white),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        msg,
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                            fontSize: 13.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black),
+                                      )
+                                    ],
+                                  ),
+                                )),
+                            Positioned(
+                                bottom: 0.0,
+                                left: 80.w,
+                                right: 80.w,
+                                child: CustomButton(
+                                  isBorder: false,
+                                  btnColor: ColorResources.redHealth,
+                                  btnTextColor: Colors.white,
+                                  sizeBorderRadius: 20.0,
+                                  isBorderRadius: true,
+                                  height: 40.0,
+                                  onTap: () async {
+                                    await openAppSettings();
+                                  },
+                                  btnTxt: "Aktifkan",
+                                )),
+                            Positioned(
+                              top: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Image.asset(
+                                AssetsConst.imageIcPopUpDelete,
+                                width: 250.0,
+                                height: 250.0,
+                              ),
+                            ),
+                          ],
+                        ))
+                  ]),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<void> info({required String msg, required bool isBackHome}) {
     return showDialog(
       context: navigatorKey.currentContext!,
       builder: (context) {
@@ -459,7 +553,6 @@ class GeneralModal {
                                   children: [
                                     Text(
                                       msg,
-                                      textAlign: TextAlign.justify,
                                       style: TextStyle(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.w600,
@@ -474,15 +567,17 @@ class GeneralModal {
                               right: 80.w,
                               child: CustomButton(
                                 isBorder: false,
-                                btnColor: ColorResources.redHealth,
+                                btnColor: ColorResources.blueCar,
                                 btnTextColor: Colors.white,
+                                // fontSize: 13.sp,
                                 sizeBorderRadius: 20.0,
                                 isBorderRadius: true,
                                 height: 40.0,
-                                onTap: () async {
-                                  await openAppSettings();
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context, false);
                                 },
-                                btnTxt: "Aktifkan",
+                                btnTxt: "OK",
                               )),
                           Positioned(
                             top: 0.0,

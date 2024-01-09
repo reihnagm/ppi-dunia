@@ -1,0 +1,20 @@
+ // ListView.builder(
+                                                  //     shrinkWrap: true,
+                                                  //     itemCount: c
+                                                  //         .comments[i]
+                                                  //         .commentReplies
+                                                  //         .replies
+                                                  //         .length,
+                                                  //     itemBuilder: (_, z) {
+                                                  //       Reply reply = c
+                                                  //           .comments[i]
+                                                  //           .commentReplies
+                                                  //           .replies[z];
+                                                  //       return Text(
+                                                  //         reply.reply
+                                                  //             .toString(),
+                                                  //         style: TextStyle(
+                                                  //             color: Colors
+                                                  //                 .white),
+                                                  //       );
+                                                  //     })

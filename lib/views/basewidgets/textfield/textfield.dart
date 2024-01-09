@@ -88,6 +88,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.textInputType,
       maxLength: widget.maxLength,
       readOnly: widget.readOnly,
+      textCapitalization: TextCapitalization.sentences,
       validator: (value) {
         if (value == null || value.isEmpty) {
           widget.focusNode.requestFocus();

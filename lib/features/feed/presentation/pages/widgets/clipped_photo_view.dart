@@ -8,15 +8,18 @@ class ClippedPhotoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(image);
     return Hero(
       tag: "image-view",
       child: Center(
         child: ClipRect(
           child: PhotoView(
-            imageProvider: Image.network(
-              image,
-              fit: BoxFit.contain,
-            ).image,
+            imageProvider: image == ""
+                ? const AssetImage('assets/images/default/ava.jpg')
+                : Image.network(
+                    image,
+                    fit: BoxFit.contain,
+                  ).image,
             minScale: PhotoViewComputedScale.contained * 0.8,
             maxScale: PhotoViewComputedScale.covered * 2,
             // loadingBuilder: (context, event) =>

@@ -122,7 +122,7 @@ class FeedList extends StatelessWidget {
                                           ProfileViewScreen(
                                               userId: fsm.feeds[i].user.uid)),
                                       child: imageAvatar(
-                                          fsm.feeds[i].user.avatar, 25)),
+                                          fsm.feeds[i].user.avatar, 18)),
                                 ),
                                 Expanded(
                                   flex: 28,
@@ -130,7 +130,7 @@ class FeedList extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Column(
                                         mainAxisAlignment:
@@ -138,15 +138,33 @@ class FeedList extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(fsm.feeds[i].user.name,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color: ColorResources.white,
-                                                  fontSize:
-                                                      Dimensions.fontSizeSmall,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SF Pro')),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.sizeOf(context)
+                                                        .width <
+                                                    400
+                                                ? 150
+                                                : 230,
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                  fsm.feeds[i].user.name,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      color:
+                                                          ColorResources.white,
+                                                      fontSize: Dimensions
+                                                          .fontSizeSmall,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'SF Pro')),
+                                            ),
+                                          ),
                                           Text(
                                               DateHelper.formatDateTime(
                                                   fsm.feeds[i].createdAt),
@@ -296,8 +314,8 @@ class FeedList extends StatelessWidget {
                                 right: 25.0, left: 25.0, bottom: 10.0, top: 5),
                             child: Text(
                               fsm.feeds[i].caption,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 4,
+                              overflow: TextOverflow.visible,
+                              textAlign: TextAlign.start,
                               style: const TextStyle(
                                   color: ColorResources.hintColor,
                                   fontSize: Dimensions.fontSizeSmall,

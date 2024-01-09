@@ -72,11 +72,8 @@ class CreatePostScreenState extends State<CreatePostScreen> {
 
           return SlidingUpPanel(
             minHeight: deviceMaxHeight < 900
-                ? constraints.maxHeight * .26
+                ? constraints.maxHeight * .30
                 : constraints.maxHeight * .23,
-            maxHeight: deviceMaxHeight < 900
-                ? constraints.maxHeight * .57
-                : constraints.maxHeight * .50,
             color: ColorResources.bgSecondaryColor,
             panelBuilder: (ScrollController sc) {
               return CustomScrollView(
@@ -139,7 +136,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 10.0),
+                                const SizedBox(height: 5.0),
                                 IntrinsicWidth(
                                   child: Material(
                                     color: ColorResources.transparent,
@@ -176,7 +173,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 10.0),
+                                const SizedBox(height: 5.0),
                                 IntrinsicWidth(
                                   child: Material(
                                     color: ColorResources.transparent,
@@ -303,6 +300,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                         Consumer<CreatePostModel>(
                           builder: (BuildContext context, CreatePostModel c,
                               Widget? child) {
+                            print("Select : ${c.selectedBranch}");
                             return Container(
                               margin: const EdgeInsets.symmetric(
                                   vertical: 0.0, horizontal: 20.0),
@@ -357,7 +355,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                 return const CircleAvatar(
                                                   radius: 18.0,
                                                   backgroundImage: AssetImage(
-                                                      AssetsConst.imageLogoPpi),
+                                                      'assets/images/default/ava.jpg'),
                                                 );
                                               },
                                             ),
@@ -489,7 +487,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                                 value!);
                                                           },
                                                           value: c.selectedBranch ==
-                                                                  'Anyone'
+                                                                  'All'
                                                               ? getTranslated(
                                                                   "ANYONE")
                                                               : c.selectedBranch ==
@@ -506,7 +504,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                               return Center(
                                                                 child: Text(
                                                                   c.selectedBranch ==
-                                                                          'Anyone'
+                                                                          'All'
                                                                       ? getTranslated(
                                                                           "ANYONE")
                                                                       : c.selectedBranch ==
@@ -536,7 +534,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                                 String>(
                                                               value: value,
                                                               child: Text(value ==
-                                                                      'Anyone'
+                                                                      'All'
                                                                   ? getTranslated(
                                                                       'ANYONE')
                                                                   : value),
@@ -556,6 +554,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 0.0, horizontal: 20.0),
                             child: TextField(
+                              textCapitalization: TextCapitalization.sentences,
                               maxLines: null,
                               style: const TextStyle(
                                 fontSize: Dimensions.fontSizeOverLarge,
@@ -815,10 +814,10 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
-                                        width: 300,
+                                        width: 230,
                                         child: Text(
                                             cpm.docName
                                                 .toString()
@@ -843,7 +842,6 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                       )
                                     ],
                                   ),
-                                  const SizedBox(height: 6.0),
                                   Row(
                                     children: [
                                       Text("${getTranslated("FILE_SIZE")} :",

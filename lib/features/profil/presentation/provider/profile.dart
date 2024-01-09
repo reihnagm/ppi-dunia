@@ -117,7 +117,8 @@ class ProfileProvider with ChangeNotifier {
                       if (await Permission.camera.request().isGranted) {
                         Navigator.pop(context, ImageSource.camera);
                       } else {
-                        NS.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context, false);
                       }
                     } catch (e) {
                       debugPrint(e.toString());
@@ -130,11 +131,11 @@ class ProfileProvider with ChangeNotifier {
                     try {
                       await Permission.storage.request();
                       if (await Permission.storage.request().isGranted) {
-                        // ignore: use_build_context_synchronously
+                        // ignore:
                         Navigator.pop(context, ImageSource.gallery);
                       } else {
-                        // ignore: use_build_context_synchronously
-                        NS.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context, false);
                       }
                     } catch (e) {
                       debugPrint(e.toString());

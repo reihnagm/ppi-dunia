@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
+import 'package:ppidunia/features/location/presentation/providers/location.dart';
+import 'package:ppidunia/features/notification/provider/notification.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -40,7 +42,7 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: providers,
     child: DevicePreview(
-        enabled: true, builder: (BuildContext context) => const MyApp()),
+        enabled: false, builder: (BuildContext context) => const MyApp()),
   ));
 }
 
@@ -72,6 +74,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // - Detached (View Destroyed - App Closed)
     if (state == AppLifecycleState.resumed) {
       debugPrint("=== APP RESUME ===");
+
+      if (!mounted) return;
+      navigatorKey.currentContext!
+          .read<NotificationNotifier>()
+          .checkNotification();
+
+      if (!mounted) return;
+      navigatorKey.currentContext!.read<LocationProvider>().checkLocation();
     }
     if (state == AppLifecycleState.inactive) {
       debugPrint("=== APP INACTIVE ===");
@@ -103,6 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

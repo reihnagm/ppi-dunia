@@ -63,7 +63,7 @@ class OtpScreenState extends State<OtpScreen> {
                           ),
                         ),
                         content: const OtpContentWidget(),
-                        contentHeight: 0.2,
+                        contentHeight: 0.15,
                         bottom: const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.0),
                           child: OtpButtonsWidget(),

@@ -1,15 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/utils/modals.dart';
-import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:soundpool/soundpool.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationNotifier with ChangeNotifier {
   NotificationNotifier() {
@@ -24,17 +20,6 @@ class NotificationNotifier with ChangeNotifier {
   );
 
   bool isDialogShowing = false;
-
-  Future<void> initLocation() async {
-    final loc = await Geolocator.requestPermission();
-
-    if (loc == LocationPermission.whileInUse ||
-        loc == LocationPermission.always) {
-      Position position = await Geolocator.getCurrentPosition();
-
-      SharedPrefs.writeLatLng(position.latitude, position.longitude);
-    }
-  }
 
   Future<void> initNotification() async {
     final notificationRequest = await Permission.notification.request();
