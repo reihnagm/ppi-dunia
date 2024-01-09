@@ -47,6 +47,7 @@ class CommentScreenModel with ChangeNotifier {
 
   late CarouselController carouselC;
   late TextEditingController commentC;
+  late TextEditingController replyC;
   late ScrollController sc;
 
   FeedDetailData _feedDetailData = FeedDetailData();
@@ -91,6 +92,31 @@ class CommentScreenModel with ChangeNotifier {
       _comments.addAll(fdm.data.feedComments!.comments);
 
       commentC.text = "";
+
+      setStateCommentStatus(CommentStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+    } catch (_) {}
+  }
+
+  Future<void> postReply(
+      {required String feedId, required String commentId}) async {
+    try {
+      if (replyC.text.trim() == "") {
+        return;
+      }
+      debugPrint(replyC.text);
+
+      await cr.postReply(
+          feedId: feedId, reply: replyC.text, commentId: commentId);
+
+      FeedDetailModel fdm = await cr.getFeedDetail(feedId: feedId, pageKey: 1);
+      _feedDetailData = fdm.data;
+
+      _comments.clear();
+      _comments.addAll(fdm.data.feedComments!.comments);
+
+      replyC.text = "";
 
       setStateCommentStatus(CommentStatus.loaded);
     } on CustomException catch (e) {

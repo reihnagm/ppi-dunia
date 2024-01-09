@@ -855,40 +855,33 @@ class CommentScreenState extends State<CommentScreen> {
                                       return Container(
                                           width: double.infinity,
                                           margin: const EdgeInsets.only(
-                                            top: 8.0,
-                                            left: 25.0,
-                                            right: 16.0
-                                          ),
+                                              top: 8.0,
+                                              left: 25.0,
+                                              right: 16.0),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
-                                          
                                                   InkWell(
                                                     onTap: () {
                                                       NS.push(
                                                         context,
                                                         ProfileViewScreen(
-                                                          userId: c
-                                                              .comments[i]
-                                                              .user
-                                                              .uid,
+                                                          userId: c.comments[i]
+                                                              .user.uid,
                                                         ),
                                                       );
                                                     },
-                                                    child:
-                                                        CachedNetworkImage(
-                                                      imageUrl: c
-                                                          .comments[i]
-                                                          .user
-                                                          .avatar,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: c.comments[i]
+                                                          .user.avatar,
                                                       imageBuilder: (BuildContext
                                                               context,
-                                                          ImageProvider<
-                                                                  Object>
+                                                          ImageProvider<Object>
                                                               imageProvider) {
                                                         return CircleAvatar(
                                                           radius: 20.0,
@@ -897,46 +890,44 @@ class CommentScreenState extends State<CommentScreen> {
                                                         );
                                                       },
                                                       placeholder:
-                                                          (BuildContext
-                                                                  context,
+                                                          (BuildContext context,
                                                               String url) {
                                                         return const CircleAvatar(
                                                           radius: 20.0,
                                                           backgroundColor:
-                                                              Color(
-                                                                  0xFF637687),
+                                                              Color(0xFF637687),
                                                         );
                                                       },
                                                       errorWidget:
-                                                          (BuildContext
-                                                                  context,
+                                                          (BuildContext context,
                                                               String url,
-                                                              dynamic
-                                                                  error) {
+                                                              dynamic error) {
                                                         return const CircleAvatar(
                                                           radius: 20.0,
                                                           backgroundColor:
-                                                              Color(
-                                                                  0xFF637687),
+                                                              Color(0xFF637687),
                                                         );
                                                       },
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                      width: 12.0),
+                                                  const SizedBox(width: 12.0),
                                                   Expanded(
                                                     child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(15),
                                                           decoration: const BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius.all(
-                                                                      Radius.circular(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
                                                                           12.0)),
                                                               color: ColorResources
                                                                   .greyPrimary),
@@ -945,7 +936,8 @@ class CommentScreenState extends State<CommentScreen> {
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             mainAxisSize:
-                                                                MainAxisSize.min,
+                                                                MainAxisSize
+                                                                    .min,
                                                             children: [
                                                               InkWell(
                                                                 onTap: () {
@@ -961,8 +953,11 @@ class CommentScreenState extends State<CommentScreen> {
                                                                   );
                                                                 },
                                                                 child: Text(
-                                                                    c.comments[i]
-                                                                        .user.name,
+                                                                    c
+                                                                        .comments[
+                                                                            i]
+                                                                        .user
+                                                                        .name,
                                                                     maxLines: 2,
                                                                     overflow:
                                                                         TextOverflow
@@ -983,7 +978,8 @@ class CommentScreenState extends State<CommentScreen> {
                                                                   height: 5.0),
                                                               Text(
                                                                   DateHelper.formatDateTime(c
-                                                                      .comments[i]
+                                                                      .comments[
+                                                                          i]
                                                                       .createdAt),
                                                                   style: const TextStyle(
                                                                       color: ColorResources
@@ -1015,109 +1011,154 @@ class CommentScreenState extends State<CommentScreen> {
                                                             ],
                                                           ),
                                                         ),
-                                                        Text("Balas (${c.comments[i].commentReplies.total})",style: TextStyle(color: Colors.white),),
+                                                        InkWell(
+                                                          onTap: () {
+                                                            NS.pushReplacement(
+                                                                context,
+                                                                CommentDetail(
+                                                                  avatarUser: c
+                                                                      .comments[
+                                                                          i]
+                                                                      .user
+                                                                      .avatar,
+                                                                  name: c
+                                                                      .comments[
+                                                                          i]
+                                                                      .user
+                                                                      .name,
+                                                                  date: c
+                                                                      .comments[
+                                                                          i]
+                                                                      .createdAt,
+                                                                  comment: c
+                                                                      .comments[
+                                                                          i]
+                                                                      .comment,
+                                                                  feedId: widget
+                                                                      .feedId,
+                                                                  index: i,
+                                                                  comment_id: c
+                                                                      .comments[
+                                                                          i]
+                                                                      .uid,
+                                                                ));
+                                                          },
+                                                          child: Text(
+                                                            "Balas (${c.comments[i].commentReplies.total})",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
                                                         ListView.builder(
-                                                          padding: const EdgeInsets.symmetric(vertical: 10),
-                                                          shrinkWrap: true,
-                                                          itemCount: c.comments[i].commentReplies.replies.length < 2 ? c.comments[i].commentReplies.replies.length : 2 ,
-                                                          itemBuilder: (_, z) {
-                                                            Reply reply = c
-                                                                .comments[i]
-                                                                .commentReplies
-                                                                .replies[z];
-                                                            return Padding(
-                                                              padding: const EdgeInsets.only(left: 10),
-                                                              child: Column(
-                                                                children: [
-                                                                  Row(
-                                                                    children: [
-                                                                      InkWell(
-                                                                        onTap: () {
-                                                                          // NS.pushReplacement(context, CommentDetail(name: reply.user.name));
-                                                                        },
-                                                                        child: CachedNetworkImage(
-                                                                          imageUrl: reply.user.avatar,
-                                                                          imageBuilder: (BuildContext
-                                                                                  context,
-                                                                              ImageProvider<Object>
-                                                                                  imageProvider) {
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10),
+                                                            shrinkWrap: true,
+                                                            itemCount: c
+                                                                        .comments[
+                                                                            i]
+                                                                        .commentReplies
+                                                                        .replies
+                                                                        .length <
+                                                                    2
+                                                                ? c
+                                                                    .comments[i]
+                                                                    .commentReplies
+                                                                    .replies
+                                                                    .length
+                                                                : 2,
+                                                            itemBuilder:
+                                                                (_, z) {
+                                                              Reply reply = c
+                                                                  .comments[i]
+                                                                  .commentReplies
+                                                                  .replies[z];
+                                                              return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left:
+                                                                            10),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        CachedNetworkImage(
+                                                                          imageUrl: reply
+                                                                              .user
+                                                                              .avatar,
+                                                                          imageBuilder:
+                                                                              (BuildContext context, ImageProvider<Object> imageProvider) {
                                                                             return CircleAvatar(
                                                                               radius: 10.0,
-                                                                              backgroundImage:
-                                                                                  imageProvider,
+                                                                              backgroundImage: imageProvider,
                                                                             );
                                                                           },
                                                                           placeholder:
-                                                                              (BuildContext context,
-                                                                                  String url) {
+                                                                              (BuildContext context, String url) {
                                                                             return const CircleAvatar(
                                                                               radius: 10.0,
-                                                                              backgroundColor:
-                                                                                  Color(0xFF637687),
+                                                                              backgroundColor: Color(0xFF637687),
                                                                             );
                                                                           },
-                                                                          errorWidget:
-                                                                              (BuildContext context,
-                                                                                  String url,
-                                                                                  dynamic error) {
+                                                                          errorWidget: (BuildContext context,
+                                                                              String url,
+                                                                              dynamic error) {
                                                                             return const CircleAvatar(
                                                                               radius: 10.0,
-                                                                              backgroundColor:
-                                                                                  Color(0xFF637687),
+                                                                              backgroundColor: Color(0xFF637687),
                                                                             );
                                                                           },
                                                                         ),
-                                                                      ),
-                                                                      SizedBox(width: 10.0,),
-                                                                      Text(
-                                                                         reply.user.name,
-                                                                          maxLines: 2,
+                                                                        SizedBox(
+                                                                          width:
+                                                                              10.0,
+                                                                        ),
+                                                                        Text(reply.user.name,
+                                                                            maxLines:
+                                                                                2,
+                                                                            overflow: TextOverflow
+                                                                                .ellipsis,
+                                                                            style: const TextStyle(
+                                                                                color: ColorResources.white,
+                                                                                fontSize: Dimensions.fontSizeLarge,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontFamily: 'SF Pro')),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              10.0,
+                                                                        ),
+                                                                        Text(
+                                                                          reply
+                                                                              .reply,
+                                                                          maxLines:
+                                                                              4,
                                                                           overflow:
-                                                                              TextOverflow
-                                                                                  .ellipsis,
+                                                                              TextOverflow.ellipsis,
                                                                           style: const TextStyle(
-                                                                              color: ColorResources
-                                                                                  .white,
-                                                                              fontSize:
-                                                                                  Dimensions
-                                                                                      .fontSizeLarge,
-                                                                              fontWeight:
-                                                                                  FontWeight
-                                                                                      .w600,
-                                                                              fontFamily:
-                                                                                  'SF Pro')),
-                                                                      SizedBox(width: 10.0,),
-                                                                      Text(
-                                                                      reply.reply,
-                                                                      maxLines: 4,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: const TextStyle(
-                                                                          color: ColorResources
-                                                                              .hintColor,
-                                                                          fontSize:
-                                                                              Dimensions
-                                                                                  .fontSizeLarge,
-                                                                          fontFamily:
-                                                                              'SF Pro'),
+                                                                              color: ColorResources.hintColor,
+                                                                              fontSize: Dimensions.fontSizeLarge,
+                                                                              fontFamily: 'SF Pro'),
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                    ],
-                                                                  ),
-                                                                  const SizedBox(
-                                                                  height: 5.0),
-                                                                ],
-                                                              ),
-                                                            );
-                                                          })
+                                                                    const SizedBox(
+                                                                        height:
+                                                                            5.0),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            })
                                                       ],
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                          ],
-                                        )
-                                      );
+                                            ],
+                                          ));
                                     },
                                   );
                                 },

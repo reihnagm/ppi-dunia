@@ -31,6 +31,26 @@ class CommentRepo {
     }
   }
 
+  Future<void> postReply(
+      {required String feedId,
+      required String reply,
+      required String commentId}) async {
+    try {
+      await dioClient!.post("/api/v1/feed/reply", data: {
+        "feed_id": feedId,
+        "comment_id": commentId,
+        "user_id": SharedPrefs.getUserId(),
+        "reply": reply
+      });
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+
   Future<FeedDetailModel> getFeedDetail(
       {required int pageKey, required String feedId}) async {
     try {

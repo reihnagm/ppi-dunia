@@ -119,7 +119,7 @@ class SosScreenState extends State<SosScreen> {
               msg: "Do you need help immediately?",
               onPressed: () async {
                 try {
-                    await Permission.location.request();
+                  await Permission.location.request();
                   if (await Permission.location.request().isGranted) {
                     await ssm.sendSos(context, title: title, message: message);
                   } else {
