@@ -275,17 +275,20 @@ class CommentReplies {
 class Reply {
   String uid;
   String reply;
+  String createdAt;
   User user;
 
   Reply({
     required this.uid,
     required this.reply,
+    required this.createdAt,
     required this.user,
   });
 
   factory Reply.fromJson(Map<String, dynamic> json) => Reply(
         uid: json["uid"],
         reply: json["reply"],
+        createdAt: json["created_at"],
         user: User.fromJson(json["user"]),
       );
 }

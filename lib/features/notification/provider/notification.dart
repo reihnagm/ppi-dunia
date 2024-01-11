@@ -28,7 +28,7 @@ class NotificationNotifier with ChangeNotifier {
         notificationRequest.isPermanentlyDenied) {
       await GeneralModal.dialogRequestNotification(
           msg:
-              "Fitur notifikasi dibutuhkan, silahkan aktifkan notifikasi Anda");
+              "Storage notification needed, please activate your notification");
     }
   }
 
@@ -47,7 +47,7 @@ class NotificationNotifier with ChangeNotifier {
         isDialogShowing = true;
         await GeneralModal.dialogRequestNotification(
             msg:
-                "Fitur notifikasi dibutuhkan, silahkan aktifkan notifikasi Anda");
+                "Notification feature needed, please activate your notification");
       }
     } else {
       Future.delayed(const Duration(seconds: 1), () {

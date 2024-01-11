@@ -3,10 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
@@ -14,6 +16,7 @@ import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
 
@@ -93,31 +96,7 @@ Widget postCard({
                             children: [
                               Expanded(
                                 flex: 7,
-                                child: CachedNetworkImage(
-                                  imageUrl: pp.feeds[i].user.avatar,
-                                  imageBuilder: (BuildContext context,
-                                      ImageProvider<Object> imageProvider) {
-                                    return CircleAvatar(
-                                      radius: 25.0,
-                                      backgroundImage: imageProvider,
-                                    );
-                                  },
-                                  placeholder:
-                                      (BuildContext context, String url) {
-                                    return const CircleAvatar(
-                                      radius: 25.0,
-                                      backgroundColor: Color(0xFF637687),
-                                    );
-                                  },
-                                  errorWidget: (BuildContext context,
-                                      String url, dynamic error) {
-                                    return const CircleAvatar(
-                                      radius: 25.0,
-                                      backgroundImage:
-                                          AssetImage(AssetsConst.imageLogoPpi),
-                                    );
-                                  },
-                                ),
+                                child: imageAvatar(pp.feeds[i].user.avatar, 20),
                               ),
                               Expanded(
                                 flex: 28,
@@ -128,14 +107,18 @@ Widget postCard({
                                     const SizedBox(
                                       height: 5,
                                     ),
-                                    Text(pp.feeds[i].user.name,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: ColorResources.white,
-                                            fontSize: Dimensions.fontSizeLarge,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SF Pro')),
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(pp.feeds[i].user.name,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: ColorResources.white,
+                                              fontSize: Dimensions.fontSizeSmall,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SF Pro')),
+                                    ),
                                     const SizedBox(width: 10.0),
                                     Text(
                                         DateHelper.formatDateTime(
@@ -147,10 +130,20 @@ Widget postCard({
                                                 Dimensions.fontSizeExtraSmall,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: 'SF Pro')),
-                                    pp.feeds[i].user.uid ==
+                                    
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  pp.feeds[i].user.uid ==
                                             SharedPrefs.getUserId()
                                         ? PopupMenuButton(
-                                            color: ColorResources.white,
+                                            color: Colors.white,
+                                            iconColor: Colors.white,
+                                            iconSize: 20,
                                             itemBuilder:
                                                 (BuildContext buildContext) {
                                               return [
@@ -170,15 +163,29 @@ Widget postCard({
                                               ];
                                             },
                                             onSelected: (String route) async {
-                                              if (route == "/delete") {
-                                                await pp.delete(
-                                                    feedId: pp.feeds[i].uid);
-                                              }
+                                              GeneralModal.showConfirmModals(
+                                                      image: AssetsConst
+                                                          .imageIcPopUpDelete,
+                                                      msg:
+                                                          "Are you sure want to delete ?",
+                                                      onPressed: () async {
+                                                        if (route ==
+                                                            "/delete") {
+                                                          await pp.delete(feedId: pp.feeds[i].uid);
+                                                        }
+                                                        NS.pop(context);
+                                                        ShowSnackbar.snackbar(
+                                                            context,
+                                                            "Successfully delete a post",
+                                                            '',
+                                                            ColorResources
+                                                                .success);
+                                                },
+                                              );
                                             },
                                           )
                                         : const SizedBox(),
-                                  ],
-                                ),
+                                ],
                               )
                             ],
                           ),
@@ -413,21 +420,58 @@ Widget postCard({
                                               feedLikes: pp.feeds[i].feedLikes);
                                         },
                                         child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: pp.feeds[i].feedLikes.likes
-                                                  .where((el) =>
-                                                      el.user.uid ==
-                                                      SharedPrefs.getUserId())
-                                                  .isEmpty
-                                              ? Image.asset(
-                                                  AssetsConst.imageIcLove,
-                                                  width: 18.0,
-                                                )
-                                              : Image.asset(
-                                                  AssetsConst.imageIcLoveFill,
-                                                  width: 18.0,
-                                                ),
-                                        ),
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  pp.feeds[i].feedLikes.likes
+                                                          .where((el) =>
+                                                              el.user.uid ==
+                                                              SharedPrefs
+                                                                  .getUserId())
+                                                          .isEmpty
+                                                      ? Image.asset(
+                                                          AssetsConst
+                                                              .imageIcLove,
+                                                          width: 18.0,
+                                                        )
+                                                      : Image.asset(
+                                                          AssetsConst
+                                                              .imageIcLoveFill,
+                                                          width: 18.0,
+                                                        ),
+                                                  pp.feeds[i].feedLikes.likes
+                                                          .isEmpty
+                                                      ? const SizedBox()
+                                                      : const SizedBox(
+                                                          width: 12.0),
+                                                  pp.feeds[i].feedLikes.likes
+                                                          .isEmpty
+                                                      ? const SizedBox()
+                                                      : Text(
+                                                          pp.feeds[i].feedLikes
+                                                              .total
+                                                              .toString(),
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  ColorResources
+                                                                      .white,
+                                                              fontSize: Dimensions
+                                                                  .fontSizeSmall,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontFamily:
+                                                                  'SF Pro'),
+                                                        )
+                                                ],
+                                              )),
                                       ),
                                     ),
                                     const SizedBox(width: 15.0),

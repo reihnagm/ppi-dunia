@@ -12,6 +12,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
+import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/features/media/data/repositories/media.dart';
 
@@ -113,12 +114,12 @@ class ProfileProvider with ChangeNotifier {
                   child: const Text("Camera"),
                   onPressed: () async {
                     try {
-                      await Permission.camera.request();
                       if (await Permission.camera.request().isGranted) {
                         Navigator.pop(context, ImageSource.camera);
-                      } else {
-                        Navigator.pop(context);
-                        Navigator.pop(context, false);
+                      } else if(await Permission.camera.request().isDenied || await Permission.camera.request().isPermanentlyDenied ) {
+                        GeneralModal.dialogRequestNotification(msg: "Camera feature needed, please activate your camera");
+                      }else{
+                        NS.pop(context);
                       }
                     } catch (e) {
                       debugPrint(e.toString());
@@ -129,13 +130,13 @@ class ProfileProvider with ChangeNotifier {
                   child: const Text("Gallery"),
                   onPressed: () async {
                     try {
-                      await Permission.storage.request();
                       if (await Permission.storage.request().isGranted) {
                         // ignore:
                         Navigator.pop(context, ImageSource.gallery);
-                      } else {
-                        Navigator.pop(context);
-                        Navigator.pop(context, false);
+                      } else if(await Permission.storage.isDenied || await Permission.storage.isPermanentlyDenied ) {
+                        GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
+                      }else{
+                        NS.pop(context);
                       }
                     } catch (e) {
                       debugPrint(e.toString());

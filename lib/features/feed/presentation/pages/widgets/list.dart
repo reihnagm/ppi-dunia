@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:linkfy_text/linkfy_text.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
-import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
-import 'package:ppidunia/views/basewidgets/dialog/animated/animated.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ppidunia/views/webview/webview.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -107,22 +103,27 @@ class FeedList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Padding(
+                          Container(
+                            width: double.infinity,
                             padding: const EdgeInsets.only(
-                                left: 15.0, top: 16.0, bottom: 5.0, right: 8.0),
+                                left: 15.0,
+                                top: 16.0,
+                                bottom: 5.0,
+                                right: 20.0),
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
-                                  flex: 7,
+                                  flex: 5,
                                   child: InkWell(
                                       onTap: () => NS.push(
                                           context,
                                           ProfileViewScreen(
                                               userId: fsm.feeds[i].user.uid)),
                                       child: imageAvatar(
-                                          fsm.feeds[i].user.avatar, 18)),
+                                          fsm.feeds[i].user.avatar, 20)),
                                 ),
                                 Expanded(
                                   flex: 28,
@@ -130,7 +131,7 @@ class FeedList extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Column(
                                         mainAxisAlignment:
@@ -145,12 +146,13 @@ class FeedList extends StatelessWidget {
                                             width: MediaQuery.sizeOf(context)
                                                         .width <
                                                     400
-                                                ? 150
-                                                : 230,
+                                                ? 200
+                                                : 240,
                                             child: FittedBox(
                                               fit: BoxFit.scaleDown,
                                               alignment: Alignment.centerLeft,
                                               child: Text(
+                                                  softWrap: true,
                                                   fsm.feeds[i].user.name,
                                                   maxLines: 2,
                                                   overflow:

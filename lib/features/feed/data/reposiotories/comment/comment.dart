@@ -50,6 +50,30 @@ class CommentRepo {
       throw CustomException(e.toString());
     }
   }
+  Future<void> deleteReply(
+      {required String deleteId,}) async {
+    try {
+      await dioClient!.get("/api/v1/feed/reply/delete/$deleteId");
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+  Future<void> deleteComment(
+      {required String deleteId,}) async {
+    try {
+      await dioClient!.get("/api/v1/feed/comment/delete/$deleteId");
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
 
   Future<FeedDetailModel> getFeedDetail(
       {required int pageKey, required String feedId}) async {

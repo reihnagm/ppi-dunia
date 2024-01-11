@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
-import 'package:ppidunia/services/navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 
@@ -119,11 +118,13 @@ class SosScreenState extends State<SosScreen> {
               msg: "Do you need help immediately?",
               onPressed: () async {
                 try {
-                  await Permission.location.request();
                   if (await Permission.location.request().isGranted) {
                     await ssm.sendSos(context, title: title, message: message);
-                  } else {
-                    NS.pop(context);
+                  } else if(await Permission.location.request().isDenied || await Permission.location.request().isPermanentlyDenied ) {
+                      await Permission.location.request();
+                      GeneralModal.dialogRequestNotification(msg: "Location feature needed, please activate your location");
+                  }else{
+                    Navigator.pop(context);
                   }
                 } catch (e) {
                   debugPrint(e.toString());

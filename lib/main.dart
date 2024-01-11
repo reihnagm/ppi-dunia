@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,10 +57,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Future<void> getData() async {
+    NotificationService.init(context);
     await Geolocator.requestPermission();
-    if (mounted) {
-      NotificationService.init();
-    }
     if (mounted) {
       context.read<FirebaseProvider>().setupInteractedMessage(context);
     }
@@ -96,8 +96,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   void listenOnClickNotifications() =>
       NotificationService.onNotifications.stream.listen(onClickedNotification);
-  void onClickedNotification(String? payload) {
-    print("Payloadnya adalah : $payload");
+
+  void onClickedNotification(payload) {
+    // var result = '${json.decode(payload)}';
+    // debugPrint(result);
+    // final String? payload = notificationResponse.payload;
+    // print("Payloadnya adalah : ${payload}");
   }
 
   @override

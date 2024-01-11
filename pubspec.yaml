@@ -28,7 +28,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.5
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
-  flutter_local_notifications: ^9.2.0
+  flutter_local_notifications: ^16.3.0
   flutter_localizations:
     sdk: flutter
   flutter_native_image: ^0.0.6+1

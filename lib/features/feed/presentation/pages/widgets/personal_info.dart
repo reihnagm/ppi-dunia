@@ -108,18 +108,22 @@ class FeedPersonalInfo extends StatelessWidget {
                                         MediaQuery.sizeOf(context).width < 400
                                             ? 120
                                             : 200,
-                                    child: Text(
-                                      context
-                                          .read<ProfileProvider>()
-                                          .pd
-                                          .fullname!,
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro'),
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        context
+                                            .read<ProfileProvider>()
+                                            .pd
+                                            .fullname!,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro'),
+                                      ),
                                     ),
                                   )
                   ],

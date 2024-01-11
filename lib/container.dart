@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
+import 'package:ppidunia/features/notification/provider/notification.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,6 +88,7 @@ Future<void> init() async {
   //Provider
   getIt.registerFactory(() => FirebaseProvider(fr: getIt(), ism: getIt()));
   getIt.registerFactory(() => LocalizationProvider());
+  getIt.registerFactory(() => NotificationNotifier());
   getIt.registerFactory(() => LocationProvider());
   getIt.registerLazySingleton(() => FeedScreenModel(fr: getIt()));
   getIt.registerLazySingleton(() => SosScreenModel(sr: getIt(), lp: getIt()));

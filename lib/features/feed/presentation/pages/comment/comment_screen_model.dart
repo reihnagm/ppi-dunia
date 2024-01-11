@@ -123,6 +123,39 @@ class CommentScreenModel with ChangeNotifier {
       debugPrint(e.toString());
     } catch (_) {}
   }
+  Future<void> deleteReply(
+      {required String feedId, required String deleteId}) async {
+    try {
+      await cr.deleteReply(deleteId: deleteId);
+
+      FeedDetailModel fdm = await cr.getFeedDetail(feedId: feedId, pageKey: 1);
+      _feedDetailData = fdm.data;
+
+      _comments.clear();
+      _comments.addAll(fdm.data.feedComments!.comments);
+
+      setStateCommentStatus(CommentStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+    } catch (_) {}
+  }
+
+  Future<void> deleteComment(
+      {required String feedId, required String deleteId}) async {
+    try {
+      await cr.deleteComment(deleteId: deleteId);
+
+      FeedDetailModel fdm = await cr.getFeedDetail(feedId: feedId, pageKey: 1);
+      _feedDetailData = fdm.data;
+
+      _comments.clear();
+      _comments.addAll(fdm.data.feedComments!.comments);
+
+      setStateCommentStatus(CommentStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+    } catch (_) {}
+  }
 
   Future<void> loadMoreComment({required String feedId}) async {
     pageKey++;

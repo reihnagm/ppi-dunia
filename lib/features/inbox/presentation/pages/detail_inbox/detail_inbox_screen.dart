@@ -5,7 +5,6 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_screen_model.dart';
-import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -62,28 +61,29 @@ class DetailInboxScreenState extends State<DetailInbox> {
               Consumer<InboxScreenModel>(builder:
                   (BuildContext context, InboxScreenModel pp, Widget? child) {
                 return Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      widget.type == "sos"?
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
                             width: 200,
-                            child: Text(
-                              widget.type == "sos"
-                                  ? widget.name.toUpperCase()
-                                  : widget.title.toUpperCase(),
-                              style: const TextStyle(
-                                color: ColorResources.white,
-                                fontSize: Dimensions.fontSizeDefault,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'SF Pro',
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(widget.name.toUpperCase(),
+                                style: const TextStyle(
+                                  color: ColorResources.white,
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'SF Pro',
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
                             ),
                           ),
                           Text(
@@ -95,6 +95,39 @@ class DetailInboxScreenState extends State<DetailInbox> {
                               fontFamily: 'SF Pro',
                             ),
                             maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ): Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(widget.title.toUpperCase(),
+                                style: const TextStyle(
+                                  color: ColorResources.white,
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'SF Pro',
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5,),
+                          Text(
+                            widget.date,
+                            style: const TextStyle(
+                              color: ColorResources.white,
+                              fontSize: Dimensions.fontSizeDefault,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'SF Pro',
+                            ),
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                           ),
@@ -113,7 +146,6 @@ class DetailInboxScreenState extends State<DetailInbox> {
                           style: const TextStyle(
                             color: ColorResources.white,
                             fontSize: Dimensions.fontSizeSmall,
-                            fontWeight: FontWeight.w600,
                             fontFamily: 'SF Pro',
                           ),
                         ),

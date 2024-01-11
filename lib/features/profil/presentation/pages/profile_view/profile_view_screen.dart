@@ -122,17 +122,21 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                           )
                         ],
                       ),
-                      child: Text(
-                        context.read<ProfileProvider>().pdd.fullname ?? "-",
-                        style: const TextStyle(
-                          color: ColorResources.white,
-                          fontSize: Dimensions.fontSizeOverLarge,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'SF Pro',
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          context.read<ProfileProvider>().pdd.fullname ?? "-",
+                          style: const TextStyle(
+                            color: ColorResources.white,
+                            fontSize: Dimensions.fontSizeOverLarge,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'SF Pro',
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
                       ),
                     ),
                     Stack(

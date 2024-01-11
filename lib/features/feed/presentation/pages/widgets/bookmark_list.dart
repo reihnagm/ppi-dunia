@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
+import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
+import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -96,39 +99,16 @@ class BookmarkList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Padding(
+                          Container(
+                            width: double.infinity,
                             padding: const EdgeInsets.all(16.0),
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Expanded(
                                   flex: 7,
-                                  child: CachedNetworkImage(
-                                    imageUrl: bsm.feeds[i].user.avatar,
-                                    imageBuilder: (BuildContext context,
-                                        ImageProvider<Object> imageProvider) {
-                                      return CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundImage: imageProvider,
-                                      );
-                                    },
-                                    placeholder:
-                                        (BuildContext context, String url) {
-                                      return const CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundColor: Color(0xFF637687),
-                                      );
-                                    },
-                                    errorWidget: (BuildContext context,
-                                        String url, dynamic error) {
-                                      return const CircleAvatar(
-                                        radius: 25.0,
-                                        backgroundImage: AssetImage(
-                                            AssetsConst.imageLogoPpi),
-                                      );
-                                    },
-                                  ),
+                                  child: imageAvatar(bsm.feeds[i].user.avatar, 20),
                                 ),
                                 Expanded(
                                   flex: 28,
@@ -160,10 +140,19 @@ class BookmarkList extends StatelessWidget {
                                                   Dimensions.fontSizeExtraSmall,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: 'SF Pro')),
-                                      bsm.feeds[i].user.uid ==
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    bsm.feeds[i].user.uid ==
                                               SharedPrefs.getUserId()
                                           ? PopupMenuButton(
-                                              color: ColorResources.white,
+                                              color: Colors.white,
+                                              iconColor: Colors.white,
+                                              iconSize: 20,
                                               itemBuilder:
                                                   (BuildContext buildContext) {
                                                 return [
@@ -185,15 +174,22 @@ class BookmarkList extends StatelessWidget {
                                                 ];
                                               },
                                               onSelected: (String route) async {
-                                                if (route == "/delete") {
-                                                  await bsm.delete(
-                                                      feedId: bsm.feeds[i].uid);
-                                                }
+                                                GeneralModal.showConfirmModals(
+                                                  image: AssetsConst.imageIcPopUpDelete,
+                                                  msg:"Are you sure want to delete ?",
+                                                  onPressed: () async {
+                                                    if (route ==
+                                                        "/delete") {
+                                                    await bsm.delete(feedId: bsm.feeds[i].uid);
+                                                  }
+                                                  NS.pop(context);
+                                                  ShowSnackbar.snackbar( context,"Successfully delete a post",'',ColorResources.success);
+                                                },
+                                              );
                                               },
                                             )
                                           : const SizedBox(),
-                                    ],
-                                  ),
+                                  ],
                                 )
                               ],
                             ),
@@ -425,21 +421,58 @@ class BookmarkList extends StatelessWidget {
                                                     bsm.feeds[i].feedLikes);
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: bsm.feeds[i].feedLikes.likes
-                                                    .where((el) =>
-                                                        el.user.uid ==
-                                                        SharedPrefs.getUserId())
-                                                    .isEmpty
-                                                ? Image.asset(
-                                                    AssetsConst.imageIcLove,
-                                                    width: 18.0,
-                                                  )
-                                                : Image.asset(
-                                                    AssetsConst.imageIcLoveFill,
-                                                    width: 18.0,
-                                                  ),
-                                          ),
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  bsm.feeds[i].feedLikes.likes
+                                                          .where((el) =>
+                                                              el.user.uid ==
+                                                              SharedPrefs
+                                                                  .getUserId())
+                                                          .isEmpty
+                                                      ? Image.asset(
+                                                          AssetsConst
+                                                              .imageIcLove,
+                                                          width: 18.0,
+                                                        )
+                                                      : Image.asset(
+                                                          AssetsConst
+                                                              .imageIcLoveFill,
+                                                          width: 18.0,
+                                                        ),
+                                                  bsm.feeds[i].feedLikes.likes
+                                                          .isEmpty
+                                                      ? const SizedBox()
+                                                      : const SizedBox(
+                                                          width: 12.0),
+                                                  bsm.feeds[i].feedLikes.likes
+                                                          .isEmpty
+                                                      ? const SizedBox()
+                                                      : Text(
+                                                          bsm.feeds[i].feedLikes
+                                                              .total
+                                                              .toString(),
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  ColorResources
+                                                                      .white,
+                                                              fontSize: Dimensions
+                                                                  .fontSizeSmall,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontFamily:
+                                                                  'SF Pro'),
+                                                        )
+                                                ],
+                                              )),
                                         ),
                                       ),
                                       const SizedBox(width: 15.0),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/country/data/models/branch.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
@@ -83,12 +84,13 @@ class CreatePostModel with ChangeNotifier {
                   ),
                   onPressed: () async {
                     try {
-                      await Permission.camera.request();
                       if (await Permission.camera.request().isGranted) {
                         Navigator.pop(context, ImageSource.camera);
-                      } else {
+                      } else if(await Permission.camera.request().isDenied || await Permission.camera.request().isPermanentlyDenied) {
+                        await Permission.camera.request();
+                        GeneralModal.dialogRequestNotification(msg: "Camera feature needed, please activate your camera");
+                      }else{
                         Navigator.pop(context);
-                        Navigator.pop(context, false);
                       }
                     } catch (e) {
                       debugPrint(e.toString());
@@ -99,11 +101,13 @@ class CreatePostModel with ChangeNotifier {
                   child: const Text("Gallery"),
                   onPressed: () async {
                     try {
-                      await Permission.storage.request();
                       if (await Permission.storage.request().isGranted) {
                         Navigator.pop(context, ImageSource.gallery);
-                      } else {
-                        Navigator.pop(context, false);
+                      } else if(await Permission.storage.isDenied || await Permission.storage.isPermanentlyDenied) {
+                        await Permission.storage.request();
+                        GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
+                      }else{
+                        Navigator.pop(context);
                       }
                     } catch (e) {
                       debugPrint(e.toString());
@@ -142,6 +146,10 @@ class CreatePostModel with ChangeNotifier {
   }
 
   Future<void> uploadDoc(BuildContext context) async {
+    if(await Permission.storage.request().isDenied || await Permission.storage.request().isPermanentlyDenied ) {
+      await Permission.storage.request();
+      GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
+    }
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
@@ -168,6 +176,10 @@ class CreatePostModel with ChangeNotifier {
   }
 
   Future<void> uploadVid(BuildContext context) async {
+    if(await Permission.storage.request().isDenied || await Permission.storage.request().isPermanentlyDenied ) {
+      await Permission.storage.request();
+      GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
+    }
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.video,
         allowMultiple: false,

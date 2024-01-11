@@ -76,7 +76,7 @@ class LocationProvider extends ChangeNotifier {
       if (!isDialogShowing) {
         isDialogShowing = true;
         await GeneralModal.dialogRequestNotification(
-            msg: "Fitur lokasi dibutuhkan, silahkan aktifkan lokasi Anda");
+            msg: "Location feature needed, please activate your location");
       }
     } else {
       Future.delayed(const Duration(seconds: 1), () {
