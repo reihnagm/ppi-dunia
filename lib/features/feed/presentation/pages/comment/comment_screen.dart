@@ -1082,39 +1082,10 @@ class CommentScreenState extends State<CommentScreen> {
                                                         InkWell(
                                                           onTap: () {
                                                             NS.push(
-                                                                context,
-                                                                CommentDetail(
-                                                                  avatarUser: c
-                                                                      .comments[
-                                                                          i]
-                                                                      .user
-                                                                      .avatar,
-                                                                  name: c
-                                                                      .comments[
-                                                                          i]
-                                                                      .user
-                                                                      .name,
-                                                                  date: c
-                                                                      .comments[
-                                                                          i]
-                                                                      .createdAt,
-                                                                  comment: c
-                                                                      .comments[
-                                                                          i]
-                                                                      .comment,
-                                                                  feedId: widget
-                                                                      .feedId,
-                                                                  comment_id: c
-                                                                      .comments[
-                                                                          i]
-                                                                      .uid,
-                                                                  uid: c
-                                                                      .comments[
-                                                                          i]
-                                                                      .user
-                                                                      .uid,
-                                                                  index: i,
-                                                                ));
+                                                              context,
+                                                              CommentDetail(
+                                                                feedId: c.comments[i].uid,
+                                                              ));
                                                           },
                                                           child: Align(
                                                             alignment: Alignment
@@ -1142,152 +1113,124 @@ class CommentScreenState extends State<CommentScreen> {
                                                       .symmetric(
                                                       horizontal: 40),
                                                   shrinkWrap: true,
-                                                  itemCount: c
-                                                              .comments[i]
-                                                              .commentReplies
-                                                              .replies
-                                                              .length <
-                                                          2
-                                                      ? c
-                                                          .comments[i]
-                                                          .commentReplies
-                                                          .replies
-                                                          .length
+                                                  itemCount: c.comments[i].commentReplies.replies.length < 2
+                                                      ? c.comments[i].commentReplies.replies.length
                                                       : 2,
                                                   itemBuilder: (_, z) {
-                                                    Reply reply = c
-                                                        .comments[i]
-                                                        .commentReplies
-                                                        .replies[z];
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              CachedNetworkImage(
-                                                                imageUrl: reply
-                                                                    .user
-                                                                    .avatar,
-                                                                imageBuilder: (BuildContext
-                                                                        context,
-                                                                    ImageProvider<
-                                                                            Object>
-                                                                        imageProvider) {
-                                                                  return CircleAvatar(
-                                                                    radius:
-                                                                        10.0,
-                                                                    backgroundImage:
-                                                                        imageProvider,
-                                                                  );
-                                                                },
-                                                                placeholder:
-                                                                    (BuildContext
-                                                                            context,
-                                                                        String
-                                                                            url) {
-                                                                  return const CircleAvatar(
-                                                                    radius:
-                                                                        10.0,
-                                                                    backgroundColor:
-                                                                        Color(
-                                                                            0xFF637687),
-                                                                  );
-                                                                },
-                                                                errorWidget:
-                                                                    (BuildContext
-                                                                            context,
-                                                                        String
-                                                                            url,
-                                                                        dynamic
-                                                                            error) {
-                                                                  return const CircleAvatar(
-                                                                    radius:
-                                                                        10.0,
-                                                                    backgroundColor:
-                                                                        Color(
-                                                                            0xFF637687),
-                                                                  );
-                                                                },
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Expanded(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      children: <Widget>[
-                                                                        Flexible(
-                                                                          child:
-                                                                              FittedBox(
-                                                                            fit:
-                                                                                BoxFit.scaleDown,
-                                                                            child:
-                                                                                Text(
-                                                                              reply.user.name,
-                                                                              maxLines: 1,
-                                                                              style: const TextStyle(color: Colors.white),
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                    Text(
-                                                                        DateHelper.formatDateTime(c
-                                                                            .feedDetailData
-                                                                            .createdAt!),
-                                                                        style: const TextStyle(
-                                                                            color:
-                                                                                ColorResources.greyDarkPrimary,
-                                                                            fontSize: Dimensions.fontSizeExtraSmall,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontFamily: 'SF Pro')),
-                                                                    Text(
-                                                                      reply
-                                                                          .reply,
-                                                                      maxLines:
-                                                                          4,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: const TextStyle(
-                                                                          color: ColorResources
-                                                                              .hintColor,
-                                                                          fontSize: Dimensions
-                                                                              .fontSizeLarge,
-                                                                          fontFamily:
-                                                                              'SF Pro'),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height: 5,
-                                                                    ),
-                                                                  ],
+                                                    Reply reply = c.comments[i].commentReplies.replies[z];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        NS.push(
+                                                          context,
+                                                          CommentDetail(
+                                                            feedId: c.comments[i].uid,
+                                                          ));
+                                                      },
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(left: 10),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                CachedNetworkImage(
+                                                                  imageUrl: reply.user.avatar,
+                                                                  imageBuilder: ( BuildContext context, ImageProvider<Object> imageProvider) {
+                                                                    return CircleAvatar(
+                                                                      radius: 10.0,
+                                                                      backgroundImage: imageProvider,
+                                                                    );
+                                                                  },
+                                                                  placeholder: (BuildContext context, String url) {
+                                                                    return const CircleAvatar(
+                                                                      radius: 10.0,
+                                                                      backgroundColor: Color( 0xFF637687),
+                                                                    );
+                                                                  },
+                                                                  errorWidget:
+                                                                      (BuildContext
+                                                                              context,
+                                                                          String
+                                                                              url,
+                                                                          dynamic
+                                                                              error) {
+                                                                    return const CircleAvatar(
+                                                                      radius:
+                                                                          10.0,
+                                                                      backgroundColor:
+                                                                          Color(
+                                                                              0xFF637687),
+                                                                    );
+                                                                  },
                                                                 ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Expanded(
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment
+                                                                                .start,
+                                                                        children: <Widget>[
+                                                                          Flexible(
+                                                                            child:
+                                                                                FittedBox(
+                                                                              fit:
+                                                                                  BoxFit.scaleDown,
+                                                                              child:
+                                                                                  Text(
+                                                                                reply.user.name,
+                                                                                maxLines: 1,
+                                                                                style: const TextStyle(color: Colors.white),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                      Text(
+                                                                          DateHelper.formatDateTime(reply.createdAt),
+                                                                          style: const TextStyle(
+                                                                              color:
+                                                                                  ColorResources.greyDarkPrimary,
+                                                                              fontSize: Dimensions.fontSizeExtraSmall,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              fontFamily: 'SF Pro')),
+                                                                      Text(
+                                                                        reply
+                                                                            .reply,
+                                                                        maxLines:
+                                                                            4,
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        style: const TextStyle(
+                                                                            color: ColorResources
+                                                                                .hintColor,
+                                                                            fontSize: Dimensions
+                                                                                .fontSizeLarge,
+                                                                            fontFamily:
+                                                                                'SF Pro'),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        height: 5,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     );
                                                   })

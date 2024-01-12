@@ -617,13 +617,13 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: Colors.white
-                                                  .withOpacity(0.20),
+                                              color: ColorResources.black
+                                                  .withOpacity(0.50),
                                             ),
                                             child: const Icon(
-                                              Icons.delete,
+                                              Icons.close,
                                               color: Colors.white,
-                                              size: 20.0,
+                                              size: 25.0,
                                             ),
                                           ),
                                         ),
@@ -689,13 +689,13 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                                   alignment: Alignment.center,
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    color: Colors.white
-                                                        .withOpacity(0.20),
+                                                    color: ColorResources.black
+                                                        .withOpacity(0.50),
                                                   ),
                                                   child: const Icon(
-                                                    Icons.delete,
+                                                    Icons.close,
                                                     color: Colors.white,
-                                                    size: 20.0,
+                                                    size: 25.0,
                                                   ),
                                                 ),
                                               ),
@@ -760,12 +760,13 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: Colors.white.withOpacity(0.20),
+                                        color: ColorResources.black
+                                            .withOpacity(0.50),
                                       ),
                                       child: const Icon(
-                                        Icons.delete,
+                                        Icons.close,
                                         color: Colors.white,
-                                        size: 20.0,
+                                        size: 25.0,
                                       ),
                                     ),
                                   ),
@@ -806,61 +807,57 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: ColorResources.greyDarkPrimary),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
+                              child: Stack(
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      SizedBox(
-                                        width: 230,
-                                        child: Text(
-                                            cpm.docName
-                                                .toString()
-                                                .replaceAll("%23", " "),
-                                            style: const TextStyle(
-                                                color: ColorResources.white,
-                                                fontSize:
-                                                    Dimensions.fontSizeLarge,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: 'SF Pro')),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 20),
+                                        child: Text(cpm.docName.toString().replaceAll("%23", " "),
+                                        style: const TextStyle(
+                                        color: ColorResources.white,
+                                        fontSize:Dimensions.fontSizeLarge,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'SF Pro')),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            cpm.docFile = null;
-                                          });
-                                        },
-                                        child: const Icon(
-                                          Icons.delete,
-                                          color: ColorResources.white,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text("${getTranslated("FILE_SIZE")} :",
+                                          style: const TextStyle(
+                                              color: ColorResources.white,
+                                              fontSize:
+                                                  Dimensions.fontSizeLarge,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SF Pro')),
+                                          const SizedBox(width: 8.0),
+                                          Text(cpm.docSize.toString(),
+                                          style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize:
+                                                Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro')),
+                                        ],
                                       )
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      Text("${getTranslated("FILE_SIZE")} :",
-                                          style: const TextStyle(
-                                              color: ColorResources.white,
-                                              fontSize:
-                                                  Dimensions.fontSizeLarge,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SF Pro')),
-                                      const SizedBox(width: 8.0),
-                                      Text(cpm.docSize.toString(),
-                                          style: const TextStyle(
-                                              color: ColorResources.white,
-                                              fontSize:
-                                                  Dimensions.fontSizeLarge,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SF Pro')),
-                                    ],
-                                  )
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          cpm.docFile = null;
+                                        });
+                                      },
+                                      child: const Icon(
+                                        Icons.delete,
+                                        color: ColorResources.white,
+                                      ),
+                                  ),)
                                 ],
                               )),
                       ])),

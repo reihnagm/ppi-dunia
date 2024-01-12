@@ -65,16 +65,35 @@ class DetailInboxScreenState extends State<DetailInbox> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      widget.type == "sos"?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: 200,
+                            width: double.infinity,
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.centerLeft,
-                              child: Text(widget.name.toUpperCase(),
+                              child: Text(widget.type == "sos"
+                                  ? widget.name.toUpperCase()
+                                  : widget.title.toUpperCase(),
+                                style: const TextStyle(
+                                  color: ColorResources.white,
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'SF Pro',
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              const Icon(Icons.date_range, color: ColorResources.backgroundColor,size: 18,),
+                              const SizedBox(width: 5,),
+                              Text(
+                                widget.date,
                                 style: const TextStyle(
                                   color: ColorResources.white,
                                   fontSize: Dimensions.fontSizeDefault,
@@ -84,65 +103,19 @@ class DetailInboxScreenState extends State<DetailInbox> {
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                               ),
-                            ),
-                          ),
-                          Text(
-                            widget.date,
-                            style: const TextStyle(
-                              color: ColorResources.white,
-                              fontSize: Dimensions.fontSizeDefault,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'SF Pro',
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ): Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(widget.title.toUpperCase(),
-                                style: const TextStyle(
-                                  color: ColorResources.white,
-                                  fontSize: Dimensions.fontSizeDefault,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro',
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                          Text(
-                            widget.date,
-                            style: const TextStyle(
-                              color: ColorResources.white,
-                              fontSize: Dimensions.fontSizeDefault,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'SF Pro',
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
+                            ],
                           ),
                         ],
                       ),
                       Divider(
-                        height: 50,
+                        height: 30,
                         color: widget.type == "sos"
                             ? ColorResources.redHealth
                             : ColorResources.blue,
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          widget.description,
+                        child: Text(widget.description,
                           style: const TextStyle(
                             color: ColorResources.white,
                             fontSize: Dimensions.fontSizeSmall,

@@ -62,6 +62,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: willPopScope,
       child: Scaffold(
@@ -84,7 +85,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         Icons.home,
                         size: 35.0,
                         color: dsm.indexWidget == 0
-                            ? ColorResources.white
+                            ? ColorResources.yellowSecondaryV5
                             : ColorResources.textGreyPrimary,
                       ),
                       tooltip: 'Home',
@@ -98,7 +99,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                           ? Icon(
                               Icons.notifications,
                               color: dsm.indexWidget == 1
-                                  ? ColorResources.white
+                                  ? ColorResources.yellowSecondaryV5
                                   : ColorResources.textGreyPrimary,
                               size: 30.0,
                             )
@@ -109,7 +110,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               ? Icon(
                                   Icons.notifications,
                                   color: dsm.indexWidget == 1
-                                      ? ColorResources.white
+                                      ? ColorResources.yellowSecondaryV5
                                       : ColorResources.textGreyPrimary,
                                   size: 30.0,
                                 )
@@ -117,7 +118,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   ? Icon(
                                       Icons.notifications,
                                       color: dsm.indexWidget == 1
-                                          ? ColorResources.white
+                                          ? ColorResources.yellowSecondaryV5
                                           : ColorResources.textGreyPrimary,
                                       size: 30.0,
                                     )
@@ -127,7 +128,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                         Icons.notifications,
                                         size: 30.0,
                                         color: dsm.indexWidget == 1
-                                            ? ColorResources.white
+                                            ? ColorResources.yellowSecondaryV5
                                             : ColorResources.textGreyPrimary,
                                       ),
                                     ),
@@ -139,7 +140,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                         'assets/images/icons/ic-save.png',
                         width: 30.0,
                         color: dsm.indexWidget == 2
-                            ? ColorResources.white
+                            ? ColorResources.yellowSecondaryV5
                             : ColorResources.textGreyPrimary,
                       ),
                       tooltip: 'Favourites',
@@ -155,7 +156,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                   currentIndex: d.indexWidget,
-                  selectedItemColor: ColorResources.white,
+                  selectedItemColor: ColorResources.yellowSecondaryV5,
                   unselectedItemColor: ColorResources.textGreyPrimary,
                   onTap: (int val) {
                     d.onChangeIndex(val);

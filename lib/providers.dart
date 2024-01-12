@@ -1,3 +1,4 @@
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
@@ -65,5 +66,6 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider(create: (_) => c.getIt<PrivacyPolicyScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<LocationProvider>()),
   ChangeNotifierProvider(create: (_) => c.getIt<NotificationNotifier>()),
+  ChangeNotifierProvider(create: (_) => c.getIt<CommentDetailModel>()),
   Provider.value(value: const <String, dynamic>{})
 ];

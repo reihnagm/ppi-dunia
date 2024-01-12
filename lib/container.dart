@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ppidunia/features/feed/data/reposiotories/comment/reply.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
@@ -84,11 +86,15 @@ Future<void> init() async {
   getIt.registerLazySingleton(() => CommentRepo(
         dioClient: null,
       ));
+  getIt.registerLazySingleton(() => ReplyRepo(
+        dioClient: null,
+      ));
 
   //Provider
   getIt.registerFactory(() => FirebaseProvider(fr: getIt(), ism: getIt()));
   getIt.registerFactory(() => LocalizationProvider());
   getIt.registerFactory(() => NotificationNotifier());
+  getIt.registerFactory(() => CommentDetailModel(rr: getIt(), fr: getIt(), pp: getIt()));
   getIt.registerFactory(() => LocationProvider());
   getIt.registerLazySingleton(() => FeedScreenModel(fr: getIt()));
   getIt.registerLazySingleton(() => SosScreenModel(sr: getIt(), lp: getIt()));

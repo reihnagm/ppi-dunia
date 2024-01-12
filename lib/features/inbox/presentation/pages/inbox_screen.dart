@@ -233,10 +233,8 @@ class InboxScreenState extends State<InboxScreen> {
                                               type: type,
                                               title: ism.id[i].title ?? "-",
                                               name: ism.id[i].user!.name ?? "-",
-                                              date: DateHelper.formatDateTime(
-                                                  ism.id[i].createdAt!),
-                                              description:
-                                                  ism.id[i].description!,
+                                              date: DateHelper.formatDateTime(ism.id[i].createdAt!),
+                                              description: ism.id[i].description!,
                                             ),
                                           );
                                           await ism.inboxDetail(
@@ -251,94 +249,47 @@ class InboxScreenState extends State<InboxScreen> {
                                                 CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Row(
+                                              Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.max,
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                mainAxisSize:
+                                                    MainAxisSize.min,
                                                 children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 300.0,
-                                                        child: Text(
-                                                          ism.id[i].title!,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: TextStyle(
-                                                              color: ColorResources
-                                                                  .greyLightPrimary,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeLarge,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontFamily:
-                                                                  'SF Pro'),
-                                                          maxLines: 2,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 300.0,
-                                                        child: Text(
-                                                          DateHelper
-                                                              .formatDateTime(ism
-                                                                  .id[i]
-                                                                  .createdAt!),
-                                                          style: TextStyle(
-                                                              color: ColorResources
-                                                                  .greyLightPrimary,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeSmall,
-                                                              fontWeight: ism
-                                                                          .id[i]
-                                                                          .read !=
-                                                                      true
-                                                                  ? FontWeight
-                                                                      .bold
-                                                                  : null,
-                                                              fontFamily:
-                                                                  'SF Pro'),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 10.0),
-                                                      SizedBox(
-                                                        width: 300.0,
-                                                        child: Text(
-                                                          ism.id[i]
-                                                              .description!,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          maxLines: 2,
-                                                          style: TextStyle(
-                                                              color: ColorResources
-                                                                  .greyLightPrimary,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeDefault,
-                                                              fontWeight: ism
-                                                                          .id[i]
-                                                                          .read !=
-                                                                      true
-                                                                  ? FontWeight
-                                                                      .bold
-                                                                  : null,
-                                                              fontFamily:
-                                                                  'SF Pro'),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    ism.id[i].title!,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        color: ColorResources.greyLightPrimary,
+                                                        fontSize: Dimensions.fontSizeLarge,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontFamily: 'SF Pro'),
+                                                    maxLines: 2,
+                                                  ),
+                                                  Text(
+                                                    DateHelper.formatDateTime(ism.id[i].createdAt!),
+                                                    style: TextStyle(
+                                                        color: ColorResources.greyLightPrimary,
+                                                        fontSize: Dimensions.fontSizeSmall,
+                                                        fontWeight: ism.id[i].read != true
+                                                            ? FontWeight.bold
+                                                            : null,
+                                                        fontFamily: 'SF Pro'),
+                                                    maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(
+                                                      height: 10.0),
+                                                  Text(ism.id[i].description!,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        color: ColorResources.greyLightPrimary,
+                                                        fontSize: Dimensions.fontSizeDefault,
+                                                        fontWeight: ism.id[i].read != true
+                                                            ? FontWeight.bold
+                                                            : null,
+                                                        fontFamily: 'SF Pro'),
                                                   ),
                                                 ],
                                               )

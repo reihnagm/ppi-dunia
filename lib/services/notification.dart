@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -50,7 +50,11 @@ class NotificationService {
         var payload = details.payload;
         var decoded = json.decode(payload!);
         
-        NS.push(
+        if(decoded["type"] == "feed")
+        {
+          NS.push(navigatorKey.currentContext!, CommentScreen(feedId: decoded["feed_id"]));
+        }else{
+          NS.push(
           navigatorKey.currentContext!,
           DetailInbox(
             type: decoded["type"],
@@ -59,8 +63,10 @@ class NotificationService {
             date: DateHelper.formatDateTime(decoded["date"]),
             description:decoded["description"],
           ));
+        }
+
         // debugPrint("Hallo");
-        // debugPrint(decoded["title"]);
+        debugPrint(decoded["feed_id"]);
         // debugPrint(decoded["type"]);
         // debugPrint(decoded["date"]);
         // debugPrint(decoded["description"]);

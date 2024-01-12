@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/features/sos/data/repositories/sos.dart';
@@ -18,6 +19,9 @@ import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/views/basewidgets/dialog/custom/custom.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/features/dashboard/presentation/pages/dashboard_state.dart';
+import 'package:sn_progress_dialog/options/cancel.dart';
+import 'package:sn_progress_dialog/options/completed.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 enum SosStatus { idle, loading, loaded, empty, error }
 
@@ -39,39 +43,62 @@ class SosScreenModel with ChangeNotifier {
       {required String title, required String message}) async {
     setStateSosStatus(SosStatus.loading);
     try {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation);
+      Navigator.pop(context);
+      ProgressDialog pr = ProgressDialog(context: context);
+      pr.show(
+          backgroundColor: ColorResources.greyDarkPrimary,
+          msgTextAlign: TextAlign.start,
+          msgMaxLines: 1,
+          msgColor: ColorResources.greyLight,
+          msg: "Please wait...",
+          progressBgColor: ColorResources.greyLight,
+          progressValueColor: ColorResources.greyDarkPrimary,
+          cancel: Cancel(cancelImageSize: 20.0, cancelImageColor: Colors.blue, cancelImage: const AssetImage(AssetsConst.imageIcInjury), cancelClicked: () {
+            Navigator.pop(context);
+          }), 
+          completed: Completed(completedMsg: "Downloading Done !", completedImage: const AssetImage(AssetsConst.imageIcPopUpSos)),
+          onStatusChanged: (status) async {
+            if (status == DialogStatus.opened){
+              print("opened");
+            }else if (status == DialogStatus.closed){
+              Navigator.pop(context);
+            }else if (status == DialogStatus.completed){ 
+              Position position = await Geolocator.getCurrentPosition(
+                  desiredAccuracy: LocationAccuracy.bestForNavigation);
 
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+              List<Placemark> placemarks =
+                  await placemarkFromCoordinates(position.latitude, position.longitude);
 
-      Placemark place = placemarks[0];
+              Placemark place = placemarks[0];
 
-      lp.setLatLng(position.latitude, position.longitude);
+              lp.setLatLng(position.latitude, position.longitude);
 
-      SharedPrefs.writeCurrentAddress(
-          "${place.thoroughfare} ${place.subThoroughfare} \n${place.locality}, ${place.postalCode}");
+              SharedPrefs.writeCurrentAddress(
+                  "${place.thoroughfare} ${place.subThoroughfare} \n${place.locality}, ${place.postalCode}");
 
-      if (lp.getCurrentLat == 0.0 || lp.getCurrentLng == 0.0) {
-        GeneralModal.info(msg: "Location not found", isBackHome: true);
-        return;
-      }
+              if (lp.getCurrentLat == 0.0 || lp.getCurrentLng == 0.0) {
+                GeneralModal.info(msg: "Location not found", isBackHome: true);
+                return;
+              }
 
-      debugPrint(position.latitude.toString());
-      debugPrint(position.longitude.toString());
+              debugPrint(position.latitude.toString());
+              debugPrint(position.longitude.toString());
 
-      await sr.sendSos(
-        title: title,
-        message: "$message at ${lp.getCurrentNameAddress}",
-        lat: lp.getCurrentLat.toString(),
-        lng: lp.getCurrentLng.toString(),
-        userId: SharedPrefs.getUserId(),
+              await sr.sendSos(
+                title: title,
+                message: "$message at ${lp.getCurrentNameAddress}",
+                lat: lp.getCurrentLat.toString(),
+                lng: lp.getCurrentLng.toString(),
+                userId: SharedPrefs.getUserId(),
+              );
+              // ignore: use_build_context_synchronously
+              NS.pushReplacement(context, const DashboardScreen());
+              // ignore: use_build_context_synchronously
+              ShowSnackbar.snackbar(
+                context, getTranslated('SENT_SOS'), '', ColorResources.success);
+              }
+          }
       );
-      // ignore: use_build_context_synchronously
-      NS.pushReplacement(context, const DashboardScreen());
-      // ignore: use_build_context_synchronously
-      ShowSnackbar.snackbar(
-          context, getTranslated('SENT_SOS'), '', ColorResources.success);
       setStateSosStatus(SosStatus.loaded);
     } on CustomException catch (e) {
       debugPrint(e.cause.toString());

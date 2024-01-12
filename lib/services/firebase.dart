@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_screen_model.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -72,15 +73,22 @@ class FirebaseProvider with ChangeNotifier {
   Future<void> setupInteractedMessage(BuildContext context) async {
     await FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      NS.push(
-        navigatorKey.currentContext!,
-        DetailInbox(
-          type: message.data['type'],
-          title: message.data['title'],
-          name: message.data['name'],
-          date: DateHelper.formatDateTime(message.data['date']),
-          description:message.data['description'],
-      ));
+      
+      if(message.data["type"] == "feed")
+      {
+        NS.push(navigatorKey.currentContext!, CommentScreen(feedId: message.data["feed_id"]));
+      }else{
+        NS.push(
+          navigatorKey.currentContext!,
+          DetailInbox(
+            type: message.data['type'],
+            title: message.data['title'],
+            name: message.data['name'],
+            date: DateHelper.formatDateTime(message.data['date']),
+            description:message.data['description'],
+        ));
+      }
+      debugPrint(message.data['feed_id']);
       debugPrint(message.data['type']);
       debugPrint(message.data['title']);
       debugPrint(message.data['name']);
@@ -123,6 +131,7 @@ class FirebaseProvider with ChangeNotifier {
       });
       var payload = {
         "title": message.data["title"],
+        "feed_id": message.data["feed_id"],
         "name": message.data["name"],
         "date": message.data["date"],
         "type": message.data["type"],

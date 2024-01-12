@@ -1,12 +1,9 @@
-import 'dart:convert';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
-import 'package:ppidunia/features/location/presentation/providers/location.dart';
-import 'package:ppidunia/features/notification/provider/notification.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -74,14 +71,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // - Detached (View Destroyed - App Closed)
     if (state == AppLifecycleState.resumed) {
       debugPrint("=== APP RESUME ===");
-
-      if (!mounted) return;
-      navigatorKey.currentContext!
-          .read<NotificationNotifier>()
-          .checkNotification();
-
-      if (!mounted) return;
-      navigatorKey.currentContext!.read<LocationProvider>().checkLocation();
+      // if (!mounted) return;
+      // navigatorKey.currentContext!
+      //     .read<NotificationNotifier>()
+      //     .checkNotification();
+      // if (!mounted) return;
+      // navigatorKey.currentContext!.read<LocationProvider>().checkLocation();
     }
     if (state == AppLifecycleState.inactive) {
       debugPrint("=== APP INACTIVE ===");

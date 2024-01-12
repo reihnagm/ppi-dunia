@@ -13,6 +13,9 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
 
 import 'package:ppidunia/features/sos/presentation/pages/sos_state.dart';
+import 'package:sn_progress_dialog/options/cancel.dart';
+import 'package:sn_progress_dialog/options/completed.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class SosScreenState extends State<SosScreen> {
   late SosScreenModel ssm;
@@ -119,6 +122,7 @@ class SosScreenState extends State<SosScreen> {
               onPressed: () async {
                 try {
                   if (await Permission.location.request().isGranted) {
+                    // ignore: use_build_context_synchronously
                     await ssm.sendSos(context, title: title, message: message);
                   } else if(await Permission.location.request().isDenied || await Permission.location.request().isPermanentlyDenied ) {
                       await Permission.location.request();

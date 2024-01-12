@@ -146,8 +146,7 @@ class FeedComments {
 
   factory FeedComments.fromJson(Map<String, dynamic> json) => FeedComments(
         total: json["total"],
-        comments: List<Comment>.from(
-            json["comments"].map((x) => Comment.fromJson(x))),
+        comments: List<Comment>.from(json["comments"].map((x) => Comment.fromJson(x))),
       );
 }
 

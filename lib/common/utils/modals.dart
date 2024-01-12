@@ -287,7 +287,7 @@ class GeneralModal {
                   children: [
                     SizedBox(
                         width: 300.w,
-                        height: 400.h,
+                        height: 250.h,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -296,7 +296,7 @@ class GeneralModal {
                                 right: 20.w,
                                 bottom: 20.h,
                                 child: Container(
-                                  height: 200.h,
+                                  height: 150.h,
                                   padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25.0),
@@ -424,8 +424,8 @@ class GeneralModal {
                               right: 0.0,
                               child: Image.asset(
                                 image,
-                                width: 250.0,
-                                height: 250.0,
+                                width: 150.0,
+                                height: 150.0,
                               ),
                             ),
                           ],

@@ -9,7 +9,8 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
-import 'package:ppidunia/features/feed/data/models/detail.dart';
+import 'package:ppidunia/features/feed/data/models/reply.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
@@ -19,22 +20,9 @@ import 'package:provider/provider.dart';
 
 class CommentDetail extends StatefulWidget {
   final String feedId;
-  final String uid;
-  final String comment_id;
-  final String name;
-  final String avatarUser;
-  final String date;
-  final String comment;
-  final int index;
   const CommentDetail({
     Key? key,
-    required this.avatarUser,
-    required this.name,
-    required this.date,
-    required this.comment,
     required this.feedId,
-    required this.index,
-    required this.comment_id, required this.uid,
   }) : super(key: key);
 
   @override
@@ -42,19 +30,19 @@ class CommentDetail extends StatefulWidget {
 }
 
 class _CommentDetailState extends State<CommentDetail> {
-  late CommentScreenModel csm;
+  late CommentDetailModel cdm;
 
   @override
   void initState() {
     super.initState();
 
-    csm = context.read<CommentScreenModel>();
+    cdm = context.read<CommentDetailModel>();
 
-    csm.sc = ScrollController();
-    csm.replyC = TextEditingController();
+    cdm.sc = ScrollController();
+    cdm.replyC = TextEditingController();
 
     if (mounted) {
-      csm.getFeedDetail(feedId: widget.feedId);
+      cdm.getReplyDetail(feedId: widget.feedId);
     }
   }
 
@@ -65,6 +53,7 @@ class _CommentDetailState extends State<CommentDetail> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Comment ID ${widget.feedId}");
     return Scaffold(
       backgroundColor: ColorResources.bgSecondaryColor,
       body: LayoutBuilder(
@@ -91,8 +80,8 @@ class _CommentDetailState extends State<CommentDetail> {
                   sliver: SliverList(
                       delegate: SliverChildListDelegate([
                     Consumer(builder: (BuildContext context,
-                        CommentScreenModel c, Widget? child) {
-                      if (c.commentStatus == CommentStatus.loading) {
+                        CommentDetailModel c, Widget? child) {
+                      if (c.replyStatus == ReplyStatus.loading) {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height * .75,
                           child: const Center(
@@ -103,7 +92,7 @@ class _CommentDetailState extends State<CommentDetail> {
                           ),
                         );
                       }
-                      if (c.commentStatus == CommentStatus.empty) {
+                      if (c.replyStatus == CommentStatus.empty) {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height * .75,
                           child: Center(
@@ -116,7 +105,7 @@ class _CommentDetailState extends State<CommentDetail> {
                           ),
                         );
                       }
-                      if (c.commentStatus == CommentStatus.error) {
+                      if (c.replyStatus == CommentStatus.error) {
                         return Container();
                       }
                       return Column(
@@ -160,16 +149,16 @@ class _CommentDetailState extends State<CommentDetail> {
                                             Expanded(
                                               flex: 7,
                                               child: InkWell(
-                                                onTap: () {
-                                                  NS.push(
-                                                    context,
-                                                    ProfileViewScreen(
-                                                      userId: widget.uid,
-                                                    ),
-                                                  );
-                                                },
+                                                // onTap: () {
+                                                //   NS.push(
+                                                //     context,
+                                                //     ProfileViewScreen(
+                                                //       userId: widget.uid,
+                                                //     ),
+                                                //   );
+                                                // },
                                                 child: CachedNetworkImage(
-                                                  imageUrl: widget.avatarUser,
+                                                  imageUrl: c.replyDetailData.user!.avatar,
                                                   imageBuilder:
                                                       (BuildContext context,
                                                           ImageProvider<Object>
@@ -210,13 +199,13 @@ class _CommentDetailState extends State<CommentDetail> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   InkWell(
-                                                    onTap: () {
-                                                      NS.push(
-                                                          context,
-                                                          ProfileViewScreen(
-                                                              userId: widget.uid));
-                                                    },
-                                                    child: Text(widget.name,
+                                                    // onTap: () {
+                                                    //   NS.push(
+                                                    //       context,
+                                                    //       ProfileViewScreen(
+                                                    //           userId: widget.uid));
+                                                    // },
+                                                    child: Text(c.replyDetailData.user!.name,
                                                         maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -231,18 +220,17 @@ class _CommentDetailState extends State<CommentDetail> {
                                                             fontFamily:
                                                                 'SF Pro')),
                                                   ),
-                                                  Text(
-                                                      DateHelper.formatDateTime(
-                                                          widget.date),
-                                                      style: const TextStyle(
-                                                          color: ColorResources
-                                                              .greyDarkPrimary,
-                                                          fontSize: Dimensions
-                                                              .fontSizeExtraSmall,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily:
-                                                              'SF Pro')),
+                                                  // Text(
+                                                  //     DateHelper.formatDateTime(c.replyDetailData.),
+                                                  //     style: const TextStyle(
+                                                  //         color: ColorResources
+                                                  //             .greyDarkPrimary,
+                                                  //         fontSize: Dimensions
+                                                  //             .fontSizeExtraSmall,
+                                                  //         fontWeight:
+                                                  //             FontWeight.w600,
+                                                  //         fontFamily:
+                                                  //             'SF Pro')),
                                                 ],
                                               ),
                                             )
@@ -254,8 +242,7 @@ class _CommentDetailState extends State<CommentDetail> {
                                                 right: 25.0,
                                                 left: 25.0,
                                                 bottom: 10.0,),
-                                            child: Text(
-                                                    widget.comment,
+                                            child: Text("${c.replyDetailData.caption}",
                                                     maxLines: 4,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -278,11 +265,9 @@ class _CommentDetailState extends State<CommentDetail> {
                               physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               shrinkWrap: true,
-                              itemCount: c.comments[widget.index].commentReplies
-                                  .replies.length,
+                              itemCount: c.replyDetailData.feedReplies!.total,
                               itemBuilder: (_, z) {
-                                Reply reply = c.comments[widget.index]
-                                    .commentReplies.replies[z];
+                                Reply reply = c.replyDetailData.feedReplies!.replies[z];
                                 return Container(
                                   width: double.infinity,
                                   margin: const EdgeInsets.only(
@@ -399,20 +384,20 @@ class _CommentDetailState extends State<CommentDetail> {
                                                                         fontFamily:
                                                                             'SF Pro')),
                                                               ),
-                                                          Text(
-                                                          DateHelper
-                                                              .formatDateTime(reply.createdAt),
-                                                          style: const TextStyle(
-                                                              color: ColorResources
-                                                                  .greyDarkPrimary,
-                                                              fontSize:
-                                                                  Dimensions
-                                                                      .fontSizeExtraSmall,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
+                                                          // Text(
+                                                          // DateHelper
+                                                          //     .formatDateTime(reply.createdAt),
+                                                          // style: const TextStyle(
+                                                          //     color: ColorResources
+                                                          //         .greyDarkPrimary,
+                                                          //     fontSize:
+                                                          //         Dimensions
+                                                          //             .fontSizeExtraSmall,
+                                                          //     fontWeight:
+                                                          //         FontWeight
+                                                          //             .w600,
+                                                          //     fontFamily:
+                                                          //         'SF Pro')),
                                                             ],
                                                           ),
                                                           reply.user.uid ==
@@ -449,7 +434,7 @@ class _CommentDetailState extends State<CommentDetail> {
                                                                             if (route ==
                                                                                 "/delete") {
                                                                               // await pp.delete(feedId: pp.feeds[i].uid);
-                                                                              await csm.deleteReply(feedId: widget.feedId, deleteId: reply.uid);
+                                                                              // await csm.deleteReply(feedId: widget.feedId, deleteId: reply.uid);
                                                                             }
                                                                             NS.pop(context);
                                                                             ShowSnackbar.snackbar(
@@ -489,8 +474,7 @@ class _CommentDetailState extends State<CommentDetail> {
                                       ),
                                     ],
                                   ),
-                                );
-                              })
+                                );}),
                         ],
                       );
                     })
@@ -535,7 +519,7 @@ class _CommentDetailState extends State<CommentDetail> {
                         const SizedBox(width: 15.0),
                         Flexible(
                             child: TextField(
-                          controller: csm.replyC,
+                          controller: cdm.replyC,
                           cursorColor: ColorResources.greyLight,
                           maxLines: null,
                           style: const TextStyle(
@@ -580,9 +564,9 @@ class _CommentDetailState extends State<CommentDetail> {
                         const SizedBox(width: 15.0),
                         IconButton(
                             onPressed: () async {
-                              await csm.postReply(
-                                  feedId: widget.feedId,
-                                  commentId: widget.comment_id);
+                              // await cdm.postReply(
+                              //     feedId: widget.feedId,
+                              //     commentId: widget.commentId);
                             },
                             icon: const Icon(
                               Icons.send,
