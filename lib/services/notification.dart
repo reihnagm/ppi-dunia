@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -53,6 +54,8 @@ class NotificationService {
         if(decoded["type"] == "feed")
         {
           NS.push(navigatorKey.currentContext!, CommentScreen(feedId: decoded["feed_id"]));
+        }else if(decoded["type"] == "feed_reply") {
+          NS.push(navigatorKey.currentContext!, CommentDetail(feedId: decoded["comment_id"]));
         }else{
           NS.push(
           navigatorKey.currentContext!,
@@ -66,7 +69,8 @@ class NotificationService {
         }
 
         // debugPrint("Hallo");
-        debugPrint(decoded["feed_id"]);
+        debugPrint("Type : ${decoded["type"]}");
+        debugPrint("Comment ID : ${decoded["comment_id"]}");
         // debugPrint(decoded["type"]);
         // debugPrint(decoded["date"]);
         // debugPrint(decoded["description"]);

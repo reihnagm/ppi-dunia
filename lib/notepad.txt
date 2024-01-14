@@ -1,20 +1,15 @@
- // ListView.builder(
-                                                  //     shrinkWrap: true,
-                                                  //     itemCount: c
-                                                  //         .comments[i]
-                                                  //         .commentReplies
-                                                  //         .replies
-                                                  //         .length,
-                                                  //     itemBuilder: (_, z) {
-                                                  //       Reply reply = c
-                                                  //           .comments[i]
-                                                  //           .commentReplies
-                                                  //           .replies[z];
-                                                  //       return Text(
-                                                  //         reply.reply
-                                                  //             .toString(),
-                                                  //         style: TextStyle(
-                                                  //             color: Colors
-                                                  //                 .white),
-                                                  //       );
-                                                  //     })
+SELECT 
+	tabelbarang.id,
+	tabelbarang.kode,
+	tabelbarang.nama,
+	tblbarang_keluar_detail.jumlah,
+	tabelbarang.satuan,
+	tabelbarang.stok,
+	tabelkategori.nama as nama_kategori,
+	tabelpelanggan.nama as nama_pelangan
+FROM tblbarang_keluar_detail
+JOIN tblbarang_keluar ON tblbarang_keluar.id = tblbarang_keluar_detail.id_barang_keluar
+JOIN tabelpelanggan ON tabelpelanggan.id = tblbarang_keluar.id_pelanggan
+JOIN tabelbarang ON tabelbarang.id = tblbarang_keluar_detail.id_barang
+JOIN tabelkategori ON tabelkategori.id = tabelbarang.id_kategori
+WHERE tblbarang_keluar.tgl BETWEEN $P{d_dari} AND $P{d_sampai} AND tblbarang_masuk.id_supplier = $P{id_supplier}

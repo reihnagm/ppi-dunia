@@ -220,17 +220,17 @@ class _CommentDetailState extends State<CommentDetail> {
                                                             fontFamily:
                                                                 'SF Pro')),
                                                   ),
-                                                  // Text(
-                                                  //     DateHelper.formatDateTime(c.replyDetailData.),
-                                                  //     style: const TextStyle(
-                                                  //         color: ColorResources
-                                                  //             .greyDarkPrimary,
-                                                  //         fontSize: Dimensions
-                                                  //             .fontSizeExtraSmall,
-                                                  //         fontWeight:
-                                                  //             FontWeight.w600,
-                                                  //         fontFamily:
-                                                  //             'SF Pro')),
+                                                  Text(
+                                                      DateHelper.formatDateTime(c.replyDetailData.createdAt!),
+                                                      style: const TextStyle(
+                                                          color: ColorResources
+                                                              .greyDarkPrimary,
+                                                          fontSize: Dimensions
+                                                              .fontSizeExtraSmall,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontFamily:
+                                                              'SF Pro')),
                                                 ],
                                               ),
                                             )
@@ -384,20 +384,20 @@ class _CommentDetailState extends State<CommentDetail> {
                                                                         fontFamily:
                                                                             'SF Pro')),
                                                               ),
-                                                          // Text(
-                                                          // DateHelper
-                                                          //     .formatDateTime(reply.createdAt),
-                                                          // style: const TextStyle(
-                                                          //     color: ColorResources
-                                                          //         .greyDarkPrimary,
-                                                          //     fontSize:
-                                                          //         Dimensions
-                                                          //             .fontSizeExtraSmall,
-                                                          //     fontWeight:
-                                                          //         FontWeight
-                                                          //             .w600,
-                                                          //     fontFamily:
-                                                          //         'SF Pro')),
+                                                          Text(
+                                                          DateHelper
+                                                              .formatDateTime(reply.createdAt),
+                                                          style: const TextStyle(
+                                                              color: ColorResources
+                                                                  .greyDarkPrimary,
+                                                              fontSize:
+                                                                  Dimensions
+                                                                      .fontSizeExtraSmall,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontFamily:
+                                                                  'SF Pro')),
                                                             ],
                                                           ),
                                                           reply.user.uid ==

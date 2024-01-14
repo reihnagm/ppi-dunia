@@ -28,6 +28,7 @@ class ReplyDetailData {
     List<dynamic>? media;
     User? user;
     FeedReplies? feedReplies;
+    String? createdAt;
 
     ReplyDetailData({
         this.uid,
@@ -35,11 +36,13 @@ class ReplyDetailData {
         this.media,
         this.user,
         this.feedReplies,
+        this.createdAt,
     });
 
     factory ReplyDetailData.fromJson(Map<String, dynamic> json) => ReplyDetailData(
         uid: json["uid"],
         caption: json["caption"],
+        createdAt: json["created_at"],
         media: List<dynamic>.from(json["media"].map((x) => x)),
         user: User.fromJson(json["user"]),
         feedReplies: FeedReplies.fromJson(json["feed_replies"]),
@@ -64,17 +67,20 @@ class FeedReplies {
 class Reply {
     String uid;
     String reply;
+    String createdAt;
     User user;
 
     Reply({
         required this.uid,
         required this.reply,
+        required this.createdAt,
         required this.user,
     });
 
     factory Reply.fromJson(Map<String, dynamic> json) => Reply(
         uid: json["uid"],
         reply: json["reply"],
+        createdAt: json["created_at"],
         user: User.fromJson(json["user"]),
     );
 }

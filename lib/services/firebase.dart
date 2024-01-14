@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/detail_inbox/detail_inbox_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_screen_model.dart';
@@ -77,6 +78,8 @@ class FirebaseProvider with ChangeNotifier {
       if(message.data["type"] == "feed")
       {
         NS.push(navigatorKey.currentContext!, CommentScreen(feedId: message.data["feed_id"]));
+      }else if(message.data["type"] == "feed_reply") {
+          NS.push(navigatorKey.currentContext!, CommentDetail(feedId: message.data["comment_id"]));
       }else{
         NS.push(
           navigatorKey.currentContext!,
@@ -132,6 +135,7 @@ class FirebaseProvider with ChangeNotifier {
       var payload = {
         "title": message.data["title"],
         "feed_id": message.data["feed_id"],
+        "comment_id": message.data["comment_id"],
         "name": message.data["name"],
         "date": message.data["date"],
         "type": message.data["type"],
