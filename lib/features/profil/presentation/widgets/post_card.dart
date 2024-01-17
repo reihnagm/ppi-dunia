@@ -19,6 +19,7 @@ import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
+import 'package:rich_readmore/rich_readmore.dart';
 
 Widget postCard({
   required ProfileProvider pp,
@@ -109,15 +110,29 @@ Widget postCard({
                                     ),
                                     FittedBox(
                                       fit: BoxFit.scaleDown,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(pp.feeds[i].user.name,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: ColorResources.white,
-                                              fontSize: Dimensions.fontSizeSmall,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SF Pro')),
+                                      child: SizedBox(
+                                        width: MediaQuery.sizeOf(context)
+                                                    .width <
+                                                400
+                                            ? 200
+                                            : 240,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                              pp.feeds[i].user.name,
+                                              maxLines: 2,
+                                              overflow:TextOverflow.visible,
+                                              style: const TextStyle(
+                                                  color:
+                                                      ColorResources.white,
+                                                  fontSize: Dimensions
+                                                      .fontSizeSmall,
+                                                  fontWeight:
+                                                      FontWeight.w600,
+                                                  fontFamily: 'SF Pro')),
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(width: 10.0),
                                     Text(
@@ -193,14 +208,27 @@ Widget postCard({
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 25.0, left: 25.0, bottom: 10.0, top: 5),
-                          child: Text(
-                            pp.feeds[i].caption,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
-                            style: const TextStyle(
-                                color: ColorResources.hintColor,
-                                fontSize: Dimensions.fontSizeSmall,
-                                fontFamily: 'SF Pro'),
+                          child: RichReadMoreText.fromString(
+                            text: pp.feeds[i].caption,
+                            textStyle: const TextStyle(
+                              color: ColorResources.hintColor,
+                              fontSize: Dimensions.fontSizeSmall,
+                              fontFamily: 'SF Pro'),
+                            settings: LengthModeSettings(
+                              trimLength: 300,
+                              trimCollapsedText: '...Show more',
+                              trimExpandedText: ' Show less',
+                              moreStyle: const TextStyle(
+                                color: ColorResources.blue,
+                                fontSize: Dimensions.fontSizeDefault,
+                                fontFamily: 'SF Pro'
+                              ),
+                              lessStyle: const TextStyle(
+                                color: ColorResources.blue,
+                                fontSize: Dimensions.fontSizeDefault,
+                                fontFamily: 'SF Pro'
+                              ),
+                            ),
                           ),
                         ),
                         if (pp.feeds[i].feedType == "image")

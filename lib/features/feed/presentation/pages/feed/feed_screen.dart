@@ -150,30 +150,28 @@ class FeedScreenState extends State<FeedScreen> {
                   ),
                 );
               },
-              body: SafeArea(
-                child: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return RefreshIndicator(
-                      onRefresh: () {
-                        return Future.sync(() {
-                          pp.getProfile();
-                          fsm.getFeeds();
-                          ism.getReadCount();
-                        });
-                      },
-                      child: CustomScrollView(
-                        physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        slivers: [
-                          FeedPersonalInfo(
-                            gk: gk,
-                          ),
-                          const FeedBanner()
-                        ],
-                      ),
-                    );
-                  },
-                ),
+              body: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return RefreshIndicator(
+                    onRefresh: () {
+                      return Future.sync(() {
+                        pp.getProfile();
+                        fsm.getFeeds();
+                        ism.getReadCount();
+                      });
+                    },
+                    child: CustomScrollView(
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      slivers: [
+                        FeedPersonalInfo(
+                          gk: gk,
+                        ),
+                        const FeedBanner()
+                      ],
+                    ),
+                  );
+                },
               ),
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(18.0),

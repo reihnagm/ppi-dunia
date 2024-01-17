@@ -75,10 +75,10 @@ class ReplyRepo {
   }
 
   Future<ReplyDetailModel> getReplyDetail(
-      {required int pageKey, required String feedId}) async {
+      {required int pageKey, required String commentId}) async {
     try {
       Response res =
-          await dioClient!.get("/api/v1/feed/reply/$feedId");
+          await dioClient!.get("/api/v1/feed/reply/$commentId");
       Map<String, dynamic> data = res.data;
       ReplyDetailModel fm = ReplyDetailModel.fromJson(data);
       return fm;

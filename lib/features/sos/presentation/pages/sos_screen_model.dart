@@ -53,16 +53,9 @@ class SosScreenModel with ChangeNotifier {
           msg: "Please wait...",
           progressBgColor: ColorResources.greyLight,
           progressValueColor: ColorResources.greyDarkPrimary,
-          cancel: Cancel(cancelImageSize: 20.0, cancelImageColor: Colors.blue, cancelImage: const AssetImage(AssetsConst.imageIcInjury), cancelClicked: () {
-            Navigator.pop(context);
-          }), 
-          completed: Completed(completedMsg: "Downloading Done !", completedImage: const AssetImage(AssetsConst.imageIcPopUpSos)),
           onStatusChanged: (status) async {
             if (status == DialogStatus.opened){
               print("opened");
-            }else if (status == DialogStatus.closed){
-              Navigator.pop(context);
-            }else if (status == DialogStatus.completed){ 
               Position position = await Geolocator.getCurrentPosition(
                   desiredAccuracy: LocationAccuracy.bestForNavigation);
 
@@ -96,7 +89,7 @@ class SosScreenModel with ChangeNotifier {
               // ignore: use_build_context_synchronously
               ShowSnackbar.snackbar(
                 context, getTranslated('SENT_SOS'), '', ColorResources.success);
-              }
+            }
           }
       );
       setStateSosStatus(SosStatus.loaded);

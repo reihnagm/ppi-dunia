@@ -532,6 +532,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_mentions:
+    dependency: "direct main"
+    description:
+      name: flutter_mentions
+      sha256: "86206b70e14a96c195130202f258c5764ef16f406c72613dfadbaea6bc4717d2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   flutter_native_image:
     dependency: "direct main"
     description:
@@ -556,6 +564,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  flutter_portal:
+    dependency: transitive
+    description:
+      name: flutter_portal
+      sha256: "0e3f9428dbe9f5253b0e65cdc5ce4fa65a1d8cd6ec2a3f3770b46785aa3c57fd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -842,10 +858,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: b6951e25b795d053a6ba03af5f710069c99349de9341af95155d52665cb4607c
+      sha256: "26222b01a0c9a2c8fe02fc90b8208bd3325da5ed1f4a2acabf75939031ac0bdd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.9"
+    version: "1.0.7"
   image_picker_android:
     dependency: transitive
     description:
@@ -1279,6 +1295,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  rich_readmore:
+    dependency: "direct main"
+    description:
+      name: rich_readmore
+      sha256: "1c8a97f4a8268737f4e82beebd6137c6a0855cab72c4b3dd1133014e63536b62"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   rive:
     dependency: transitive
     description:

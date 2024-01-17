@@ -55,7 +55,7 @@ class NotificationService {
         {
           NS.push(navigatorKey.currentContext!, CommentScreen(feedId: decoded["feed_id"]));
         }else if(decoded["type"] == "feed_reply") {
-          NS.push(navigatorKey.currentContext!, CommentDetail(feedId: decoded["comment_id"]));
+          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: decoded["comment_id"]));
         }else{
           NS.push(
           navigatorKey.currentContext!,
@@ -68,13 +68,13 @@ class NotificationService {
           ));
         }
 
-        // debugPrint("Hallo");
+        debugPrint("Hallo");
         debugPrint("Type : ${decoded["type"]}");
         debugPrint("Comment ID : ${decoded["comment_id"]}");
-        // debugPrint(decoded["type"]);
-        // debugPrint(decoded["date"]);
-        // debugPrint(decoded["description"]);
-        // debugPrint(decoded["name"]);
+        debugPrint(decoded["type"]);
+        debugPrint(decoded["date"]);
+        debugPrint(decoded["description"]);
+        debugPrint(decoded["name"]);
       },
     );
   }

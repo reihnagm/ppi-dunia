@@ -129,18 +129,9 @@ class ProfileProvider with ChangeNotifier {
                 MaterialButton(
                   child: const Text("Gallery"),
                   onPressed: () async {
-                    try {
-                      if (await Permission.storage.request().isGranted) {
-                        // ignore:
-                        Navigator.pop(context, ImageSource.gallery);
-                      } else if(await Permission.storage.isDenied || await Permission.storage.isPermanentlyDenied ) {
-                        GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
-                      }else{
-                        NS.pop(context);
-                      }
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    }
+                    debugPrint(Platform.operatingSystemVersion);
+                    Permission.photos.request();
+                    Navigator.pop(context, ImageSource.gallery);
                   },
                 )
               ],

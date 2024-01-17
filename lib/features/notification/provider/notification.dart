@@ -28,7 +28,7 @@ class NotificationNotifier with ChangeNotifier {
         notificationRequest.isPermanentlyDenied) {
       await GeneralModal.dialogRequestNotification(
           msg:
-              "Storage notification needed, please activate your notification");
+              "Notification needed, please activate your notification");
     }
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppidunia/features/banner/presentation/providers/banner.dart';
+import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/webview/webview.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -48,7 +50,7 @@ class FeedBanner extends StatelessWidget {
                                     child: InkWell(
                                         borderRadius:
                                             BorderRadius.circular(30.0),
-                                        onTap: () {},
+                                        onTap: () => NS.push(context, WebViewScreen(url: banner.banners![i].link!, title: "Banner")),
                                         child: CachedNetworkImage(
                                           imageUrl: banner.banners![i].path!,
                                           imageBuilder: (BuildContext context,

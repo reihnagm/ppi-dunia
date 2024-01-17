@@ -26,6 +26,7 @@ import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 
 import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
+import 'package:rich_readmore/rich_readmore.dart';
 
 class CommentScreenState extends State<CommentScreen> {
   late CommentScreenModel csm;
@@ -258,16 +259,27 @@ class CommentScreenState extends State<CommentScreen> {
                                             left: 25.0,
                                             bottom: 10.0,
                                             top: 5),
-                                        child: Text(
-                                          c.feedDetailData.caption!,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 4,
-                                          style: const TextStyle(
-                                              color:
-                                                  ColorResources.hintColor,
-                                              fontSize:
-                                                  Dimensions.fontSizeSmall,
+                                        child: RichReadMoreText.fromString(
+                                          text: c.feedDetailData.caption!,
+                                          textStyle: const TextStyle(
+                                              color: ColorResources.hintColor,
+                                              fontSize: Dimensions.fontSizeSmall,
                                               fontFamily: 'SF Pro'),
+                                          settings: LengthModeSettings(
+                                            trimLength: 300,
+                                            trimCollapsedText: '...Show more',
+                                            trimExpandedText: ' Show less',
+                                            moreStyle: const TextStyle(
+                                              color: ColorResources.blue,
+                                              fontSize: Dimensions.fontSizeDefault,
+                                              fontFamily: 'SF Pro'
+                                            ),
+                                            lessStyle: const TextStyle(
+                                              color: ColorResources.blue,
+                                              fontSize: Dimensions.fontSizeDefault,
+                                              fontFamily: 'SF Pro'
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       if (c.feedDetailData.feedType ==
@@ -1061,21 +1073,28 @@ class CommentScreenState extends State<CommentScreen> {
                                                                       height:
                                                                           10,
                                                                     ),
-                                                              Text(
-                                                                c.comments[i]
-                                                                    .comment,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .visible,
-                                                                style: const TextStyle(
-                                                                    color: ColorResources
-                                                                        .hintColor,
-                                                                    fontSize:
-                                                                        Dimensions
-                                                                            .fontSizeSmall,
-                                                                    fontFamily:
-                                                                        'SF Pro'),
-                                                              )
+                                                              RichReadMoreText.fromString(
+                                                                text: c.comments[i].comment,
+                                                                textStyle: const TextStyle(
+                                                                  color: ColorResources.hintColor,
+                                                                  fontSize: Dimensions.fontSizeSmall,
+                                                                  fontFamily: 'SF Pro'),
+                                                                settings: LengthModeSettings(
+                                                                  trimLength: 100,
+                                                                  trimCollapsedText: '...Show more',
+                                                                  trimExpandedText: ' Show less',
+                                                                  moreStyle: const TextStyle(
+                                                                    color: ColorResources.blue,
+                                                                    fontSize: Dimensions.fontSizeDefault,
+                                                                    fontFamily: 'SF Pro'
+                                                                  ),
+                                                                  lessStyle: const TextStyle(
+                                                                    color: ColorResources.blue,
+                                                                    fontSize: Dimensions.fontSizeDefault,
+                                                                    fontFamily: 'SF Pro'
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
@@ -1084,7 +1103,8 @@ class CommentScreenState extends State<CommentScreen> {
                                                             NS.push(
                                                               context,
                                                               CommentDetail(
-                                                                feedId: c.comments[i].uid,
+                                                                feedId: widget.feedId,
+                                                                commentId: c.comments[i].uid,
                                                               ));
                                                           },
                                                           child: Align(
@@ -1123,7 +1143,8 @@ class CommentScreenState extends State<CommentScreen> {
                                                         NS.push(
                                                           context,
                                                           CommentDetail(
-                                                            feedId: c.comments[i].uid,
+                                                            feedId: widget.feedId,
+                                                            commentId: c.comments[i].uid,
                                                           ));
                                                       },
                                                       child: Padding(
@@ -1205,21 +1226,27 @@ class CommentScreenState extends State<CommentScreen> {
                                                                               fontSize: Dimensions.fontSizeExtraSmall,
                                                                               fontWeight: FontWeight.w600,
                                                                               fontFamily: 'SF Pro')),
-                                                                      Text(
-                                                                        reply
-                                                                            .reply,
-                                                                        maxLines:
-                                                                            4,
-                                                                        overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                        style: const TextStyle(
-                                                                            color: ColorResources
-                                                                                .hintColor,
-                                                                            fontSize: Dimensions
-                                                                                .fontSizeLarge,
-                                                                            fontFamily:
-                                                                                'SF Pro'),
+                                                                      RichReadMoreText.fromString(
+                                                                        text: reply.reply,
+                                                                        textStyle: const TextStyle(
+                                                                          color: ColorResources.hintColor,
+                                                                          fontSize: Dimensions.fontSizeSmall,
+                                                                          fontFamily: 'SF Pro'),
+                                                                        settings: LengthModeSettings(
+                                                                          trimLength: 100,
+                                                                          trimCollapsedText: '...Show more',
+                                                                          trimExpandedText: ' Show less',
+                                                                          moreStyle: const TextStyle(
+                                                                            color: ColorResources.blue,
+                                                                            fontSize: Dimensions.fontSizeDefault,
+                                                                            fontFamily: 'SF Pro'
+                                                                          ),
+                                                                          lessStyle: const TextStyle(
+                                                                            color: ColorResources.blue,
+                                                                            fontSize: Dimensions.fontSizeDefault,
+                                                                            fontFamily: 'SF Pro'
+                                                                          ),
+                                                                        ),
                                                                       ),
                                                                       const SizedBox(
                                                                         height: 5,

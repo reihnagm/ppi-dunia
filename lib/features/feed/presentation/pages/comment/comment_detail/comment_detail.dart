@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/feed/data/models/reply.dart';
@@ -17,12 +19,14 @@ import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:rich_readmore/rich_readmore.dart';
 
 class CommentDetail extends StatefulWidget {
-  final String feedId;
+  final String commentId;
+  final String? feedId;
   const CommentDetail({
     Key? key,
-    required this.feedId,
+    required this.commentId, this.feedId,
   }) : super(key: key);
 
   @override
@@ -42,7 +46,7 @@ class _CommentDetailState extends State<CommentDetail> {
     cdm.replyC = TextEditingController();
 
     if (mounted) {
-      cdm.getReplyDetail(feedId: widget.feedId);
+      cdm.getReplyDetail(commentId: widget.commentId);
     }
   }
 
@@ -53,7 +57,7 @@ class _CommentDetailState extends State<CommentDetail> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Comment ID ${widget.feedId}");
+    debugPrint("Comment ID ${widget.commentId}");
     return Scaffold(
       backgroundColor: ColorResources.bgSecondaryColor,
       body: LayoutBuilder(
@@ -159,10 +163,10 @@ class _CommentDetailState extends State<CommentDetail> {
                                                 // },
                                                 child: CachedNetworkImage(
                                                   imageUrl: c.replyDetailData.user!.avatar,
-                                                  imageBuilder:
-                                                      (BuildContext context,
-                                                          ImageProvider<Object>
-                                                              imageProvider) {
+                                                  imageBuilder: (BuildContext
+                                                          context,
+                                                      ImageProvider<Object>
+                                                          imageProvider) {
                                                     return CircleAvatar(
                                                       radius: 20.0,
                                                       backgroundImage:
@@ -186,6 +190,7 @@ class _CommentDetailState extends State<CommentDetail> {
                                                       radius: 20.0,
                                                       backgroundColor:
                                                           Color(0xFF637687),
+                                                      backgroundImage: AssetImage(AssetsConst.imageDefaultAva),
                                                     );
                                                   },
                                                 ),
@@ -205,20 +210,24 @@ class _CommentDetailState extends State<CommentDetail> {
                                                     //       ProfileViewScreen(
                                                     //           userId: widget.uid));
                                                     // },
-                                                    child: Text(c.replyDetailData.user!.name,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            color:
-                                                                ColorResources
-                                                                    .white,
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily:
-                                                                'SF Pro')),
+                                                    child: FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Text(c.replyDetailData.user!.name,
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  ColorResources
+                                                                      .white,
+                                                              fontSize: Dimensions
+                                                                  .fontSizeLarge,
+                                                              fontWeight:
+                                                                  FontWeight.w600,
+                                                              fontFamily:
+                                                                  'SF Pro')),
+                                                    ),
                                                   ),
                                                   Text(
                                                       DateHelper.formatDateTime(c.replyDetailData.createdAt!),
@@ -238,22 +247,33 @@ class _CommentDetailState extends State<CommentDetail> {
                                         ),
                                       ),
                                       Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 25.0,
-                                                left: 25.0,
-                                                bottom: 10.0,),
-                                            child: Text("${c.replyDetailData.caption}",
-                                                    maxLines: 4,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                        color: ColorResources
-                                                            .hintColor,
-                                                        fontSize: Dimensions
-                                                            .fontSizeLarge,
-                                                        fontFamily: 'SF Pro'),
-                                                  ),
+                                        padding: const EdgeInsets.only(
+                                          right: 25.0,
+                                          left: 25.0,
+                                          bottom: 10.0,),
+                                        child: RichReadMoreText.fromString(
+                                          text: "${c.replyDetailData.caption}",
+                                          textStyle: const TextStyle(
+                                            color: ColorResources.hintColor,
+                                            fontSize: Dimensions.fontSizeSmall,
+                                            fontFamily: 'SF Pro'),
+                                          settings: LengthModeSettings(
+                                            trimLength: 300,
+                                            trimCollapsedText: '...Show more',
+                                            trimExpandedText: ' Show less',
+                                            moreStyle: const TextStyle(
+                                              color: ColorResources.blue,
+                                              fontSize: Dimensions.fontSizeDefault,
+                                              fontFamily: 'SF Pro'
+                                            ),
+                                            lessStyle: const TextStyle(
+                                              color: ColorResources.blue,
+                                              fontSize: Dimensions.fontSizeDefault,
+                                              fontFamily: 'SF Pro'
+                                            ),
                                           ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -332,144 +352,164 @@ class _CommentDetailState extends State<CommentDetail> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                 Container(
-                                                  width: double.infinity,
-                                                  padding:
-                                                      const EdgeInsets.all(15),
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
+                                                          width:
+                                                              double.infinity,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(15),
+                                                          decoration: const BoxDecoration(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
                                                                       .circular(
                                                                           12.0)),
-                                                          color: ColorResources
-                                                              .greyPrimary),
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.max,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        mainAxisSize: MainAxisSize.max,
-                                                        children: [
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  NS.push(
-                                                                    context,
-                                                                    ProfileViewScreen(
-                                                                      userId: reply.user.uid,
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Text(
-                                                                    reply.user.name,
-                                                                    maxLines: 2,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: const TextStyle(
-                                                                        color:
-                                                                            ColorResources
-                                                                                .white,
-                                                                        fontSize: Dimensions
-                                                                            .fontSizeLarge,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w600,
-                                                                        fontFamily:
-                                                                            'SF Pro')),
-                                                              ),
-                                                          Text(
-                                                          DateHelper
-                                                              .formatDateTime(reply.createdAt),
-                                                          style: const TextStyle(
                                                               color: ColorResources
-                                                                  .greyDarkPrimary,
-                                                              fontSize:
-                                                                  Dimensions
-                                                                      .fontSizeExtraSmall,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
-                                                            ],
-                                                          ),
-                                                          reply.user.uid ==
-                                                                SharedPrefs.getUserId()
+                                                                  .greyPrimary),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                  mainAxisSize:
+                                                      MainAxisSize
+                                                          .max,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize
+                                                              .max,
+                                                      children: [
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap:
+                                                                  () {
+                                                                NS.push(
+                                                                  context,
+                                                                  ProfileViewScreen(
+                                                                    userId: reply.user.uid,
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child:
+                                                                  SizedBox(
+                                                                width: MediaQuery.sizeOf(context).width < 400
+                                                                    ? 200
+                                                                    : 240,
+                                                                child:
+                                                                    FittedBox(
+                                                                  fit:
+                                                                      BoxFit.scaleDown,
+                                                                  alignment:
+                                                                      Alignment.centerLeft,
+                                                                  child: Text(reply.user.name,
+                                                                      maxLines: 2,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      style: const TextStyle(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w600, fontFamily: 'SF Pro')),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                height:
+                                                                    5.0),
+                                                            Text(DateHelper.formatDateTime(reply.createdAt),
+                                                                style: const TextStyle(
+                                                                    color: ColorResources.greyDarkPrimary,
+                                                                    fontSize: Dimensions.fontSizeExtraSmall,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontFamily: 'SF Pro')),
+                                                          ],
+                                                        ),
+                                                        reply.user.uid == SharedPrefs.getUserId()
                                                             ? PopupMenuButton(
-                                                                color: Colors.white,
-                                                                iconColor: Colors.white,
-                                                                iconSize: 20,
+                                                                color:
+                                                                    Colors.white,
+                                                                iconColor:
+                                                                    Colors.white,
+                                                                iconSize:
+                                                                    20,
                                                                 itemBuilder:
                                                                     (BuildContext buildContext) {
                                                                   return [
-                                                                    PopupMenuItem(
-                                                                        value: "/delete",
-                                                                        child: Text(
-                                                                            getTranslated("DELETE"),
-                                                                            style: const TextStyle(
-                                                                                color: ColorResources
-                                                                                    .greyDarkPrimary,
-                                                                                fontSize: Dimensions
-                                                                                    .fontSizeDefault,
-                                                                                fontWeight:
-                                                                                    FontWeight.w600,
-                                                                                fontFamily:
-                                                                                    'SF Pro'))),
+                                                                    PopupMenuItem(value: "/delete", child: Text(getTranslated("DELETE"), style: const TextStyle(color: ColorResources.greyDarkPrimary, fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.w600, fontFamily: 'SF Pro'))),
                                                                   ];
                                                                 },
-                                                                onSelected: (String route) async {
+                                                                onSelected:
+                                                                    (String route) async {
                                                                   GeneralModal.showConfirmModals(
-                                                                          image: AssetsConst
-                                                                              .imageIcPopUpDelete,
-                                                                          msg:
-                                                                              "Are you sure want to delete ?",
-                                                                          onPressed: () async {
-                                                                            if (route ==
-                                                                                "/delete") {
-                                                                              // await pp.delete(feedId: pp.feeds[i].uid);
-                                                                              // await csm.deleteReply(feedId: widget.feedId, deleteId: reply.uid);
-                                                                            }
-                                                                            NS.pop(context);
-                                                                            ShowSnackbar.snackbar(
-                                                                                context,
-                                                                                "Successfully delete a reply",
-                                                                                '',
-                                                                                ColorResources
-                                                                                    .success);
+                                                                    image: AssetsConst.imageIcPopUpDelete,
+                                                                    msg: "Are you sure want to delete ?",
+                                                                    onPressed: () async {
+                                                                      if (route == "/delete") {
+                                                                        await cdm.deleteReply(commentId: widget.commentId, deleteId: reply.uid);
+                                                                      }
+                                                                      NS.pop(context);
+                                                                      ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
                                                                     },
                                                                   );
                                                                 },
                                                               )
                                                             : const SizedBox(),
-                                                        ],
-                                                      ),
-                                                      reply.user.uid ==
-                                                                    SharedPrefs.getUserId() ? Container() :const SizedBox(height: 10,),
-                                                            Text(
-                                                            reply.reply,
-                                                            overflow: TextOverflow
-                                                                .visible,
-                                                                softWrap: true,
-                                                            style: const TextStyle(
-                                                                color:
-                                                                    ColorResources
-                                                                        .hintColor,
-                                                                fontSize: Dimensions
-                                                                    .fontSizeLarge,
-                                                                fontFamily:
-                                                                    'SF Pro'),
+                                                      ],
+                                                    ),
+                                                    reply.user.uid == SharedPrefs.getUserId()
+                                                        ? Container()
+                                                        : const SizedBox(
+                                                            height:
+                                                                10,
                                                           ),
-                                                    ],
-                                                  ),
+                                                    RichReadMoreText.fromString(
+                                                      text: reply.reply,
+                                                      textStyle: const TextStyle(
+                                                        color: ColorResources.hintColor,
+                                                        fontSize: Dimensions.fontSizeSmall,
+                                                        fontFamily: 'SF Pro'),
+                                                      settings: LengthModeSettings(
+                                                        trimLength: 100,
+                                                        trimCollapsedText: '...Show more',
+                                                        trimExpandedText: ' Show less',
+                                                        moreStyle: const TextStyle(
+                                                          color: ColorResources.blue,
+                                                          fontSize: Dimensions.fontSizeDefault,
+                                                          fontFamily: 'SF Pro'
+                                                        ),
+                                                        lessStyle: const TextStyle(
+                                                          color: ColorResources.blue,
+                                                          fontSize: Dimensions.fontSizeDefault,
+                                                          fontFamily: 'SF Pro'
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ])),
+                                              ),
+                                              reply.user.uid != SharedPrefs.getUserId() ?
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    cdm.replyC.text = reply.user.name;
+                                                  });
+                                                },
+                                                child: const Text("Balas",
+                                                style: TextStyle(
+                                                  color: Colors.white
+                                                  )
+                                                ,)
+                                              ):Container()
+                                          ])),
                                         ],
                                       ),
                                     ],
@@ -564,9 +604,9 @@ class _CommentDetailState extends State<CommentDetail> {
                         const SizedBox(width: 15.0),
                         IconButton(
                             onPressed: () async {
-                              // await cdm.postReply(
-                              //     feedId: widget.feedId,
-                              //     commentId: widget.commentId);
+                              await cdm.postReply(
+                                  feedId: widget.feedId,
+                                  commentId: widget.commentId);
                             },
                             icon: const Icon(
                               Icons.send,

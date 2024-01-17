@@ -286,17 +286,17 @@ class GeneralModal {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                        width: 300.w,
-                        height: 250.h,
+                        width: 300,
+                        height:300,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
                             Positioned(
-                                left: 20.w,
-                                right: 20.w,
-                                bottom: 20.h,
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
                                 child: Container(
-                                  height: 150.h,
+                                  height: 150,
                                   padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25.0),
@@ -318,8 +318,8 @@ class GeneralModal {
                                 )),
                             Positioned(
                               bottom: 0.0,
-                              left: 60.w,
-                              right: 60.w,
+                              left: 60,
+                              right: 60,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

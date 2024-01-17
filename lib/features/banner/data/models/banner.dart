@@ -25,12 +25,14 @@ class BannerData extends Equatable {
   final String? uid;
   final String? name;
   final String? path;
+  final String? link;
   final String? createdAt;
 
   const BannerData({
     this.uid,
     this.name,
     this.path,
+    this.link,
     this.createdAt,
   });
 
@@ -38,6 +40,7 @@ class BannerData extends Equatable {
     uid: json["uid"],
     name: json["name"],
     path: json["path"],
+    link: json["link"],
     createdAt: json["created_at"],
   );
 
@@ -46,6 +49,7 @@ class BannerData extends Equatable {
     uid,
     name,
     path,
+    link,
     createdAt,
   ];
 }

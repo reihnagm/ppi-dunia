@@ -57,12 +57,12 @@ class CommentDetailModel with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  Future<void> getReplyDetail({required String feedId}) async {
+  Future<void> getReplyDetail({required String commentId}) async {
     pageKey = 1;
     hasMore = true;
 
     try {
-      ReplyDetailModel rdm = await rr.getReplyDetail(feedId: feedId, pageKey: pageKey);
+      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: pageKey);
       _replyDetailData = rdm.data;
 
       _reply.clear();
@@ -79,5 +79,48 @@ class CommentDetailModel with ChangeNotifier {
     } catch (_) {
       setStateFeedDetailStatus(ReplyDetailStatus.error);
     }
+  }
+
+  postReply({required feedId, required String commentId}) async {
+    try {
+      if (replyC.text.trim() == "") {
+        return;
+      }
+      debugPrint(replyC.text);
+
+      await rr.postReply(
+          feedId: feedId, reply: replyC.text, commentId: commentId);
+
+      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      _replyDetailData = rdm.data;
+
+      _reply.clear();
+      _reply.addAll(rdm.data.feedReplies!.replies);
+
+      replyC.text = "";
+
+      setStateFeedDetailStatus(ReplyDetailStatus.loaded);
+      setStateCommentStatus(ReplyStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> deleteReply(
+      {required String commentId, required String deleteId}) async {
+    try {
+      await rr.deleteReply(deleteId: deleteId);
+
+      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      _replyDetailData = rdm.data;
+
+      _reply.clear();
+      _reply.addAll(rdm.data.feedReplies!.replies);
+
+      setStateFeedDetailStatus(ReplyDetailStatus.loaded);
+      setStateCommentStatus(ReplyStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+    } catch (_) {}
   }
 }

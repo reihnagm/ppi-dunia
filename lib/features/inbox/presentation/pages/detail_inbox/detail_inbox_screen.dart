@@ -75,7 +75,7 @@ class DetailInboxScreenState extends State<DetailInbox> {
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.centerLeft,
                               child: Text(widget.type == "sos"
-                                  ? widget.name.toUpperCase()
+                                  ? widget.name!.toUpperCase()
                                   : widget.title.toUpperCase(),
                                 style: const TextStyle(
                                   color: ColorResources.white,

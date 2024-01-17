@@ -557,7 +557,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                               textCapitalization: TextCapitalization.sentences,
                               maxLines: null,
                               style: const TextStyle(
-                                fontSize: Dimensions.fontSizeOverLarge,
+                                fontSize: Dimensions.fontSizeLarge,
                                 fontFamily: 'SF Pro',
                                 color: ColorResources.white,
                               ),

@@ -27,12 +27,18 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 
 import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
+import 'package:rich_readmore/rich_readmore.dart';
 
-class FeedList extends StatelessWidget {
+class FeedList extends StatefulWidget {
   const FeedList({
     super.key,
   });
 
+  @override
+  State<FeedList> createState() => _FeedListState();
+}
+
+class _FeedListState extends State<FeedList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FeedScreenModel>(
@@ -126,7 +132,7 @@ class FeedList extends StatelessWidget {
                                           fsm.feeds[i].user.avatar, 20)),
                                 ),
                                 Expanded(
-                                  flex: 28,
+                                  flex: 25,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -142,29 +148,30 @@ class FeedList extends StatelessWidget {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          SizedBox(
-                                            width: MediaQuery.sizeOf(context)
-                                                        .width <
-                                                    400
-                                                ? 200
-                                                : 240,
-                                            child: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                  softWrap: true,
-                                                  fsm.feeds[i].user.name,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                      color:
-                                                          ColorResources.white,
-                                                      fontSize: Dimensions
-                                                          .fontSizeSmall,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: 'SF Pro')),
+                                          FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: SizedBox(
+                                              width: MediaQuery.sizeOf(context)
+                                                          .width <
+                                                      400
+                                                  ? 200
+                                                  : 240,
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                    fsm.feeds[i].user.name,
+                                                    maxLines: 2,
+                                                    overflow:TextOverflow.visible,
+                                                    style: const TextStyle(
+                                                        color:
+                                                            ColorResources.white,
+                                                        fontSize: Dimensions
+                                                            .fontSizeSmall,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily: 'SF Pro')),
+                                              ),
                                             ),
                                           ),
                                           Text(
@@ -314,14 +321,27 @@ class FeedList extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(
                                 right: 25.0, left: 25.0, bottom: 10.0, top: 5),
-                            child: Text(
-                              fsm.feeds[i].caption,
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
+                            child: RichReadMoreText.fromString(
+                              text: fsm.feeds[i].caption,
+                              textStyle: const TextStyle(
                                   color: ColorResources.hintColor,
                                   fontSize: Dimensions.fontSizeSmall,
                                   fontFamily: 'SF Pro'),
+                              settings: LengthModeSettings(
+                                trimLength: 300,
+                                trimCollapsedText: '...Show more',
+                                trimExpandedText: ' Show less',
+                                moreStyle: const TextStyle(
+                                  color: ColorResources.blue,
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  fontFamily: 'SF Pro'
+                                ),
+                                lessStyle: const TextStyle(
+                                  color: ColorResources.blue,
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  fontFamily: 'SF Pro'
+                                ),
+                              ),
                             ),
                           ),
                           if (fsm.feeds[i].feedType == "image")
