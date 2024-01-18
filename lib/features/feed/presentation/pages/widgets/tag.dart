@@ -62,7 +62,7 @@ class FeedTag extends StatelessWidget {
                     : Container(
                         height: 45.0,
                         margin: const EdgeInsets.only(
-                          top: 20.0,
+                          top: 10.0,
                         ),
                         child: ListView.builder(
                           controller: feed.countriesC,

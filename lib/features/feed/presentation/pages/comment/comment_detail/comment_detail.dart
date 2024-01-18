@@ -13,6 +13,7 @@ import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/feed/data/models/reply.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/test_reply.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
@@ -496,7 +497,6 @@ class _CommentDetailState extends State<CommentDetail> {
                                                   ],
                                                 ),
                                               ),
-                                              reply.user.uid != SharedPrefs.getUserId() ?
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
@@ -508,7 +508,17 @@ class _CommentDetailState extends State<CommentDetail> {
                                                   color: Colors.white
                                                   )
                                                 ,)
-                                              ):Container()
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  NS.pushReplacement(context, const TestReply());
+                                                },
+                                                child: const Text("Test",
+                                                style: TextStyle(
+                                                  color: Colors.white
+                                                  )
+                                                ,)
+                                              )
                                           ])),
                                         ],
                                       ),

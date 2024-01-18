@@ -97,15 +97,17 @@ class FeedScreenState extends State<FeedScreen> {
               minHeight: deviceMaxHeight < 600
                   ? constraints.maxHeight * .35
                   : deviceMaxHeight < 800
-                      ? constraints.maxHeight * .45
-                      : constraints.maxHeight * .53,
+                      ? constraints.maxHeight * .48
+                      : constraints.maxHeight * .55,
               maxHeight: deviceMaxHeight < 600
                   ? constraints.maxHeight * .76
                   : deviceMaxHeight < 800
-                      ? constraints.maxHeight * .78
-                      : constraints.maxHeight * .80,
+                      ? constraints.maxHeight * .82
+                      : constraints.maxHeight * .84,
               color: ColorResources.bgSecondaryColor,
               controller: fsm.panelC,
+              // onPanelOpened: () => debugPrint("terbuka"),
+              // onPanelClosed: () => fsm.panelC.show(),
               panelBuilder: (ScrollController sc) {
                 return NotificationListener(
                   onNotification: (ScrollNotification notification) {
@@ -126,13 +128,14 @@ class FeedScreenState extends State<FeedScreen> {
                         Center(
                           child: Column(
                             children: [
-                              Container(
-                                margin: const EdgeInsets.only(
-                                    top: 3.0, bottom: 3.0),
-                                child: const Icon(
-                                  Icons.keyboard_arrow_up,
-                                  color: ColorResources.hintColor,
-                                  size: 40.0,
+                              Center(
+                                child: Container(
+                                  width: 80.0,
+                                  height: 6.0,
+                                  decoration: BoxDecoration(
+                                      color: ColorResources.greyDarkPrimary,
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  margin: const EdgeInsets.only(top: 20.0, bottom: 10.0),
                                 ),
                               ),
                               // Text(

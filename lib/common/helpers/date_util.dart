@@ -12,7 +12,7 @@ class DateHelper {
     return val.contains("hours ago")
         ? "${val.split(' ')[0]} ${getTranslated("HOURS_AGO")}"
         : val.contains("minutes ago")
-            ? "${val.split('')[0]} ${getTranslated("MINUTES_AGO")}"
+            ? "${val.split('')[0]}${val.split('')[1]} ${getTranslated("MINUTES_AGO")}"
             : val.contains("years ago")
                 ? "${val.split('')[0]} ${getTranslated("YEARS_AGO")}"
                 : val.contains("an hour ago")

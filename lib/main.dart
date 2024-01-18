@@ -2,6 +2,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -128,20 +129,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       designSize: const Size(360, 690),
       builder: (context, child) {
         ScreenUtil.init(context);
-        return MaterialApp(
-          title: 'PPI Dunia',
-          debugShowCheckedModeBanner: false,
-          locale: context.watch<LocalizationProvider>().locale,
-          localizationsDelegates: const [
-            AppLocalization.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          scaffoldMessengerKey: scaffoldKey,
-          navigatorKey: navigatorKey,
-          supportedLocales: locals,
-          home: const SplashScreen(),
+        return Portal(
+          child: MaterialApp(
+            title: 'PPI Dunia',
+            debugShowCheckedModeBanner: false,
+            locale: context.watch<LocalizationProvider>().locale,
+            localizationsDelegates: const [
+              AppLocalization.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            scaffoldMessengerKey: scaffoldKey,
+            navigatorKey: navigatorKey,
+            supportedLocales: locals,
+            home: const SplashScreen(),
+          ),
         );
       },
     );

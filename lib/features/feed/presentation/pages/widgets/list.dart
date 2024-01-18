@@ -87,7 +87,7 @@ class _FeedListState extends State<FeedList> {
         return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             padding:
-                const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10.0),
+                const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
             shrinkWrap: true,
             itemCount: fsm.feeds.length,
             itemBuilder: (BuildContext context, int i) {
