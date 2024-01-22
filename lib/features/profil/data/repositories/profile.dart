@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +9,7 @@ import 'package:ppidunia/features/feed/data/models/feed.dart';
 import 'package:ppidunia/common/utils/dio.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
+import 'package:ppidunia/features/profil/data/models/mention.dart';
 
 class ProfileRepo {
   Dio? dioClient;
@@ -118,6 +121,23 @@ class ProfileRepo {
         "phone": phone,
         "user_id": userId,
       });
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+
+  Future<GetUserMention> getUserMention({required int pageKey, required String search}) async {
+    try {
+      Response res = await dioClient!.post("/api/v1/profile/all?search=$search&page=$pageKey&limit=400", data: {
+        "user_id": SharedPrefs.getUserId(),
+      });
+      Map<String, dynamic> data = res.data;
+      GetUserMention user = GetUserMention.fromJson(data);
+      return user;
     } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioException(e).toString();
       throw CustomException(errorMessage);

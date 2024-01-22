@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
@@ -15,6 +19,7 @@ import 'package:ppidunia/features/feed/data/models/reply.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/test_reply.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
+import 'package:ppidunia/features/profil/data/models/mention.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
@@ -35,253 +40,271 @@ class CommentDetail extends StatefulWidget {
 }
 
 class _CommentDetailState extends State<CommentDetail> {
+  Dio? dioClient;
   late CommentDetailModel cdm;
+  late ProfileProvider pp;
+
+  GlobalKey<FlutterMentionsState> key = GlobalKey<FlutterMentionsState>();
+  
+  // key.currentState.controller.text = '';
+
+  List<Map<String, dynamic>> dataMention = [];
 
   @override
   void initState() {
     super.initState();
 
     cdm = context.read<CommentDetailModel>();
+    pp = context.read<ProfileProvider>();
 
     cdm.sc = ScrollController();
     cdm.replyC = TextEditingController();
+    // cdm.replyC.text = key.currentState!.controller!.text;
 
     if (mounted) {
       cdm.getReplyDetail(commentId: widget.commentId);
     }
+
+    if (mounted) {
+      pp.getUserMention();
+    }
+ 
   }
 
   @override
   void dispose() {
+    pp.clearMention();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Comment ID ${widget.commentId}");
+    // print(key.currentState!.controller!.text);
     return Scaffold(
       backgroundColor: ColorResources.bgSecondaryColor,
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            CustomScrollView(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              slivers: [
-                SliverAppBar(
-                    backgroundColor: ColorResources.transparent,
-                    leading: CupertinoNavigationBarBackButton(
-                      color: ColorResources.blue,
-                      onPressed: () {
-                        NS.pop(context);
-                      },
-                    ),
-                    centerTitle: true,
-                    title: const SizedBox()),
-                SliverPadding(
-                  padding: const EdgeInsets.only(bottom: 85.0),
-                  sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                    Consumer(builder: (BuildContext context,
-                        CommentDetailModel c, Widget? child) {
-                      if (c.replyStatus == ReplyStatus.loading) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height * .75,
-                          child: const Center(
-                            child: SpinKitCubeGrid(
-                              color: ColorResources.greyLightPrimary,
-                              size: 30.0,
+      body: Consumer(builder: (BuildContext context,
+                        ProfileProvider pp, Widget? child,) {
+        return LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              CustomScrollView(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                slivers: [
+                  SliverAppBar(
+                      backgroundColor: ColorResources.transparent,
+                      leading: CupertinoNavigationBarBackButton(
+                        color: ColorResources.blue,
+                        onPressed: () {
+                          NS.pop(context);
+                        },
+                      ),
+                      centerTitle: true,
+                      title: const SizedBox()),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(bottom: 85.0),
+                    sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                      Consumer(builder: (BuildContext context,
+                          CommentDetailModel c, Widget? child) {
+                        if (c.replyStatus == ReplyStatus.loading) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * .75,
+                            child: const Center(
+                              child: SpinKitCubeGrid(
+                                color: ColorResources.greyLightPrimary,
+                                size: 30.0,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                      if (c.replyStatus == CommentStatus.empty) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height * .75,
-                          child: Center(
-                            child: Text(getTranslated("NO_COMMENT"),
-                                style: const TextStyle(
-                                    color: ColorResources.white,
-                                    fontSize: Dimensions.fontSizeLarge,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'SF Pro')),
-                          ),
-                        );
-                      }
-                      if (c.replyStatus == CommentStatus.error) {
-                        return Container();
-                      }
-                      return Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(2),
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
+                          );
+                        }
+                        if (c.replyStatus == CommentStatus.empty) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * .75,
+                            child: Center(
+                              child: Text(getTranslated("NO_COMMENT"),
+                                  style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.fontSizeLarge,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro')),
                             ),
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12.0)),
-                              color: ColorResources.greyPrimary,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                  ),
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(12.0)),
-                                      color: ColorResources.greyPrimary),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Expanded(
-                                              flex: 7,
-                                              child: InkWell(
-                                                // onTap: () {
-                                                //   NS.push(
-                                                //     context,
-                                                //     ProfileViewScreen(
-                                                //       userId: widget.uid,
-                                                //     ),
-                                                //   );
-                                                // },
-                                                child: CachedNetworkImage(
-                                                  imageUrl: c.replyDetailData.user!.avatar,
-                                                  imageBuilder: (BuildContext
-                                                          context,
-                                                      ImageProvider<Object>
-                                                          imageProvider) {
-                                                    return CircleAvatar(
-                                                      radius: 20.0,
-                                                      backgroundImage:
-                                                          imageProvider,
-                                                    );
-                                                  },
-                                                  placeholder:
-                                                      (BuildContext context,
-                                                          String url) {
-                                                    return const CircleAvatar(
-                                                      radius: 20.0,
-                                                      backgroundColor:
-                                                          Color(0xFF637687),
-                                                    );
-                                                  },
-                                                  errorWidget:
-                                                      (BuildContext context,
-                                                          String url,
-                                                          dynamic error) {
-                                                    return const CircleAvatar(
-                                                      radius: 20.0,
-                                                      backgroundColor:
-                                                          Color(0xFF637687),
-                                                      backgroundImage: AssetImage(AssetsConst.imageDefaultAva),
-                                                    );
-                                                  },
+                          );
+                        }
+                        if (c.replyStatus == CommentStatus.error) {
+                          return Container();
+                        }
+                        return Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(2),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.0)),
+                                color: ColorResources.greyPrimary,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                    ),
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0)),
+                                        color: ColorResources.greyPrimary),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Expanded(
+                                                flex: 7,
+                                                child: InkWell(
+                                                  // onTap: () {
+                                                  //   NS.push(
+                                                  //     context,
+                                                  //     ProfileViewScreen(
+                                                  //       userId: widget.uid,
+                                                  //     ),
+                                                  //   );
+                                                  // },
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: c.replyDetailData.user!.avatar,
+                                                    imageBuilder: (BuildContext
+                                                            context,
+                                                        ImageProvider<Object>
+                                                            imageProvider) {
+                                                      return CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundImage:
+                                                            imageProvider,
+                                                      );
+                                                    },
+                                                    placeholder:
+                                                        (BuildContext context,
+                                                            String url) {
+                                                      return const CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundColor:
+                                                            Color(0xFF637687),
+                                                      );
+                                                    },
+                                                    errorWidget:
+                                                        (BuildContext context,
+                                                            String url,
+                                                            dynamic error) {
+                                                      return const CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundColor:
+                                                            Color(0xFF637687),
+                                                        backgroundImage: AssetImage(AssetsConst.imageDefaultAva),
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Expanded(
-                                              flex: 28,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  InkWell(
-                                                    // onTap: () {
-                                                    //   NS.push(
-                                                    //       context,
-                                                    //       ProfileViewScreen(
-                                                    //           userId: widget.uid));
-                                                    // },
-                                                    child: FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment: Alignment.centerLeft,
-                                                      child: Text(c.replyDetailData.user!.name,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  ColorResources
-                                                                      .white,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeLarge,
-                                                              fontWeight:
-                                                                  FontWeight.w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
+                                              Expanded(
+                                                flex: 28,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    InkWell(
+                                                      // onTap: () {
+                                                      //   NS.push(
+                                                      //       context,
+                                                      //       ProfileViewScreen(
+                                                      //           userId: widget.uid));
+                                                      // },
+                                                      child: FittedBox(
+                                                        fit: BoxFit.scaleDown,
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Text(c.replyDetailData.user!.name,
+                                                            maxLines: 2,
+                                                            overflow: TextOverflow
+                                                                .ellipsis,
+                                                            style: const TextStyle(
+                                                                color:
+                                                                    ColorResources
+                                                                        .white,
+                                                                fontSize: Dimensions
+                                                                    .fontSizeLarge,
+                                                                fontWeight:
+                                                                    FontWeight.w600,
+                                                                fontFamily:
+                                                                    'SF Pro')),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                      DateHelper.formatDateTime(c.replyDetailData.createdAt!),
-                                                      style: const TextStyle(
-                                                          color: ColorResources
-                                                              .greyDarkPrimary,
-                                                          fontSize: Dimensions
-                                                              .fontSizeExtraSmall,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily:
-                                                              'SF Pro')),
-                                                ],
-                                              ),
-                                            )
-                                          ],
+                                                    Text(
+                                                        DateHelper.formatDateTime(c.replyDetailData.createdAt!),
+                                                        style: const TextStyle(
+                                                            color: ColorResources
+                                                                .greyDarkPrimary,
+                                                            fontSize: Dimensions
+                                                                .fontSizeExtraSmall,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily:
+                                                                'SF Pro')),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 25.0,
-                                          left: 25.0,
-                                          bottom: 10.0,),
-                                        child: RichReadMoreText.fromString(
-                                          text: "${c.replyDetailData.caption}",
-                                          textStyle: const TextStyle(
-                                            color: ColorResources.hintColor,
-                                            fontSize: Dimensions.fontSizeSmall,
-                                            fontFamily: 'SF Pro'),
-                                          settings: LengthModeSettings(
-                                            trimLength: 300,
-                                            trimCollapsedText: '...Show more',
-                                            trimExpandedText: ' Show less',
-                                            moreStyle: const TextStyle(
-                                              color: ColorResources.blue,
-                                              fontSize: Dimensions.fontSizeDefault,
-                                              fontFamily: 'SF Pro'
-                                            ),
-                                            lessStyle: const TextStyle(
-                                              color: ColorResources.blue,
-                                              fontSize: Dimensions.fontSizeDefault,
-                                              fontFamily: 'SF Pro'
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 25.0,
+                                            left: 25.0,
+                                            bottom: 10.0,),
+                                          child: RichReadMoreText.fromString(
+                                            text: "${c.replyDetailData.caption}",
+                                            textStyle: const TextStyle(
+                                              color: ColorResources.hintColor,
+                                              fontSize: Dimensions.fontSizeSmall,
+                                              fontFamily: 'SF Pro'),
+                                            settings: LengthModeSettings(
+                                              trimLength: 300,
+                                              trimCollapsedText: '...Show more',
+                                              trimExpandedText: ' Show less',
+                                              moreStyle: const TextStyle(
+                                                color: ColorResources.blue,
+                                                fontSize: Dimensions.fontSizeDefault,
+                                                fontFamily: 'SF Pro'
+                                              ),
+                                              lessStyle: const TextStyle(
+                                                color: ColorResources.blue,
+                                                fontSize: Dimensions.fontSizeDefault,
+                                                fontFamily: 'SF Pro'
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          ListView.builder(
+                            ListView.builder(
                               scrollDirection: Axis.vertical,
                               physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -377,23 +400,13 @@ class _CommentDetailState extends State<CommentDetail> {
                                                           .max,
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize
-                                                              .max,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment:  CrossAxisAlignment.start,
+                                                      mainAxisSize: MainAxisSize.max,
                                                       children: [
                                                         Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             InkWell(
                                                               onTap:
@@ -497,136 +510,195 @@ class _CommentDetailState extends State<CommentDetail> {
                                                   ],
                                                 ),
                                               ),
-                                              InkWell(
+                                              reply.user.uid != SharedPrefs.getUserId()
+                                              ? InkWell(
                                                 onTap: () {
+                                                  // SharedPrefs.setUserUidReply(reply.user.uid);
+                                                  pp.clearMention();
+                                                  pp.setMention(
+                                                    id: reply.user.uid,
+                                                  );
                                                   setState(() {
-                                                    cdm.replyC.text = reply.user.name;
+                                                    key.currentState!.controller!.text = '@${reply.user.name} ';
                                                   });
                                                 },
                                                 child: const Text("Balas",
-                                                style: TextStyle(
-                                                  color: Colors.white
+                                                  style: TextStyle(
+                                                    color: Colors.white
+                                                    )
                                                   )
-                                                ,)
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  NS.pushReplacement(context, const TestReply());
-                                                },
-                                                child: const Text("Test",
-                                                style: TextStyle(
-                                                  color: Colors.white
-                                                  )
-                                                ,)
-                                              )
+                                                ) 
+                                              : Container(),
                                           ])),
                                         ],
                                       ),
                                     ],
                                   ),
-                                );}),
-                        ],
-                      );
-                    })
-                  ])),
-                )
-              ],
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: const BoxDecoration(
-                        color: ColorResources.bgSecondaryColor),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl: context.read<ProfileProvider>().pd.avatar!,
-                          imageBuilder: (BuildContext context,
-                              ImageProvider imageProvider) {
-                            return CircleAvatar(
-                              backgroundImage: imageProvider,
-                              maxRadius: 20.0,
-                            );
-                          },
-                          placeholder: (BuildContext context, String url) {
-                            return const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/default/ava.jpg'),
-                              maxRadius: 20.0,
-                            );
-                          },
-                          errorWidget: (BuildContext context, String url,
-                              dynamic error) {
-                            return const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/default/ava.jpg'),
-                              maxRadius: 20.0,
-                            );
-                          },
-                        ),
-                        const SizedBox(width: 15.0),
-                        Flexible(
-                            child: TextField(
-                          controller: cdm.replyC,
-                          cursorColor: ColorResources.greyLight,
-                          maxLines: null,
-                          style: const TextStyle(
-                              color: ColorResources.white,
-                              fontSize: Dimensions.fontSizeExtraLarge,
-                              fontFamily: 'SF Pro'),
-                          decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 0.0, horizontal: 16.0),
-                              fillColor: const Color(0xFF2E2E2E),
-                              filled: true,
-                              hintText: getTranslated("WRITE_COMMENT"),
-                              hintStyle: const TextStyle(
-                                  color: ColorResources.greyLight,
-                                  fontSize: Dimensions.fontSizeDefault,
-                                  fontFamily: 'SF Pro'),
-                              border: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                  borderSide: BorderSide(
-                                      width: 1.0,
-                                      color: ColorResources.greyLight)),
-                              focusedBorder: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                  borderSide: BorderSide(
-                                      width: 1.0,
-                                      color: ColorResources.greyLight)),
-                              enabledBorder: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                  borderSide: BorderSide(
-                                      width: 1.0,
-                                      color: ColorResources.greyLight)),
-                              errorBorder: const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                  borderSide: BorderSide(
-                                      width: 1.0,
-                                      color: ColorResources.greyLight))),
-                        )),
-                        const SizedBox(width: 15.0),
-                        IconButton(
+                                );
+                              }
+                            ),
+                          ],
+                        );
+                      })
+                    ])),
+                  )
+                ],
+              ),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: const BoxDecoration(
+                          color: ColorResources.bgSecondaryColor),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: context.read<ProfileProvider>().pd.avatar!,
+                            imageBuilder: (BuildContext context,
+                                ImageProvider imageProvider) {
+                              return CircleAvatar(
+                                backgroundImage: imageProvider,
+                                maxRadius: 20.0,
+                              );
+                            },
+                            placeholder: (BuildContext context, String url) {
+                              return const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/default/ava.jpg'),
+                                maxRadius: 20.0,
+                              );
+                            },
+                            errorWidget: (BuildContext context, String url,
+                                dynamic error) {
+                              return const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/default/ava.jpg'),
+                                maxRadius: 20.0,
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 15.0),
+                          Flexible(
+                              child: FlutterMentions(
+                              key: key,
+                              suggestionPosition: SuggestionPosition.Top,
+                              onMentionAdd: (Map<String, dynamic> data) {
+                                debugPrint(data.toString());
+                                pp.setMention(
+                                  id: data['id'],
+                                );
+                              },
+                              maxLines: 5,
+                              minLines: 1,
+                              cursorColor: Colors.white,
+                              style: const TextStyle(
+                                color: Colors.white
+                              ),
+                              onSearchChanged : (trigger, value) {
+                                debugPrint(trigger);
+                                debugPrint(value);
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0.0, horizontal: 16.0),
+                            fillColor: const Color(0xFF2E2E2E),
+                            filled: true,
+                            hintText: getTranslated("WRITE_COMMENT"),
+                            hintStyle: const TextStyle(
+                                color: ColorResources.greyLight,
+                                fontSize: Dimensions.fontSizeDefault,
+                                fontFamily: 'SF Pro'),
+                            border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0)),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: ColorResources.greyLight)),
+                            focusedBorder: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0)),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: ColorResources.greyLight)),
+                            enabledBorder: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0)),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: ColorResources.greyLight)),
+                            errorBorder: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0)),
+                                borderSide: BorderSide(
+                                    width: 1.0,
+                                    color: ColorResources.greyLight)),
+                              ),
+                              mentions: [
+                                Mention(
+                                  trigger: '@',
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                  disableMarkup: true,
+                                  data: pp.usermentiondata,
+                                  matchAll: false,
+                                  suggestionBuilder: (Map<String, dynamic> data) {
+                                    return Container(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Row(
+                                        children: [
+                                          data['photo'] == "-" || data['photo'] == "" || data['photo'] == null ?
+                                          const CircleAvatar(
+                                            backgroundImage: AssetImage('assets/images/default/ava.jpg'),
+                                          ): CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                              data['photo'],
+                                            )
+                                          ),
+                                          const SizedBox(
+                                            width: 20.0,
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text('@${data['display']}'),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                ),
+                              ]
+                            )
+                          ),
+                          const SizedBox(width: 15.0),
+                          IconButton(
                             onPressed: () async {
-                              await cdm.postReply(
-                                  feedId: widget.feedId,
-                                  commentId: widget.commentId);
+                              final notifier = context.read<ProfileProvider>();
+                              var seen = <String>{};
+                              List<String> uniquelist = notifier.mentionData.where((mention) => seen.add(mention)).toSet().toList();
+                              debugPrint(uniquelist.toString());
+                              // debugPrint(SharedPrefs.getUserUidReply());
+                              await cdm.postReplyMention(
+                                feedId: widget.feedId,
+                                commentId: widget.commentId, 
+                                reply: key.currentState!.controller!.text, 
+                                receivers: uniquelist
+                                );
+                                key.currentState!.controller!.text = "";
                             },
                             icon: const Icon(
                               Icons.send,
                               color: ColorResources.greyLight,
-                            ))
-                      ],
-                    )))
-          ],
-        );
-      }),
+                            )
+                          )
+                        ],
+                      )))
+            ],
+          );
+        });},
+      ),
     );
   }
 }

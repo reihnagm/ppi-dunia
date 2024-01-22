@@ -17,6 +17,7 @@ import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/media/data/repositories/media.dart';
 
 import 'package:ppidunia/features/profil/data/models/profile.dart';
+import 'package:ppidunia/features/profil/data/models/mention.dart';
 
 import 'package:ppidunia/features/profil/data/repositories/profile.dart';
 import 'package:ppidunia/features/feed/data/models/feed.dart';
@@ -77,6 +78,15 @@ class ProfileProvider with ChangeNotifier {
   ProfileData _pdd = ProfileData();
   ProfileData get pdd => _pdd;
 
+  List<Map<String, dynamic>> _usermentiondata = [];
+  List<Map<String, dynamic>> get usermentiondata => [..._usermentiondata];
+
+  List<String> _mentionData = [];
+  List<String> get mentionData => [..._mentionData];
+
+  List<GetUserMentionData> _usermention = [];
+  List<GetUserMentionData> get usermention => [..._usermention];
+
   List<FeedData> _feeds = [];
   List<FeedData> get feeds => [..._feeds];
 
@@ -88,6 +98,21 @@ class ProfileProvider with ChangeNotifier {
 
   ProfilePictureStatus _profilePictureStatus = ProfilePictureStatus.idle;
   ProfilePictureStatus get profilePictureStatus => _profilePictureStatus;
+
+  void setMention({
+    required String id,
+  }) {
+    _mentionData.add(id);
+
+    notifyListeners();
+  }
+
+  void clearMention(){
+    _mentionData = [];
+
+    notifyListeners();
+  }
+
 
   void setStateFeedStatus(FeedStatus feedStatus) {
     _feedStatus = feedStatus;
@@ -346,6 +371,41 @@ class ProfileProvider with ChangeNotifier {
       setStateFeedStatus(FeedStatus.loaded);
 
       if (feeds.isEmpty) {
+        setStateFeedStatus(FeedStatus.empty);
+      }
+      Future.delayed(Duration.zero, () => notifyListeners());
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+      setStateFeedStatus(FeedStatus.error);
+    } catch (_) {
+      setStateFeedStatus(FeedStatus.error);
+    }
+  }
+
+  Future<void> getUserMention() async {
+    pageKey = 1;
+    hasMore = true;
+
+    try {
+      GetUserMention fm = await pr.getUserMention(
+        pageKey: pageKey,
+        search: search,
+      );
+      _usermention = [];
+      _usermention.addAll(fm.data);
+      setStateFeedStatus(FeedStatus.loaded);
+
+      _usermentiondata = [];
+      
+      for (GetUserMentionData el in usermention) {
+        _usermentiondata.add({
+          "id": el.id,
+          "display": el.name,
+          "photo": el.avatar,
+        });
+      }
+
+      if (_usermention.isEmpty) {
         setStateFeedStatus(FeedStatus.empty);
       }
       Future.delayed(Duration.zero, () => notifyListeners());

@@ -1,15 +1,43 @@
-SELECT 
-	tabelbarang.id,
-	tabelbarang.kode,
-	tabelbarang.nama,
-	tblbarang_keluar_detail.jumlah,
-	tabelbarang.satuan,
-	tabelbarang.stok,
-	tabelkategori.nama as nama_kategori,
-	tabelpelanggan.nama as nama_pelangan
-FROM tblbarang_keluar_detail
-JOIN tblbarang_keluar ON tblbarang_keluar.id = tblbarang_keluar_detail.id_barang_keluar
-JOIN tabelpelanggan ON tabelpelanggan.id = tblbarang_keluar.id_pelanggan
-JOIN tabelbarang ON tabelbarang.id = tblbarang_keluar_detail.id_barang
-JOIN tabelkategori ON tabelkategori.id = tabelbarang.id_kategori
-WHERE tblbarang_keluar.tgl BETWEEN $P{d_dari} AND $P{d_sampai} AND tblbarang_masuk.id_supplier = $P{id_supplier}
+TextField(
+                          controller: cdm.replyC,
+                          cursorColor: ColorResources.greyLight,
+                          maxLines: null,
+                          style: const TextStyle(
+                              color: ColorResources.white,
+                              fontSize: Dimensions.fontSizeExtraLarge,
+                              fontFamily: 'SF Pro'),
+                          decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 0.0, horizontal: 16.0),
+                              fillColor: const Color(0xFF2E2E2E),
+                              filled: true,
+                              hintText: getTranslated("WRITE_COMMENT"),
+                              hintStyle: const TextStyle(
+                                  color: ColorResources.greyLight,
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  fontFamily: 'SF Pro'),
+                              border: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                  borderSide: BorderSide(
+                                      width: 1.0,
+                                      color: ColorResources.greyLight)),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                  borderSide: BorderSide(
+                                      width: 1.0,
+                                      color: ColorResources.greyLight)),
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                  borderSide: BorderSide(
+                                      width: 1.0,
+                                      color: ColorResources.greyLight)),
+                              errorBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                  borderSide: BorderSide(
+                                      width: 1.0,
+                                      color: ColorResources.greyLight))),
+                          )

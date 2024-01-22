@@ -80,6 +80,8 @@ class FirebaseProvider with ChangeNotifier {
         NS.push(navigatorKey.currentContext!, CommentScreen(feedId: message.data["feed_id"]));
       }else if(message.data["type"] == "feed_reply") {
           NS.push(navigatorKey.currentContext!, CommentDetail(commentId: message.data["comment_id"]));
+      }else if(message.data["type"] == "feed_reply_mention") {
+          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: message.data["comment_id"]));
       }else{
         NS.push(
           navigatorKey.currentContext!,

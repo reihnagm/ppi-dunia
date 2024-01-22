@@ -158,6 +158,14 @@ class SharedPrefs {
     return _instance!.getString("token") ?? "-";
   }
 
+  static void setUserUidReply(String userUid){
+    _instance!.setString("user_uid_reply", userUid);
+  }
+
+  static String getUserUidReply() {
+    return _instance!.getString("user_uid_reply") ?? "-";
+  }
+
   static void writeAuthData(Data authData) {
     _instance!.setString(
         "auth",

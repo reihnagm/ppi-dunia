@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/auth/data/models/user.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/features/country/data/models/country.dart';
@@ -228,6 +229,20 @@ class AuthRepo {
       throw CustomException(errorMessage);
     } catch (e, stacktrace) {
       debugPrint(e.toString());
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+
+  Future<void> userLogout() async {
+    try {
+      await dioClient!.post("/api/v1/auth/logout", data: {
+        "user_id" : SharedPrefs.getUserId(),
+      });
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
       throw CustomException(e.toString());
     }

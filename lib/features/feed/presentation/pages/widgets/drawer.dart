@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/modals.dart';
+import 'package:ppidunia/features/auth/presentation/pages/sign_in/sign_in_screen_model.dart';
 import 'package:ppidunia/features/auth/presentation/pages/sign_in/sign_in_state.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +15,33 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 
 import 'package:ppidunia/services/navigation.dart';
 
-class DrawerScreen extends StatelessWidget {
+class DrawerScreen extends StatefulWidget {
   final GlobalKey<ScaffoldState> gk;
   const DrawerScreen({required this.gk, super.key});
 
   @override
+  State<DrawerScreen> createState() => _DrawerScreenState();
+}
+
+class _DrawerScreenState extends State<DrawerScreen> {
+
+  late SignInScreenModel ssm;
+
+  @override
+  void initState() {
+    super.initState();
+
+    ssm = context.read<SignInScreenModel>();
+  }
+
+  @override 
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+  
     return SafeArea(
       child: Drawer(
         child: ListView(
@@ -76,7 +98,7 @@ class DrawerScreen extends StatelessWidget {
                   onPressed: () async {
                     await Provider.of<ProfileProvider>(context, listen: false)
                         .deleteAccount();
-                    gk.currentState!.closeDrawer();
+                    widget.gk.currentState!.closeDrawer();
                     SharedPrefs.deleteData();
                     NS.pushReplacement(context, const SignInScreen());
                   },
@@ -107,7 +129,8 @@ class DrawerScreen extends StatelessWidget {
                   image: AssetsConst.imageIcPopUpLogout,
                   msg: getTranslated("ARE_YOU_SURE_WANT_LOGOUT"),
                   onPressed: () async {
-                    gk.currentState!.closeDrawer();
+                    widget.gk.currentState!.closeDrawer();
+                    ssm.logout(context);
                     SharedPrefs.deleteData();
                     NS.pushReplacement(context, const SignInScreen());
                   },

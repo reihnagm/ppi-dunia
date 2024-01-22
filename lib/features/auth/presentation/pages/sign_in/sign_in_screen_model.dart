@@ -19,6 +19,7 @@ abstract class SignInScreenModelData {
   void setStateLoginStatus(LoginStatus status);
   Future<void> login(BuildContext context,
       {required String email, required String password});
+  Future<void> logout(BuildContext context);
 }
 
 class SignInScreenModel with ChangeNotifier implements SignInScreenModelData {
@@ -104,6 +105,25 @@ class SignInScreenModel with ChangeNotifier implements SignInScreenModelData {
       resetSignIn();
       setStateLoginStatus(LoginStatus.idle);
       notifyListeners();
+    } on CustomException catch (e) {
+      ShowSnackbar.snackbar(context, e.toString(), '', ColorResources.error);
+      NetworkException.handle(context, e.toString());
+      setStateLoginStatus(LoginStatus.error);
+      notifyListeners();
+    } catch (e, stacktrace) {
+      debugPrint(e.toString());
+      debugPrint(stacktrace.toString());
+      setStateLoginStatus(LoginStatus.error);
+      notifyListeners();
+    }
+  }
+
+  @override
+  Future<void> logout(BuildContext context) async {
+    // setStateLoginStatus(LoginStatus.loading);
+    try {
+      await ar.userLogout();
+      Future.delayed(Duration.zero, () => notifyListeners());
     } on CustomException catch (e) {
       ShowSnackbar.snackbar(context, e.toString(), '', ColorResources.error);
       NetworkException.handle(context, e.toString());

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:ppidunia/common/utils/dio.dart';
@@ -41,6 +43,36 @@ class ReplyRepo {
         "user_id": SharedPrefs.getUserId(),
         "reply": reply
       });
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+  Future<void> postReplyMention(
+      {required String feedId,
+      required String reply,
+      required String commentId,
+      required List<String> receivers,
+      }) async {
+
+    var objData =  {
+      "feed_id": feedId,
+      "comment_id": commentId,
+      "receivers": receivers,
+      "sender_id": SharedPrefs.getUserId(),
+      "reply": reply
+    };
+
+    debugPrint(objData.toString());
+
+    try {
+      await dioClient!.post(
+        "/api/v1/feed/reply/mention", 
+        data: objData
+      );
     } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioException(e).toString();
       throw CustomException(errorMessage);

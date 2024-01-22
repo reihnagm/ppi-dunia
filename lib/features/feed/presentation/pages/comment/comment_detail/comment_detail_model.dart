@@ -81,15 +81,15 @@ class CommentDetailModel with ChangeNotifier {
     }
   }
 
-  postReply({required feedId, required String commentId}) async {
+  postReply({required feedId, required String commentId, required String reply}) async {
     try {
-      if (replyC.text.trim() == "") {
+      if (reply == "") {
         return;
       }
-      debugPrint(replyC.text);
+      debugPrint(reply);
 
       await rr.postReply(
-          feedId: feedId, reply: replyC.text, commentId: commentId);
+          feedId: feedId, reply: reply, commentId: commentId);
 
       ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
       _replyDetailData = rdm.data;
@@ -97,7 +97,41 @@ class CommentDetailModel with ChangeNotifier {
       _reply.clear();
       _reply.addAll(rdm.data.feedReplies!.replies);
 
-      replyC.text = "";
+      setStateFeedDetailStatus(ReplyDetailStatus.loaded);
+      setStateCommentStatus(ReplyStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+  postReplyMention({
+    required feedId, 
+    required String commentId, 
+    required String reply, 
+    required List<String> receivers
+  }) async {
+    try {
+      if (reply == "") {
+        return;
+      }
+      if(receivers.isEmpty){
+        await rr.postReply(
+          feedId: feedId, 
+          reply: reply, 
+          commentId: commentId,
+        );
+      }else{
+        await rr.postReplyMention(
+          feedId: feedId, 
+          reply: reply, 
+          commentId: commentId,
+          receivers: receivers
+        );
+      }
+      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      _replyDetailData = rdm.data;
+
+      _reply.clear();
+      _reply.addAll(rdm.data.feedReplies!.replies);
 
       setStateFeedDetailStatus(ReplyDetailStatus.loaded);
       setStateCommentStatus(ReplyStatus.loaded);
