@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/features/sos/data/repositories/sos.dart';
@@ -19,8 +18,6 @@ import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/views/basewidgets/dialog/custom/custom.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/features/dashboard/presentation/pages/dashboard_state.dart';
-import 'package:sn_progress_dialog/options/cancel.dart';
-import 'package:sn_progress_dialog/options/completed.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 enum SosStatus { idle, loading, loaded, empty, error }

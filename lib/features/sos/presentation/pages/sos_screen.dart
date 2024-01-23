@@ -13,9 +13,6 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
 
 import 'package:ppidunia/features/sos/presentation/pages/sos_state.dart';
-import 'package:sn_progress_dialog/options/cancel.dart';
-import 'package:sn_progress_dialog/options/completed.dart';
-import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class SosScreenState extends State<SosScreen> {
   late SosScreenModel ssm;

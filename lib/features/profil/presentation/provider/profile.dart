@@ -12,9 +12,11 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
+import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/features/media/data/repositories/media.dart';
+import 'package:ppidunia/features/notification/provider/storage.dart';
 
 import 'package:ppidunia/features/profil/data/models/profile.dart';
 import 'package:ppidunia/features/profil/data/models/mention.dart';
@@ -29,6 +31,7 @@ import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/textfield/textfield.dart';
+import 'package:provider/provider.dart';
 
 enum FeedStatus { idle, loading, loaded, empty, error }
 
@@ -154,9 +157,10 @@ class ProfileProvider with ChangeNotifier {
                 MaterialButton(
                   child: const Text("Gallery"),
                   onPressed: () async {
-                    debugPrint(Platform.operatingSystemVersion);
-                    Permission.photos.request();
-                    Navigator.pop(context, ImageSource.gallery);
+                    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
+                    if(await Permission.photos.isGranted || await Permission.storage.isGranted){
+                      Navigator.pop(context, ImageSource.gallery);
+                    }
                   },
                 )
               ],
@@ -400,7 +404,7 @@ class ProfileProvider with ChangeNotifier {
       for (GetUserMentionData el in usermention) {
         _usermentiondata.add({
           "id": el.id,
-          "display": el.name,
+          "display": el.name.replaceAll(' ', ''),
           "photo": el.avatar,
         });
       }

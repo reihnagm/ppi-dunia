@@ -16,6 +16,7 @@ import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
@@ -208,28 +209,7 @@ Widget postCard({
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 25.0, left: 25.0, bottom: 10.0, top: 5),
-                          child: RichReadMoreText.fromString(
-                            text: pp.feeds[i].caption,
-                            textStyle: const TextStyle(
-                              color: ColorResources.hintColor,
-                              fontSize: Dimensions.fontSizeSmall,
-                              fontFamily: 'SF Pro'),
-                            settings: LengthModeSettings(
-                              trimLength: 300,
-                              trimCollapsedText: '...Show more',
-                              trimExpandedText: ' Show less',
-                              moreStyle: const TextStyle(
-                                color: ColorResources.blue,
-                                fontSize: Dimensions.fontSizeDefault,
-                                fontFamily: 'SF Pro'
-                              ),
-                              lessStyle: const TextStyle(
-                                color: ColorResources.blue,
-                                fontSize: Dimensions.fontSizeDefault,
-                                fontFamily: 'SF Pro'
-                              ),
-                            ),
-                          ),
+                          child: DetectText(text: pp.feeds[i].caption),
                         ),
                         if (pp.feeds[i].feedType == "image")
                           if (pp.feeds[i].media.length == 1)

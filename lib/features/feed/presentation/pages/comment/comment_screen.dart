@@ -12,6 +12,7 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
+import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -259,28 +260,7 @@ class CommentScreenState extends State<CommentScreen> {
                                             left: 25.0,
                                             bottom: 10.0,
                                             top: 5),
-                                        child: RichReadMoreText.fromString(
-                                          text: c.feedDetailData.caption!,
-                                          textStyle: const TextStyle(
-                                              color: ColorResources.hintColor,
-                                              fontSize: Dimensions.fontSizeSmall,
-                                              fontFamily: 'SF Pro'),
-                                          settings: LengthModeSettings(
-                                            trimLength: 300,
-                                            trimCollapsedText: '...Show more',
-                                            trimExpandedText: ' Show less',
-                                            moreStyle: const TextStyle(
-                                              color: ColorResources.blue,
-                                              fontSize: Dimensions.fontSizeDefault,
-                                              fontFamily: 'SF Pro'
-                                            ),
-                                            lessStyle: const TextStyle(
-                                              color: ColorResources.blue,
-                                              fontSize: Dimensions.fontSizeDefault,
-                                              fontFamily: 'SF Pro'
-                                            ),
-                                          ),
-                                        ),
+                                        child: DetectText(text: c.feedDetailData.caption!),
                                       ),
                                       if (c.feedDetailData.feedType ==
                                           "image")
@@ -943,159 +923,148 @@ class CommentScreenState extends State<CommentScreen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Container(
-                                                          width:
-                                                              double.infinity,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(15),
-                                                          decoration: const BoxDecoration(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          12.0)),
-                                                              color: ColorResources
-                                                                  .greyPrimary),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      InkWell(
-                                                                        onTap:
-                                                                            () {
-                                                                          NS.push(
-                                                                            context,
-                                                                            ProfileViewScreen(
-                                                                              userId: c.comments[i].user.uid,
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                        child:
-                                                                            SizedBox(
-                                                                          width: MediaQuery.sizeOf(context).width < 400
-                                                                              ? 200
-                                                                              : 240,
-                                                                          child:
-                                                                              FittedBox(
-                                                                            fit:
-                                                                                BoxFit.scaleDown,
-                                                                            alignment:
-                                                                                Alignment.centerLeft,
-                                                                            child: Text(c.comments[i].user.name,
-                                                                                maxLines: 2,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: const TextStyle(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w600, fontFamily: 'SF Pro')),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      const SizedBox(
-                                                                          height:
-                                                                              5.0),
-                                                                      Text(
-                                                                          DateHelper.formatDateTime(c
-                                                                              .comments[
-                                                                                  i]
-                                                                              .createdAt),
-                                                                          style: const TextStyle(
-                                                                              color: ColorResources.greyDarkPrimary,
-                                                                              fontSize: Dimensions.fontSizeExtraSmall,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontFamily: 'SF Pro')),
-                                                                    ],
-                                                                  ),
-                                                                  c.comments[i]
-                                                                              .user.uid ==
-                                                                          SharedPrefs
-                                                                              .getUserId()
-                                                                      ? PopupMenuButton(
-                                                                          color:
-                                                                              Colors.white,
-                                                                          iconColor:
-                                                                              Colors.white,
-                                                                          iconSize:
-                                                                              20,
-                                                                          itemBuilder:
-                                                                              (BuildContext buildContext) {
-                                                                            return [
-                                                                              PopupMenuItem(value: "/delete", child: Text(getTranslated("DELETE"), style: const TextStyle(color: ColorResources.greyDarkPrimary, fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.w600, fontFamily: 'SF Pro'))),
-                                                                            ];
-                                                                          },
-                                                                          onSelected:
-                                                                              (String route) async {
-                                                                            GeneralModal.showConfirmModals(
-                                                                              image: AssetsConst.imageIcPopUpDelete,
-                                                                              msg: "Are you sure want to delete ?",
-                                                                              onPressed: () async {
-                                                                                if (route == "/delete") {
-                                                                                  await csm.deleteComment(feedId: widget.feedId, deleteId: c.comments[i].uid);
-                                                                                }
-                                                                                NS.pop(context);
-                                                                                ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
-                                                                              },
+                                                        InkWell(
+                                                          onTap: () {
+                                                            NS.push(
+                                                              context,
+                                                              CommentDetail(
+                                                                feedId: widget.feedId,
+                                                                commentId: c.comments[i].uid,
+                                                              ));
+                                                          },
+                                                          child: Container(
+                                                            width:
+                                                                double.infinity,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            decoration: const BoxDecoration(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            12.0)),
+                                                                color: ColorResources
+                                                                    .greyPrimary),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        InkWell(
+                                                                          onTap:
+                                                                              () {
+                                                                            NS.push(
+                                                                              context,
+                                                                              ProfileViewScreen(
+                                                                                userId: c.comments[i].user.uid,
+                                                                              ),
                                                                             );
                                                                           },
-                                                                        )
-                                                                      : const SizedBox(),
-                                                                ],
-                                                              ),
-                                                              c.comments[i].user
-                                                                          .uid ==
-                                                                      SharedPrefs
-                                                                          .getUserId()
-                                                                  ? Container()
-                                                                  : const SizedBox(
-                                                                      height:
-                                                                          10,
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width: MediaQuery.sizeOf(context).width < 400
+                                                                                ? 200
+                                                                                : 240,
+                                                                            child:
+                                                                                FittedBox(
+                                                                              fit:
+                                                                                  BoxFit.scaleDown,
+                                                                              alignment:
+                                                                                  Alignment.centerLeft,
+                                                                              child: Text(c.comments[i].user.name,
+                                                                                  maxLines: 2,
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  style: const TextStyle(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w600, fontFamily: 'SF Pro')),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                5.0),
+                                                                        Text(
+                                                                            DateHelper.formatDateTime(c
+                                                                                .comments[
+                                                                                    i]
+                                                                                .createdAt),
+                                                                            style: const TextStyle(
+                                                                                color: ColorResources.greyDarkPrimary,
+                                                                                fontSize: Dimensions.fontSizeExtraSmall,
+                                                                                fontWeight: FontWeight.w600,
+                                                                                fontFamily: 'SF Pro')),
+                                                                      ],
                                                                     ),
-                                                              RichReadMoreText.fromString(
-                                                                text: c.comments[i].comment,
-                                                                textStyle: const TextStyle(
-                                                                  color: ColorResources.hintColor,
-                                                                  fontSize: Dimensions.fontSizeSmall,
-                                                                  fontFamily: 'SF Pro'),
-                                                                settings: LengthModeSettings(
-                                                                  trimLength: 100,
-                                                                  trimCollapsedText: '...Show more',
-                                                                  trimExpandedText: ' Show less',
-                                                                  moreStyle: const TextStyle(
-                                                                    color: ColorResources.blue,
-                                                                    fontSize: Dimensions.fontSizeDefault,
-                                                                    fontFamily: 'SF Pro'
-                                                                  ),
-                                                                  lessStyle: const TextStyle(
-                                                                    color: ColorResources.blue,
-                                                                    fontSize: Dimensions.fontSizeDefault,
-                                                                    fontFamily: 'SF Pro'
-                                                                  ),
+                                                                    c.comments[i]
+                                                                                .user.uid ==
+                                                                            SharedPrefs
+                                                                                .getUserId()
+                                                                        ? PopupMenuButton(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            iconColor:
+                                                                                Colors.white,
+                                                                            iconSize:
+                                                                                20,
+                                                                            itemBuilder:
+                                                                                (BuildContext buildContext) {
+                                                                              return [
+                                                                                PopupMenuItem(value: "/delete", child: Text(getTranslated("DELETE"), style: const TextStyle(color: ColorResources.greyDarkPrimary, fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.w600, fontFamily: 'SF Pro'))),
+                                                                              ];
+                                                                            },
+                                                                            onSelected:
+                                                                                (String route) async {
+                                                                              GeneralModal.showConfirmModals(
+                                                                                image: AssetsConst.imageIcPopUpDelete,
+                                                                                msg: "Are you sure want to delete ?",
+                                                                                onPressed: () async {
+                                                                                  if (route == "/delete") {
+                                                                                    await csm.deleteComment(feedId: widget.feedId, deleteId: c.comments[i].uid);
+                                                                                  }
+                                                                                  NS.pop(context);
+                                                                                  ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                          )
+                                                                        : const SizedBox(),
+                                                                  ],
                                                                 ),
-                                                              ),
-                                                            ],
+                                                                c.comments[i].user
+                                                                            .uid ==
+                                                                        SharedPrefs
+                                                                            .getUserId()
+                                                                    ? Container()
+                                                                    : const SizedBox(
+                                                                        height:
+                                                                            10,
+                                                                      ),
+                                                                DetectText(text: c.comments[i].comment),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                         InkWell(
@@ -1226,28 +1195,7 @@ class CommentScreenState extends State<CommentScreen> {
                                                                               fontSize: Dimensions.fontSizeExtraSmall,
                                                                               fontWeight: FontWeight.w600,
                                                                               fontFamily: 'SF Pro')),
-                                                                      RichReadMoreText.fromString(
-                                                                        text: reply.reply,
-                                                                        textStyle: const TextStyle(
-                                                                          color: ColorResources.hintColor,
-                                                                          fontSize: Dimensions.fontSizeSmall,
-                                                                          fontFamily: 'SF Pro'),
-                                                                        settings: LengthModeSettings(
-                                                                          trimLength: 100,
-                                                                          trimCollapsedText: '...Show more',
-                                                                          trimExpandedText: ' Show less',
-                                                                          moreStyle: const TextStyle(
-                                                                            color: ColorResources.blue,
-                                                                            fontSize: Dimensions.fontSizeDefault,
-                                                                            fontFamily: 'SF Pro'
-                                                                          ),
-                                                                          lessStyle: const TextStyle(
-                                                                            color: ColorResources.blue,
-                                                                            fontSize: Dimensions.fontSizeDefault,
-                                                                            fontFamily: 'SF Pro'
-                                                                          ),
-                                                                        ),
-                                                                      ),
+                                                                      DetectText(text: reply.reply),
                                                                       const SizedBox(
                                                                         height: 5,
                                                                       ),

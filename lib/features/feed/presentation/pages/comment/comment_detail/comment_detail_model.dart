@@ -113,13 +113,18 @@ class CommentDetailModel with ChangeNotifier {
       if (reply == "") {
         return;
       }
+      debugPrint(reply);
       if(receivers.isEmpty){
+        debugPrint("kosong");
         await rr.postReply(
           feedId: feedId, 
           reply: reply, 
           commentId: commentId,
         );
+        debugPrint(commentId);
+        debugPrint(reply);
       }else{
+        debugPrint("ada");
         await rr.postReplyMention(
           feedId: feedId, 
           reply: reply, 

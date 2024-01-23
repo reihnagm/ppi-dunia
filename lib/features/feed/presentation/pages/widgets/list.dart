@@ -1,3 +1,4 @@
+import 'package:detectable_text_field/widgets/detectable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
@@ -8,9 +9,11 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
+import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ppidunia/views/webview/webview.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -321,28 +324,7 @@ class _FeedListState extends State<FeedList> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 right: 25.0, left: 25.0, bottom: 10.0, top: 5),
-                            child: RichReadMoreText.fromString(
-                              text: fsm.feeds[i].caption,
-                              textStyle: const TextStyle(
-                                  color: ColorResources.hintColor,
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  fontFamily: 'SF Pro'),
-                              settings: LengthModeSettings(
-                                trimLength: 300,
-                                trimCollapsedText: '...Show more',
-                                trimExpandedText: ' Show less',
-                                moreStyle: const TextStyle(
-                                  color: ColorResources.blue,
-                                  fontSize: Dimensions.fontSizeDefault,
-                                  fontFamily: 'SF Pro'
-                                ),
-                                lessStyle: const TextStyle(
-                                  color: ColorResources.blue,
-                                  fontSize: Dimensions.fontSizeDefault,
-                                  fontFamily: 'SF Pro'
-                                ),
-                              ),
-                            ),
+                            child: DetectText(text: fsm.feeds[i].caption),
                           ),
                           if (fsm.feeds[i].feedType == "image")
                             if (fsm.feeds[i].media.length == 1)

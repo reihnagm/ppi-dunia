@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/country/data/models/branch.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
+import 'package:ppidunia/features/notification/provider/storage.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -100,17 +103,9 @@ class CreatePostModel with ChangeNotifier {
                 MaterialButton(
                   child: const Text("Gallery"),
                   onPressed: () async {
-                    try {
-                      if (await Permission.storage.request().isGranted) {
-                        Navigator.pop(context, ImageSource.gallery);
-                      } else if(await Permission.storage.isDenied || await Permission.storage.isPermanentlyDenied) {
-                        await Permission.storage.request();
-                        GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
-                      }else{
-                        Navigator.pop(context);
-                      }
-                    } catch (e) {
-                      debugPrint(e.toString());
+                    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
+                    if(await Permission.photos.isGranted || await Permission.storage.isGranted){
+                      Navigator.pop(context, ImageSource.gallery);
                     }
                   },
                 )
@@ -176,10 +171,7 @@ class CreatePostModel with ChangeNotifier {
   }
 
   Future<void> uploadVid(BuildContext context) async {
-    if(await Permission.storage.request().isDenied || await Permission.storage.request().isPermanentlyDenied ) {
-      await Permission.storage.request();
-      GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
-    }
+    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.video,
         allowMultiple: false,

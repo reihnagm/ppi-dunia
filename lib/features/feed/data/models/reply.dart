@@ -69,12 +69,14 @@ class Reply {
     String reply;
     String createdAt;
     User user;
+    List<FeedMention> feedMention;
 
     Reply({
         required this.uid,
         required this.reply,
         required this.createdAt,
         required this.user,
+        required this.feedMention,
     });
 
     factory Reply.fromJson(Map<String, dynamic> json) => Reply(
@@ -82,6 +84,7 @@ class Reply {
         reply: json["reply"],
         createdAt: json["created_at"],
         user: User.fromJson(json["user"]),
+        feedMention: List<FeedMention>.from(json["mentions"].map((x) => FeedMention.fromJson(x))),
     );
 }
 
@@ -99,6 +102,21 @@ class User {
     factory User.fromJson(Map<String, dynamic> json) => User(
         uid: json["uid"],
         avatar: json["avatar"],
+        name: json["name"],
+    );
+}
+
+class FeedMention {
+    String id;
+    String name;
+
+    FeedMention({
+        required this.id,
+        required this.name,
+    });
+
+    factory FeedMention.fromJson(Map<String, dynamic> json) => FeedMention(
+        id: json["id"],
         name: json["name"],
     );
 }

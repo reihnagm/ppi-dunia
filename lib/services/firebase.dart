@@ -124,7 +124,6 @@ class FirebaseProvider with ChangeNotifier {
   void listenNotification(BuildContext context) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification notification = message.notification!;
-      Map<String, dynamic> data = message.data;
       int soundId = await rootBundle
           .load(AssetsConst.audioNotifMpThree)
           .then((ByteData soundData) {
