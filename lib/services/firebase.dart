@@ -78,9 +78,7 @@ class FirebaseProvider with ChangeNotifier {
       if(message.data["type"] == "feed")
       {
         NS.push(navigatorKey.currentContext!, CommentScreen(feedId: message.data["feed_id"]));
-      }else if(message.data["type"] == "feed_reply") {
-          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: message.data["comment_id"]));
-      }else if(message.data["type"] == "feed_reply_mention") {
+      }else if(message.data["type"] == "feed_reply" || message.data["type"] == "feed_reply_mention") {
           NS.push(navigatorKey.currentContext!, CommentDetail(commentId: message.data["comment_id"]));
       }else{
         NS.push(
@@ -93,12 +91,6 @@ class FirebaseProvider with ChangeNotifier {
             description:message.data['description'],
         ));
       }
-      debugPrint(message.data['feed_id']);
-      debugPrint(message.data['type']);
-      debugPrint(message.data['title']);
-      debugPrint(message.data['name']);
-      debugPrint(message.data['date']);
-      debugPrint(message.data['description']);
     });
 
     FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);

@@ -106,8 +106,6 @@ class FeedScreenState extends State<FeedScreen> {
                       : constraints.maxHeight * .84,
               color: ColorResources.bgSecondaryColor,
               controller: fsm.panelC,
-              // onPanelOpened: () => debugPrint("terbuka"),
-              // onPanelClosed: () => fsm.panelC.show(),
               panelBuilder: (ScrollController sc) {
                 return NotificationListener(
                   onNotification: (ScrollNotification notification) {

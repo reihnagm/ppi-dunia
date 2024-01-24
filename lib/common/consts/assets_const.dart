@@ -37,7 +37,7 @@ class AssetsConst {
       "assets/images/card/ic-card-new-default.png";
 
   // Default Image
-  static const imageDefaultAva = "assets/images/default/ava.png";
+  static const imageDefaultAva = "assets/images/default/ava.jpg";
   static const imageDefault = "assets/images/default/default.png";
 
   //Icons

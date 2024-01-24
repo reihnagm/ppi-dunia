@@ -31,7 +31,7 @@ class StorageNotifier with ChangeNotifier {
         if (!isDialogShowing) {
           isDialogShowing = true;
           await GeneralModal.dialogRequestNotification(
-            msg: "Perizinan akses files & media dibutuhkan, silahkan aktifkan terlebih dahulu",  
+            msg: "Files & media access permission is required, please activate it first",  
           );
           return;
         }
@@ -45,7 +45,7 @@ class StorageNotifier with ChangeNotifier {
         if (!isDialogShowing) {
           isDialogShowing = true;
           await GeneralModal.dialogRequestNotification(
-            msg: "Perizinan akses files & media dibutuhkan, silahkan aktifkan terlebih dahulu",   
+            msg: "Files & media access permission is required, please activate it first",   
           );
           return;
         }

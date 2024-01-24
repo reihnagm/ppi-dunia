@@ -39,8 +39,8 @@ class NotificationNotifier with ChangeNotifier {
   }
 
   Future<void> checkNotification() async {
-    var notificationRequest = await Permission.notification.isDenied ||
-        await Permission.notification.isPermanentlyDenied;
+    var notificationRequest = await Permission.notification.request().isDenied ||
+        await Permission.notification.request().isPermanentlyDenied;
 
     if (notificationRequest) {
       if (!isDialogShowing) {

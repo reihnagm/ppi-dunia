@@ -24,7 +24,7 @@ class FeedPersonalInfo extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 100.0,
-        padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
+        padding: const EdgeInsets.only(left: 20, top: 30, bottom: 10),
         margin: const EdgeInsets.symmetric(
           vertical: 20.0,
         ),

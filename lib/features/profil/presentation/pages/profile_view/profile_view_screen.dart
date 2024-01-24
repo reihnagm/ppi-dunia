@@ -54,6 +54,7 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
   }
 
   Widget buildUI() {
+    debugPrint(widget.userId);
     return AnnotatedRegion(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(

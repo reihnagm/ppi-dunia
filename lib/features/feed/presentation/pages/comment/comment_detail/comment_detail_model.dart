@@ -110,7 +110,7 @@ class CommentDetailModel with ChangeNotifier {
     required List<String> receivers
   }) async {
     try {
-      if (reply == "") {
+      if (reply.trim() == "") {
         return;
       }
       debugPrint(reply);
@@ -161,5 +161,14 @@ class CommentDetailModel with ChangeNotifier {
     } on CustomException catch (e) {
       debugPrint(e.toString());
     } catch (_) {}
+  }
+
+  Future<void> loadMoreReply({required String commentId}) async {
+    pageKey++;
+    ReplyDetailModel rdm =
+        await rr.getReplyDetail(commentId: commentId, pageKey: pageKey);
+    hasMore = rdm.pageDetail.hasMore;
+    _reply.addAll(rdm.data.feedReplies!.replies);
+    Future.delayed(Duration.zero, () => notifyListeners());
   }
 }
