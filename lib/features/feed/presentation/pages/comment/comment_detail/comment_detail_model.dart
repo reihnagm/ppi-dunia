@@ -62,7 +62,8 @@ class CommentDetailModel with ChangeNotifier {
     hasMore = true;
 
     try {
-      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: pageKey);
+      ReplyDetailModel rdm =
+          await rr.getReplyDetail(commentId: commentId, pageKey: pageKey);
       _replyDetailData = rdm.data;
 
       _reply.clear();
@@ -81,17 +82,20 @@ class CommentDetailModel with ChangeNotifier {
     }
   }
 
-  postReply({required feedId, required String commentId, required String reply}) async {
+  postReply(
+      {required feedId,
+      required String commentId,
+      required String reply}) async {
     try {
       if (reply == "") {
         return;
       }
       debugPrint(reply);
 
-      await rr.postReply(
-          feedId: feedId, reply: reply, commentId: commentId);
+      await rr.postReply(feedId: feedId, reply: reply, commentId: commentId);
 
-      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      ReplyDetailModel rdm =
+          await rr.getReplyDetail(commentId: commentId, pageKey: 1);
       _replyDetailData = rdm.data;
 
       _reply.clear();
@@ -103,36 +107,36 @@ class CommentDetailModel with ChangeNotifier {
       debugPrint(e.toString());
     }
   }
-  postReplyMention({
-    required feedId, 
-    required String commentId, 
-    required String reply, 
-    required List<String> receivers
-  }) async {
+
+  postReplyMention(
+      {required feedId,
+      required String commentId,
+      required String reply,
+      required List<String> receivers}) async {
     try {
       if (reply.trim() == "") {
         return;
       }
-      debugPrint(reply);
-      if(receivers.isEmpty){
+      debugPrint("Receivers : ${receivers.toString()}");
+      if (receivers.isEmpty) {
         debugPrint("kosong");
         await rr.postReply(
-          feedId: feedId, 
-          reply: reply, 
+          feedId: feedId,
+          reply: reply,
           commentId: commentId,
         );
         debugPrint(commentId);
         debugPrint(reply);
-      }else{
+      } else {
         debugPrint("ada");
         await rr.postReplyMention(
-          feedId: feedId, 
-          reply: reply, 
-          commentId: commentId,
-          receivers: receivers
-        );
+            feedId: feedId,
+            reply: reply,
+            commentId: commentId,
+            receivers: receivers);
       }
-      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      ReplyDetailModel rdm =
+          await rr.getReplyDetail(commentId: commentId, pageKey: 1);
       _replyDetailData = rdm.data;
 
       _reply.clear();
@@ -150,7 +154,8 @@ class CommentDetailModel with ChangeNotifier {
     try {
       await rr.deleteReply(deleteId: deleteId);
 
-      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      ReplyDetailModel rdm =
+          await rr.getReplyDetail(commentId: commentId, pageKey: 1);
       _replyDetailData = rdm.data;
 
       _reply.clear();

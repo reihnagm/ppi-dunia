@@ -153,22 +153,18 @@ class _FeedListState extends State<FeedList> {
                                           ),
                                           FittedBox(
                                             fit: BoxFit.scaleDown,
-                                            child: SizedBox(
-                                              width: MediaQuery.sizeOf(context)
-                                                          .width <
-                                                      400
-                                                  ? 200
-                                                  : 240,
+                                            child: Expanded(
                                               child: FittedBox(
                                                 fit: BoxFit.scaleDown,
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
                                                     fsm.feeds[i].user.name,
                                                     maxLines: 2,
-                                                    overflow:TextOverflow.visible,
+                                                    overflow:
+                                                        TextOverflow.visible,
                                                     style: const TextStyle(
-                                                        color:
-                                                            ColorResources.white,
+                                                        color: ColorResources
+                                                            .white,
                                                         fontSize: Dimensions
                                                             .fontSizeSmall,
                                                         fontWeight:

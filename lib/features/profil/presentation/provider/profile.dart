@@ -110,12 +110,11 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearMention(){
+  void clearMention() {
     _mentionData = [];
 
     notifyListeners();
   }
-
 
   void setStateFeedStatus(FeedStatus feedStatus) {
     _feedStatus = feedStatus;
@@ -144,9 +143,14 @@ class ProfileProvider with ChangeNotifier {
                     try {
                       if (await Permission.camera.request().isGranted) {
                         Navigator.pop(context, ImageSource.camera);
-                      } else if(await Permission.camera.request().isDenied || await Permission.camera.request().isPermanentlyDenied ) {
-                        GeneralModal.dialogRequestNotification(msg: "Camera feature needed, please activate your camera");
-                      }else{
+                      } else if (await Permission.camera.request().isDenied ||
+                          await Permission.camera
+                              .request()
+                              .isPermanentlyDenied) {
+                        GeneralModal.dialogRequestNotification(
+                            msg:
+                                "Camera feature needed, please activate your camera");
+                      } else {
                         NS.pop(context);
                       }
                     } catch (e) {
@@ -157,8 +161,11 @@ class ProfileProvider with ChangeNotifier {
                 MaterialButton(
                   child: const Text("Gallery"),
                   onPressed: () async {
-                    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
-                    if(await Permission.photos.isGranted || await Permission.storage.isGranted){
+                    navigatorKey.currentContext!
+                        .read<StorageNotifier>()
+                        .checkStoragePermission();
+                    if (await Permission.photos.isGranted ||
+                        await Permission.storage.isGranted) {
                       Navigator.pop(context, ImageSource.gallery);
                     }
                   },
@@ -400,7 +407,7 @@ class ProfileProvider with ChangeNotifier {
       setStateFeedStatus(FeedStatus.loaded);
 
       _usermentiondata = [];
-      
+
       for (GetUserMentionData el in usermention) {
         _usermentiondata.add({
           "id": el.id,
