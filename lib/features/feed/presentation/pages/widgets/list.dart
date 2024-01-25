@@ -1,4 +1,3 @@
-import 'package:detectable_text_field/widgets/detectable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
@@ -13,7 +12,6 @@ import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:ppidunia/views/webview/webview.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +28,6 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 
 import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
-import 'package:rich_readmore/rich_readmore.dart';
 
 class FeedList extends StatefulWidget {
   const FeedList({
@@ -89,8 +86,7 @@ class _FeedListState extends State<FeedList> {
 
         return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
             shrinkWrap: true,
             itemCount: fsm.feeds.length,
             itemBuilder: (BuildContext context, int i) {
@@ -151,28 +147,19 @@ class _FeedListState extends State<FeedList> {
                                           const SizedBox(
                                             height: 5,
                                           ),
-                                          FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: Expanded(
-                                              child: FittedBox(
-                                                fit: BoxFit.scaleDown,
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                    fsm.feeds[i].user.name,
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                    style: const TextStyle(
-                                                        color: ColorResources
-                                                            .white,
-                                                        fontSize: Dimensions
-                                                            .fontSizeSmall,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontFamily: 'SF Pro')),
-                                              ),
-                                            ),
-                                          ),
+                                          Text(
+                                              fsm.feeds[i].user.name,
+                                              maxLines: 2,
+                                              overflow:
+                                                  TextOverflow.visible,
+                                              style: const TextStyle(
+                                                  color: ColorResources
+                                                      .white,
+                                                  fontSize: Dimensions
+                                                      .fontSizeSmall,
+                                                  fontWeight:
+                                                      FontWeight.w600,
+                                                  fontFamily: 'SF Pro')),
                                           Text(
                                               DateHelper.formatDateTime(
                                                   fsm.feeds[i].createdAt),

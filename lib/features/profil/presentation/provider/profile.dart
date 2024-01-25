@@ -84,8 +84,8 @@ class ProfileProvider with ChangeNotifier {
   List<Map<String, dynamic>> _usermentiondata = [];
   List<Map<String, dynamic>> get usermentiondata => [..._usermentiondata];
 
-  List<String> _mentionData = [];
-  List<String> get mentionData => [..._mentionData];
+  final List<String> _userScans = [];
+  List<String> get userScans => [..._userScans];
 
   List<GetUserMentionData> _usermention = [];
   List<GetUserMentionData> get usermention => [..._usermention];
@@ -101,20 +101,6 @@ class ProfileProvider with ChangeNotifier {
 
   ProfilePictureStatus _profilePictureStatus = ProfilePictureStatus.idle;
   ProfilePictureStatus get profilePictureStatus => _profilePictureStatus;
-
-  void setMention({
-    required String id,
-  }) {
-    _mentionData.add(id);
-
-    notifyListeners();
-  }
-
-  void clearMention() {
-    _mentionData = [];
-
-    notifyListeners();
-  }
 
   void setStateFeedStatus(FeedStatus feedStatus) {
     _feedStatus = feedStatus;
@@ -135,43 +121,45 @@ class ProfileProvider with ChangeNotifier {
     imageSource = await showDialog<ImageSource>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-              title: const Text("Source Image"),
-              actions: [
-                MaterialButton(
-                  child: const Text("Camera"),
-                  onPressed: () async {
-                    try {
-                      if (await Permission.camera.request().isGranted) {
-                        Navigator.pop(context, ImageSource.camera);
-                      } else if (await Permission.camera.request().isDenied ||
-                          await Permission.camera
-                              .request()
-                              .isPermanentlyDenied) {
-                        GeneralModal.dialogRequestNotification(
-                            msg:
-                                "Camera feature needed, please activate your camera");
-                      } else {
-                        NS.pop(context);
-                      }
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    }
-                  },
-                ),
-                MaterialButton(
-                  child: const Text("Gallery"),
-                  onPressed: () async {
-                    navigatorKey.currentContext!
-                        .read<StorageNotifier>()
-                        .checkStoragePermission();
-                    if (await Permission.photos.isGranted ||
-                        await Permission.storage.isGranted) {
-                      Navigator.pop(context, ImageSource.gallery);
-                    }
-                  },
-                )
-              ],
-            ));
+          title: const Text("Source Image"),
+          actions: [
+            MaterialButton(
+              child: const Text("Camera"),
+              onPressed: () async {
+                try {
+                  if (await Permission.camera.request().isGranted) {
+                    Navigator.pop(context, ImageSource.camera);
+                  } else if (await Permission.camera.request().isDenied ||
+                      await Permission.camera
+                          .request()
+                          .isPermanentlyDenied) {
+                    GeneralModal.dialogRequestNotification(
+                        msg:
+                            "Camera feature needed, please activate your camera");
+                  } else {
+                    NS.pop(context);
+                  }
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
+              },
+            ),
+            MaterialButton(
+              child: const Text("Gallery"),
+              onPressed: () async {
+                navigatorKey.currentContext!
+                    .read<StorageNotifier>()
+                    .checkStoragePermission();
+                if (await Permission.photos.isGranted ||
+                    await Permission.storage.isGranted) {
+                  Navigator.pop(context, ImageSource.gallery);
+                }
+              },
+            )
+          ],
+        )
+      );
+
     if (imageSource != null) {
       if (imageSource == ImageSource.gallery) {
         XFile? pickedFile = await ImagePicker().pickImage(
@@ -242,8 +230,9 @@ class ProfileProvider with ChangeNotifier {
   Future<void> uploadProfile() async {
     Map<String, dynamic> d = await mr.postMedia(folder: "images", media: file!);
     await pr.updateProfilePicture(
-        avatar: file == null ? "" : d["data"]["path"],
-        userId: SharedPrefs.getUserId());
+      avatar: file == null ? "" : d["data"]["path"],
+      userId: SharedPrefs.getUserId()
+    );
     file = null;
     getProfile();
     Future.delayed(Duration.zero, () => notifyListeners());
@@ -296,7 +285,6 @@ class ProfileProvider with ChangeNotifier {
       final lastName = lastNameC.text.trim();
       final email = emailC.text.trim();
       final phone = phoneC.text;
-      print('Phone : $phone');
       final bool isClear =
           submissionValidation(context, firstName, lastName, email, phone);
       if (isClear) {
@@ -411,7 +399,7 @@ class ProfileProvider with ChangeNotifier {
       for (GetUserMentionData el in usermention) {
         _usermentiondata.add({
           "id": el.id,
-          "display": el.name.replaceAll(' ', ''),
+          "display": el.username,
           "photo": el.avatar,
         });
       }

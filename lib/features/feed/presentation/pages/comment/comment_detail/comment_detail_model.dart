@@ -62,40 +62,37 @@ class CommentDetailModel with ChangeNotifier {
     hasMore = true;
 
     try {
-      ReplyDetailModel rdm =
-          await rr.getReplyDetail(commentId: commentId, pageKey: pageKey);
+      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: pageKey);
       _replyDetailData = rdm.data;
 
       _reply.clear();
-      _reply.addAll(rdm.data.feedReplies!.replies);
+      _reply.addAll(replyDetailData.feedReplies!.replies);
       setStateFeedDetailStatus(ReplyDetailStatus.loaded);
       setStateCommentStatus(ReplyStatus.loaded);
 
       if (reply.isEmpty) {
         setStateCommentStatus(ReplyStatus.empty);
       }
-    } on CustomException catch (e) {
+    } on CustomException catch (_) {
       setStateFeedDetailStatus(ReplyDetailStatus.error);
-      debugPrint(e.toString());
     } catch (_) {
       setStateFeedDetailStatus(ReplyDetailStatus.error);
     }
   }
 
-  postReply(
-      {required feedId,
-      required String commentId,
-      required String reply}) async {
+  Future<void> postReply({
+    required feedId,
+    required String commentId,
+    required String reply
+  }) async {
     try {
       if (reply == "") {
         return;
       }
-      debugPrint(reply);
 
       await rr.postReply(feedId: feedId, reply: reply, commentId: commentId);
 
-      ReplyDetailModel rdm =
-          await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
       _replyDetailData = rdm.data;
 
       _reply.clear();
@@ -108,35 +105,35 @@ class CommentDetailModel with ChangeNotifier {
     }
   }
 
-  postReplyMention(
-      {required feedId,
-      required String commentId,
-      required String reply,
-      required List<String> receivers}) async {
+  Future<void> postReplyMention({
+    required feedId,
+    required String commentId,
+    required String reply,
+  }) async {
     try {
       if (reply.trim() == "") {
         return;
       }
-      debugPrint("Receivers : ${receivers.toString()}");
-      if (receivers.isEmpty) {
-        debugPrint("kosong");
+
+      if (!reply.contains('@')) {
         await rr.postReply(
           feedId: feedId,
           reply: reply,
           commentId: commentId,
         );
-        debugPrint(commentId);
-        debugPrint(reply);
       } else {
-        debugPrint("ada");
         await rr.postReplyMention(
-            feedId: feedId,
-            reply: reply,
-            commentId: commentId,
-            receivers: receivers);
+          feedId: feedId,
+          reply: reply,
+          commentId: commentId,
+        );
       }
-      ReplyDetailModel rdm =
-          await rr.getReplyDetail(commentId: commentId, pageKey: 1);
+
+      ReplyDetailModel rdm = await rr.getReplyDetail(
+        commentId: commentId, 
+        pageKey: 1
+      );
+      
       _replyDetailData = rdm.data;
 
       _reply.clear();
@@ -144,8 +141,9 @@ class CommentDetailModel with ChangeNotifier {
 
       setStateFeedDetailStatus(ReplyDetailStatus.loaded);
       setStateCommentStatus(ReplyStatus.loaded);
-    } on CustomException catch (e) {
-      debugPrint(e.toString());
+    } on CustomException catch (_) {
+      setStateFeedDetailStatus(ReplyDetailStatus.error);
+      setStateCommentStatus(ReplyStatus.error);
     }
   }
 

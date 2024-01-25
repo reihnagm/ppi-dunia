@@ -65,15 +65,11 @@ class CommentScreenState extends State<CommentScreen> {
     bool isRedundentClick(DateTime currentTime) {
       if (loginClickTime == null) {
         loginClickTime = currentTime;
-        print("first click");
         return false;
       }
-      print('diff is ${currentTime.difference(loginClickTime!).inSeconds}');
       if (currentTime.difference(loginClickTime!).inSeconds < 3) {
-        // set this difference time in seconds
         return true;
       }
-
       loginClickTime = currentTime;
       return false;
     }
@@ -82,98 +78,116 @@ class CommentScreenState extends State<CommentScreen> {
         backgroundColor: ColorResources.bgSecondaryColor,
         bottomNavigationBar: SizedBox(
           child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration:
-                  const BoxDecoration(color: ColorResources.bgSecondaryColor),
-              child: Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: context.read<ProfileProvider>().pd.avatar!,
-                      imageBuilder:
-                          (BuildContext context, ImageProvider imageProvider) {
-                        return CircleAvatar(
-                          backgroundImage: imageProvider,
-                          maxRadius: 20.0,
-                        );
-                      },
-                      placeholder: (BuildContext context, String url) {
-                        return const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/default/ava.jpg'),
-                          maxRadius: 20.0,
-                        );
-                      },
-                      errorWidget:
-                          (BuildContext context, String url, dynamic error) {
-                        return const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/default/ava.jpg'),
-                          maxRadius: 20.0,
-                        );
-                      },
+            padding: const EdgeInsets.all(8.0),
+            decoration: const BoxDecoration(
+              color: ColorResources.bgSecondaryColor
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+
+                  CachedNetworkImage(
+                    imageUrl: context.read<ProfileProvider>().pd.avatar!,
+                    imageBuilder: (BuildContext context, ImageProvider imageProvider) {
+                      return CircleAvatar(
+                        backgroundImage: imageProvider,
+                        maxRadius: 20.0,
+                      );
+                    },
+                    placeholder: (BuildContext context, String url) {
+                      return const CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/default/ava.jpg'),
+                        maxRadius: 20.0,
+                      );
+                    },
+                    errorWidget: (BuildContext context, String url, dynamic error) {
+                      return const CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/default/ava.jpg'),
+                        maxRadius: 20.0,
+                      );
+                    },
+                  ),
+                  
+                  const SizedBox(width: 15.0),
+
+                  Flexible(
+                    child: TextField(
+                    controller: csm.commentC,
+                    cursorColor: ColorResources.greyLight,
+                    maxLines: null,
+                    style: const TextStyle(
+                      color: ColorResources.white,
+                      fontSize: Dimensions.fontSizeExtraLarge,
+                      fontFamily: 'SF Pro'
                     ),
-                    const SizedBox(width: 15.0),
-                    Flexible(
-                        child: TextField(
-                      controller: csm.commentC,
-                      cursorColor: ColorResources.greyLight,
-                      maxLines: null,
-                      style: const TextStyle(
-                          color: ColorResources.white,
-                          fontSize: Dimensions.fontSizeExtraLarge,
-                          fontFamily: 'SF Pro'),
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 0.0, horizontal: 16.0),
-                          fillColor: const Color(0xFF2E2E2E),
-                          filled: true,
-                          hintText: getTranslated("WRITE_COMMENT"),
-                          hintStyle: const TextStyle(
-                              color: ColorResources.greyLight,
-                              fontSize: Dimensions.fontSizeDefault,
-                              fontFamily: 'SF Pro'),
-                          border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                              borderSide: BorderSide(
-                                  width: 1.0, color: ColorResources.greyLight)),
-                          focusedBorder: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                              borderSide: BorderSide(
-                                  width: 1.0, color: ColorResources.greyLight)),
-                          enabledBorder: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                              borderSide: BorderSide(
-                                  width: 1.0, color: ColorResources.greyLight)),
-                          errorBorder: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                              borderSide: BorderSide(
-                                  width: 1.0,
-                                  color: ColorResources.greyLight))),
-                    )),
-                    const SizedBox(width: 15.0),
-                    IconButton(
-                        onPressed: () async {
-                          if (isRedundentClick(DateTime.now())) {
-                            // ShowSnackbar.snackbar(context,"Hold on, processing",'', ColorResources.redHealth);
-                            return;
-                          }
-                          await csm.post(feedId: widget.feedId);
-                        },
-                        icon: const Icon(
-                          Icons.send,
-                          color: ColorResources.greyLight,
-                        ))
-                  ],
-                ),
-              )),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0.0, 
+                        horizontal: 16.0
+                      ),
+                      fillColor: const Color(0xFF2E2E2E),
+                      filled: true,
+                      hintText: getTranslated("WRITE_COMMENT"),
+                      hintStyle: const TextStyle(
+                        color: ColorResources.greyLight,
+                        fontSize: Dimensions.fontSizeDefault,
+                        fontFamily: 'SF Pro'
+                      ),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderSide: BorderSide(
+                          width: 1.0, 
+                          color: ColorResources.greyLight
+                        )
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderSide: BorderSide(
+                          width: 1.0, 
+                          color: ColorResources.greyLight
+                        )
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderSide: BorderSide(
+                          width: 1.0, 
+                          color: ColorResources.greyLight
+                        )
+                      ),
+                        errorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: ColorResources.greyLight
+                          )
+                        )
+                      ),
+                    )
+                  ),
+                  
+                  const SizedBox(width: 15.0),
+
+                  IconButton(
+                    onPressed: () async {
+                      if (isRedundentClick(DateTime.now())) {
+                        return;
+                      }
+                      await csm.post(feedId: widget.feedId);
+                    },
+                    icon: const Icon(
+                      Icons.send,
+                      color: ColorResources.greyLight,
+                    )
+                  )
+
+                ],
+              ),
+            )
+          ),
         ),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -201,22 +215,22 @@ class CommentScreenState extends State<CommentScreen> {
                       parent: AlwaysScrollableScrollPhysics()),
                   slivers: [
                     SliverAppBar(
-                        backgroundColor: ColorResources.transparent,
-                        leading: CupertinoNavigationBarBackButton(
-                          color: ColorResources.blue,
-                          onPressed: () {
-                            NS.pop(context);
-                          },
-                        ),
-                        centerTitle: true,
-                        title: const SizedBox()),
+                      backgroundColor: ColorResources.transparent,
+                      leading: CupertinoNavigationBarBackButton(
+                        color: ColorResources.blue,
+                        onPressed: () {
+                          NS.pop(context);
+                        },
+                      ),
+                      centerTitle: true,
+                      title: const SizedBox()
+                    ),
                     SliverPadding(
                       padding: const EdgeInsets.only(bottom: 85.0),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
                           Consumer<CommentScreenModel>(
-                            builder: (BuildContext context,
-                                CommentScreenModel c, Widget? child) {
+                            builder: (BuildContext context, CommentScreenModel c, Widget? child) {
                               if (c.feedDetailStatus ==
                                   FeedDetailStatus.loading) {
                                 return Container();
@@ -313,28 +327,23 @@ class CommentScreenState extends State<CommentScreen> {
                                                                   .user!
                                                                   .uid));
                                                     },
-                                                    child: FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                          c.feedDetailData.user!
-                                                              .name,
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  ColorResources
-                                                                      .white,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeSmall,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro')),
-                                                    ),
+                                                    child: Text(
+                                                        c.feedDetailData.user!
+                                                            .name,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                ColorResources
+                                                                    .white,
+                                                            fontSize: Dimensions
+                                                                .fontSizeSmall,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600,
+                                                            fontFamily:
+                                                                'SF Pro')),
                                                   ),
                                                   Text(
                                                       DateHelper.formatDateTime(
@@ -1048,20 +1057,11 @@ class CommentScreenState extends State<CommentScreen> {
                                                                         );
                                                                       },
                                                                       child:
-                                                                          Expanded(
-                                                                        child:
-                                                                            FittedBox(
-                                                                          fit: BoxFit
-                                                                              .scaleDown,
-                                                                          alignment:
-                                                                              Alignment.centerLeft,
-                                                                          child: Text(
+                                                                          Text(
                                                                               c.comments[i].user.name,
                                                                               maxLines: 2,
                                                                               overflow: TextOverflow.ellipsis,
                                                                               style: const TextStyle(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w600, fontFamily: 'SF Pro')),
-                                                                        ),
-                                                                      ),
                                                                     ),
                                                                     const SizedBox(
                                                                         height:
@@ -1272,12 +1272,7 @@ class CommentScreenState extends State<CommentScreen> {
                                                                         MainAxisAlignment
                                                                             .start,
                                                                     children: <Widget>[
-                                                                      Flexible(
-                                                                        child:
-                                                                            FittedBox(
-                                                                          fit: BoxFit
-                                                                              .scaleDown,
-                                                                          child:
+                                                                    
                                                                               Text(
                                                                             reply.user.name,
                                                                             maxLines:
@@ -1285,8 +1280,8 @@ class CommentScreenState extends State<CommentScreen> {
                                                                             style:
                                                                                 const TextStyle(color: Colors.white),
                                                                           ),
-                                                                        ),
-                                                                      )
+                                                                        
+                                                                      
                                                                     ],
                                                                   ),
                                                                   Text(

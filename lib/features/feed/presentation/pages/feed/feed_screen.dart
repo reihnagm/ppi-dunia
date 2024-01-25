@@ -175,8 +175,9 @@ class FeedScreenState extends State<FeedScreen> {
                 },
               ),
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(18.0),
-                  topRight: Radius.circular(18.0)),
+                topLeft: Radius.circular(18.0),
+                topRight: Radius.circular(18.0)
+              ),
             );
           },
         ));

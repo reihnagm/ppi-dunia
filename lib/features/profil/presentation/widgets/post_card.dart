@@ -20,7 +20,6 @@ import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
-import 'package:rich_readmore/rich_readmore.dart';
 
 Widget postCard({
   required ProfileProvider pp,
