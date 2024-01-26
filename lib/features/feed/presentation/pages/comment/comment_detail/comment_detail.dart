@@ -93,7 +93,7 @@ class CommentDetailState extends State<CommentDetail> {
       loginClickTime = currentTime;
       return false;
     }
-
+    debugPrint('Comment id : ${widget.commentId}');
     return Scaffold(
       backgroundColor: ColorResources.bgSecondaryColor,
       bottomNavigationBar: Column(
@@ -317,124 +317,182 @@ class CommentDetailState extends State<CommentDetail> {
                             ),
                           );
                         }
-
-                        if (c.replyStatus == ReplyStatus.empty) {
+                        if (c.replyStatus == CommentStatus.empty) {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * .75,
                             child: Center(
                               child: Text(getTranslated("NO_COMMENT"),
-                              style: const TextStyle(
-                                  color: ColorResources.white,
-                                  fontSize: Dimensions.fontSizeLarge,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro'
-                                )
-                              ),
+                                  style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.fontSizeLarge,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro')),
                             ),
                           );
                         }
-                        
-                        if (c.replyStatus == ReplyStatus.error) {
-                          return const SizedBox();
+                        if (c.replyStatus == CommentStatus.error) {
+                          return Container();
                         }
 
                         return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(2),
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                          ),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                            color: ColorResources.greyPrimary,
-                          ),
-                          child: Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                            ),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12.0)
-                            ),
-                            color: ColorResources.greyPrimary),
-                            child: Column(
-                              crossAxisAlignment:CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Expanded(
-                                        flex: 7,
-                                        child: CachedNetworkImage(
-                                          imageUrl: c.replyDetailData.user!.avatar,
-                                          imageBuilder: (BuildContext context, ImageProvider<Object> imageProvider) {
-                                            return CircleAvatar(
-                                              radius: 20.0,
-                                              backgroundImage: imageProvider,
-                                            );
-                                          },
-                                          placeholder: (BuildContext context, String url) {
-                                            return const CircleAvatar(
-                                              radius: 20.0,
-                                              backgroundColor: Color(0xFF637687),
-                                            );
-                                          },
-                                          errorWidget: (BuildContext context, String url, dynamic error) {
-                                            return const CircleAvatar(
-                                              radius: 20.0,
-                                              backgroundColor:Color(0xFF637687),
-                                              backgroundImage: AssetImage(AssetsConst.imageDefaultAva),
-                                            );
-                                          },
-                                        ),
-                                      ),
-
-                                      Expanded(
-                                        flex: 28,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(c.replyDetailData.user!.name,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color:ColorResources.white,
-                                                fontSize: Dimensions.fontSizeLarge,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily:'SF Pro'
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(2),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.0)),
+                                color: ColorResources.greyPrimary,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                    ),
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0)),
+                                        color: ColorResources.greyPrimary),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Expanded(
+                                                flex: 7,
+                                                child: InkWell(
+                                                  // onTap: () {
+                                                  //   NS.push(
+                                                  //     context,
+                                                  //     ProfileViewScreen(
+                                                  //       userId: widget.uid,
+                                                  //     ),
+                                                  //   );
+                                                  // },
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: c.replyDetailData
+                                                        .user!.avatar,
+                                                    imageBuilder: (BuildContext
+                                                            context,
+                                                        ImageProvider<Object>
+                                                            imageProvider) {
+                                                      return CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundImage:
+                                                            imageProvider,
+                                                      );
+                                                    },
+                                                    placeholder:
+                                                        (BuildContext context,
+                                                            String url) {
+                                                      return const CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundColor:
+                                                            Color(0xFF637687),
+                                                      );
+                                                    },
+                                                    errorWidget:
+                                                        (BuildContext context,
+                                                            String url,
+                                                            dynamic error) {
+                                                      return const CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundColor:
+                                                            Color(0xFF637687),
+                                                        backgroundImage:
+                                                            AssetImage(AssetsConst
+                                                                .imageDefaultAva),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 28,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    InkWell(
+                                                      // onTap: () {
+                                                      //   NS.push(
+                                                      //       context,
+                                                      //       ProfileViewScreen(
+                                                      //           userId: widget.uid));
+                                                      // },
+                                                      child: FittedBox(
+                                                        fit: BoxFit.scaleDown,
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                            c.replyDetailData
+                                                                .user!.name,
+                                                            maxLines: 2,
+                                                            overflow: TextOverflow
+                                                                .ellipsis,
+                                                            style: const TextStyle(
+                                                                color:
+                                                                    ColorResources
+                                                                        .white,
+                                                                fontSize: Dimensions
+                                                                    .fontSizeLarge,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontFamily:
+                                                                    'SF Pro')),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                        DateHelper
+                                                            .formatDateTime(c
+                                                                .replyDetailData
+                                                                .createdAt!),
+                                                        style: const TextStyle(
+                                                            color: ColorResources
+                                                                .greyDarkPrimary,
+                                                            fontSize: Dimensions
+                                                                .fontSizeExtraSmall,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily:
+                                                                'SF Pro')),
+                                                  ],
+                                                ),
                                               )
-                                            ),
-                                            Text(DateHelper.formatDateTime(c.replyDetailData.createdAt!),
-                                              style: const TextStyle(
-                                              color: ColorResources.greyDarkPrimary,
-                                              fontSize: Dimensions.fontSizeExtraSmall,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SF Pro')
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 25.0,
+                                            left: 25.0,
+                                            bottom: 10.0,
+                                          ),
+                                          child: DetectText(
+                                              text:
+                                                  '${c.replyDetailData.caption}'),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 25.0,
-                                    left: 25.0,
-                                    bottom: 10.0,
-                                  ),
-                                  child: DetectText(text: '${c.replyDetailData.caption}'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                                ],
+                              ),
+                            );
 
                       }),
 
@@ -629,58 +687,12 @@ class CommentDetailState extends State<CommentDetail> {
                                                     : const SizedBox(height: 10),
 
                                                     Wrap(
-                                                      spacing: 2.0,
-                                                      crossAxisAlignment: WrapCrossAlignment.start,
-                                                      alignment: WrapAlignment.start,
-                                                      runAlignment: WrapAlignment.start,
-                                                      children: [
-                                                       for (int k = 0; k < reply.feedMention.length; k++)
-                                                          Container(
-                                                            margin: EdgeInsets.only(left: k == 0 ? 0 : 1.5, right: 1.5),
-                                                            child: DetectableText(
-                                                              onTap: (p0) { 
-                                                                if(p0.contains(RegExp('@[a-zA-Z0-9_.]+?(?![a-zA-Z0-9_.])'))){
-                                                                  NS.push(context, ProfileViewScreen(userId: reply.feedMention[k].id));
-                                                                }else{
-                                                                  NS.push(context, NS.push(context, WebViewScreen(url: p0, title: "PPI-DUNIA")));
-                                                                }
-                                                              },
-                                                              text: reply.feedMention[k].name,
-                                                              trimLines: 3,
-                                                              trimLength: 100,
-                                                              trimExpandedText:' Show Less',
-                                                              trimCollapsedText: 'Read More',
-                                                              detectionRegExp: RegExp('@[a-zA-Z0-9_.]+?(?![a-zA-Z0-9_.])'),
-                                                              detectedStyle: const TextStyle(
-                                                                fontSize: 13,
-                                                                color: Colors.blue,
-                                                              ),
-                                                              basicStyle: const TextStyle(
-                                                                fontSize: 13,
-                                                                fontWeight: FontWeight.bold,
-                                                                color: ColorResources.white
-                                                              ),
-                                                              moreStyle: const TextStyle(
-                                                                fontSize: 16,
-                                                                color:ColorResources.blue
-                                                              ),
-                                                              lessStyle: const TextStyle(
-                                                                fontSize: 16,
-                                                                color: ColorResources.blue
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Text(reply.reply,
-                                                            style: const TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.bold,
-                                                              color: ColorResources.white
-                                                            ),
-                                                          ),
-                                                      ] 
+                                                      children: List.generate(reply.feedMention.length,
+                                                          (index) {
+                                                        return DetectText(text: '${reply.feedMention[index].name} ${reply.feedMention.length > 1 ? '': reply.reply}', userid: reply.feedMention[index].id,);
+                                                      }),
                                                     ),
-
-
+                                                    DetectText(text: reply.feedMention.length > 1 || reply.feedMention.isEmpty ? reply.reply : ''),
                                                   ],
                                                 ),
                                               ),
@@ -689,7 +701,7 @@ class CommentDetailState extends State<CommentDetail> {
                                               ? InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      key.currentState!.controller!.text = '@${reply.user.name.replaceAll(' ', '')} ';
+                                                      key.currentState!.controller!.text = '@${reply.user.username.replaceAll(' ', '').toLowerCase()} ';
                                                     });
                                                   },
                                                   child: const Text("Balas",
@@ -698,7 +710,7 @@ class CommentDetailState extends State<CommentDetail> {
                                                     )
                                                   )
                                                 )
-                                              : Container(),
+                                              : const SizedBox(height: 10,),
 
                                             ]
                                           )

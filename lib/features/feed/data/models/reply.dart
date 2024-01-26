@@ -91,17 +91,20 @@ class Reply {
 class User {
     String uid;
     String avatar;
+    String username;
     String name;
 
     User({
         required this.uid,
         required this.avatar,
+        required this.username,
         required this.name,
     });
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         uid: json["uid"],
         avatar: json["avatar"],
+        username: json["username"],
         name: json["name"],
     );
 }

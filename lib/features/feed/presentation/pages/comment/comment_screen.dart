@@ -994,15 +994,9 @@ class CommentScreenState extends State<CommentScreen> {
                                                   children: [
                                                     InkWell(
                                                       onTap: () {
-                                                        NS.push(
-                                                            context,
-                                                            CommentDetail(
-                                                              feedId:
-                                                                  widget.feedId,
-                                                              commentId: c
-                                                                  .comments[i]
-                                                                  .uid,
-                                                            ));
+                                                        Navigator.push(context, NS.fromLeft(CommentDetail(feedId: widget.feedId, commentId: c.comments[i].uid,))).then((_) => setState(() {
+                                                          csm.getFeedDetail(feedId: widget.feedId);
+                                                        }));
                                                       },
                                                       child: Container(
                                                         width: double.infinity,
@@ -1056,12 +1050,11 @@ class CommentScreenState extends State<CommentScreen> {
                                                                           ),
                                                                         );
                                                                       },
-                                                                      child:
-                                                                          Text(
-                                                                              c.comments[i].user.name,
-                                                                              maxLines: 2,
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              style: const TextStyle(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w600, fontFamily: 'SF Pro')),
+                                                                      child: Text(
+                                                                        c.comments[i].user.name,
+                                                                        maxLines: 2,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: const TextStyle(color: ColorResources.white, fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.w600, fontFamily: 'SF Pro')),
                                                                     ),
                                                                     const SizedBox(
                                                                         height:
@@ -1140,15 +1133,9 @@ class CommentScreenState extends State<CommentScreen> {
                                                     ),
                                                     InkWell(
                                                       onTap: () {
-                                                        NS.push(
-                                                            context,
-                                                            CommentDetail(
-                                                              feedId:
-                                                                  widget.feedId,
-                                                              commentId: c
-                                                                  .comments[i]
-                                                                  .uid,
-                                                            ));
+                                                        Navigator.push(context, NS.fromLeft(CommentDetail(feedId: widget.feedId, commentId: c.comments[i].uid,))).then((_) => setState(() {
+                                                          csm.getFeedDetail(feedId: widget.feedId);
+                                                        }));
                                                       },
                                                       child: Align(
                                                         alignment: Alignment
@@ -1189,13 +1176,9 @@ class CommentScreenState extends State<CommentScreen> {
                                                     .commentReplies.replies[z];
                                                 return InkWell(
                                                   onTap: () {
-                                                    NS.push(
-                                                        context,
-                                                        CommentDetail(
-                                                          feedId: widget.feedId,
-                                                          commentId:
-                                                              c.comments[i].uid,
-                                                        ));
+                                                    Navigator.push(context, NS.fromLeft(CommentDetail(feedId: widget.feedId, commentId: c.comments[i].uid,))).then((_) => setState(() {
+                                                      csm.getFeedDetail(feedId: widget.feedId);
+                                                    }));
                                                   },
                                                   child: Padding(
                                                     padding:
@@ -1272,7 +1255,6 @@ class CommentScreenState extends State<CommentScreen> {
                                                                         MainAxisAlignment
                                                                             .start,
                                                                     children: <Widget>[
-                                                                    
                                                                               Text(
                                                                             reply.user.name,
                                                                             maxLines:
@@ -1280,8 +1262,6 @@ class CommentScreenState extends State<CommentScreen> {
                                                                             style:
                                                                                 const TextStyle(color: Colors.white),
                                                                           ),
-                                                                        
-                                                                      
                                                                     ],
                                                                   ),
                                                                   Text(

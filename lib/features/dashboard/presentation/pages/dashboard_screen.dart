@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/location/presentation/providers/location.dart';
 import 'package:ppidunia/features/notification/provider/notification.dart';
 import 'package:ppidunia/features/notification/provider/storage.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +54,8 @@ class DashboardScreenState extends State<DashboardScreen> {
       navigatorKey.currentContext!.read<NotificationNotifier>().initNotification();
     if(!mounted) return;
       navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
+    if (!mounted) return;
+      navigatorKey.currentContext!.read<LocationProvider>().initLocation();
 
     if (mounted) {
       ism.getReadCount();

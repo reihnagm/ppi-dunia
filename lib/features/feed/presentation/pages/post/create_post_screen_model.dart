@@ -250,12 +250,12 @@ class CreatePostModel with ChangeNotifier {
     try {
       String feedId = const Uuid().v4();
 
-      if (postC.text.isEmpty) {
+      if (postC.text.trim() == "") {
         return ShowSnackbar.snackbar(
           context,
           getTranslated("CAPTION_EMPTY"),
           '',
-          ColorResources.redHealth,
+          ColorResources.error,
           const Duration(seconds: 6),
         );
       }

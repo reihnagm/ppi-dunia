@@ -147,11 +147,8 @@ class ProfileProvider with ChangeNotifier {
             MaterialButton(
               child: const Text("Gallery"),
               onPressed: () async {
-                navigatorKey.currentContext!
-                    .read<StorageNotifier>()
-                    .checkStoragePermission();
-                if (await Permission.photos.isGranted ||
-                    await Permission.storage.isGranted) {
+                navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
+                if(await Permission.photos.isGranted || await Permission.storage.isGranted){
                   Navigator.pop(context, ImageSource.gallery);
                 }
               },
@@ -303,7 +300,7 @@ class ProfileProvider with ChangeNotifier {
           context,
           "Berhasil Ubah Profile",
           '',
-          ColorResources.black,
+          ColorResources.success,
           const Duration(seconds: 3),
         );
       }
@@ -315,7 +312,7 @@ class ProfileProvider with ChangeNotifier {
         context,
         e.toString(),
         '',
-        ColorResources.redHealth,
+        ColorResources.error,
         const Duration(seconds: 3),
       );
     } catch (e) {

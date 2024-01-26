@@ -300,7 +300,6 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                         Consumer<CreatePostModel>(
                           builder: (BuildContext context, CreatePostModel c,
                               Widget? child) {
-                            print("Select : ${c.selectedBranch}");
                             return Container(
                               margin: const EdgeInsets.symmetric(
                                   vertical: 0.0, horizontal: 20.0),

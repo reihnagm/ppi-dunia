@@ -101,8 +101,9 @@ class _FeedListState extends State<FeedList> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(12.0),
                       onTap: () {
-                        NS.push(
-                            context, CommentScreen(feedId: fsm.feeds[i].uid));
+                        Navigator.push(context, NS.fromLeft(CommentScreen(feedId: fsm.feeds[i].uid))).then((_) => setState(() {
+                          fsm.getFeeds();
+                        }));
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -598,10 +599,9 @@ class _FeedListState extends State<FeedList> {
                                           borderRadius:
                                               BorderRadius.circular(8.0),
                                           onTap: () {
-                                            NS.push(
-                                                context,
-                                                CommentScreen(
-                                                    feedId: fsm.feeds[i].uid));
+                                            Navigator.push(context, NS.fromLeft(CommentScreen(feedId: fsm.feeds[i].uid))).then((_) => setState(() {
+                                              fsm.getFeeds();
+                                            }));
                                           },
                                           child: Padding(
                                               padding:
