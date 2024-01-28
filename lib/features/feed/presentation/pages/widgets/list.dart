@@ -7,14 +7,12 @@ import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
-import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
+import 'package:ppidunia/views/basewidgets/card_posting/card_header_posting.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
-import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -112,198 +110,25 @@ class _FeedListState extends State<FeedList> {
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.only(
-                                left: 15.0,
-                                top: 16.0,
-                                bottom: 5.0,
-                                right: 20.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  flex: 5,
-                                  child: InkWell(
-                                      onTap: () => NS.push(
-                                          context,
-                                          ProfileViewScreen(
-                                              userId: fsm.feeds[i].user.uid)),
-                                      child: imageAvatar(
-                                          fsm.feeds[i].user.avatar, 20)),
-                                ),
-                                Expanded(
-                                  flex: 25,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                              fsm.feeds[i].user.name,
-                                              maxLines: 2,
-                                              overflow:
-                                                  TextOverflow.visible,
-                                              style: const TextStyle(
-                                                  color: ColorResources
-                                                      .white,
-                                                  fontSize: Dimensions
-                                                      .fontSizeSmall,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  fontFamily: 'SF Pro')),
-                                          Text(
-                                              DateHelper.formatDateTime(
-                                                  fsm.feeds[i].createdAt),
-                                              style: const TextStyle(
-                                                  color: ColorResources
-                                                      .greyDarkPrimary,
-                                                  fontSize: Dimensions
-                                                      .fontSizeExtraSmall,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SF Pro')),
-                                        ],
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          fsm.feeds[i].user.uid ==
-                                                  SharedPrefs.getUserId()
-                                              ? const SizedBox()
-                                              : PopupMenuButton(
-                                                  color: Colors.white,
-                                                  iconColor: Colors.white,
-                                                  iconSize: 20,
-                                                  itemBuilder: (BuildContext
-                                                      buildContext) {
-                                                    return [
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "Block content",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "Block user",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "It's spam",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "Nudity or sexual activity",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp))),
-                                                      PopupMenuItem(
-                                                          value: "/report-user",
-                                                          child: Text(
-                                                              "False Information",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      11.sp)))
-                                                    ];
-                                                  },
-                                                  onSelected: (route) async {
-                                                    if (route ==
-                                                        "/report-user") {
-                                                      await GeneralModal
-                                                          .reportUser();
-                                                    }
-                                                  },
-                                                ),
-                                          fsm.feeds[i].user.uid ==
-                                                  SharedPrefs.getUserId()
-                                              ? PopupMenuButton(
-                                                  color: ColorResources.white,
-                                                  iconColor: Colors.white,
-                                                  iconSize: 20,
-                                                  itemBuilder: (BuildContext
-                                                      buildContext) {
-                                                    return [
-                                                      PopupMenuItem(
-                                                          value: "/delete",
-                                                          child: Text(
-                                                              getTranslated(
-                                                                  "DELETE"),
-                                                              style: const TextStyle(
-                                                                  color: ColorResources
-                                                                      .greyDarkPrimary,
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeSmall,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontFamily:
-                                                                      'SF Pro'))),
-                                                    ];
-                                                  },
-                                                  onSelected:
-                                                      (String route) async {
-                                                    GeneralModal
-                                                        .showConfirmModals(
-                                                      image: AssetsConst
-                                                          .imageIcPopUpDelete,
-                                                      msg:
-                                                          "Are you sure want to delete ?",
-                                                      onPressed: () async {
-                                                        if (route ==
-                                                            "/delete") {
-                                                          await fsm.delete(
-                                                              feedId: fsm
-                                                                  .feeds[i]
-                                                                  .uid);
-                                                        }
-                                                        NS.pop(context);
-                                                        ShowSnackbar.snackbar(
-                                                            context,
-                                                            "Successfully delete a post",
-                                                            '',
-                                                            ColorResources
-                                                                .success);
-                                                      },
-                                                    );
-                                                  },
-                                                )
-                                              : const SizedBox()
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                              left: 25.0,
+                              top: 15.0,
+                              right: 10.0
                             ),
+                            child: CardHeaderPost(avatar: fsm.feeds[i].user.avatar, name: fsm.feeds[i].user.name, date: fsm.feeds[i].createdAt, onSelected: (String route) async { 
+                              GeneralModal.showConfirmModals(
+                                image: AssetsConst.imageIcPopUpDelete,
+                                msg: "Are you sure want to delete ?",
+                              onPressed: () async {
+                                  if (route == "/delete") {
+                                    await fsm.delete(feedId: fsm.feeds[i].uid);
+                                  }
+                                  Future.delayed(Duration.zero, () {
+                                    NS.pop(context);
+                                    ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                  });
+                                },
+                              );
+                            }, userId: fsm.feeds[i].user.uid, isHidden: false,)
                           ),
                           Padding(
                             padding: const EdgeInsets.only(

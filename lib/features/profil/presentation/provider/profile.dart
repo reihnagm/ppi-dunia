@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -159,11 +160,12 @@ class ProfileProvider with ChangeNotifier {
 
     if (imageSource != null) {
       if (imageSource == ImageSource.gallery) {
-        XFile? pickedFile = await ImagePicker().pickImage(
-          source: ImageSource.gallery,
-        );
+        FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+        // XFile? pickedFile = await ImagePicker().pickImage(
+        //   source: ImageSource.gallery,
+        // );
         File? cropped = await ImageCropper().cropImage(
-            sourcePath: pickedFile!.path,
+            sourcePath: result!.files.single.path!,
             androidUiSettings: AndroidUiSettings(
                 toolbarTitle: "Crop It",
                 toolbarColor: Colors.blueGrey[900],

@@ -54,8 +54,8 @@ class NotificationService {
         if(decoded["type"] == "feed")
         {
           NS.push(navigatorKey.currentContext!, CommentScreen(feedId: decoded["feed_id"]));
-        }else if(decoded["type"] == "feed_reply" || decoded["type"] ==  "feed_reply_mention") {
-          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: decoded["comment_id"]));
+        }else if(decoded["type"] == "feed_reply" || decoded["type"] == "feed_reply_mention") {
+          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: decoded["comment_id"] , feedId: decoded["feed_id"],));
         }else{
           NS.push(
           navigatorKey.currentContext!,
@@ -71,11 +71,7 @@ class NotificationService {
         debugPrint("Hallo");
         debugPrint("Type : ${decoded["type"]}");
         debugPrint("Comment Id : ${decoded["comment_id"]}");
-        // debugPrint("Comment ID : ${decoded["comment_id"]}");
-        // debugPrint(decoded["type"]);
-        // debugPrint(decoded["date"]);
-        // debugPrint(decoded["description"]);
-        // debugPrint(decoded["name"]);
+        debugPrint("Feed Id : ${decoded["feed_id"]}");
       },
     );
   }

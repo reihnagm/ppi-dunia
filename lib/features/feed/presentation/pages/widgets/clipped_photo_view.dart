@@ -8,22 +8,25 @@ class ClippedPhotoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(image);
     return Hero(
       tag: "image-view",
       child: Center(
-        child: ClipRect(
-          child: PhotoView(
-            imageProvider: image == ""
-                ? const AssetImage('assets/images/default/ava.jpg')
-                : Image.network(
-                    image,
-                    fit: BoxFit.contain,
-                  ).image,
-            minScale: PhotoViewComputedScale.contained * 0.8,
-            maxScale: PhotoViewComputedScale.covered * 2,
-            // loadingBuilder: (context, event) =>
-            //     const CircularProgressIndicator(),
+        child: PhotoView(
+          imageProvider: image == ""
+              ? const AssetImage('assets/images/default/ava.jpg')
+              : Image.network(image, fit: BoxFit.contain).image,
+          minScale: PhotoViewComputedScale.contained * 0.8,
+          maxScale: PhotoViewComputedScale.covered * 4,
+          loadingBuilder: (context, event) => Center(
+            child: SizedBox(
+              width: 20.0,
+              height: 20.0,
+              child: CircularProgressIndicator(
+                value: event == null
+                    ? 0
+                    : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+              ),
+            ),
           ),
         ),
       ),

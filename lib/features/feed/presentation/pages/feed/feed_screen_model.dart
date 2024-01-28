@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/features/country/data/models/branch.dart';
 import 'package:ppidunia/features/feed/data/models/feed.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
+import 'package:ppidunia/services/navigation.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:ppidunia/common/utils/shared_preferences.dart';

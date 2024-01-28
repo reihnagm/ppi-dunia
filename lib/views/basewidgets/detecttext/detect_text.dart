@@ -45,7 +45,7 @@ class DetectText extends StatelessWidget {
           if(tappedText.contains(RegExp('@[a-zA-Z0-9_.]+?(?![a-zA-Z0-9_.])'))){
             NS.push(context, ProfileViewScreen(userId: userid ?? ""));
           }else{
-            NS.push(context, NS.push(context, WebViewScreen(url: tappedText, title: "PPI-DUNIA")));
+            NS.push(context, NS.push(context, WebViewScreen(url: tappedText.toLowerCase(), title: "PPI-DUNIA")));
           }
         },
     );

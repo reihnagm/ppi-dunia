@@ -14,7 +14,7 @@ Widget imageCard(String image, double height, double radius) {
             borderRadius: BorderRadius.circular(radius),
             image: DecorationImage(
                 alignment: Alignment.centerLeft,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 image: imageProvider)),
       );
     },

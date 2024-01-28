@@ -97,13 +97,13 @@ class FeedScreenState extends State<FeedScreen> {
               minHeight: deviceMaxHeight < 600
                   ? constraints.maxHeight * .35
                   : deviceMaxHeight < 800
-                      ? constraints.maxHeight * .48
-                      : constraints.maxHeight * .55,
+                      ? constraints.maxHeight * .52
+                      : constraints.maxHeight * .60,
               maxHeight: deviceMaxHeight < 600
-                  ? constraints.maxHeight * .76
+                  ? constraints.maxHeight * .80
                   : deviceMaxHeight < 800
-                      ? constraints.maxHeight * .82
-                      : constraints.maxHeight * .84,
+                      ? constraints.maxHeight * .86
+                      : constraints.maxHeight * .88,
               color: ColorResources.bgSecondaryColor,
               controller: fsm.panelC,
               panelBuilder: (ScrollController sc) {

@@ -141,10 +141,7 @@ class CreatePostModel with ChangeNotifier {
   }
 
   Future<void> uploadDoc(BuildContext context) async {
-    if(await Permission.storage.request().isDenied || await Permission.storage.request().isPermanentlyDenied ) {
-      await Permission.storage.request();
-      GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
-    }
+    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
@@ -155,8 +152,9 @@ class CreatePostModel with ChangeNotifier {
     if (result != null) {
       File vf = File(result.files.single.path!);
       int sizeInBytes = vf.lengthSync();
-      String fs = filesize(sizeInBytes, 0).replaceAll(RegExp(r'[^0-9]'), '');
-      if (int.parse(fs) > 150) {
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      debugPrint('Ukuran ${sizeInMb.toString()}');
+      if (sizeInMb > 50) {
         // ignore: use_build_context_synchronously
         ShowSnackbar.snackbar(
             context, getTranslated("SIZE_MAXIMUM"), "", ColorResources.error);
@@ -173,16 +171,26 @@ class CreatePostModel with ChangeNotifier {
   Future<void> uploadVid(BuildContext context) async {
     navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.video,
-        allowMultiple: false,
-        withData: false,
-        withReadStream: true,
-        onFileLoading: (FilePickerStatus filePickerStatus) {});
+      type: FileType.custom,
+      allowedExtensions: ['mp4', 'avi', 'mkv'],
+      allowMultiple: false,
+      withData: false,
+      withReadStream: true,
+      onFileLoading: (FilePickerStatus filePickerStatus) {}
+    );
+    // FilePickerResult? result = await FilePicker.platform.pickFiles(
+    //     type: FileType.video,
+    //     allowMultiple: false,
+    //     withData: false,
+    //     withReadStream: true,
+    //     onFileLoading: (FilePickerStatus filePickerStatus) {});
     if (result != null) {
       File vf = File(result.files.single.path!);
       int sizeInBytes = vf.lengthSync();
-      String fs = filesize(sizeInBytes, 0).replaceAll(RegExp(r'[^0-9]'), '');
-      if (int.parse(fs) > 150) {
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      debugPrint('Ukuran ${sizeInMb.toString()}');
+      if (sizeInMb > 50) {
+        // ignore: use_build_context_synchronously
         ShowSnackbar.snackbar(
             context, getTranslated("SIZE_MAXIMUM"), "", ColorResources.error);
         return;

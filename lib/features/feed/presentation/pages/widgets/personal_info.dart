@@ -24,9 +24,9 @@ class FeedPersonalInfo extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 100.0,
-        padding: const EdgeInsets.only(left: 20, top: 30, bottom: 10),
+        padding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
         margin: const EdgeInsets.symmetric(
-          vertical: 20.0,
+          vertical: 5.0,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -106,7 +106,7 @@ class FeedPersonalInfo extends StatelessWidget {
                                 : SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width < 400
-                                            ? 120
+                                            ? 175
                                             : 200,
                                     child: FittedBox(
                                       fit: BoxFit.scaleDown,

@@ -42,7 +42,7 @@ Widget profileCard({
               ),
             ),
             Positioned(
-              left: 145.0.w,
+              left: 150.0.w,
               right: 10.0.w,
               top: 50.h,
               child: SizedBox(

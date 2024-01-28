@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:detectable_text_field/widgets/detectable_text.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +18,8 @@ import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/card_posting/card_header_comment.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
-import 'package:ppidunia/views/webview/webview.dart';
 import 'package:provider/provider.dart';
 
 class CommentDetail extends StatefulWidget {
@@ -86,7 +85,7 @@ class CommentDetailState extends State<CommentDetail> {
         loginClickTime = currentTime;
         return false;
       }
-      if (currentTime.difference(loginClickTime!).inSeconds < 10) {
+      if (currentTime.difference(loginClickTime!).inSeconds < 2) {
         return true;
       }
 
@@ -141,6 +140,8 @@ class CommentDetailState extends State<CommentDetail> {
                       suggestionPosition: SuggestionPosition.Top,
                       appendSpaceOnAdd: true,
                       cursorColor: Colors.white,
+                      maxLines: 5,
+                      minLines: 1,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
@@ -373,14 +374,14 @@ class CommentDetailState extends State<CommentDetail> {
                                               Expanded(
                                                 flex: 7,
                                                 child: InkWell(
-                                                  // onTap: () {
-                                                  //   NS.push(
-                                                  //     context,
-                                                  //     ProfileViewScreen(
-                                                  //       userId: widget.uid,
-                                                  //     ),
-                                                  //   );
-                                                  // },
+                                                  onTap: () {
+                                                    NS.push(
+                                                      context,
+                                                      ProfileViewScreen(
+                                                        userId: c.replyDetailData.user!.uid,
+                                                      ),
+                                                    );
+                                                  },
                                                   child: CachedNetworkImage(
                                                     imageUrl: c.replyDetailData
                                                         .user!.avatar,
@@ -428,12 +429,12 @@ class CommentDetailState extends State<CommentDetail> {
                                                       MainAxisSize.min,
                                                   children: [
                                                     InkWell(
-                                                      // onTap: () {
-                                                      //   NS.push(
-                                                      //       context,
-                                                      //       ProfileViewScreen(
-                                                      //           userId: widget.uid));
-                                                      // },
+                                                      onTap: () {
+                                                        NS.push(
+                                                            context,
+                                                            ProfileViewScreen(
+                                                                userId: c.replyDetailData.user!.uid));
+                                                      },
                                                       child: FittedBox(
                                                         fit: BoxFit.scaleDown,
                                                         alignment: Alignment
@@ -591,97 +592,29 @@ class CommentDetailState extends State<CommentDetail> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   mainAxisSize: MainAxisSize.max,
                                                   children: [
-
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisSize: MainAxisSize.max,
-                                                      children: [
-
-                                                        Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                        
-                                                            InkWell(
-                                                              onTap: () {
-                                                                NS.push(context, ProfileViewScreen(userId: reply.user.uid));
-                                                              },
-                                                              child: SizedBox(
-                                                                width: MediaQuery.sizeOf(context).width < 400 ? 180 : 240,
-                                                                child: Text(
-                                                                  reply.user.name,
-                                                                  maxLines: 2,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: const TextStyle(
-                                                                    color: ColorResources.white,
-                                                                    fontSize: Dimensions.fontSizeSmall,
-                                                                    fontWeight: FontWeight.w600,
-                                                                    fontFamily: 'SF Pro'
-                                                                  )
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            
-                                                            const SizedBox(height: 5.0),
-                                                        
-                                                            Text(
-                                                                DateHelper
-                                                                    .formatDateTime(reply
-                                                                        .createdAt),
-                                                                style: const TextStyle(
-                                                                    color: ColorResources
-                                                                        .greyDarkPrimary,
-                                                                    fontSize:
-                                                                        Dimensions
-                                                                            .fontSizeExtraSmall,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontFamily:
-                                                                        'SF Pro')),
-                                                          ],
-                                                        ),
-
-                                                        reply.user.uid == SharedPrefs.getUserId()
-                                                        ? PopupMenuButton(
-                                                            color: Colors.white,
-                                                            iconColor:Colors.white,
-                                                            iconSize: 20,
-                                                            itemBuilder: (BuildContext buildContext) {
-                                                              return [
-                                                                PopupMenuItem(
-                                                                  value: "/delete",
-                                                                  child: Text(getTranslated("DELETE"), style: const TextStyle(color: ColorResources.greyDarkPrimary, fontSize: Dimensions.fontSizeDefault, fontWeight: FontWeight.w600, fontFamily: 'SF Pro'))
-                                                                ),
-                                                              ];
-                                                            },
-                                                            onSelected: (String route) async {
-                                                              GeneralModal.showConfirmModals(
-                                                                image: AssetsConst.imageIcPopUpDelete,
-                                                                msg: "Are you sure want to delete ?",
-                                                                onPressed: () async {
-
-                                                                  if (route == "/delete") {
-                                                                    await cdm.deleteReply(
-                                                                      commentId: widget.commentId,
-                                                                      deleteId: reply.uid
-                                                                    );
-                                                                  }
-
-                                                                  Future.delayed(Duration.zero, () {
-                                                                    NS.pop(context);
-                                                                    ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
-                                                                  });
-                                                                },
+                                                    CardHeaderComment(
+                                                      name: reply.user.name, 
+                                                      date: reply.createdAt, 
+                                                      userId: reply.user.uid, 
+                                                      onSelected: (String route) async {
+                                                        GeneralModal.showConfirmModals(
+                                                          image: AssetsConst.imageIcPopUpDelete,
+                                                          msg: "Are you sure want to delete ?",
+                                                          onPressed: () async {
+                                                            if (route == "/delete") {
+                                                              await cdm.deleteReply(
+                                                                commentId: widget.commentId,
+                                                                deleteId: reply.uid
                                                               );
-                                                            },
-                                                          )
-                                                        : const SizedBox(),
-
-                                                      ],
+                                                            }
+                                                            Future.delayed(Duration.zero, () {
+                                                              NS.pop(context);
+                                                              ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                                            });
+                                                          },
+                                                        );
+                                                      },
                                                     ),
-
                                                     reply.user.uid == SharedPrefs.getUserId()
                                                     ? const SizedBox()
                                                     : const SizedBox(height: 10),

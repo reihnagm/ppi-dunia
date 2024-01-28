@@ -102,7 +102,7 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                   children: [
                     Container(
                       padding: const EdgeInsets.only(
-                          left: 100.0, top: 10.0, right: 0.0),
+                          left: 100.0, top: 10.0, right: 15.0),
                       width: double.infinity,
                       margin: const EdgeInsets.only(left: 15.0, right: 15.0),
                       height: 50,

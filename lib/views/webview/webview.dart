@@ -49,6 +49,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Web : ${widget.url}');
     return WillPopScope(
       onWillPop: exitApp,
       child: Scaffold(

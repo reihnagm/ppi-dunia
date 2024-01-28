@@ -21,8 +21,17 @@ class PhotoViewAssets extends StatelessWidget {
             ).image,
             minScale: PhotoViewComputedScale.contained * 0.8,
             maxScale: PhotoViewComputedScale.covered * 2,
-            // loadingBuilder: (context, event) =>
-            //     const CircularProgressIndicator(),
+            loadingBuilder: (context, event) => Center(
+              child: SizedBox(
+                width: 20.0,
+                height: 20.0,
+                child: CircularProgressIndicator(
+                  value: event == null
+                      ? 0
+                      : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+                ),
+              ),
+            ),
           ),
         ),
       ),

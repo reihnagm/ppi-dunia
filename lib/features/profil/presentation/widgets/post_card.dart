@@ -16,6 +16,7 @@ import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/card_posting/card_header_posting.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_avatar.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
@@ -89,119 +90,32 @@ Widget postCard({
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(
+                            left: 25.0,
+                            top: 15.0,
+                            right: 10.0
+                          ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Expanded(
-                                flex: 7,
-                                child: imageAvatar(pp.feeds[i].user.avatar, 20),
-                              ),
-                              Expanded(
-                                flex: 28,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: SizedBox(
-                                        width: MediaQuery.sizeOf(context)
-                                                    .width <
-                                                400
-                                            ? 200
-                                            : 240,
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              pp.feeds[i].user.name,
-                                              maxLines: 2,
-                                              overflow:TextOverflow.visible,
-                                              style: const TextStyle(
-                                                  color:
-                                                      ColorResources.white,
-                                                  fontSize: Dimensions
-                                                      .fontSizeSmall,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  fontFamily: 'SF Pro')),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10.0),
-                                    Text(
-                                        DateHelper.formatDateTime(
-                                            pp.feeds[i].createdAt),
-                                        style: const TextStyle(
-                                            color:
-                                                ColorResources.greyDarkPrimary,
-                                            fontSize:
-                                                Dimensions.fontSizeExtraSmall,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SF Pro')),
-                                    
-                                  ],
-                                ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  pp.feeds[i].user.uid ==
-                                            SharedPrefs.getUserId()
-                                        ? PopupMenuButton(
-                                            color: Colors.white,
-                                            iconColor: Colors.white,
-                                            iconSize: 20,
-                                            itemBuilder:
-                                                (BuildContext buildContext) {
-                                              return [
-                                                PopupMenuItem(
-                                                    value: "/delete",
-                                                    child: Text(
-                                                        getTranslated("DELETE"),
-                                                        style: const TextStyle(
-                                                            color: ColorResources
-                                                                .greyDarkPrimary,
-                                                            fontSize: Dimensions
-                                                                .fontSizeDefault,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontFamily:
-                                                                'SF Pro'))),
-                                              ];
-                                            },
-                                            onSelected: (String route) async {
-                                              GeneralModal.showConfirmModals(
-                                                      image: AssetsConst
-                                                          .imageIcPopUpDelete,
-                                                      msg:
-                                                          "Are you sure want to delete ?",
-                                                      onPressed: () async {
-                                                        if (route ==
-                                                            "/delete") {
-                                                          await pp.delete(feedId: pp.feeds[i].uid);
-                                                        }
-                                                        NS.pop(context);
-                                                        ShowSnackbar.snackbar(
-                                                            context,
-                                                            "Successfully delete a post",
-                                                            '',
-                                                            ColorResources
-                                                                .success);
-                                                },
-                                              );
-                                            },
-                                          )
-                                        : const SizedBox(),
-                                ],
-                              )
+                              CardHeaderPost(avatar: pp.feeds[i].user.avatar, name: pp.feeds[i].user.name, date: pp.feeds[i].createdAt, userId: pp.feeds[i].user.uid, onSelected: (route) {
+                                GeneralModal.showConfirmModals(
+                                  image: AssetsConst.imageIcPopUpDelete,
+                                  msg: "Are you sure want to delete ?",
+                                  onPressed: () async {
+                                    if (route == "/delete") {
+                                      await pp.delete(feedId: pp.feeds[i].uid);
+                                    }
+                                    Future.delayed(Duration.zero, () {
+                                      NS.pop(context);
+                                      ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                    });
+                                  },
+                                );
+                              }, isHidden: false),
                             ],
                           ),
                         ),
