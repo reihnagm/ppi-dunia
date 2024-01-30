@@ -80,6 +80,7 @@ class CommentScreenModel with ChangeNotifier {
   Future<void> post({required String feedId}) async {
     try {
       if (commentC.text.trim() == "") {
+        commentC.text = "";
         return;
       }
 
@@ -107,8 +108,7 @@ class CommentScreenModel with ChangeNotifier {
       }
       debugPrint(replyC.text);
 
-      await cr.postReply(
-          feedId: feedId, reply: replyC.text, commentId: commentId);
+      await cr.postReply(feedId: feedId, reply: replyC.text, commentId: commentId);
 
       FeedDetailModel fdm = await cr.getFeedDetail(feedId: feedId, pageKey: 1);
       _feedDetailData = fdm.data;

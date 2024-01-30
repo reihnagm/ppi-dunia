@@ -76,11 +76,11 @@ class FirebaseProvider with ChangeNotifier {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       if(message.data["type"] == "feed")
       {
-        NS.push(navigatorKey.currentContext!, CommentScreen(feedId: message.data["feed_id"]));
+        NS.pushReplacement(navigatorKey.currentContext!, CommentScreen(feedId: message.data["feed_id"]));
       }else if(message.data["type"] == "feed_reply" || message.data["type"] == "feed_reply_mention") {
-          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: message.data["comment_id"], feedId: message.data["feed_id"],));
+          NS.pushReplacement(navigatorKey.currentContext!, CommentDetail(commentId: message.data["comment_id"], feedId: message.data["feed_id"],));
       }else{
-        NS.push(
+        NS.pushReplacement(
           navigatorKey.currentContext!,
           DetailInbox(
             type: message.data['type'],

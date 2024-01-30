@@ -30,8 +30,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   Future<bool> willPopScope() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
+    if (currentBackPressTime == null || now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       ShowSnackbar.snackbar(context,
           "Press once again to exit the application.", "", Colors.deepOrange);

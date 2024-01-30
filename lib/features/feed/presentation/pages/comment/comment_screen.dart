@@ -120,7 +120,8 @@ class CommentScreenState extends State<CommentScreen> {
                     child: TextField(
                     controller: csm.commentC,
                     cursorColor: ColorResources.greyLight,
-                    maxLines: null,
+                    maxLines: 5,
+                    minLines: 1,
                     style: const TextStyle(
                       color: ColorResources.white,
                       fontSize: Dimensions.fontSizeExtraLarge,
@@ -176,7 +177,7 @@ class CommentScreenState extends State<CommentScreen> {
                   IconButton(
                     onPressed: () async {
                       if (isRedundentClick(DateTime.now())) {
-                        ShowSnackbar.snackbar(context, "Hold on, processing", '', ColorResources.error);
+                        //ShowSnackbar.snackbar(context, "Hold on, processing", '', ColorResources.error);
                         return;
                       }
                       await csm.post(feedId: widget.feedId);
@@ -380,20 +381,13 @@ class CommentScreenState extends State<CommentScreen> {
                                                                         .imageDefault))),
                                                       );
                                                     },
-                                                    errorWidget:
-                                                        (BuildContext context,
-                                                            String text,
-                                                            dynamic _) {
+                                                    errorWidget: (BuildContext context, String text, dynamic _) {
                                                       return Container(
                                                         decoration: const BoxDecoration(
                                                             image: DecorationImage(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                image: AssetImage(
-                                                                    AssetsConst
-                                                                        .imageDefault))),
+                                                                alignment: Alignment.centerLeft,
+                                                                fit: BoxFit.cover,
+                                                                image: AssetImage(AssetsConst.imageDefault))),
                                                       );
                                                     },
                                                   ),
@@ -629,12 +623,7 @@ class CommentScreenState extends State<CommentScreen> {
                                                                       .likes
                                                                       .isEmpty
                                                                   ? const SizedBox()
-                                                                  : Text(
-                                                                      c
-                                                                          .feedDetailData
-                                                                          .feedLikes!
-                                                                          .total
-                                                                          .toString(),
+                                                                  : Text(c.feedDetailData.feedLikes!.total.toString(),
                                                                       style: const TextStyle(
                                                                           color: ColorResources
                                                                               .white,
@@ -996,6 +985,7 @@ class CommentScreenState extends State<CommentScreen> {
                                           ListView.builder(
                                               padding: const EdgeInsets.symmetric(horizontal: 40),
                                               shrinkWrap: true,
+                                              physics: const NeverScrollableScrollPhysics(),
                                               itemCount: c.comments[i].commentReplies.replies.length < 2
                                                   ? c.comments[i].commentReplies.replies.length
                                                   : 2,

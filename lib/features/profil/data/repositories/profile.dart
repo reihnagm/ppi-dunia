@@ -39,8 +39,7 @@ class ProfileRepo {
       required String search,
       required String userId}) async {
     try {
-      Response res = await dioClient!.get(
-          "/api/v1/feed?page=$pageKey&limit=10&branch=&search=$search&feed_highlight_type=SELF",
+      Response res = await dioClient!.get("/api/v1/feed?page=$pageKey&limit=10&branch=&search=$search&feed_highlight_type=SELF",
           options: Options(headers: {"USERID": userId}));
       Map<String, dynamic> data = res.data;
       FeedModel fm = FeedModel.fromJson(data);

@@ -80,31 +80,6 @@ class CommentDetailModel with ChangeNotifier {
     }
   }
 
-  Future<void> postReply({
-    required feedId,
-    required String commentId,
-    required String reply
-  }) async {
-    try {
-      if (reply == "") {
-        return;
-      }
-
-      await rr.postReply(feedId: feedId, reply: reply, commentId: commentId);
-
-      ReplyDetailModel rdm = await rr.getReplyDetail(commentId: commentId, pageKey: 1);
-      _replyDetailData = rdm.data;
-
-      _reply.clear();
-      _reply.addAll(rdm.data.feedReplies!.replies);
-
-      setStateFeedDetailStatus(ReplyDetailStatus.loaded);
-      setStateCommentStatus(ReplyStatus.loaded);
-    } on CustomException catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
   Future<void> postReplyMention({
     required feedId,
     required String commentId,

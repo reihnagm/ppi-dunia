@@ -111,6 +111,9 @@ class CreatePostModel with ChangeNotifier {
                 )
               ],
             ));
+    pickedFile = [];
+    videoFile = null;
+    docFile = null;
     if (imageSource == ImageSource.camera) {
       XFile? xf = await ImagePicker()
           .pickImage(source: ImageSource.camera, imageQuality: 80);
@@ -149,6 +152,9 @@ class CreatePostModel with ChangeNotifier {
         withData: false,
         withReadStream: true,
         onFileLoading: (FilePickerStatus filePickerStatus) {});
+    pickedFile = [];
+    videoFile = null;
+    docFile = null;
     if (result != null) {
       File vf = File(result.files.single.path!);
       int sizeInBytes = vf.lengthSync();
@@ -171,19 +177,14 @@ class CreatePostModel with ChangeNotifier {
   Future<void> uploadVid(BuildContext context) async {
     navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['mp4', 'avi', 'mkv'],
-      allowMultiple: false,
-      withData: false,
-      withReadStream: true,
-      onFileLoading: (FilePickerStatus filePickerStatus) {}
-    );
-    // FilePickerResult? result = await FilePicker.platform.pickFiles(
-    //     type: FileType.video,
-    //     allowMultiple: false,
-    //     withData: false,
-    //     withReadStream: true,
-    //     onFileLoading: (FilePickerStatus filePickerStatus) {});
+        type: FileType.video,
+        allowMultiple: false,
+        withData: false,
+        withReadStream: true,
+        onFileLoading: (FilePickerStatus filePickerStatus) {});
+    pickedFile = [];
+    videoFile = null;
+    docFile = null;
     if (result != null) {
       File vf = File(result.files.single.path!);
       int sizeInBytes = vf.lengthSync();

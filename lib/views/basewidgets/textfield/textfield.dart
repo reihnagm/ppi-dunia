@@ -101,7 +101,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       textInputAction: widget.textInputAction,
       obscureText: widget.isPassword ? obscureText : false,
       style: sfProRegular.copyWith(
-        fontSize: Dimensions.fontSizeLarge,
+        fontSize: Dimensions.fontSizeSmall,
       ),
       onFieldSubmitted: (String v) {
         setState(() {

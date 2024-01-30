@@ -459,12 +459,7 @@ class _FeedListState extends State<FeedList> {
                                                   fsm.feeds[i].feedComments
                                                           .comments.isEmpty
                                                       ? const SizedBox()
-                                                      : Text(
-                                                          fsm
-                                                              .feeds[i]
-                                                              .feedComments
-                                                              .total
-                                                              .toString(),
+                                                      : Text(fsm.feeds[i].feedComments.total.toString(),
                                                           style: const TextStyle(
                                                               color:
                                                                   ColorResources

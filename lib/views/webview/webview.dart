@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/services/navigation.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +57,44 @@ class _WebViewScreenState extends State<WebViewScreen> {
       onWillPop: exitApp,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: CustomAppBar(title: widget.title).buildAppBar(context),
+        appBar: AppBar(
+          leading: IconButton(
+          onPressed: () {
+            NS.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: ColorResources.hintColor,
+            size: Dimensions.iconSizeLarge,
+          )),
+          toolbarHeight: 70,
+          flexibleSpace: SafeArea(
+            child: Container(
+              color: ColorResources.primary,
+              child: Column(
+                children: [
+                  Image.asset(AssetsConst.imageLogoPpi, 
+                    fit: BoxFit.contain,
+                    height: 50,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      widget.url,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                      color: ColorResources.hintColor,
+                      fontSize: Dimensions.fontSizeSmall,
+                      fontFamily: 'SF Pro'
+                    ),),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
         backgroundColor: ColorResources.backgroundColor,
         body: SafeArea(
           child: Column(

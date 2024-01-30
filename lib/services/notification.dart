@@ -53,11 +53,11 @@ class NotificationService {
         
         if(decoded["type"] == "feed")
         {
-          NS.push(navigatorKey.currentContext!, CommentScreen(feedId: decoded["feed_id"]));
+          NS.pushReplacement(navigatorKey.currentContext!, CommentScreen(feedId: decoded["feed_id"]));
         }else if(decoded["type"] == "feed_reply" || decoded["type"] == "feed_reply_mention") {
-          NS.push(navigatorKey.currentContext!, CommentDetail(commentId: decoded["comment_id"] , feedId: decoded["feed_id"],));
+          NS.pushReplacement(navigatorKey.currentContext!, CommentDetail(commentId: decoded["comment_id"] , feedId: decoded["feed_id"],));
         }else{
-          NS.push(
+          NS.pushReplacement(
           navigatorKey.currentContext!,
           DetailInbox(
             type: decoded["type"],
