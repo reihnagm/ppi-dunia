@@ -108,7 +108,7 @@ class _OngoingContentState extends State<OngoingContent> {
           ],
         ),
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         _startTimer
             ? StreamBuilder<int>(

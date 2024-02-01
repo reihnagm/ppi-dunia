@@ -15,7 +15,6 @@ import 'package:ppidunia/features/dashboard/presentation/pages/dashboard_state.d
 import 'package:ppidunia/features/feed/data/models/reply.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
-import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
@@ -72,7 +71,7 @@ class CommentDetailState extends State<CommentDetail> {
     }
 
     if (mounted) {
-      csm.getFeedDetail(feedId: widget.feedId ?? "");
+      csm.getFeedDetail(feedId: widget.feedId);
     }
 
     if (mounted) {
@@ -551,11 +550,9 @@ class CommentDetailState extends State<CommentDetail> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-      
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-      
                                           InkWell(
                                             onTap: () {
                                               NS.push(context, ProfileViewScreen(
@@ -567,36 +564,40 @@ class CommentDetailState extends State<CommentDetail> {
                                               imageUrl: reply.user.avatar,
                                               imageBuilder:(BuildContext context, ImageProvider<Object> imageProvider) {
                                                 return CircleAvatar(
-                                                  radius: 20.0,
+                                                  radius: 15.0,
                                                   backgroundImage: imageProvider,
                                                 );
                                               },
                                               placeholder: (BuildContext context, String url) {
                                                 return const CircleAvatar(
                                                   backgroundImage: AssetImage(AssetsConst.imageDefaultAva),
-                                                  maxRadius: 20.0,
+                                                  maxRadius: 15.0,
                                                 );
                                               },
                                               errorWidget: (BuildContext context, String url, dynamic error) {
                                                 return const CircleAvatar(
                                                   backgroundImage: AssetImage(AssetsConst.imageDefaultAva),
-                                                  maxRadius: 20.0,
+                                                  maxRadius: 15.0,
                                                 );
                                               },
                                             ),
                                           ),
                                           
-                                          const SizedBox(width: 12.0),
+                                          const SizedBox(width: 8.0),
       
                                           Flexible(
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
                                                 children: [
-      
                                                 Container(
                                                   width: double.infinity,
-                                                  padding: const EdgeInsets.all(15),
+                                                  padding: const EdgeInsets.only(
+                                                    left: 10.0,
+                                                    right: 10.0,
+                                                    bottom: 10.0
+                                                  ),
                                                   decoration: const BoxDecoration(
                                                     borderRadius: BorderRadius.all(Radius.circular(12.0)),
                                                     color: ColorResources.greyPrimary
@@ -634,12 +635,12 @@ class CommentDetailState extends State<CommentDetail> {
                                                       : const SizedBox(height: 10),
       
                                                       Wrap(
-                                                        children: List.generate(reply.feedMention.length,
+                                                        children: List.generate(reply.mentions.length,
                                                             (index) {
-                                                          return DetectText(text: '${reply.feedMention[index].name} ${reply.feedMention.length > 1 ? '': reply.reply}', userid: reply.feedMention[index].id,);
+                                                          return DetectText(text: '${reply.mentions[index].name} ${reply.mentions.length > 1 ? '': reply.reply}', userid: reply.mentions[index].id,);
                                                         }),
                                                       ),
-                                                      DetectText(text: reply.feedMention.length > 1 || reply.feedMention.isEmpty ? reply.reply : ''),
+                                                      DetectText(text: reply.mentions.length > 1 || reply.mentions.isEmpty ? reply.reply : ''),
                                                     ],
                                                   ),
                                                 ),

@@ -11,6 +11,7 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
+import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:provider/provider.dart';
 
@@ -497,6 +498,9 @@ class GeneralModal {
                                   height: 40.0,
                                   onTap: () async {
                                     await openAppSettings();
+                                    Future.delayed(Duration.zero, () {
+                                      Navigator.pop(context);
+                                    });
                                   },
                                   btnTxt: "Aktifkan",
                                 )),

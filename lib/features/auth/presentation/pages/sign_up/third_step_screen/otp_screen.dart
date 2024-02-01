@@ -44,11 +44,11 @@ class OtpScreenState extends State<OtpScreen> {
                     AuthColumnWidget(
                         screenSize: screenSize,
                         top: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 25.0),
+                                padding: const EdgeInsets.only(left: 10.0),
                                 child: Image.asset(
                                   AssetsConst.imageLogoOtp,
                                   height: screenSize.height * 0.25,
@@ -56,7 +56,7 @@ class OtpScreenState extends State<OtpScreen> {
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(top: 30.0),
+                                padding: EdgeInsets.only(top: 10.0),
                                 child: OtpTitleTextWidget(),
                               ),
                             ],

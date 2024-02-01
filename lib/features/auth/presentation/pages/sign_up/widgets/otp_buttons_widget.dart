@@ -48,14 +48,19 @@ class OtpButtonsWidget extends StatelessWidget {
                 )
               : Hero(
                   tag: 'smooth-btn',
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: CustomButton(
-                      key: const Key('btn-continue'),
-                      onTap: () => model.navigateToHome(context),
-                      isBorderRadius: true,
-                      btnTxt: getTranslated('CONTINUE'),
-                    ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 80,),
+                      Material(
+                        type: MaterialType.transparency,
+                        child: CustomButton(
+                          key: const Key('btn-continue'),
+                          onTap: () => model.navigateToHome(context),
+                          isBorderRadius: true,
+                          btnTxt: getTranslated('CONTINUE'),
+                        ),
+                      ),
+                    ],
                   ),
                 ));
     });

@@ -52,7 +52,7 @@ class CommentDetailModel with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  void setStateCommentStatus(ReplyStatus replyStatus) {
+  void setStateReplyStatus(ReplyStatus replyStatus) {
     _replyStatus = replyStatus;
     Future.delayed(Duration.zero, () => notifyListeners());
   }
@@ -68,10 +68,10 @@ class CommentDetailModel with ChangeNotifier {
       _reply.clear();
       _reply.addAll(replyDetailData.feedReplies!.replies);
       setStateFeedDetailStatus(ReplyDetailStatus.loaded);
-      setStateCommentStatus(ReplyStatus.loaded);
+      setStateReplyStatus(ReplyStatus.loaded);
 
       if (reply.isEmpty) {
-        setStateCommentStatus(ReplyStatus.empty);
+        setStateReplyStatus(ReplyStatus.empty);
       }
     } on CustomException catch (_) {
       setStateFeedDetailStatus(ReplyDetailStatus.error);
@@ -115,10 +115,10 @@ class CommentDetailModel with ChangeNotifier {
       _reply.addAll(rdm.data.feedReplies!.replies);
 
       setStateFeedDetailStatus(ReplyDetailStatus.loaded);
-      setStateCommentStatus(ReplyStatus.loaded);
+      setStateReplyStatus(ReplyStatus.loaded);
     } on CustomException catch (_) {
       setStateFeedDetailStatus(ReplyDetailStatus.error);
-      setStateCommentStatus(ReplyStatus.error);
+      setStateReplyStatus(ReplyStatus.error);
     }
   }
 
@@ -135,7 +135,7 @@ class CommentDetailModel with ChangeNotifier {
       _reply.addAll(rdm.data.feedReplies!.replies);
 
       setStateFeedDetailStatus(ReplyDetailStatus.loaded);
-      setStateCommentStatus(ReplyStatus.loaded);
+      setStateReplyStatus(ReplyStatus.loaded);
     } on CustomException catch (e) {
       debugPrint(e.toString());
     } catch (_) {}

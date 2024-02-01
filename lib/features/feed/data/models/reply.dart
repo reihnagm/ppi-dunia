@@ -42,10 +42,10 @@ class ReplyDetailData {
     factory ReplyDetailData.fromJson(Map<String, dynamic> json) => ReplyDetailData(
         uid: json["uid"],
         caption: json["caption"],
-        createdAt: json["created_at"],
         media: List<dynamic>.from(json["media"].map((x) => x)),
         user: User.fromJson(json["user"]),
         feedReplies: FeedReplies.fromJson(json["feed_replies"]),
+        createdAt: json["created_at"],
     );
 }
 
@@ -69,14 +69,14 @@ class Reply {
     String reply;
     String createdAt;
     User user;
-    List<FeedMention> feedMention;
+    List<Mentions> mentions;
 
     Reply({
         required this.uid,
         required this.reply,
         required this.createdAt,
         required this.user,
-        required this.feedMention,
+        required this.mentions,
     });
 
     factory Reply.fromJson(Map<String, dynamic> json) => Reply(
@@ -84,7 +84,25 @@ class Reply {
         reply: json["reply"],
         createdAt: json["created_at"],
         user: User.fromJson(json["user"]),
-        feedMention:  List<FeedMention>.from(json["mentions"].map((x) => FeedMention.fromJson(x)))
+        mentions: List<Mentions>.from(json["mentions"].map((x) => Mentions.fromJson(x))),
+    );
+}
+
+class Mentions {
+    String id;
+    String name;
+    String reply;
+
+    Mentions({
+        required this.id,
+        required this.name,
+        required this.reply,
+    });
+
+    factory Mentions.fromJson(Map<String, dynamic> json) => Mentions(
+        id: json["id"],
+        name: json["name"],
+        reply: json["reply"],
     );
 }
 
@@ -106,25 +124,6 @@ class User {
         avatar: json["avatar"],
         username: json["username"],
         name: json["name"],
-    );
-}
-
-
-class FeedMention {
-    String id;
-    String name;
-    String reply;
-
-    FeedMention({
-        required this.id,
-        required this.name,
-        required this.reply
-    });
-
-    factory FeedMention.fromJson(Map<String, dynamic> json) => FeedMention(
-        id: json["id"],
-        name: json["name"],
-        reply: json["reply"]
     );
 }
 
