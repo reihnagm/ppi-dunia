@@ -137,6 +137,7 @@ class _FeedListState extends State<FeedList> {
                           ),
                           if (fsm.feeds[i].feedType == "image")
                             if (fsm.feeds[i].media.length == 1)
+                            fsm.feeds[i].media.isNotEmpty ?
                               InkWell(
                                 onTap: () => NS.push(
                                   context,
@@ -152,7 +153,7 @@ class _FeedListState extends State<FeedList> {
                                         bottom: 20),
                                     child: imageCard(fsm.feeds[i].media[0].path,
                                         180.0, 10.0)),
-                              ),
+                              ) : Container(),
                           if (fsm.feeds[i].media.length > 1)
                             Padding(
                               padding:
@@ -254,12 +255,16 @@ class _FeedListState extends State<FeedList> {
                               ),
                             ),
                           if (fsm.feeds[i].feedType == "video")
+                            fsm.feeds[i].media.isNotEmpty ?
                             Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0, vertical: 10.0),
+                                horizontal: 25.0, vertical: 10.0),
                                 child: VideoPlay(
-                                    dataSource: fsm.feeds[i].media[0].path)),
+                                dataSource: fsm.feeds[i].media[0].path
+                              )
+                            ) : Container(),
                           if (fsm.feeds[i].feedType == "document")
+                            fsm.feeds[i].media.isNotEmpty ?
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(
@@ -332,7 +337,7 @@ class _FeedListState extends State<FeedList> {
                                   )
                                 ],
                               ),
-                            ),
+                            ) : Container(),
                           Container(
                             height: 35.0,
                             decoration: const BoxDecoration(
@@ -357,10 +362,9 @@ class _FeedListState extends State<FeedList> {
                                               BorderRadius.circular(8.0),
                                           onTap: () async {
                                             await fsm.toggleLike(
-                                                feedId: fsm.feeds[i].uid,
-                                                feedLikes:
-                                                    fsm.feeds[i].feedLikes);
-                                            fsm.panelC.open();
+                                              feedId: fsm.feeds[i].uid,
+                                              feedLikes: fsm.feeds[i].feedLikes);
+                                              fsm.panelC.open();
                                           },
                                           child: Padding(
                                               padding:

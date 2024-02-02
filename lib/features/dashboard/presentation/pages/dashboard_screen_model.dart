@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppidunia/features/feed/presentation/pages/bookmarks/bookmark_state.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/event_screen.dart';
 
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_state.dart';
 import 'package:ppidunia/features/inbox/presentation/pages/inbox_state.dart';
@@ -10,6 +11,7 @@ class DashboardScreenModel with ChangeNotifier {
 
   List<Widget> widgets = [
     const FeedScreen(),
+    const EventSccreen(),
     const InboxScreen(),
     const BookmarkScreen(),
     const SosScreen(),

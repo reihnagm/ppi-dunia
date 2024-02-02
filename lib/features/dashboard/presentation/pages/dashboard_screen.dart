@@ -102,13 +102,24 @@ class DashboardScreenState extends State<DashboardScreen> {
                       label: 'Home',
                     ),
                     BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.event,
+                        size: 35.0,
+                        color: dsm.indexWidget == 1
+                            ? ColorResources.yellowSecondaryV5
+                            : ColorResources.textGreyPrimary,
+                      ),
+                      tooltip: 'Event',
+                      label: 'Event',
+                    ),
+                    BottomNavigationBarItem(
                       icon: context
                                   .watch<InboxScreenModel>()
                                   .inboxCountStatus ==
                               InboxCountStatus.loading
                           ? Icon(
                               Icons.notifications,
-                              color: dsm.indexWidget == 1
+                              color: dsm.indexWidget == 2
                                   ? ColorResources.yellowSecondaryV5
                                   : ColorResources.textGreyPrimary,
                               size: 30.0,
@@ -119,7 +130,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   InboxCountStatus.empty
                               ? Icon(
                                   Icons.notifications,
-                                  color: dsm.indexWidget == 1
+                                  color: dsm.indexWidget == 2
                                       ? ColorResources.yellowSecondaryV5
                                       : ColorResources.textGreyPrimary,
                                   size: 30.0,
@@ -127,7 +138,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                               : ism.readCount == 0
                                   ? Icon(
                                       Icons.notifications,
-                                      color: dsm.indexWidget == 1
+                                      color: dsm.indexWidget == 2
                                           ? ColorResources.yellowSecondaryV5
                                           : ColorResources.textGreyPrimary,
                                       size: 30.0,
@@ -137,7 +148,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                       child: Icon(
                                         Icons.notifications,
                                         size: 30.0,
-                                        color: dsm.indexWidget == 1
+                                        color: dsm.indexWidget == 2
                                             ? ColorResources.yellowSecondaryV5
                                             : ColorResources.textGreyPrimary,
                                       ),
@@ -149,7 +160,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                       icon: Image.asset(
                         'assets/images/icons/ic-save.png',
                         width: 30.0,
-                        color: dsm.indexWidget == 2
+                        color: dsm.indexWidget == 3
                             ? ColorResources.yellowSecondaryV5
                             : ColorResources.textGreyPrimary,
                       ),

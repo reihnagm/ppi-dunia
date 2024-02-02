@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/comment/reply.dart';
+import 'package:ppidunia/features/feed/data/reposiotories/event.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
 import 'package:ppidunia/features/notification/provider/notification.dart';
@@ -90,6 +92,9 @@ Future<void> init() async {
   getIt.registerLazySingleton(() => ReplyRepo(
         dioClient: null,
       ));
+  getIt.registerLazySingleton(() => EventRepo(
+        dioClient: null,
+      ));
 
   //Provider
   getIt.registerFactory(() => FirebaseProvider(fr: getIt(), ism: getIt()));
@@ -97,6 +102,7 @@ Future<void> init() async {
   getIt.registerFactory(() => NotificationNotifier());
   getIt.registerFactory(() => StorageNotifier());
   getIt.registerFactory(() => CommentDetailModel(rr: getIt(), fr: getIt(), pp: getIt()));
+  getIt.registerFactory(() => EventScreenModel(er: getIt()));
   getIt.registerFactory(() => LocationProvider());
   getIt.registerLazySingleton(() => FeedScreenModel(fr: getIt()));
   getIt.registerLazySingleton(() => SosScreenModel(sr: getIt(), lp: getIt()));

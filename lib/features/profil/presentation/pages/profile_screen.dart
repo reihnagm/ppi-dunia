@@ -90,10 +90,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                       title: Text(
                         getTranslated("PROFILE"),
                         style: const TextStyle(
-                            color: ColorResources.blue,
-                            fontSize: Dimensions.fontSizeLarge,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'SF Pro'),
+                        color: ColorResources.blue,
+                        fontSize: Dimensions.fontSizeLarge,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'SF Pro'),
                       ),
                       centerTitle: false,
                       leading: CupertinoNavigationBarBackButton(

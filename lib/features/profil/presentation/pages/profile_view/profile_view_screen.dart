@@ -168,70 +168,53 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                         Positioned(
                           left: 30,
                           bottom: 10,
-                          child: context
-                                      .watch<ProfileProvider>()
-                                      .profileStatus ==
-                                  ProfileStatus.loading
+                          child: context.watch<ProfileProvider>().profileStatus == ProfileStatus.loading
+                          ? const CircleAvatar(
+                              radius: 40.0,
+                              backgroundColor: Color(0xFF637687),
+                            )
+                          : context.watch<ProfileProvider>().profileStatus == ProfileStatus.error
                               ? const CircleAvatar(
                                   radius: 40.0,
                                   backgroundColor: Color(0xFF637687),
                                 )
-                              : context
-                                          .watch<ProfileProvider>()
-                                          .profileStatus ==
-                                      ProfileStatus.error
-                                  ? const CircleAvatar(
-                                      radius: 40.0,
-                                      backgroundColor: Color(0xFF637687),
-                                    )
-                                  : Stack(
-                                      children: [
-                                        InkWell(
-                                          onTap: () => NS.push(
-                                            context,
-                                            ClippedPhotoView(
-                                              image: context
-                                                      .read<ProfileProvider>()
-                                                      .pdd
-                                                      .avatar ??
-                                                  "-",
+                              : Stack(
+                                  children: [
+                                    InkWell(
+                                      onTap: () => NS.push(
+                                        context,
+                                        ClippedPhotoView(
+                                          image: context.read<ProfileProvider>().pdd.avatar ?? "-",
+                                        ),
+                                      ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: context.read<ProfileProvider>().pdd.avatar ?? "-",
+                                        imageBuilder: (BuildContext context, ImageProvider<Object> imageProvider) {
+                                          return CircleAvatar(
+                                            radius: 40.0,
+                                            backgroundImage: imageProvider,
+                                          );
+                                        },
+                                        placeholder: (BuildContext context, String url) {
+                                          return const CircleAvatar(
+                                            radius: 40.0,
+                                            backgroundColor:
+                                                Color(0xFF637687),
+                                          );
+                                        },
+                                        errorWidget: (BuildContext context,
+                                            String url, dynamic error) {
+                                          return const CircleAvatar(
+                                            radius: 40.0,
+                                            backgroundImage: AssetImage(
+                                              'assets/images/default/ava.jpg',
                                             ),
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl: context
-                                                    .read<ProfileProvider>()
-                                                    .pdd
-                                                    .avatar ??
-                                                "-",
-                                            imageBuilder: (BuildContext context,
-                                                ImageProvider<Object>
-                                                    imageProvider) {
-                                              return CircleAvatar(
-                                                radius: 40.0,
-                                                backgroundImage: imageProvider,
-                                              );
-                                            },
-                                            placeholder: (BuildContext context,
-                                                String url) {
-                                              return const CircleAvatar(
-                                                radius: 40.0,
-                                                backgroundColor:
-                                                    Color(0xFF637687),
-                                              );
-                                            },
-                                            errorWidget: (BuildContext context,
-                                                String url, dynamic error) {
-                                              return const CircleAvatar(
-                                                radius: 40.0,
-                                                backgroundImage: AssetImage(
-                                                  'assets/images/default/ava.jpg',
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
                         ),
                         Positioned(
                           top: 5.0,

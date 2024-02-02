@@ -578,7 +578,6 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                         if (cpm.isImage != null && cpm.pickedFile.length == 1)
                           Container(
                               width: double.infinity,
-                              height: 200.0,
                               margin: const EdgeInsets.only(
                                 top: 15.0,
                                 left: 20.0,
@@ -594,7 +593,7 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                     ),
                                   ),
                                   child: Stack(
-                                    fit: StackFit.expand,
+                                    fit: StackFit.loose,
                                     children: [
                                       Image.file(
                                         File(cpm.pickedFile[0].path),

@@ -30,9 +30,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
   bool isLoading = true;
 
   Future<void> launch(url) async {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: 'myOwnEmailAddress@gmail.com',
+      queryParameters: {
+        'subject': 'Default Subject',
+        'body': 'Default body'
+      }
+    );
     if (await canLaunchUrl(url)) {
       final uri = Uri.parse(url);
-      await launchUrl(uri);
+      await launchUrl(params);
     } else {
       throw 'Could not launch $url';
     }
