@@ -15,7 +15,8 @@ import 'package:provider/provider.dart';
 
 class EventDetailScreen extends StatefulWidget {
   final String idEvent;
-  const EventDetailScreen({super.key, required this.idEvent});
+  final bool isJoinEvent;
+  const EventDetailScreen({super.key, required this.idEvent, required this.isJoinEvent});
 
   @override
   State<EventDetailScreen> createState() => _EventDetailScreenState();
@@ -41,7 +42,20 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         backgroundColor: ColorResources.bgSecondaryColor,
-        bottomNavigationBar: Container(
+        bottomNavigationBar: widget.isJoinEvent ? Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        decoration: const BoxDecoration(
+          color: ColorResources.fillPrimary
+        ),
+        child: const Text("You have joined this event", 
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: ColorResources.white,
+            fontSize: Dimensions.fontSizeLarge,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'SF Pro'
+        )),
+      ) : Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           decoration: const BoxDecoration(
             color: ColorResources.bgSecondaryColor
@@ -77,7 +91,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
             ),
             SliverList(delegate: SliverChildListDelegate([
               Consumer(builder: (context, EventDetailScreenModel edsm, Widget? child) {
-                debugPrint('Picture : ${edsm.eventDetailData.picture}');
                 if(edsm.eventDetailStatus == EventDetailStatus.loading){
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * .75,

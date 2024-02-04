@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
@@ -5,6 +7,7 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_screen.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/event_search.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
@@ -26,6 +29,15 @@ class _EventSccreenState extends State<EventSccreen> {
 
     esm = context.read<EventScreenModel>();
 
+    esm.searchC = TextEditingController();
+
+    esm.searchC.addListener(() {
+      if (esm.debounce?.isActive ?? false) esm.debounce!.cancel();
+      esm.debounce = Timer(const Duration(milliseconds: 500), () {
+        esm.onChangeSearch(esm.searchC.text);
+      });
+    });
+
     if (mounted) {
       esm.getEvent();
     }
@@ -44,8 +56,7 @@ class _EventSccreenState extends State<EventSccreen> {
           child: NotificationListener(
             onNotification: (ScrollNotification notification) {
               if (notification is ScrollEndNotification) {
-                if (notification.metrics.pixels ==
-                    notification.metrics.maxScrollExtent) {
+                if (notification.metrics.pixels == notification.metrics.maxScrollExtent) {
                   if (esm.hasMore) {
                     esm.loadMoreEvent();
                   }
@@ -71,6 +82,7 @@ class _EventSccreenState extends State<EventSccreen> {
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate([
+                        const EventSearch(),
                         Consumer<EventScreenModel>(builder: (BuildContext context, EventScreenModel esm, Widget? child) {
                           if(esm.eventStatus == EventStatus.loading){
                             return SizedBox(
@@ -126,7 +138,10 @@ class _EventSccreenState extends State<EventSccreen> {
                                   color: ColorResources.transparent,
                                   child: InkWell(
                                     onTap: () {
-                                      NS.push(context, EventDetailScreen(idEvent:  esm.event[i].id ?? "-"));
+                                      NS.push(context, 
+                                      EventDetailScreen(
+                                        idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                      ));
                                     },
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +152,10 @@ class _EventSccreenState extends State<EventSccreen> {
                                           padding: const EdgeInsets.all(10),
                                           child: InkWell(
                                           onTap: (){
-                                            NS.push(context, EventDetailScreen(idEvent:  esm.event[i].id ?? "-"));
+                                            NS.push(context, 
+                                            EventDetailScreen(
+                                              idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                            ));
                                           },
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,7 +163,10 @@ class _EventSccreenState extends State<EventSccreen> {
                                             children: [
                                               InkWell(
                                                 onTap: () {
-                                                  NS.push(context, EventDetailScreen(idEvent:  esm.event[i].id ?? "-"));
+                                                  NS.push(context, 
+                                                  EventDetailScreen(
+                                                    idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                                  ));
                                                 },
                                                 child: imageCard(esm.event[i].picture ?? "-", 245.0, 15.0)),
                                               const SizedBox(height: 10,),
@@ -181,7 +202,10 @@ class _EventSccreenState extends State<EventSccreen> {
                                                   Expanded(
                                                     child: InkWell(
                                                       onTap: () {
-                                                        NS.push(context, EventDetailScreen(idEvent:  esm.event[i].id ?? "-"));
+                                                        NS.push(context, 
+                                                        EventDetailScreen(
+                                                          idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                                        ));
                                                       },
                                                       child: Image.asset(
                                                         AssetsConst.imageIcNext,

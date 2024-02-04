@@ -147,6 +147,23 @@ class ProfileRepo {
         "gender": gender,
         "status": status,
       });
+      await joinedEvent(eventId: eventId);
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+
+  Future<void> joinedEvent({required String eventId}) async {
+    try {
+      await dioClient!.post('/api/v1/event/join', data: {
+        "user_id": SharedPrefs.getUserId(),
+        "event_id": eventId
+      });
+      debugPrint("Berhasil Report Postingan");
     } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioException(e).toString();
       throw CustomException(errorMessage);

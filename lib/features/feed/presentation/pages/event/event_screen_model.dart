@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';
@@ -11,7 +13,11 @@ class EventScreenModel with ChangeNotifier {
 
   EventScreenModel({required this.er});
 
+  Timer? debounce;
+
   String progress = "";
+  String branch = '';
+  String search = '';
 
   bool hasMore = true;
   int pageKey = 1;
@@ -23,6 +29,8 @@ class EventScreenModel with ChangeNotifier {
   late TextEditingController commentC;
   late TextEditingController replyC;
   late ScrollController sc;
+  
+  late TextEditingController searchC;
 
   List<EventData> _event = [];
   List<EventData> get event => [..._event];
@@ -35,12 +43,18 @@ class EventScreenModel with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
+  void onChangeSearch(String searchParam) {
+    search = searchParam;
+    getEvent();
+    Future.delayed(Duration.zero, () => notifyListeners());
+  }
+
   Future<void> getEvent() async {
     pageKey = 1;
     hasMore = true;
 
     try {
-      EventModel em = await er.getEvent();
+      EventModel em = await er.getEvent(pageKey: pageKey, branch: branch, search: search);
 
       _event = [];
       _event.addAll(em.data);
@@ -58,7 +72,7 @@ class EventScreenModel with ChangeNotifier {
 
   Future<void> loadMoreEvent() async {
     pageKey++;
-    EventModel em = await er.getEvent();
+    EventModel em = await er.getEvent(pageKey: pageKey, branch: branch, search: search);
     hasMore = em.pageDetail.hasMore;
     _event.addAll(em.data);
     Future.delayed(Duration.zero, () => notifyListeners());

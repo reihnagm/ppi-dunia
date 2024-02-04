@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:ppidunia/common/extensions/snackbar.dart';
-import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/features/country/data/models/branch.dart';
 import 'package:ppidunia/features/feed/data/models/feed.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/feed.dart';
-import 'package:ppidunia/services/navigation.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:ppidunia/common/utils/shared_preferences.dart';
@@ -127,8 +124,7 @@ class FeedScreenModel with ChangeNotifier {
 
   Future<void> loadMoreFeed() async {
     pageKey++;
-    FeedModel fm =
-        await fr.getFeeds(pageKey: pageKey, branch: branch, search: search);
+    FeedModel fm = await fr.getFeeds(pageKey: pageKey, branch: branch, search: search);
     hasMore = fm.pageDetail.hasMore;
     _feeds.addAll(fm.data);
     Future.delayed(Duration.zero, () => notifyListeners());

@@ -15,6 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
+import 'package:ppidunia/features/dashboard/presentation/pages/dashboard_state.dart';
 
 import 'package:ppidunia/features/media/data/repositories/media.dart';
 import 'package:ppidunia/features/notification/provider/storage.dart';
@@ -354,7 +355,7 @@ class ProfileProvider with ChangeNotifier {
           gender: gender,
           status: status,
         );
-        NS.pop(context);
+        NS.pushReplacement(context, const DashboardScreen());
         ShowSnackbar.snackbar(context, "Successful event listing", '', ColorResources.success, const Duration(seconds: 3),
         );
       }
