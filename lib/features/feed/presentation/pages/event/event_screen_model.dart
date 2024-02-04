@@ -56,11 +56,11 @@ class EventScreenModel with ChangeNotifier {
     }
   }
 
-  // Future<void> loadMoreComment({required String feedId}) async {
-  //   pageKey++;
-  //   EventModel em = await er.getEvent();
-  //   hasMore = em.commentPaginate.hasMore;
-  //   _event.addAll(em.data.feedComments!.comments);
-  //   Future.delayed(Duration.zero, () => notifyListeners());
-  // }
+  Future<void> loadMoreEvent() async {
+    pageKey++;
+    EventModel em = await er.getEvent();
+    hasMore = em.pageDetail.hasMore;
+    _event.addAll(em.data);
+    Future.delayed(Duration.zero, () => notifyListeners());
+  }
 }

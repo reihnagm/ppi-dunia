@@ -110,11 +110,11 @@ class _FeedListState extends State<FeedList> {
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.only(
-                              left: 25.0,
+                              left: 15.0,
                               top: 15.0,
                               right: 10.0
                             ),
-                            child: CardHeaderPost(avatar: fsm.feeds[i].user.avatar, name: fsm.feeds[i].user.name, date: fsm.feeds[i].createdAt, onSelected: (String route) async { 
+                            child: CardHeaderPost(avatar: fsm.feeds[i].user.avatar, name: fsm.feeds[i].user.name, date: fsm.feeds[i].createdAt,feedId: fsm.feeds[i].uid, onSelected: (String route) async { 
                               GeneralModal.showConfirmModals(
                                 image: AssetsConst.imageIcPopUpDelete,
                                 msg: "Are you sure want to delete ?",

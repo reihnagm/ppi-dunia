@@ -102,31 +102,25 @@ class BookmarkList extends StatelessWidget {
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.only(
-                              left: 25.0,
+                              left: 15.0,
                               top: 15.0,
                               right: 10.0
                             ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                CardHeaderPost(avatar: bsm.feeds[i].user.avatar, name: bsm.feeds[i].user.name, date: bsm.feeds[i].createdAt, userId: bsm.feeds[i].user.uid, onSelected: (route) {
-                                GeneralModal.showConfirmModals(
-                                  image: AssetsConst.imageIcPopUpDelete,
-                                  msg: "Are you sure want to delete ?",
-                                  onPressed: () async {
-                                    if (route == "/delete") {
-                                      await bsm.delete(feedId: bsm.feeds[i].uid);
-                                    }
-                                    Future.delayed(Duration.zero, () {
-                                      NS.pop(context);
-                                      ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
-                                    });
-                                  },
-                                );
-                              }, isHidden: false)
-                              ],
-                            ),
+                            child: CardHeaderPost(avatar: bsm.feeds[i].user.avatar, name: bsm.feeds[i].user.name, date: bsm.feeds[i].createdAt, userId: bsm.feeds[i].user.uid, onSelected: (route) {
+                            GeneralModal.showConfirmModals(
+                              image: AssetsConst.imageIcPopUpDelete,
+                              msg: "Are you sure want to delete ?",
+                              onPressed: () async {
+                                if (route == "/delete") {
+                                  await bsm.delete(feedId: bsm.feeds[i].uid);
+                                }
+                                Future.delayed(Duration.zero, () {
+                                  NS.pop(context);
+                                  ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                });
+                              },
+                            );
+                                                          }, isHidden: false),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 25.0, left: 25.0, bottom: 10.0, top: 5),

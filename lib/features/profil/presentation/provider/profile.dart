@@ -65,11 +65,17 @@ class ProfileProvider with ChangeNotifier {
   late TextEditingController emailC;
   late TextEditingController phoneC;
   late TextEditingController countryC;
+  late TextEditingController genderC;
+  late TextEditingController statusC;
+  late TextEditingController instutionC;
 
   FocusNode firstNameFn = FocusNode();
   FocusNode lastNameFn = FocusNode();
   FocusNode emailFn = FocusNode();
   FocusNode numberFn = FocusNode();
+  FocusNode genderFn = FocusNode();
+  FocusNode statusFn = FocusNode();
+  FocusNode instutionFn = FocusNode();
 
   Timer? debounce;
 
@@ -237,7 +243,7 @@ class ProfileProvider with ChangeNotifier {
     Future.delayed(Duration.zero, () => notifyListeners());
   }
 
-  bool submissionValidation(
+  bool submissionUpdate(
     BuildContext context,
     String firstName,
     String lastName,
@@ -278,14 +284,99 @@ class ProfileProvider with ChangeNotifier {
     return true;
   }
 
+  bool submissionValidation(
+    {required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String number,
+    String? status,
+    String? instution,
+    }
+  ) {
+    if (firstName.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('FIRST_NAME_EMPTY'), '', ColorResources.error);
+      firstNameFn.requestFocus();
+      return false;
+    } else if (lastName.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('LAST_NAME_EMPTY'), '', ColorResources.error);
+      lastNameFn.requestFocus();
+      return false;
+    } else if (email.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('EMAIL_EMPTY'), '', ColorResources.error);
+      emailFn.requestFocus();
+      return false;
+    } else if (!email.isValidEmail()) {
+      ShowSnackbar.snackbar(context, getTranslated('INVALID_FORMAT_EMAIL'), '',
+          ColorResources.error);
+      emailFn.requestFocus();
+      return false;
+    } else if (number.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('PHONE_EMPTY'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    } else if (number.length < 10) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('PHONE_LENGTH'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    } else if (status!.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('STATUS_EMPTY'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> joinEvent(BuildContext context,String idEvent, String gender, String status, String instution) async {
+    try {
+      final firstName = firstNameC.text.trim();
+      final lastName = lastNameC.text.trim();
+      final email = emailC.text.trim();
+      final phone = phoneC.text.trim();
+      final status = statusC.text.trim();
+      final instution = instutionC.text.trim();
+
+      final bool isClear = submissionValidation(context: context, firstName: firstName, lastName: lastName, email: email, number: phone, status: status);
+
+      if (isClear) {
+        await pr.jointEvent(
+          eventId: idEvent,
+          firtNameC: firstNameC.text,
+          lastNameC: lastNameC.text,
+          email: emailC.text,
+          phone: phoneC.text, 
+          gender: gender,
+          status: status,
+        );
+        NS.pop(context);
+        ShowSnackbar.snackbar(context, "Successful event listing", '', ColorResources.success, const Duration(seconds: 3),
+        );
+      }
+      setStateProfileStatus(ProfileStatus.loaded);
+    } on CustomException catch (e) {
+      debugPrint(e.toString());
+      setStateProfileStatus(ProfileStatus.error);
+      ShowSnackbar.snackbar(context, e.toString(), '', ColorResources.error, const Duration(seconds: 3),);
+    } catch (e) {
+      debugPrint(e.toString());
+      setStateProfileStatus(ProfileStatus.error);
+    }
+  }
+
   Future<void> updateProfileUser(BuildContext context, file) async {
     try {
       final firstName = firstNameC.text.trim();
       final lastName = lastNameC.text.trim();
       final email = emailC.text.trim();
-      final phone = phoneC.text;
-      final bool isClear =
-          submissionValidation(context, firstName, lastName, email, phone);
+      final phone = phoneC.text.trim();
+      final bool isClear = submissionUpdate(context, firstName, lastName, email, phone);
+
       if (isClear) {
         file == null
             ? await pr.updateProfile(
@@ -300,7 +391,7 @@ class ProfileProvider with ChangeNotifier {
         NS.pop(context);
         ShowSnackbar.snackbar(
           context,
-          "Berhasil Ubah Profile",
+          "Change Profile Successfully",
           '',
           ColorResources.success,
           const Duration(seconds: 3),

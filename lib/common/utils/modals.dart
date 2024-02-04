@@ -6,9 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/global.dart';
+import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/features/sos/presentation/pages/sos_screen_model.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -123,10 +125,12 @@ class GeneralModal {
     );
   }
 
-  static Future<void> reportUser() async {
+  static Future<void> reportUser({required String content, required String feedId}) async {
     return showDialog(
       context: navigatorKey.currentContext!,
       builder: (context) {
+        ProfileProvider pp;
+        pp = context.read<ProfileProvider>();
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
           child: Scaffold(
@@ -227,7 +231,11 @@ class GeneralModal {
                                     ),
                                     child: ElevatedButton(
                                       onPressed: () async {
-                                        Navigator.pop(context);
+                                        pp.fr.reportUser(feedId: feedId, content: content);
+                                        Future.delayed(Duration.zero, () {
+                                          NS.pop(context);
+                                          ShowSnackbar.snackbar(context, "Successfully report $content", '', ColorResources.success);
+                                        });
                                       },
                                       style: ButtonStyle(
                                         backgroundColor:

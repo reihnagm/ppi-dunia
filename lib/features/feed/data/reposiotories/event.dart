@@ -4,6 +4,7 @@ import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/common/utils/dio.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/feed/data/models/event.dart';
+import 'package:ppidunia/features/feed/data/models/event_detail.dart';
 
 class EventRepo {
   Dio? dioClient;
@@ -19,6 +20,23 @@ class EventRepo {
       });
       Map<String, dynamic> data = res.data;
       EventModel em = EventModel.fromJson(data);
+      return em;
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+  Future<EventDetailModel?> getDetailEvent({required String idEvent}) async {
+    try {
+      Response res = await dioClient!.post("/api/v1/event/detail", data: {
+        "id": idEvent,
+        "user_id": SharedPrefs.getUserId()
+      });
+      Map<String, dynamic> data = res.data;
+      EventDetailModel em = EventDetailModel.fromJson(data);
       return em;
     } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioException(e).toString();

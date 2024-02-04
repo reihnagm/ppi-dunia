@@ -325,7 +325,10 @@ class CreatePostModel with ChangeNotifier {
 
       fsm.getFeeds();
 
-      NS.pop(context);
+      Future.delayed(Duration.zero, () {
+        NS.pop(context);
+        ShowSnackbar.snackbar(context, "Posted successfully", '', ColorResources.success);
+      });
 
       setStateSharePostStatus(SharePostStatus.loaded);
     } on CustomException catch (e) {

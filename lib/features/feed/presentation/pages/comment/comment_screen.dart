@@ -919,32 +919,25 @@ class CommentScreenState extends State<CommentScreen> {
                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                           mainAxisSize: MainAxisSize.min,
                                                           children: [
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisSize: MainAxisSize.min,
-                                                              children: [
-                                                                CardHeaderComment(
-                                                                  name: c.comments[i].user.name, 
-                                                                  date: c.comments[i].createdAt, 
-                                                                  userId: c.comments[i].user.uid, 
-                                                                  onSelected: (String route) async {
-                                                                    GeneralModal.showConfirmModals(
-                                                                      image: AssetsConst.imageIcPopUpDelete,
-                                                                      msg: "Are you sure want to delete ?",
-                                                                      onPressed: () async {
-                                                                        if (route == "/delete") {
-                                                                          await csm.deleteComment(feedId: widget.feedId, deleteId: c.comments[i].uid);
-                                                                        }
-                                                                        Future.delayed(Duration.zero, () {
-                                                                          NS.pop(context);
-                                                                          ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
-                                                                        });
-                                                                      },
-                                                                    );
+                                                            CardHeaderComment(
+                                                              name: c.comments[i].user.name, 
+                                                              date: c.comments[i].createdAt, 
+                                                              userId: c.comments[i].user.uid, 
+                                                              onSelected: (String route) async {
+                                                                GeneralModal.showConfirmModals(
+                                                                  image: AssetsConst.imageIcPopUpDelete,
+                                                                  msg: "Are you sure want to delete ?",
+                                                                  onPressed: () async {
+                                                                    if (route == "/delete") {
+                                                                      await csm.deleteComment(feedId: widget.feedId, deleteId: c.comments[i].uid);
+                                                                    }
+                                                                    Future.delayed(Duration.zero, () {
+                                                                      NS.pop(context);
+                                                                      ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                                                    });
                                                                   },
-                                                                )
-                                                              ],
+                                                                );
+                                                              },
                                                             ),
                                                             c.comments[i].user.uid == SharedPrefs.getUserId()
                                                             ? Container()

@@ -67,13 +67,9 @@ class CreatePostScreenState extends State<CreatePostScreen> {
       resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          int deviceMaxHeight =
-              int.parse(constraints.maxHeight.toStringAsFixed(0));
-
           return SlidingUpPanel(
-            minHeight: deviceMaxHeight < 900
-                ? constraints.maxHeight * .30
-                : constraints.maxHeight * .23,
+            minHeight: constraints.maxHeight * .26,
+            maxHeight: constraints.maxHeight * .35,
             color: ColorResources.bgSecondaryColor,
             panelBuilder: (ScrollController sc) {
               return CustomScrollView(
@@ -550,8 +546,11 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                           },
                         ),
                         Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 0.0, horizontal: 20.0),
+                            padding: const EdgeInsets.only(
+                                right: 20.0, 
+                                left: 20.0, 
+                                bottom: 30.0
+                            ),
                             child: TextField(
                               textCapitalization: TextCapitalization.sentences,
                               maxLines: null,
@@ -575,289 +574,299 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                   focusedBorder: InputBorder.none,
                                   disabledBorder: InputBorder.none),
                             )),
-                        if (cpm.isImage != null && cpm.pickedFile.length == 1)
-                          Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.only(
-                                top: 15.0,
-                                left: 20.0,
-                                right: 20.0,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: InkWell(
-                                  onTap: () => NS.push(
-                                    context,
-                                    PhotoViewAssets(
-                                      image: cpm.pickedFile[0],
-                                    ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 100.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (cpm.isImage != null && cpm.pickedFile.length == 1)
+                              Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(
+                                    top: 15.0,
+                                    left: 20.0,
+                                    right: 20.0,
                                   ),
-                                  child: Stack(
-                                    fit: StackFit.loose,
-                                    children: [
-                                      Image.file(
-                                        File(cpm.pickedFile[0].path),
-                                        alignment: Alignment.centerLeft,
-                                        fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: InkWell(
+                                      onTap: () => NS.push(
+                                        context,
+                                        PhotoViewAssets(
+                                          image: cpm.pickedFile[0],
+                                        ),
                                       ),
-                                      Positioned(
-                                        top: 10,
-                                        right: 10,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(
-                                              () => cpm.pickedFile.removeAt(0),
-                                            );
-                                          },
-                                          child: Container(
-                                            width: 35,
-                                            height: 35,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: ColorResources.black
-                                                  .withOpacity(0.50),
-                                            ),
-                                            child: const Icon(
-                                              Icons.close,
-                                              color: Colors.white,
-                                              size: 25.0,
-                                            ),
+                                      child: Stack(
+                                        fit: StackFit.loose,
+                                        children: [
+                                          Image.file(
+                                            File(cpm.pickedFile[0].path),
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.cover,
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )),
-                        if (cpm.isImage != null && cpm.pickedFile.length > 1)
-                          CarouselSlider.builder(
-                              options: CarouselOptions(
-                                  autoPlay: false,
-                                  height: 200.0,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 1.0,
-                                  enlargeStrategy:
-                                      CenterPageEnlargeStrategy.scale,
-                                  onPageChanged: (int i,
-                                      CarouselPageChangedReason reason) {
-                                    cpm.onChangeCurrentMultipleImg(i);
-                                  }),
-                              itemCount: cpm.pickedFile.length,
-                              itemBuilder:
-                                  (BuildContext context, int i, int z) {
-                                return Container(
-                                    width: double.infinity,
-                                    height: 180.0,
-                                    margin: const EdgeInsets.only(
-                                      top: 15.0,
-                                      left: 20.0,
-                                      right: 20.0,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: InkWell(
-                                        onTap: () => NS.push(
-                                          context,
-                                          PhotoViewAssets(
-                                            image: cpm.pickedFile[i],
-                                          ),
-                                        ),
-                                        child: Stack(
-                                          fit: StackFit.expand,
-                                          children: [
-                                            Image.file(
-                                              File(cpm.pickedFile[i].path),
-                                              alignment: Alignment.centerLeft,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            Positioned(
-                                              top: 10,
-                                              right: 10,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  setState(
-                                                    () => cpm.pickedFile
-                                                        .removeAt(i),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 35,
-                                                  height: 35,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: ColorResources.black
-                                                        .withOpacity(0.50),
-                                                  ),
-                                                  child: const Icon(
-                                                    Icons.close,
-                                                    color: Colors.white,
-                                                    size: 25.0,
-                                                  ),
+                                          Positioned(
+                                            top: 10,
+                                            right: 10,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                setState(
+                                                  () => cpm.pickedFile.removeAt(0),
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 35,
+                                                height: 35,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: ColorResources.black
+                                                      .withOpacity(0.50),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.white,
+                                                  size: 25.0,
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ));
-                              }),
-                        if (cpm.isImage != null && cpm.pickedFile.length > 1)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: cpm.pickedFile.map((i) {
-                              int index = cpm.pickedFile.indexOf(i);
-                              return Container(
-                                width: 8.0,
-                                height: 8.0,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 2.0),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cpm.currentIndexMultipleImg == index
-                                      ? ColorResources.bluePrimary
-                                      : ColorResources.dimGrey,
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        if (cpm.videoFile != null)
-                          Container(
-                            alignment: Alignment.center,
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(
-                              top: 15.0,
-                              left: 20.0,
-                              right: 20.0,
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.memory(
-                                    cpm.videoFileThumbnail!,
-                                    width: double.infinity,
-                                    height: 200.0,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.center,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 10,
-                                  right: 10,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        cpm.videoFile = null;
-                                      });
-                                    },
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: ColorResources.black
-                                            .withOpacity(0.50),
-                                      ),
-                                      child: const Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 25.0,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        if (cpm.videoFile != null)
-                          Container(
-                              width: double.infinity,
-                              margin:
-                                  const EdgeInsets.only(top: 15.0, left: 20.0),
-                              child: Row(
-                                children: [
-                                  Text("${getTranslated("FILE_SIZE")} :",
-                                      style: const TextStyle(
-                                          color: ColorResources.white,
-                                          fontSize: Dimensions.fontSizeLarge,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'SF Pro')),
-                                  const SizedBox(width: 8.0),
-                                  Text(
-                                    cpm.videoSize.toString(),
-                                    style: const TextStyle(
-                                        color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'SF Pro'),
-                                  ),
-                                ],
-                              )),
-                        if (cpm.docFile != null)
-                          Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.only(
-                                  top: 15.0, left: 20.0, right: 20.0),
-                              padding: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: ColorResources.greyDarkPrimary),
-                              child: Stack(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 20),
-                                        child: Text(cpm.docName.toString().replaceAll("%23", " "),
-                                        style: const TextStyle(
-                                        color: ColorResources.white,
-                                        fontSize:Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'SF Pro')),
+                                  )),
+                            if (cpm.isImage != null && cpm.pickedFile.length > 1)
+                              CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                      autoPlay: false,
+                                      height: 200.0,
+                                      enlargeCenterPage: true,
+                                      viewportFraction: 1.0,
+                                      enlargeStrategy:
+                                          CenterPageEnlargeStrategy.scale,
+                                      onPageChanged: (int i,
+                                          CarouselPageChangedReason reason) {
+                                        cpm.onChangeCurrentMultipleImg(i);
+                                      }),
+                                  itemCount: cpm.pickedFile.length,
+                                  itemBuilder:
+                                      (BuildContext context, int i, int z) {
+                                    return Container(
+                                        width: double.infinity,
+                                        height: 180.0,
+                                        margin: const EdgeInsets.only(
+                                          top: 15.0,
+                                          left: 20.0,
+                                          right: 20.0,
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: InkWell(
+                                            onTap: () => NS.push(
+                                              context,
+                                              PhotoViewAssets(
+                                                image: cpm.pickedFile[i],
+                                              ),
+                                            ),
+                                            child: Stack(
+                                              fit: StackFit.expand,
+                                              children: [
+                                                Image.file(
+                                                  File(cpm.pickedFile[i].path),
+                                                  alignment: Alignment.centerLeft,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                Positioned(
+                                                  top: 10,
+                                                  right: 10,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(
+                                                        () => cpm.pickedFile
+                                                            .removeAt(i),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: 35,
+                                                      height: 35,
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: ColorResources.black
+                                                            .withOpacity(0.50),
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                        size: 25.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ));
+                                  }),
+                            if (cpm.isImage != null && cpm.pickedFile.length > 1)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: cpm.pickedFile.map((i) {
+                                  int index = cpm.pickedFile.indexOf(i);
+                                  return Container(
+                                    width: 8.0,
+                                    height: 8.0,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 2.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: cpm.currentIndexMultipleImg == index
+                                          ? ColorResources.bluePrimary
+                                          : ColorResources.dimGrey,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            if (cpm.videoFile != null)
+                              Container(
+                                alignment: Alignment.center,
+                                width: double.infinity,
+                                margin: const EdgeInsets.only(
+                                  top: 15.0,
+                                  left: 20.0,
+                                  right: 20.0,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.memory(
+                                        cpm.videoFileThumbnail!,
+                                        width: double.infinity,
+                                        height: 200.0,
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.center,
                                       ),
-                                      Row(
-                                        children: [
-                                          Text("${getTranslated("FILE_SIZE")} :",
+                                    ),
+                                    Positioned(
+                                      top: 10,
+                                      right: 10,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            cpm.videoFile = null;
+                                          });
+                                        },
+                                        child: Container(
+                                          width: 35,
+                                          height: 35,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: ColorResources.black
+                                                .withOpacity(0.50),
+                                          ),
+                                          child: const Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            size: 25.0,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            if (cpm.videoFile != null)
+                              Container(
+                                  width: double.infinity,
+                                  margin:
+                                      const EdgeInsets.only(top: 15.0, left: 20.0),
+                                  child: Row(
+                                    children: [
+                                      Text("${getTranslated("FILE_SIZE")} :",
                                           style: const TextStyle(
                                               color: ColorResources.white,
-                                              fontSize:
-                                                  Dimensions.fontSizeLarge,
+                                              fontSize: Dimensions.fontSizeLarge,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: 'SF Pro')),
-                                          const SizedBox(width: 8.0),
-                                          Text(cpm.docSize.toString(),
-                                          style: const TextStyle(
+                                      const SizedBox(width: 8.0),
+                                      Text(
+                                        cpm.videoSize.toString(),
+                                        style: const TextStyle(
                                             color: ColorResources.white,
-                                            fontSize:
-                                                Dimensions.fontSizeLarge,
+                                            fontSize: Dimensions.fontSizeLarge,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'SF Pro'),
+                                      ),
+                                    ],
+                                  )),
+                            if (cpm.docFile != null)
+                              Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(
+                                      top: 15.0, left: 20.0, right: 20.0),
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: ColorResources.greyDarkPrimary),
+                                  child: Stack(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 20),
+                                            child: Text(cpm.docName.toString().replaceAll("%23", " "),
+                                            style: const TextStyle(
+                                            color: ColorResources.white,
+                                            fontSize:Dimensions.fontSizeLarge,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: 'SF Pro')),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text("${getTranslated("FILE_SIZE")} :",
+                                              style: const TextStyle(
+                                                  color: ColorResources.white,
+                                                  fontSize:
+                                                      Dimensions.fontSizeLarge,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SF Pro')),
+                                              const SizedBox(width: 8.0),
+                                              Text(cpm.docSize.toString(),
+                                              style: const TextStyle(
+                                                color: ColorResources.white,
+                                                fontSize:
+                                                    Dimensions.fontSizeLarge,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SF Pro')),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    bottom: 0,
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          cpm.docFile = null;
-                                        });
-                                      },
-                                      child: const Icon(
-                                        Icons.delete,
-                                        color: ColorResources.white,
                                       ),
-                                  ),)
-                                ],
-                              )),
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        bottom: 0,
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              cpm.docFile = null;
+                                            });
+                                          },
+                                          child: const Icon(
+                                            Icons.delete,
+                                            color: ColorResources.white,
+                                          ),
+                                      ),)
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
                       ])),
                     )
                   ],

@@ -4,6 +4,7 @@ import 'package:ppidunia/features/feed/data/reposiotories/comment/reply.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/event.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
@@ -105,6 +106,7 @@ Future<void> init() async {
   getIt.registerFactory(() => EventScreenModel(er: getIt()));
   getIt.registerFactory(() => LocationProvider());
   getIt.registerLazySingleton(() => FeedScreenModel(fr: getIt()));
+  getIt.registerLazySingleton(() => EventDetailScreenModel(er: getIt()));
   getIt.registerLazySingleton(() => SosScreenModel(sr: getIt(), lp: getIt()));
   getIt.registerLazySingleton(
       () => CommentScreenModel(cr: getIt(), fr: getIt(), pp: getIt()));

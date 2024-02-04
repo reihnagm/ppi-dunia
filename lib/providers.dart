@@ -1,5 +1,6 @@
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
@@ -71,5 +72,6 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider(create: (_) => c.getIt<StorageNotifier>()),
   ChangeNotifierProvider(create: (_) => c.getIt<CommentDetailModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<EventScreenModel>()),
+  ChangeNotifierProvider(create: (_) => c.getIt<EventDetailScreenModel>()),
   Provider.value(value: const <String, dynamic>{})
 ];

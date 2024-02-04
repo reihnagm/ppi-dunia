@@ -9,6 +9,8 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/button/custom.dart';
+import 'package:ppidunia/views/basewidgets/textfield/textfield.dart';
 import 'package:provider/provider.dart';
 
 import 'profile_update_state.dart';
@@ -54,6 +56,19 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         backgroundColor: ColorResources.bgSecondaryColor,
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          decoration: const BoxDecoration(
+            color: Colors.transparent
+          ),
+          child: CustomButton(
+            onTap: () {
+              pp.updateProfileUser(context, pp.file);
+            },
+            isBorderRadius: true,
+            btnTxt: "Update",
+          ),
+        ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           return RefreshIndicator(
@@ -202,59 +217,82 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             ],
                           ),
                         ),
-                        inputField(
-                            textInput: "First Name",
-                            controller: pp.firstNameC,
-                            iconData: Icons.person,
-                            keyboardType: TextInputType.text),
                         const SizedBox(
                           height: 30.0,
                         ),
-                        inputField(
-                            textInput: "Last Name",
-                            controller: pp.lastNameC,
-                            iconData: Icons.person_sharp,
-                            keyboardType: TextInputType.text),
-                        const SizedBox(
-                          height: 30.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 8,
+                              child: CustomTextField(
+                                labelText: getTranslated('FIRST_NAME'),
+                                isName: false,
+                                controller: pp.firstNameC,
+                                hintText: getTranslated('FIRST_NAME_HINT'),
+                                emptyText: getTranslated('FIRST_NAME_EMPTY'),
+                                textInputType: TextInputType.name,
+                                focusNode: pp.firstNameFn,
+                                nextNode: pp.lastNameFn,
+                                textInputAction: TextInputAction.next,
+                              ),
+                            ),
+                            const Flexible(child: SizedBox()),
+                            Expanded(
+                              flex: 8,
+                              child: CustomTextField(
+                                labelText: getTranslated('LAST_NAME'),
+                                isName: false,
+                                controller: pp.lastNameC,
+                                hintText: getTranslated('LAST_NAME_HINT'),
+                                emptyText: getTranslated('LAST_NAME_EMPTY'),
+                                textInputType: TextInputType.name,
+                                focusNode: pp.lastNameFn,
+                                nextNode: pp.emailFn,
+                                textInputAction: TextInputAction.next,
+                              ),
+                            ),
+                          ],
                         ),
-                        inputField(
-                            textInput: "Email",
-                            controller: pp.emailC,
-                            iconData: Icons.email,
-                            keyboardType: TextInputType.emailAddress),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        inputField(
-                            textInput: "Phone",
-                            controller: pp.phoneC,
-                            iconData: Icons.call,
-                            keyboardType: TextInputType.phone,
-                            maxLength: 13),
-                        const SizedBox(height: 30.0),
-                        // inputField("Collage", pp.countryC, Icons.school,
-                        //     TextInputType.emailAddress),
-                        // const SizedBox(
-                        //   height: 30.0,
-                        // ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorResources.redHealth),
-                            onPressed: () async {
-                              pp.updateProfileUser(context, pp.file);
-                            },
-                            child: const Text(
-                              'Update',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30.0),
+                          child: Hero(
+                            tag: 'email-pw',
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Wrap(
+                                children: [
+                                  CustomTextField(
+                                    labelText: 'Email',
+                                    isEmail: true,
+                                    controller: pp.emailC,
+                                    hintText: getTranslated('EMAIL_HINT'),
+                                    emptyText: getTranslated('EMAIL_EMPTY'),
+                                    textInputType: TextInputType.emailAddress,
+                                    focusNode: pp.emailFn,
+                                    nextNode: pp.numberFn,
+                                    textInputAction: TextInputAction.next,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 30.0),
+                                    child: CustomTextField(
+                                      maxLength: 13,
+                                      labelText: "Phone Number",
+                                      isPassword: false,
+                                      controller: pp.phoneC,
+                                      hintText: getTranslated('PHONE_LENGTH'),
+                                      emptyText: getTranslated('PHONE_EMPTY'),
+                                      textInputType: TextInputType.number,
+                                      focusNode: pp.numberFn,
+                                      // nextNode: viewModel.confirmPasswordFn,
+                                      textInputAction: TextInputAction.next,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ))

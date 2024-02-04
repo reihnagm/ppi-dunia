@@ -127,6 +127,35 @@ class ProfileRepo {
     }
   }
 
+  Future<void> jointEvent(
+    {
+      required String eventId,
+      required String firtNameC,
+      required String lastNameC,
+      required String email,
+      required String phone,
+      required String gender,
+      required String status,
+    }) async {
+    try {
+      await dioClient!.post("/api/v1/event/create-register", data: {
+        "event_id": eventId,
+        "first_name": firtNameC,
+        "last_name": lastNameC,
+        "email": email,
+        "phone": phone,
+        "gender": gender,
+        "status": status,
+      });
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
+
   Future<GetUserMention> getUserMention({required int pageKey, required String search}) async {
     try {
       Response res = await dioClient!.post("/api/v1/profile/all?search=$search&page=$pageKey&limit=400", data: {

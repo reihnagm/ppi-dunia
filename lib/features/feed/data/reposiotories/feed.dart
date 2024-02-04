@@ -133,6 +133,22 @@ class FeedRepo {
       throw CustomException(e.toString());
     }
   }
+  Future<void> reportUser({required String feedId, required String content}) async {
+    try {
+      await dioClient!.post('/api/v1/feed/create-report', data: {
+        "feed_id": feedId,
+        "user_id": SharedPrefs.getUserId(),
+        "name": content
+      });
+      debugPrint("Berhasil Report Postingan");
+    } on DioException catch (e) {
+      final errorMessage = DioExceptions.fromDioException(e).toString();
+      throw CustomException(errorMessage);
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      throw CustomException(e.toString());
+    }
+  }
 
   Future<CountryModel> getCountries() async {
     try {

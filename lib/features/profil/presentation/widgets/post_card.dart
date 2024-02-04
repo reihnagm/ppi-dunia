@@ -91,31 +91,25 @@ Widget postCard({
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.only(
-                            left: 25.0,
+                            left: 15.0,
                             top: 15.0,
                             right: 10.0
                           ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              CardHeaderPost(avatar: pp.feeds[i].user.avatar, name: pp.feeds[i].user.name, date: pp.feeds[i].createdAt, userId: pp.feeds[i].user.uid, onSelected: (route) {
-                                GeneralModal.showConfirmModals(
-                                  image: AssetsConst.imageIcPopUpDelete,
-                                  msg: "Are you sure want to delete ?",
-                                  onPressed: () async {
-                                    if (route == "/delete") {
-                                      await pp.delete(feedId: pp.feeds[i].uid);
-                                    }
-                                    Future.delayed(Duration.zero, () {
-                                      NS.pop(context);
-                                      ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
-                                    });
-                                  },
-                                );
-                              }, isHidden: false),
-                            ],
-                          ),
+                          child: CardHeaderPost(avatar: pp.feeds[i].user.avatar, name: pp.feeds[i].user.name, date: pp.feeds[i].createdAt, userId: pp.feeds[i].user.uid, onSelected: (route) {
+                            GeneralModal.showConfirmModals(
+                              image: AssetsConst.imageIcPopUpDelete,
+                              msg: "Are you sure want to delete ?",
+                              onPressed: () async {
+                                if (route == "/delete") {
+                                  await pp.delete(feedId: pp.feeds[i].uid);
+                                }
+                                Future.delayed(Duration.zero, () {
+                                  NS.pop(context);
+                                  ShowSnackbar.snackbar(context, "Successfully delete a comments", '', ColorResources.success);
+                                });
+                              },
+                            );
+                          }, isHidden: false),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(

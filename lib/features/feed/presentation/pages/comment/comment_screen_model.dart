@@ -159,8 +159,7 @@ class CommentScreenModel with ChangeNotifier {
 
   Future<void> loadMoreComment({required String feedId}) async {
     pageKey++;
-    FeedDetailModel fdm =
-        await cr.getFeedDetail(feedId: feedId, pageKey: pageKey);
+    FeedDetailModel fdm = await cr.getFeedDetail(feedId: feedId, pageKey: pageKey);
     hasMore = fdm.commentPaginate.hasMore;
     _comments.addAll(fdm.data.feedComments!.comments);
     Future.delayed(Duration.zero, () => notifyListeners());

@@ -12,15 +12,15 @@ Widget imageAvatar(String image, double radius) {
       );
     },
     placeholder: (BuildContext context, String url) {
-      return const CircleAvatar(
-        radius: 25.0,
+      return CircleAvatar(
+        radius: radius,
         backgroundColor: Color(0xFF637687),
       );
     },
     errorWidget: (BuildContext context, String url, dynamic error) {
-      return const CircleAvatar(
-        radius: 25.0,
-        backgroundImage: AssetImage(AssetsConst.imageLogoPpi),
+      return CircleAvatar(
+        radius: radius,
+        backgroundImage: const AssetImage(AssetsConst.imageDefaultAva),
       );
     },
   );

@@ -14,7 +14,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final String emptyText;
-  final bool isPrefixIcon;
+  final bool isPrefixIcon; 
   final Widget? prefixIcon;
   final bool isSuffixIcon;
   final Widget? suffixIcon;
@@ -38,7 +38,7 @@ class CustomTextField extends StatefulWidget {
   final int? maxLength;
 
   const CustomTextField({
-    Key? key,
+    Key? key, 
     required this.controller,
     this.isPrefixIcon = false,
     this.prefixIcon,
@@ -88,7 +88,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.textInputType,
       maxLength: widget.maxLength,
       readOnly: widget.readOnly,
-      textCapitalization: TextCapitalization.sentences,
       validator: (value) {
         if (value == null || value.isEmpty) {
           widget.focusNode.requestFocus();
@@ -99,82 +98,89 @@ class _CustomTextFieldState extends State<CustomTextField> {
       enableInteractiveSelection: true,
       enabled: widget.isEnabled,
       textInputAction: widget.textInputAction,
-      obscureText: widget.isPassword ? obscureText : false,
+      obscureText: widget.isPassword 
+      ? obscureText 
+      : false,
       style: sfProRegular.copyWith(
-        fontSize: Dimensions.fontSizeSmall,
+        fontSize: Dimensions.fontSizeLarge,
       ),
       onFieldSubmitted: (String v) {
         setState(() {
           widget.textInputAction == TextInputAction.done
-              ? FocusScope.of(context).consumeKeyboardToken()
-              : FocusScope.of(context).requestFocus(widget.nextNode);
+            ? FocusScope.of(context).consumeKeyboardToken()
+            : FocusScope.of(context).requestFocus(widget.nextNode);
         });
       },
       inputFormatters: widget.isAlphabetsAndNumbers
+      ? [
+          FilteringTextInputFormatter.singleLineFormatter,
+          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9 ]')),
+        ]
+      : widget.isName
+        ? [
+            UpperCaseTextFormatter(),
+            FilteringTextInputFormatter.singleLineFormatter,
+            FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
+          ]
+        : widget.isEmail
           ? [
-              FilteringTextInputFormatter.singleLineFormatter,
-              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9 ]')),
-            ]
-          : widget.isName
-              ? [
-                  UpperCaseTextFormatter(),
-                  FilteringTextInputFormatter.singleLineFormatter,
-                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z ]')),
-                ]
-              : widget.isEmail
-                  ? [
-                      FilteringTextInputFormatter.singleLineFormatter,
-                    ]
-                  : [
-                      FilteringTextInputFormatter.singleLineFormatter,
-                    ],
+            FilteringTextInputFormatter.singleLineFormatter,
+          ]
+          :[
+            FilteringTextInputFormatter.singleLineFormatter,
+          ],
       decoration: InputDecoration(
-        fillColor: widget.isEnabled
-            ? ColorResources.transparent
-            : ColorResources.white,
+        fillColor: widget.isEnabled 
+        ? ColorResources.transparent : ColorResources.white,
         filled: true,
         isDense: true,
-        prefixIcon: widget.isPrefixIcon ? widget.prefixIcon : null,
-        suffixIcon: widget.isPassword
-            ? IconButton(
-                onPressed: toggle,
-                icon: Icon(
-                  obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: ColorResources.white,
-                  size: 18.0,
-                ),
-              )
-            : widget.isSuffixIcon
-                ? widget.suffixIcon
-                : null,
+        prefixIcon: widget.isPrefixIcon 
+        ? widget.prefixIcon 
+        : null,
+        suffixIcon: widget.isPassword 
+          ? IconButton(
+              onPressed: toggle,
+              icon: Icon(obscureText
+                ? Icons.visibility_off
+                : Icons.visibility,
+                color: ColorResources.white,
+                size: 18.0,
+              ),
+            )
+          : widget.isSuffixIcon
+            ? widget.suffixIcon
+            : null,
         counterText: "",
         counterStyle: sfProRegular.copyWith(
-            color: widget.counterColor, fontSize: Dimensions.fontSizeLarge),
+          color: widget.counterColor,
+          fontSize: Dimensions.fontSizeLarge
+        ),
         floatingLabelBehavior: widget.floatingLabelBehavior,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         hintText: widget.hintText,
         hintStyle: sfProRegular.copyWith(
-          color: Colors.grey,
-          fontSize: Dimensions.fontSizeSmall,
+          color: Colors.grey, 
+          fontSize: Dimensions.fontSizeLarge,
           fontWeight: FontWeight.w500,
         ),
         labelText: widget.labelText,
         labelStyle: sfProRegular.copyWith(
-          fontSize: Dimensions.paddingSizeLarge,
+          fontSize: Dimensions.fontSizeOverLarge,
         ),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              color: ColorResources.white,
-              width: 1.0,
-            )),
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: const BorderSide(
+            color: ColorResources.white,
+            width: 1.0,
+          )
+        ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: const BorderSide(
-              color: ColorResources.white,
-              width: 1.0,
-            )),
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: const BorderSide(
+            color: ColorResources.white,
+            width: 1.0,
+          )
+        ),
       ),
     );
   }
@@ -182,16 +188,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
       text: capitalize(newValue.text),
       selection: newValue.selection,
     );
   }
 }
-
 String capitalize(String value) {
-  if (value.trim().isEmpty) return "";
+  if(value.trim().isEmpty) return "";
   return "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
 }
