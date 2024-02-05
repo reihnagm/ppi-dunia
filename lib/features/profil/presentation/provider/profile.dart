@@ -291,8 +291,9 @@ class ProfileProvider with ChangeNotifier {
     required String lastName,
     required String email,
     required String number,
-    String? status,
-    String? instution,
+    required String gender,
+    required String status,
+    required String instution,
     }
   ) {
     if (firstName.isEmpty) {
@@ -325,9 +326,19 @@ class ProfileProvider with ChangeNotifier {
           context, getTranslated('PHONE_LENGTH'), '', ColorResources.error);
       numberFn.requestFocus();
       return false;
-    } else if (status!.isEmpty) {
+    } else if (gender.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('GENDER_EMPTY'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    } else if (status.isEmpty) {
       ShowSnackbar.snackbar(
           context, getTranslated('STATUS_EMPTY'), '', ColorResources.error);
+      numberFn.requestFocus();
+      return false;
+    } else if (instution.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, getTranslated('INSTUTION_EMPTY'), '', ColorResources.error);
       numberFn.requestFocus();
       return false;
     }
@@ -343,7 +354,16 @@ class ProfileProvider with ChangeNotifier {
       final status = statusC.text.trim();
       final instution = instutionC.text.trim();
 
-      final bool isClear = submissionValidation(context: context, firstName: firstName, lastName: lastName, email: email, number: phone, status: status);
+      final bool isClear = submissionValidation(
+        context: context, 
+        firstName: firstName, 
+        lastName: lastName, 
+        email: email, 
+        number: phone, 
+        gender: phone, 
+        status: status, 
+        instution: instution,
+      );
 
       if (isClear) {
         await pr.jointEvent(
@@ -352,8 +372,9 @@ class ProfileProvider with ChangeNotifier {
           lastNameC: lastNameC.text,
           email: emailC.text,
           phone: phoneC.text, 
-          gender: gender,
-          status: status,
+          gender: genderC.text,
+          status: statusC.text,
+          instution: instutionC.text,
         );
         NS.pushReplacement(context, const DashboardScreen());
         ShowSnackbar.snackbar(context, "Successful event listing", '', ColorResources.success, const Duration(seconds: 3),

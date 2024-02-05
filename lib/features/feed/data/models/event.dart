@@ -27,11 +27,11 @@ class EventData {
     String? picture;
     String? title;
     String? description;
-    String? date;
-    bool? paid;
     String? location;
     String? start;
     String? end;
+    String? startDate;
+    String? endDate;
     bool? joined;
 
     EventData({
@@ -39,11 +39,11 @@ class EventData {
         this.picture,
         this.title,
         this.description,
-        this.date,
-        this.paid,
         this.location,
         this.start,
         this.end,
+        this.startDate,
+        this.endDate,
         this.joined,
     });
 
@@ -52,11 +52,11 @@ class EventData {
         picture: json["picture"],
         title: json["title"],
         description: json["description"],
-        date: json["date"],
-        paid: json["paid"],
         location: json["location"],
         start: json["start"],
         end: json["end"],
+        startDate: json["start_date"],
+        endDate: json["end_date"],
         joined: json["joined"],
     );
 }
@@ -92,15 +92,4 @@ class PageDetail {
         nextUrl: json["next_url"],
         prevUrl: json["prev_url"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "has_more": hasMore,
-        "total": total,
-        "per_page": perPage,
-        "next_page": nextPage,
-        "prev_page": prevPage,
-        "current_page": currentPage,
-        "next_url": nextUrl,
-        "prev_url": prevUrl,
-    };
 }

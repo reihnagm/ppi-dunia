@@ -44,7 +44,7 @@ class _CardHeaderPostState extends State<CardHeaderPost> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 5,),
+              // const SizedBox(height: 5,),
               InkWell(
                 onTap: () => NS.push(context, ProfileViewScreen(userId: widget.userId)),
                 child: FittedBox(

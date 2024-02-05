@@ -16,6 +16,7 @@ class FirebaseRepo {
       {required String userId,
       required String lat,
       required String lng}) async {
+        final token = await FirebaseMessaging.instance.getToken();
     try {
       Response res =
           await dioClient!.post("${ApiConsts.baseUrl}/api/v1/fcm", data: {
@@ -25,6 +26,10 @@ class FirebaseRepo {
         "lng": lng,
       });
       debugPrint("Initialize FCM : ${res.statusCode}");
+      debugPrint("User ID : $userId");
+      debugPrint("TOKEN : $token");
+      debugPrint("LAT : $lat");
+      debugPrint("LONG : $lng");
     } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioException(e).toString();
       throw CustomException(errorMessage);

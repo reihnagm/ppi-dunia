@@ -118,6 +118,7 @@ Widget postCard({
                         ),
                         if (pp.feeds[i].feedType == "image")
                           if (pp.feeds[i].media.length == 1)
+                          pp.feeds[i].media.isNotEmpty ?
                             InkWell(
                               onTap: () => NS.push(
                                 context,
@@ -130,7 +131,7 @@ Widget postCard({
                                       horizontal: 25.0, vertical: 20.0),
                                   child: imageCard(
                                       pp.feeds[i].media[0].path, 180.0, 12.0)),
-                            ),
+                            ) : Container(),
                         if (pp.feeds[i].media.length > 1)
                           Container(
                             padding:
@@ -229,12 +230,14 @@ Widget postCard({
                             ),
                           ),
                         if (pp.feeds[i].feedType == "video")
+                        pp.feeds[i].media.isNotEmpty ?
                           Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 14.0, vertical: 10.0),
                               child: VideoPlay(
-                                  dataSource: pp.feeds[i].media[0].path)),
+                                  dataSource: pp.feeds[i].media[0].path)) : Container(),
                         if (pp.feeds[i].feedType == "document")
+                        pp.feeds[i].media.isNotEmpty ?
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(
@@ -304,7 +307,7 @@ Widget postCard({
                                 )
                               ],
                             ),
-                          ),
+                          ): Container(),
                         Container(
                           height: 35.0,
                           decoration: const BoxDecoration(

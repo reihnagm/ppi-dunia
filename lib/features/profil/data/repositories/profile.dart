@@ -136,6 +136,7 @@ class ProfileRepo {
       required String phone,
       required String gender,
       required String status,
+      required String instution,
     }) async {
     try {
       await dioClient!.post("/api/v1/event/create-register", data: {
@@ -146,6 +147,7 @@ class ProfileRepo {
         "phone": phone,
         "gender": gender,
         "status": status,
+        "agency": instution,
       });
       await joinedEvent(eventId: eventId);
     } on DioException catch (e) {

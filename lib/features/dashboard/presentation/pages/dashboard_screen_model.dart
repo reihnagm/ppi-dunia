@@ -11,8 +11,8 @@ class DashboardScreenModel with ChangeNotifier {
 
   List<Widget> widgets = [
     const FeedScreen(),
-    const EventSccreen(),
     const InboxScreen(),
+    const EventSccreen(),
     const BookmarkScreen(),
     const SosScreen(),
   ];

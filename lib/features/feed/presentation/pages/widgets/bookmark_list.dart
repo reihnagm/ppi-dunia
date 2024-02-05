@@ -120,7 +120,7 @@ class BookmarkList extends StatelessWidget {
                                 });
                               },
                             );
-                                                          }, isHidden: false),
+                            }, isHidden: false),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 25.0, left: 25.0, bottom: 10.0, top: 5),
@@ -128,6 +128,7 @@ class BookmarkList extends StatelessWidget {
                           ),
                           if (bsm.feeds[i].feedType == "image")
                             if (bsm.feeds[i].media.length == 1)
+                              bsm.feeds[i].media.isNotEmpty ?
                               InkWell(
                                 onTap: () => NS.push(
                                   context,
@@ -140,7 +141,7 @@ class BookmarkList extends StatelessWidget {
                                         horizontal: 25.0, vertical: 20.0),
                                     child: imageCard(bsm.feeds[i].media[0].path,
                                         180.0, 12.0)),
-                              ),
+                              ) : Container(),
                           if (bsm.feeds[i].media.length > 1)
                             Container(
                               padding:
@@ -232,12 +233,14 @@ class BookmarkList extends StatelessWidget {
                               ),
                             ),
                           if (bsm.feeds[i].feedType == "video")
+                            bsm.feeds[i].media.isNotEmpty ?
                             Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 14.0, vertical: 10.0),
                                 child: VideoPlay(
-                                    dataSource: bsm.feeds[i].media[0].path)),
+                                    dataSource: bsm.feeds[i].media[0].path)) : Container(),
                           if (bsm.feeds[i].feedType == "document")
+                            bsm.feeds[i].media.isNotEmpty ?
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.symmetric(
@@ -310,7 +313,7 @@ class BookmarkList extends StatelessWidget {
                                   )
                                 ],
                               ),
-                            ),
+                            ) : Container(),
                           Container(
                             height: 35.0,
                             decoration: const BoxDecoration(
@@ -437,13 +440,7 @@ class BookmarkList extends StatelessWidget {
                                                   bsm.feeds[i].feedComments
                                                           .comments.isEmpty
                                                       ? const SizedBox()
-                                                      : Text(
-                                                          bsm
-                                                              .feeds[i]
-                                                              .feedComments
-                                                              .comments
-                                                              .length
-                                                              .toString(),
+                                                      : Text(bsm.feeds[i].feedComments.total.toString(),
                                                           style: const TextStyle(
                                                               color:
                                                                   ColorResources

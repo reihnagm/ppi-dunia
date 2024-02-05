@@ -10,6 +10,8 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
+import 'package:ppidunia/features/feed/provider/forum_download.dart';
+import 'package:ppidunia/features/feed/provider/forum_download.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_comment.dart';
@@ -524,11 +526,8 @@ class CommentScreenState extends State<CommentScreen> {
                                               IconButton(
                                                 icon:
                                                     const Icon(Icons.download),
-                                                onPressed: () async {
-                                                  await c.downloadDoc(
-                                                      context,
-                                                      c.feedDetailData.media![0]
-                                                          .path);
+                                                onPressed: () {
+                                                  NS.push(context, ForumContentVideo(dataSource: c.feedDetailData.media![0].path,));
                                                 },
                                                 color: ColorResources.white,
                                               )

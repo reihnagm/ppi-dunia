@@ -28,9 +28,8 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
   late ProfileProvider pp;
   int? selectedGender;
   int? selectedStatus;
-  bool isOther = false;
-  String genderValue = "";
-  String statusValue = "";
+  bool isOtherGender = false;
+  bool isOtherStatus = false;
 
   @override
   void initState() {
@@ -68,7 +67,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
               pp.joinEvent(
                 context,
                 widget.idEvent,
-                genderValue,
+                pp.genderC.text,
                 pp.statusC.text,
                 pp.instutionC.text
               );
@@ -180,7 +179,6 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                 focusNode: pp.firstNameFn,
                                 nextNode: pp.lastNameFn,
                                 textInputAction: TextInputAction.next,
-                                readOnly: true,
                               ),
                             ),
                             const Flexible(child: SizedBox()),
@@ -196,7 +194,6 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                 focusNode: pp.lastNameFn,
                                 nextNode: pp.emailFn,
                                 textInputAction: TextInputAction.next,
-                                readOnly: true,
                               ),
                             ),
                           ],
@@ -219,7 +216,6 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                     focusNode: pp.emailFn,
                                     nextNode: pp.numberFn,
                                     textInputAction: TextInputAction.next,
-                                    readOnly: true,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 30.0),
@@ -234,7 +230,6 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                       focusNode: pp.numberFn,
                                       // nextNode: viewModel.confirmPasswordFn,
                                       textInputAction: TextInputAction.next,
-                                      readOnly: true,
                                     ),
                                   ),
                                 ],
@@ -270,7 +265,8 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                         onChanged: (int? value) {
                                         setState(() {
                                           selectedGender = value!;
-                                          genderValue = "Female";
+                                          isOtherGender = false;
+                                          pp.genderC.text = "Female";
                                         });
                                       },),
                                       const Expanded(
@@ -298,7 +294,8 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                         onChanged: (int? value) {
                                         setState(() {
                                           selectedGender = value!;
-                                          genderValue = "Male";
+                                          isOtherGender = false;
+                                          pp.genderC.text = "Male";
                                         });
                                       },),
                                       const Expanded(
@@ -324,7 +321,8 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                         onChanged: (int? value) {
                                         setState(() {
                                           selectedGender = value!;
-                                          genderValue = "Other";
+                                          isOtherGender = false;
+                                          pp.genderC.text = "Other";
                                         });
                                       },),
                                       const Expanded(
@@ -342,6 +340,20 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             ),
                           ],
                         ),
+                        isOtherGender ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: CustomTextField(
+                            labelText: "Other",
+                            isPassword: false,
+                            controller: pp.genderC,
+                            hintText: getTranslated('GENDER_HINT'),
+                            emptyText: getTranslated('GENDER_EMPTY'),
+                            textInputType: TextInputType.text,
+                            focusNode: pp.statusFn,
+                            // nextNode: viewModel.confirmPasswordFn,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ): Container(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -371,8 +383,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                         setState(() {
                                           selectedStatus = value!;
                                           pp.statusC.text = "Students";
-                                          debugPrint(statusValue);
-                                          isOther = false;
+                                          isOtherStatus = false;
                                         });
                                       },),
                                       const Expanded(
@@ -401,8 +412,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                         setState(() {
                                           selectedStatus = value!;
                                           pp.statusC.text = "Lecturer";
-                                          debugPrint(statusValue);
-                                          isOther = false;
+                                          isOtherStatus = false;
                                         });
                                       },),
                                       const Expanded(
@@ -429,8 +439,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                         setState(() {
                                           selectedStatus = value!;
                                           pp.statusC.text = "";
-                                          debugPrint(statusValue);
-                                          isOther = true;
+                                          isOtherStatus = true;
                                         });
                                       },),
                                       const Expanded(
@@ -448,10 +457,9 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             ),
                           ],
                         ),
-                        isOther ? Padding(
+                        isOtherStatus ? Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: CustomTextField(
-                            maxLength: 13,
                             labelText: "Other",
                             isPassword: false,
                             controller: pp.statusC,
@@ -463,21 +471,20 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             textInputAction: TextInputAction.next,
                           ),
                         ): Container(),
-                        // Padding(
-                        //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        //   child: CustomTextField(
-                        //     maxLength: 13,
-                        //     labelText: "Institution",
-                        //     isPassword: false,
-                        //     controller: pp.instutionC,
-                        //     hintText: getTranslated('INSTUTION_HINT'),
-                        //     emptyText: getTranslated('INSTUTION_EMPTY'),
-                        //     textInputType: TextInputType.text,
-                        //     focusNode: pp.instutionFn,
-                        //     // nextNode: viewModel.confirmPasswordFn,
-                        //     textInputAction: TextInputAction.next,
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: CustomTextField(
+                            labelText: "Agency",
+                            isPassword: false,
+                            controller: pp.instutionC,
+                            hintText: getTranslated('INSTUTION_HINT'),
+                            emptyText: getTranslated('INSTUTION_EMPTY'),
+                            textInputType: TextInputType.text,
+                            focusNode: pp.instutionFn,
+                            // nextNode: viewModel.confirmPasswordFn,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ),
                       ],
                     ),
                   ))

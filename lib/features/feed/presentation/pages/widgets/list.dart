@@ -7,6 +7,7 @@ import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
+import 'package:ppidunia/features/feed/provider/forum_download.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_posting.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
@@ -152,7 +153,7 @@ class _FeedListState extends State<FeedList> {
                                         top: 5.0,
                                         bottom: 20),
                                     child: imageCard(fsm.feeds[i].media[0].path,
-                                        180.0, 10.0)),
+                                        200.0, 10.0)),
                               ) : Container(),
                           if (fsm.feeds[i].media.length > 1)
                             Padding(
@@ -328,10 +329,8 @@ class _FeedListState extends State<FeedList> {
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.download),
-                                    onPressed: () async {
-                                      await DownloadHelper.downloadDoc(
-                                          context: context,
-                                          url: fsm.feeds[i].media[0].path);
+                                    onPressed: () {
+                                      NS.push(context, ForumContentVideo(dataSource: fsm.feeds[i].media[0].path,));
                                     },
                                     color: ColorResources.white,
                                   )

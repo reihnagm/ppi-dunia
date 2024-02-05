@@ -192,9 +192,11 @@ class _EventSccreenState extends State<EventSccreen> {
                                                         mainAxisSize: MainAxisSize.min,
                                                         children: [
                                                           const SizedBox(height: 5,),
-                                                          IconText(text: esm.event[i].date ?? "-", iconData: Icons.calendar_month, color: ColorResources.hintColor,),
+                                                          IconText(text: esm.event[i].location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
                                                           const SizedBox(height: 5,),
-                                                          IconText(text: esm.event[i].start ?? "-", iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
+                                                          IconText(text: '${esm.event[i].startDate} - ${esm.event[i].endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
+                                                          const SizedBox(height: 5,),
+                                                          IconText(text: '${esm.event[i].start} - ${esm.event[i].end}', iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
                                                         ],
                                                       ),
                                                     ),

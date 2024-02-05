@@ -21,7 +21,6 @@ dependencies:
   dio: ^5.3.2
   equatable: ^2.0.5
   external_path: ^1.0.3
-  # file_picker: ^6.1.1
   filesize: ^2.0.1
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.8
@@ -61,6 +60,7 @@ dependencies:
   multi_image_picker_plus: ^0.0.3
   new_version_plus: ^0.0.1+4
   open_file: ^3.3.2
+  open_filex: ^4.4.0
   package_info_plus: ^4.0.1
   path: ^1.8.3
   path_provider: ^2.0.15
