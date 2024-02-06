@@ -103,9 +103,12 @@ class CreatePostModel with ChangeNotifier {
                 MaterialButton(
                   child: const Text("Gallery"),
                   onPressed: () async {
-                    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
-                    if(await Permission.photos.isGranted || await Permission.storage.isGranted){
+                    if (await Permission.location.request().isGranted) {
                       Navigator.pop(context, ImageSource.gallery);
+                    } else if(await Permission.photos.request().isDenied || await Permission.storage.request().isDenied ) {
+                        GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
+                    }else{
+                      Navigator.pop(context);
                     }
                   },
                 )
@@ -144,7 +147,6 @@ class CreatePostModel with ChangeNotifier {
   }
 
   Future<void> uploadDoc(BuildContext context) async {
-    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
@@ -175,7 +177,6 @@ class CreatePostModel with ChangeNotifier {
   }
 
   Future<void> uploadVid(BuildContext context) async {
-    navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.video,
         allowMultiple: false,

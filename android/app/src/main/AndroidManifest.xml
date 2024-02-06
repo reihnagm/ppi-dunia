@@ -26,6 +26,7 @@
         android:usesCleartextTraffic="true"
         android:showWhenLocked="true"
         android:turnScreenOn="true"
+        android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true">
 
         <meta-data

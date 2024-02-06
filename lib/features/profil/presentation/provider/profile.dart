@@ -9,13 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/dashboard/presentation/pages/dashboard_state.dart';
+import 'package:ppidunia/features/feed/provider/file_storage.dart';
 
 import 'package:ppidunia/features/media/data/repositories/media.dart';
 import 'package:ppidunia/features/notification/provider/storage.dart';
@@ -155,9 +156,12 @@ class ProfileProvider with ChangeNotifier {
             MaterialButton(
               child: const Text("Gallery"),
               onPressed: () async {
-                navigatorKey.currentContext!.read<StorageNotifier>().checkStoragePermission();
-                if(await Permission.photos.isGranted || await Permission.storage.isGranted){
+                if (await Permission.location.request().isGranted) {
                   Navigator.pop(context, ImageSource.gallery);
+                } else if(await Permission.photos.request().isDenied || await Permission.storage.request().isDenied ) {
+                    GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
+                }else{
+                  Navigator.pop(context);
                 }
               },
             )
@@ -622,8 +626,8 @@ class ProfileProvider with ChangeNotifier {
 
   Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
     final path = (await getExternalStorageDirectory())?.path;
-    final file = File('$path/$fileName');
-    await file.writeAsBytes(bytes, flush: true);
+    Uint8List uint8List = Uint8List.fromList(bytes);
+    FileStorage.saveFile(uint8List, fileName);
     OpenFile.open('$path/$fileName');
   }
 

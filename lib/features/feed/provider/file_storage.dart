@@ -2,8 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
+import 'package:ppidunia/common/helpers/permission_helper.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 
 class FileStorage {
@@ -29,15 +32,17 @@ class FileStorage {
 
   static Future<String> getFileFromAsset(String filename , BuildContext context, bool isExistFile) async {
     final path = await localPath; 
-    debugPrint('Filename : $filename');
+    debugPrint('Filename : $path/PPI-DUNIA/$filename');
     final snackBar = SnackBar(
       backgroundColor: isExistFile ? ColorResources.primary : ColorResources.success,
       duration: const Duration(seconds: 5),
       content: Text("${isExistFile ? 'File already exists in ' : 'File downloaded successfully, File saved to '} $path/PPI-DUNIA/$filename"),
       action: SnackBarAction(
         label: 'View',
-        onPressed: () {
-          OpenFile.open('$path/PPI-DUNIA/$filename');
+        onPressed: () async {
+          PermissionHelper.check(context, permissionType: Permission.storage, permissionName: 'Storage');
+          final result = await OpenFile.open('$path/PPI-DUNIA/');
+          print("type=${result.type}  message=${result.message}");
         },
       ),
     );
@@ -60,6 +65,12 @@ class FileStorage {
   }
   
   static Future<File> saveFile(Uint8List bytes, String filename) async { 
+    final path = await localPath; 
+    debugPrint('Filename : $filename');
+    File file = File('$path/PPI-DUNIA/$filename');
+    return file.writeAsBytes(bytes); 
+  } 
+  static Future<File> saveFileKta(Uint8List bytes, String filename) async { 
     final path = await localPath; 
     debugPrint('Filename : $filename');
     File file = File('$path/PPI-DUNIA/$filename');

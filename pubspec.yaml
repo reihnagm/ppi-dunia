@@ -60,6 +60,7 @@ dependencies:
   multi_image_picker_plus: ^0.0.3
   new_version_plus: ^0.0.1+4
   open_file: ^3.3.2
+  open_file_plus: ^3.4.1
   package_info_plus: ^4.0.1
   path: ^1.8.3
   path_provider: ^2.0.15
