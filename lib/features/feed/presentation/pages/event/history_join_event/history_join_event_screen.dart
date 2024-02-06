@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
@@ -7,7 +8,6 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_screen.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
-import 'package:ppidunia/features/feed/presentation/pages/event/history_join_event/history_join_event_screen.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/event_search.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -15,14 +15,14 @@ import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
 
-class EventSccreen extends StatefulWidget {
-  const EventSccreen({super.key});
+class HistoryJoinEventScreen extends StatefulWidget {
+  const HistoryJoinEventScreen({super.key});
 
   @override
-  State<EventSccreen> createState() => _EventSccreenState();
+  State<HistoryJoinEventScreen> createState() => _HistoryJoinEventScreenState();
 }
 
-class _EventSccreenState extends State<EventSccreen> {
+class _HistoryJoinEventScreenState extends State<HistoryJoinEventScreen> {
   late EventScreenModel esm;
 
   @override
@@ -41,7 +41,7 @@ class _EventSccreenState extends State<EventSccreen> {
     });
 
     if (mounted) {
-      esm.getEvent();
+      esm.getEventJoined();
     }
   }
   @override
@@ -52,27 +52,27 @@ class _EventSccreenState extends State<EventSccreen> {
         return RefreshIndicator(
           onRefresh: () {
             return Future.sync(() {
-              esm.getEvent();
+              esm.getEventJoined();
             });
           },
           child: NotificationListener(
-            onNotification: (ScrollNotification notification) {
-              if (notification is ScrollEndNotification) {
-                if (notification.metrics.pixels == notification.metrics.maxScrollExtent) {
-                  if (esm.hasMore) {
-                    esm.loadMoreEvent();
-                  }
-                }
-              }
-              return false;
-            },
+            // onNotification: (ScrollNotification notification) {
+            //   if (notification is ScrollEndNotification) {
+            //     if (notification.metrics.pixels == notification.metrics.maxScrollExtent) {
+            //       if (esm.hasMore) {
+            //         esm.loadMoreEvent();
+            //       }
+            //     }
+            //   }
+            //   return false;
+            // },
             child: CustomScrollView(
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 slivers: [
                   SliverAppBar(
                       backgroundColor: ColorResources.transparent,
                       title: const Text(
-                        "Event",
+                        "Your Event Joined",
                         style: TextStyle(
                             color: ColorResources.greyLightPrimary,
                             fontSize: Dimensions.fontSizeOverLarge,
@@ -81,13 +81,12 @@ class _EventSccreenState extends State<EventSccreen> {
                       ),
                       automaticallyImplyLeading: false,
                       centerTitle: true,
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            NS.push(context, const HistoryJoinEventScreen());
-                          }, 
-                          icon: const Icon(Icons.event_available, size: 30,color: Colors.white,))
-                      ],
+                      leading: CupertinoNavigationBarBackButton(
+                        color: ColorResources.greyLightPrimary,
+                        onPressed: () {
+                          NS.pop(context);
+                        },
+                      ),
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate([
@@ -134,7 +133,7 @@ class _EventSccreenState extends State<EventSccreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                             shrinkWrap: true,
-                            itemCount: esm.event.length,
+                            itemCount: esm.eventJoined.length,
                             itemBuilder: (BuildContext context, int i) {
                               return Container(
                                 width: double.infinity,
@@ -148,7 +147,7 @@ class _EventSccreenState extends State<EventSccreen> {
                                     onTap: () {
                                       NS.push(context, 
                                       EventDetailScreen(
-                                        idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                        idEvent:  esm.eventJoined[i].id ?? "-", isJoinEvent: true,
                                       ));
                                     },
                                     child: Column(
@@ -162,7 +161,7 @@ class _EventSccreenState extends State<EventSccreen> {
                                           onTap: (){
                                             NS.push(context, 
                                             EventDetailScreen(
-                                              idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                              idEvent:  esm.eventJoined[i].id ?? "-", isJoinEvent: true,
                                             ));
                                           },
                                           child: Column(
@@ -173,12 +172,12 @@ class _EventSccreenState extends State<EventSccreen> {
                                                 onTap: () {
                                                   NS.push(context, 
                                                   EventDetailScreen(
-                                                    idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                                    idEvent:  esm.eventJoined[i].id ?? "-", isJoinEvent: true,
                                                   ));
                                                 },
-                                                child: imageCard(esm.event[i].picture ?? "-", 245.0, 15.0)),
+                                                child: imageCard(esm.eventJoined[i].picture ?? "-", 245.0, 15.0)),
                                               const SizedBox(height: 10,),
-                                              Text(esm.event[i].title ?? "",
+                                              Text(esm.eventJoined[i].title ?? "",
                                               maxLines: null,
                                               textAlign: TextAlign.left,
                                               style: const TextStyle(
@@ -200,11 +199,11 @@ class _EventSccreenState extends State<EventSccreen> {
                                                         mainAxisSize: MainAxisSize.min,
                                                         children: [
                                                           const SizedBox(height: 5,),
-                                                          IconText(text: esm.event[i].location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
+                                                          IconText(text: esm.eventJoined[i].location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
+                                                          // const SizedBox(height: 5,),
+                                                          // IconText(text: '${esm.eventJoined[i].startDate} - ${esm.eventJoined[i].endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
                                                           const SizedBox(height: 5,),
-                                                          IconText(text: '${esm.event[i].startDate} - ${esm.event[i].endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
-                                                          const SizedBox(height: 5,),
-                                                          IconText(text: '${esm.event[i].start} - ${esm.event[i].end}', iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
+                                                          IconText(text: '${esm.eventJoined[i].start} - ${esm.eventJoined[i].end}', iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
                                                         ],
                                                       ),
                                                     ),
@@ -214,7 +213,7 @@ class _EventSccreenState extends State<EventSccreen> {
                                                       onTap: () {
                                                         NS.push(context, 
                                                         EventDetailScreen(
-                                                          idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                                          idEvent:  esm.eventJoined[i].id ?? "-", isJoinEvent: true,
                                                         ));
                                                       },
                                                       child: Image.asset(

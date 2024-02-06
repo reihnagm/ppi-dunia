@@ -329,8 +329,8 @@ class _FeedListState extends State<FeedList> {
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.download),
-                                    onPressed: () {
-                                      NS.push(context, ForumContentVideo(dataSource: fsm.feeds[i].media[0].path,));
+                                    onPressed: () async {
+                                      await DownloadHelper.downloadDoc(context: context, url: fsm.feeds[i].media[0].path);
                                     },
                                     color: ColorResources.white,
                                   )

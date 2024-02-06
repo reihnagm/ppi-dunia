@@ -45,7 +45,7 @@ class ForumContentVideoState extends State<ForumContentVideo> {
     String filename = "${DateFormat('yyyydd').format(DateTime.now())}-$originName.$ext";
 
     bool isExistFile = await FileStorage.checkFileExist(filename);
-    NS.pop(context);
+
     if(!isExistFile) {
       response = await http.Client().send(http.Request('GET', Uri.parse(widget.dataSource)));
     
@@ -61,25 +61,8 @@ class ForumContentVideoState extends State<ForumContentVideo> {
         Uint8List uint8List = Uint8List.fromList(bytes);
 
         await FileStorage.saveFile(uint8List, filename);
-
-        String fileToPlay = await FileStorage.getFileFromAsset(filename);
-          
-        videoC = VideoPlayerController.file(io.File(fileToPlay))
-          ..initialize().then((_) {
-          setState(() {
-            debugPrint('Filename : $filename');
-            finishDownload = true;
-
-            chewieC = ChewieController(
-              videoPlayerController: videoC!,
-              aspectRatio: videoC?.value.aspectRatio,
-              autoInitialize: true,
-              autoPlay: false,
-              looping: false,
-            );
-          });
-        });
         NS.pop(context);
+        // await FileStorage.getFileFromAsset(filename);
       });
 
       // Create a ByteBuilder to accumulate bytes
@@ -94,29 +77,13 @@ class ForumContentVideoState extends State<ForumContentVideo> {
       // Uint8List resultBytes = byteBuilder.toBytes();
 
     } else {
-      // playMediaFromAsset(filename);
-      // OpenFilex.open(filename);
+      playMediaFromAsset(filename);
     }
   }
 
   Future<void> playMediaFromAsset(String filename) async {
-    String fileToPlay = await FileStorage.getFileFromAsset(filename);
-
-    videoC = VideoPlayerController.file(io.File(fileToPlay))
-      ..initialize().then((_) {
-      setState(() {
-        finishDownload = true;
-
-        chewieC = ChewieController(
-          videoPlayerController: videoC!,
-          aspectRatio: videoC?.value.aspectRatio,
-          autoInitialize: true,
-          autoPlay: false,
-          looping: false,
-        );
-      });
-      NS.pop(context);
-    });    
+    NS.pop(context);
+    // await FileStorage.getFileFromAsset(filename); 
   }
 
   @override 
@@ -171,7 +138,7 @@ class ForumContentVideoState extends State<ForumContentVideo> {
 
             SizedBox(width: 12.w),
 
-            const SpinKitChasingDots(
+            SpinKitChasingDots(
               color: ColorResources.blueDrawerPrimary,
             )
 

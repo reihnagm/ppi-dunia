@@ -141,6 +141,7 @@ class ProfileRepo {
     try {
       await dioClient!.post("/api/v1/event/create-register", data: {
         "event_id": eventId,
+        "user_id": SharedPrefs.getUserId(),
         "first_name": firtNameC,
         "last_name": lastNameC,
         "email": email,
@@ -149,7 +150,8 @@ class ProfileRepo {
         "status": status,
         "agency": instution,
       });
-      await joinedEvent(eventId: eventId);
+      debugPrint("Berhasil Daftar Event");
+      // await joinedEvent(eventId: eventId);
     } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioException(e).toString();
       throw CustomException(errorMessage);

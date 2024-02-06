@@ -299,9 +299,7 @@ Widget postCard({
                                 IconButton(
                                   icon: const Icon(Icons.download),
                                   onPressed: () async {
-                                    await DownloadHelper.downloadDoc(
-                                        context: context,
-                                        url: pp.feeds[i].media[0].path);
+                                    await DownloadHelper.downloadDoc(context: context, url: pp.feeds[i].media[0].path);
                                   },
                                   color: ColorResources.white,
                                 )

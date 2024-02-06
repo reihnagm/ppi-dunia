@@ -4,10 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_screen.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/button/custom.dart';
+import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:ppidunia/views/basewidgets/textfield/textfield.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +29,7 @@ class JoinEventScreen extends StatefulWidget {
 
 class _JoinEventScreenState extends State<JoinEventScreen> {
   late ProfileProvider pp;
+  late EventDetailScreenModel edsm;
   int? selectedGender;
   int? selectedStatus;
   bool isOtherGender = false;
@@ -45,11 +49,17 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
     pp.genderC = TextEditingController();
     pp.statusC = TextEditingController();
     pp.instutionC = TextEditingController();
+    edsm = context.read<EventDetailScreenModel>();
 
     pp.firstNameC.text = context.read<ProfileProvider>().pd.first_name!;
     pp.lastNameC.text = context.read<ProfileProvider>().pd.last_name!;
     pp.emailC.text = context.read<ProfileProvider>().pd.email!;
     pp.phoneC.text = context.read<ProfileProvider>().pd.phone!;
+
+
+    if (mounted) {
+      edsm.getEventData(idEvent: widget.idEvent);
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -110,57 +120,59 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                   Form(
                       child: Container(
                     margin: const EdgeInsets.symmetric(
-                      vertical: 20.0,
+                      vertical: 10.0,
                       horizontal: 16.0,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: ColorResources.fillPrimary
-                          ),
-                          child: Column(
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                color: ColorResources.greyPrimary),
+                            child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Text("Your chosen event", 
-                              style: TextStyle(
-                                  color: ColorResources.white,
-                                  fontSize: Dimensions.fontSizeLarge,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro'
-                              )),
-                              Text(widget.titleEvent, 
+                              imageCard(edsm.eventDetailData.picture ?? "-", 245.0, 15.0),
+                              const SizedBox(height: 10,),
+                              Text(edsm.eventDetailData.title ?? "",
+                              maxLines: null,
+                              textAlign: TextAlign.left,
                               style: const TextStyle(
-                                  color: ColorResources.white,
-                                  fontSize: Dimensions.fontSizeDefault,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro'
+                                color: ColorResources.white,
+                                fontSize: Dimensions.fontSizeLarge,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'SF Pro'
                               )),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    flex: 5,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const SizedBox(height: 5,),
+                                        IconText(text: edsm.eventDetailData.location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
+                                        const SizedBox(height: 5,),
+                                        IconText(text: '${edsm.eventDetailData.startDate} - ${edsm.eventDetailData.endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
+                                        const SizedBox(height: 5,),
+                                        IconText(text: '${edsm.eventDetailData.start} - ${edsm.eventDetailData.end}', iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
+                                                    ),
                           ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: 200,
-                          height: 200,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Image.asset(
-                                AssetsConst.imageIcForm,
-                                width: 200.0,
-                                height: 200.0,
-                                fit: BoxFit.scaleDown,
-                              )
-                            ],
-                          ),
-                        ),
                         const SizedBox(
                           height: 30.0,
                         ),
@@ -228,7 +240,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                       emptyText: getTranslated('PHONE_EMPTY'),
                                       textInputType: TextInputType.number,
                                       focusNode: pp.numberFn,
-                                      nextNode: pp.instutionFn,
+                                      // nextNode: viewModel.confirmPasswordFn,
                                       textInputAction: TextInputAction.next,
                                     ),
                                   ),
@@ -269,12 +281,13 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           pp.genderC.text = "Female";
                                         });
                                       },),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text(
                                           'Female',
                                           style: TextStyle(
                                             color: ColorResources.white,
-                                            fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
+                                            fontSize: Dimensions.fontSizeSmall,
+                                            fontWeight: FontWeight.w600,
                                             fontFamily: 'SF Pro'
                                           )
                                         ),
@@ -297,11 +310,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           pp.genderC.text = "Male";
                                         });
                                       },),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text('Male',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        fontWeight: FontWeight.w600,
                                         fontFamily: 'SF Pro'
                                       )
                                         ))
@@ -323,11 +337,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           pp.genderC.text = "Other";
                                         });
                                       },),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text('Other',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        fontWeight: FontWeight.w600,
                                         fontFamily: 'SF Pro'
                                       )))
                                     ],
@@ -347,7 +362,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             emptyText: getTranslated('GENDER_EMPTY'),
                             textInputType: TextInputType.text,
                             focusNode: pp.statusFn,
-                            nextNode: pp.instutionFn,
+                            // nextNode: viewModel.confirmPasswordFn,
                             textInputAction: TextInputAction.next,
                           ),
                         ): Container(),
@@ -383,12 +398,13 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           isOtherStatus = false;
                                         });
                                       },),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text(
                                           'Students',
                                           style: TextStyle(
                                             color: ColorResources.white,
-                                            fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
+                                            fontSize: Dimensions.fontSizeSmall,
+                                            fontWeight: FontWeight.w600,
                                             fontFamily: 'SF Pro'
                                           )
                                         ),
@@ -411,11 +427,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           isOtherStatus = false;
                                         });
                                       },),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text('Lecturer',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        fontWeight: FontWeight.w600,
                                         fontFamily: 'SF Pro'
                                       )
                                         ))
@@ -437,11 +454,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           isOtherStatus = true;
                                         });
                                       },),
-                                      Expanded(
+                                      const Expanded(
                                         child: Text('Other',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        fontWeight: FontWeight.w600,
                                         fontFamily: 'SF Pro'
                                       )))
                                     ],
@@ -461,7 +479,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             emptyText: getTranslated('STATUS_EMPTY'),
                             textInputType: TextInputType.text,
                             focusNode: pp.statusFn,
-                            nextNode: pp.instutionFn,
+                            // nextNode: viewModel.confirmPasswordFn,
                             textInputAction: TextInputAction.next,
                           ),
                         ): Container(),
@@ -475,7 +493,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             emptyText: getTranslated('INSTUTION_EMPTY'),
                             textInputType: TextInputType.text,
                             focusNode: pp.instutionFn,
-                            nextNode: pp.instutionFn,
+                            // nextNode: viewModel.confirmPasswordFn,
                             textInputAction: TextInputAction.next,
                           ),
                         ),

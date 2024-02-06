@@ -158,26 +158,23 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       )),
                       const SizedBox(height: 10,),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 5,),
-                              IconText(text: '${edsm.eventDetailData.startDate} - ${edsm.eventDetailData.endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
-                              const SizedBox(height: 5,),
-                              IconText(text: '${edsm.eventDetailData.start} - ${edsm.eventDetailData.end}', iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(height: 5,),
-                              IconText(text: edsm.eventDetailData.location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
-                            ],
+                          Expanded(
+                            flex: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 5,),
+                                IconText(text: edsm.eventDetailData.location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
+                                const SizedBox(height: 5,),
+                                IconText(text: '${edsm.eventDetailData.startDate} - ${edsm.eventDetailData.endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
+                                const SizedBox(height: 5,),
+                                IconText(text: '${edsm.eventDetailData.start} - ${edsm.eventDetailData.end}', iconData: Icons.access_time_outlined, color: ColorResources.hintColor,),
+                              ],
+                            ),
                           ),
                         ],
                       ),

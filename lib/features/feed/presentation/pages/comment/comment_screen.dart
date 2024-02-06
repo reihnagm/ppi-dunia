@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
+import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/data/models/detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail.dart';
@@ -525,8 +526,8 @@ class CommentScreenState extends State<CommentScreen> {
                                               IconButton(
                                                 icon:
                                                     const Icon(Icons.download),
-                                                onPressed: () {
-                                                  NS.push(context, ForumContentVideo(dataSource: c.feedDetailData.media![0].path,));
+                                                onPressed: () async {
+                                                  await DownloadHelper.downloadDoc(context: context, url: c.feedDetailData.media![0].path);
                                                 },
                                                 color: ColorResources.white,
                                               )

@@ -1,56 +1,70 @@
-import 'dart:io';
-import 'dart:math';
 
-import 'package:dio/dio.dart';
+import 'dart:typed_data';
 
-import 'package:external_path/external_path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/features/feed/provider/file_storage.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-import 'package:path/path.dart' as b;
+import 'package:path/path.dart' as p;
+import 'package:http/http.dart' as http;
+import 'dart:io' as io;
 
-import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class DownloadHelper {
   static Future<void> downloadDoc(
       {required BuildContext context, required String url}) async {
-    Directory documentsIos = await getApplicationDocumentsDirectory();
-    String? saveDir = Platform.isIOS
-        ? documentsIos.path
-        : await ExternalPath.getExternalStoragePublicDirectory(
-            ExternalPath.DIRECTORY_DOCUMENTS);
+    int total = 0;
+    int received = 0;
 
-    try {
-      String ext = b.basename(url).split('.').last;
-      String name = b.basename(url).split('.').first;
-      String filename =
-          "$name-${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}-${Random().nextInt(100000)}.$ext";
+    bool finishDownload = false;
 
+    late http.StreamedResponse response;
+
+    final List<int> bytes = [];
+    
+    String originName = p.basename(url.split('/').last).split('.').first;
+    String ext = p.basename(url).toString().split('.').last;
+
+    String filename = "${DateFormat('yyyydd').format(DateTime.now())}-$originName.$ext";
+
+    bool isExistFile = await FileStorage.checkFileExist(filename);
+
+    if(!isExistFile) {
       ProgressDialog pr = ProgressDialog(context: context);
       pr.show(
           backgroundColor: ColorResources.greyDarkPrimary,
           msgTextAlign: TextAlign.start,
-          msgMaxLines: 1,
+          max: 100,
           msgColor: ColorResources.greyLight,
           msg: "Please wait...",
           progressBgColor: ColorResources.greyLight,
-          progressValueColor: ColorResources.greyDarkPrimary);
-      Dio dio = Dio();
-      await dio.download(
-        url,
-        "$saveDir/$filename",
-        onReceiveProgress: (int count, int total) {},
+          progressValueColor: ColorResources.greyDarkPrimary,
+          onStatusChanged: (status) async {
+            if (status == DialogStatus.opened){
+              response = await http.Client().send(http.Request('GET', Uri.parse(url)));
+            
+              total = response.contentLength ?? 0;
+
+              response.stream.listen((value) {
+                bytes.addAll(value);
+                received =  value.length;
+                ProgressDialog pr = ProgressDialog(context: context);
+                int progress = (((received / total) * 100).toInt());
+                pr.update(value: progress, msg: 'File Downloading...');
+              }).onDone(() async {
+                pr.close();
+                Uint8List uint8List = Uint8List.fromList(bytes);
+
+                await FileStorage.saveFile(uint8List, filename);
+                await FileStorage.getFileFromAsset(filename, context, isExistFile);
+              });
+            }
+          }
       );
-      pr.close();
-      ShowSnackbar.snackbar(
-          context,
-          "File saved to $saveDir/${b.basename(url)}",
-          "",
-          ColorResources.success);
-    } catch (e) {
-      debugPrint(e.toString());
+    } else {
+      await FileStorage.getFileFromAsset(filename, context, isExistFile); 
     }
   }
 }

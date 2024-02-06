@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
 
 class FileStorage {
   
@@ -26,10 +27,21 @@ class FileStorage {
     return directory; 
   } 
 
-  static Future<String> getFileFromAsset(String filename) async {
+  static Future<String> getFileFromAsset(String filename , BuildContext context, bool isExistFile) async {
     final path = await localPath; 
     debugPrint('Filename : $filename');
-    OpenFile.open('$path/PPI-DUNIA/$filename');
+    final snackBar = SnackBar(
+      backgroundColor: isExistFile ? ColorResources.primary : ColorResources.success,
+      duration: const Duration(seconds: 5),
+      content: Text("${isExistFile ? 'File already exists in ' : 'File downloaded successfully, File saved to '} $path/PPI-DUNIA/$filename"),
+      action: SnackBarAction(
+        label: 'View',
+        onPressed: () {
+          OpenFile.open('$path/PPI-DUNIA/$filename');
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
     return "$path/PPI-DUNIA/$filename"; 
   }
 
@@ -40,7 +52,6 @@ class FileStorage {
 
     bool checkIsExist = await file.exists();
     if(checkIsExist) {
-      OpenFile.open('$path/PPI-DUNIA/$filename');
       return true;
     } 
     
