@@ -1,6 +1,8 @@
 import 'package:detectable_text_field/widgets/detectable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
@@ -48,7 +50,7 @@ class DetectText extends StatelessWidget {
           debugPrint(tappedText);
 
           if (email) {
-            launchEmailSubmission(tappedText);
+            launchEmailSubmission(tappedText, context);
           } else if(mention){
             NS.push(context, ProfileViewScreen(userId: userid ?? ""));
           }  
@@ -58,7 +60,7 @@ class DetectText extends StatelessWidget {
         },
     );
   }
-  void launchEmailSubmission(String email) async {
+  void launchEmailSubmission(String email, BuildContext context) async {
     final Uri params = Uri(
       scheme: 'mailto',
       path: email,
@@ -67,11 +69,13 @@ class DetectText extends StatelessWidget {
       //   'body': 'Default body'
       // }
     );
-    String url = params.toString();
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(params)) {
+      await launchUrl(params);
     } else {
-      print('Could not launch $url');
+      await Clipboard.setData(ClipboardData(text: email));
+      // ignore: use_build_context_synchronously
+      ShowSnackbar.snackbar(context, "Content copied to clipboard", '', ColorResources.success, const Duration(seconds: 6),);
+      print('Could not launch $params');
     }
   }
 }

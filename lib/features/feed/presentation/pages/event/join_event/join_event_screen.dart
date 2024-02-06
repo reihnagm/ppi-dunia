@@ -228,7 +228,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                       emptyText: getTranslated('PHONE_EMPTY'),
                                       textInputType: TextInputType.number,
                                       focusNode: pp.numberFn,
-                                      // nextNode: viewModel.confirmPasswordFn,
+                                      nextNode: pp.instutionFn,
                                       textInputAction: TextInputAction.next,
                                     ),
                                   ),
@@ -269,13 +269,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           pp.genderC.text = "Female";
                                         });
                                       },),
-                                      const Expanded(
+                                      Expanded(
                                         child: Text(
                                           'Female',
                                           style: TextStyle(
                                             color: ColorResources.white,
-                                            fontSize: Dimensions.fontSizeLarge,
-                                            fontWeight: FontWeight.w600,
+                                            fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
                                             fontFamily: 'SF Pro'
                                           )
                                         ),
@@ -298,12 +297,11 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           pp.genderC.text = "Male";
                                         });
                                       },),
-                                      const Expanded(
+                                      Expanded(
                                         child: Text('Male',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
                                         fontFamily: 'SF Pro'
                                       )
                                         ))
@@ -325,12 +323,11 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           pp.genderC.text = "Other";
                                         });
                                       },),
-                                      const Expanded(
+                                      Expanded(
                                         child: Text('Other',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
                                         fontFamily: 'SF Pro'
                                       )))
                                     ],
@@ -350,7 +347,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             emptyText: getTranslated('GENDER_EMPTY'),
                             textInputType: TextInputType.text,
                             focusNode: pp.statusFn,
-                            // nextNode: viewModel.confirmPasswordFn,
+                            nextNode: pp.instutionFn,
                             textInputAction: TextInputAction.next,
                           ),
                         ): Container(),
@@ -386,13 +383,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           isOtherStatus = false;
                                         });
                                       },),
-                                      const Expanded(
+                                      Expanded(
                                         child: Text(
                                           'Students',
                                           style: TextStyle(
                                             color: ColorResources.white,
-                                            fontSize: Dimensions.fontSizeLarge,
-                                            fontWeight: FontWeight.w600,
+                                            fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
                                             fontFamily: 'SF Pro'
                                           )
                                         ),
@@ -415,12 +411,11 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           isOtherStatus = false;
                                         });
                                       },),
-                                      const Expanded(
+                                      Expanded(
                                         child: Text('Lecturer',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
                                         fontFamily: 'SF Pro'
                                       )
                                         ))
@@ -442,12 +437,11 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                           isOtherStatus = true;
                                         });
                                       },),
-                                      const Expanded(
+                                      Expanded(
                                         child: Text('Other',
                                         style: TextStyle(
                                         color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: MediaQuery.of(context).size.width < 400 ? Dimensions.fontSizeSmall : Dimensions.fontSizeDefault,
                                         fontFamily: 'SF Pro'
                                       )))
                                     ],
@@ -467,7 +461,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             emptyText: getTranslated('STATUS_EMPTY'),
                             textInputType: TextInputType.text,
                             focusNode: pp.statusFn,
-                            // nextNode: viewModel.confirmPasswordFn,
+                            nextNode: pp.instutionFn,
                             textInputAction: TextInputAction.next,
                           ),
                         ): Container(),
@@ -481,7 +475,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             emptyText: getTranslated('INSTUTION_EMPTY'),
                             textInputType: TextInputType.text,
                             focusNode: pp.instutionFn,
-                            // nextNode: viewModel.confirmPasswordFn,
+                            nextNode: pp.instutionFn,
                             textInputAction: TextInputAction.next,
                           ),
                         ),

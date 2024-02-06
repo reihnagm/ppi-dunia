@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileStorage {
@@ -29,7 +29,7 @@ class FileStorage {
   static Future<String> getFileFromAsset(String filename) async {
     final path = await localPath; 
     debugPrint('Filename : $filename');
-    OpenFilex.open('$path/PPI-DUNIA/$filename');
+    OpenFile.open('$path/PPI-DUNIA/$filename');
     return "$path/PPI-DUNIA/$filename"; 
   }
 
@@ -40,7 +40,7 @@ class FileStorage {
 
     bool checkIsExist = await file.exists();
     if(checkIsExist) {
-      OpenFilex.open('$path/PPI-DUNIA/$filename');
+      OpenFile.open('$path/PPI-DUNIA/$filename');
       return true;
     } 
     

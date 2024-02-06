@@ -9,7 +9,6 @@ import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/features/feed/provider/file_storage.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:video_player/video_player.dart';
-import 'package:open_filex/open_filex.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;
