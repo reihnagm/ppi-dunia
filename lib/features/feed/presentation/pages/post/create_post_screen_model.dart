@@ -103,7 +103,7 @@ class CreatePostModel with ChangeNotifier {
                 MaterialButton(
                   child: const Text("Gallery"),
                   onPressed: () async {
-                    if (await Permission.location.request().isGranted) {
+                    if (await Permission.photos.request().isGranted || await Permission.storage.request().isGranted ) {
                       Navigator.pop(context, ImageSource.gallery);
                     } else if(await Permission.photos.request().isDenied || await Permission.storage.request().isDenied ) {
                         GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");

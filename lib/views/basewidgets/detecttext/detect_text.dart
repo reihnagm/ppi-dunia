@@ -23,7 +23,7 @@ class DetectText extends StatelessWidget {
         trimLength: 300,
         trimExpandedText: ' Show Less',
         trimCollapsedText: 'Read More',
-        detectionRegExp: RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$|(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+|@[a-zA-Z0-9_.]+?(?![a-zA-Z0-9_.]|[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$)'),
+        detectionRegExp: RegExp(r'(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)|([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)|@[a-zA-Z0-9_.]+?(?![a-zA-Z0-9_.]|[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$)'),
         detectedStyle: const TextStyle(
           color: ColorResources.blue,
           fontSize: Dimensions.fontSizeSmall,

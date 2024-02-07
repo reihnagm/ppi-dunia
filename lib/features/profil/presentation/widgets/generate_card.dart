@@ -61,5 +61,5 @@ Future<void> generateCard({
   final List<int> bytes = document.saveSync();
   document.dispose();
 
-  await pp.saveAndLaunchFile(bytes, 'kartu-anggota-ppi-${context.read<ProfileProvider>().pd.fullname!.replaceAll(" ", "-").toLowerCase()}.pdf');
+  await pp.saveAndLaunchFile(bytes, 'kartu-anggota-ppi-${context.read<ProfileProvider>().pd.fullname!.replaceAll(" ", "-").toLowerCase()}.pdf', context);
 }

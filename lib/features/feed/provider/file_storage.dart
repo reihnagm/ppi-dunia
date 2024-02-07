@@ -41,8 +41,11 @@ class FileStorage {
         label: 'View',
         onPressed: () async {
           PermissionHelper.check(context, permissionType: Permission.storage, permissionName: 'Storage');
-          final result = await OpenFile.open('$path/PPI-DUNIA/');
-          print("type=${result.type}  message=${result.message}");
+          final result = await OpenFile.open('$path/PPI-DUNIA/$filename');
+          debugPrint("type=${result.type}  message=${result.message}");
+          Future.delayed(Duration.zero, () {
+            ShowSnackbar.snackbar(context, "Message : ${result.message}", '', result.message == "done" ?  ColorResources.success : ColorResources.error);
+          });
         },
       ),
     );
@@ -70,11 +73,4 @@ class FileStorage {
     File file = File('$path/PPI-DUNIA/$filename');
     return file.writeAsBytes(bytes); 
   } 
-  static Future<File> saveFileKta(Uint8List bytes, String filename) async { 
-    final path = await localPath; 
-    debugPrint('Filename : $filename');
-    File file = File('$path/PPI-DUNIA/$filename');
-    return file.writeAsBytes(bytes); 
-  } 
-
 }

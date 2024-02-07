@@ -141,17 +141,17 @@ class GeneralModal {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                        width: 300.w,
-                        height: 400.h,
+                        width: 300,
+                        height:300,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
                             Positioned(
-                                left: 20.w,
-                                right: 20.w,
-                                bottom: 20.h,
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
                                 child: Container(
-                                  height: 200.h,
+                                  height: 150,
                                   padding: const EdgeInsets.all(12.0),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(25.0),
@@ -173,8 +173,8 @@ class GeneralModal {
                                 )),
                             Positioned(
                               bottom: 0.0,
-                              left: 60.w,
-                              right: 60.w,
+                              left: 60,
+                              right: 60,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -261,8 +261,8 @@ class GeneralModal {
                               right: 0.0,
                               child: Image.asset(
                                 AssetsConst.imageIcPopUpLogout,
-                                width: 250.0,
-                                height: 250.0,
+                                width: 150.0,
+                                height: 150.0,
                               ),
                             ),
                           ],
@@ -532,7 +532,7 @@ class GeneralModal {
     );
   }
 
-  static Future<void> info({required String msg, required bool isBackHome}) {
+  static Future<void> info({required String msg, required String imageSourece}) {
     return showDialog(
       context: navigatorKey.currentContext!,
       builder: (context) {
@@ -587,7 +587,6 @@ class GeneralModal {
                                 height: 40.0,
                                 onTap: () {
                                   Navigator.pop(context);
-                                  Navigator.pop(context, false);
                                 },
                                 btnTxt: "OK",
                               )),
@@ -596,7 +595,7 @@ class GeneralModal {
                             left: 0.0,
                             right: 0.0,
                             child: Image.asset(
-                              AssetsConst.imageIcPopUpDelete,
+                              imageSourece,
                               width: 250.0,
                               height: 250.0,
                             ),

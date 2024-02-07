@@ -76,6 +76,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
             onTap: () {
               pp.joinEvent(
                 context,
+                edsm.eventDetailData.title!,
                 widget.idEvent,
                 pp.genderC.text,
                 pp.statusC.text,
@@ -138,9 +139,9 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              imageCard(edsm.eventDetailData.picture ?? "-", 245.0, 15.0),
+                              imageCard(edsm.eventDetailData.picture!, 245.0, 15.0),
                               const SizedBox(height: 10,),
-                              Text(edsm.eventDetailData.title ?? "",
+                              Text(edsm.eventDetailData.title!,
                               maxLines: null,
                               textAlign: TextAlign.left,
                               style: const TextStyle(
@@ -160,7 +161,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const SizedBox(height: 5,),
-                                        IconText(text: edsm.eventDetailData.location ?? "-", iconData: Icons.location_pin, color: ColorResources.hintColor,),
+                                        IconText(text: edsm.eventDetailData.location!, iconData: Icons.location_pin, color: ColorResources.hintColor,),
                                         const SizedBox(height: 5,),
                                         IconText(text: '${edsm.eventDetailData.startDate} - ${edsm.eventDetailData.endDate}', iconData: Icons.calendar_month, color: ColorResources.hintColor,),
                                         const SizedBox(height: 5,),
@@ -486,7 +487,7 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: CustomTextField(
-                            labelText: "Agency",
+                            labelText: "Instansi",
                             isPassword: false,
                             controller: pp.instutionC,
                             hintText: getTranslated('INSTUTION_HINT'),

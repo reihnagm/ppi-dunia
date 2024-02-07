@@ -35,17 +35,11 @@ class EventScreenModel with ChangeNotifier {
 
   List<EventData> _event = [];
   List<EventData> get event => [..._event];
-  List<JoinedEventData> _eventJoined = [];
-  List<JoinedEventData> get eventJoined => [..._eventJoined];
 
   EventStatus _eventStatus = EventStatus.loading;
   EventStatus get eventStatus => _eventStatus;
 
   void setStateEventStatus(EventStatus eventStatus) {
-    _eventStatus = eventStatus;
-    Future.delayed(Duration.zero, () => notifyListeners());
-  }
-  void setStateEventJoinStatus(EventStatus eventStatus) {
     _eventStatus = eventStatus;
     Future.delayed(Duration.zero, () => notifyListeners());
   }
@@ -74,27 +68,6 @@ class EventScreenModel with ChangeNotifier {
       setStateEventStatus(EventStatus.error);
     } catch (_) {
       setStateEventStatus(EventStatus.error);
-    }
-  }
-
-  Future<void> getEventJoined() async {
-    pageKey = 1;
-    hasMore = true;
-
-    try {
-      JoinedEventModel ejm = await er.getEventJoined();
-
-      _eventJoined = [];
-      _eventJoined.addAll(ejm.data);
-      setStateEventJoinStatus(EventStatus.loaded);
-
-      if (eventJoined.isEmpty) {
-        setStateEventJoinStatus(EventStatus.empty);
-      }
-    } on CustomException catch (_) {
-      setStateEventJoinStatus(EventStatus.error);
-    } catch (_) {
-      setStateEventJoinStatus(EventStatus.error);
     }
   }
 

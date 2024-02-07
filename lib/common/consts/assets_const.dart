@@ -76,6 +76,7 @@ class AssetsConst {
   static const imageIcPopUpSos = "assets/images/icons/ic-pop-up-sos.png";
   static const imageIcNext = "assets/images/icons/ic-next.png";
   static const imageIcForm = "assets/images/icons/ic-form.png";
+  static const imageIcSuccesForm = "assets/images/icons/ic-success-register.png";
 
   //Audio Source
   static const audioNotifMpThree = "assets/sounds/notification.mp3";

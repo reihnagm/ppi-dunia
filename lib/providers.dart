@@ -2,6 +2,7 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/history_join_event/history_join_event_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
 import 'package:ppidunia/features/location/presentation/providers/location.dart';
@@ -54,8 +55,7 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider(create: (_) => c.getIt<ForgetPasswordScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<NewPasswordScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<ChangePasswordScreenModel>()),
-  ChangeNotifierProvider(
-      create: (_) => c.getIt<StudyAbroadStatusScreenModel>()),
+  ChangeNotifierProvider(create: (_) => c.getIt<StudyAbroadStatusScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<OtpScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<FeedScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<CommentScreenModel>()),
@@ -73,5 +73,6 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider(create: (_) => c.getIt<CommentDetailModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<EventScreenModel>()),
   ChangeNotifierProvider(create: (_) => c.getIt<EventDetailScreenModel>()),
+  ChangeNotifierProvider(create: (_) => c.getIt<JoinedEventScreenModel>()),
   Provider.value(value: const <String, dynamic>{})
 ];

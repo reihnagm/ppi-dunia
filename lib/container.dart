@@ -6,6 +6,7 @@ import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/event/history_join_event/history_join_event_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/post/create_post_screen_model.dart';
 import 'package:ppidunia/features/notification/provider/notification.dart';
@@ -105,20 +106,18 @@ Future<void> init() async {
   getIt.registerFactory(() => CommentDetailModel(rr: getIt(), fr: getIt(), pp: getIt()));
   getIt.registerFactory(() => EventScreenModel(er: getIt()));
   getIt.registerFactory(() => LocationProvider());
+  
+  getIt.registerLazySingleton(() => JoinedEventScreenModel(er: getIt()));
   getIt.registerLazySingleton(() => FeedScreenModel(fr: getIt()));
   getIt.registerLazySingleton(() => EventDetailScreenModel(er: getIt()));
   getIt.registerLazySingleton(() => SosScreenModel(sr: getIt(), lp: getIt()));
-  getIt.registerLazySingleton(
-      () => CommentScreenModel(cr: getIt(), fr: getIt(), pp: getIt()));
-  getIt.registerLazySingleton(
-      () => BookmarkScreenModel(br: getIt(), fr: getIt()));
+  getIt.registerLazySingleton(() => CommentScreenModel(cr: getIt(), fr: getIt(), pp: getIt()));
+  getIt.registerLazySingleton(() => BookmarkScreenModel(br: getIt(), fr: getIt()));
   getIt.registerLazySingleton(() => DashboardScreenModel());
-  getIt.registerLazySingleton(
-      () => CreatePostModel(fsm: getIt(), fr: getIt(), mr: getIt()));
+  getIt.registerLazySingleton(() => CreatePostModel(fsm: getIt(), fr: getIt(), mr: getIt()));
   getIt.registerLazySingleton(() => SplashScreenModel(mr: getIt()));
   getIt.registerLazySingleton(() => BannerProvider(br: getIt()));
-  getIt.registerLazySingleton(
-      () => ProfileProvider(pr: getIt(), fr: getIt(), mr: getIt()));
+  getIt.registerLazySingleton(() => ProfileProvider(pr: getIt(), fr: getIt(), mr: getIt()));
   getIt.registerLazySingleton(() => ComingSoonScreenModel());
   getIt.registerLazySingleton(() => UpdateScreenModel());
   getIt.registerLazySingleton(() => OnboardingScreenModel());

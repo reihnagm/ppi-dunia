@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/utils/global.dart';
 import 'package:ppidunia/common/utils/modals.dart';
@@ -35,6 +36,7 @@ import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/textfield/textfield.dart';
 import 'package:provider/provider.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 enum FeedStatus { idle, loading, loaded, empty, error }
 
@@ -156,7 +158,7 @@ class ProfileProvider with ChangeNotifier {
             MaterialButton(
               child: const Text("Gallery"),
               onPressed: () async {
-                if (await Permission.location.request().isGranted) {
+                if (await Permission.photos.request().isGranted || await Permission.storage.request().isGranted ) {
                   Navigator.pop(context, ImageSource.gallery);
                 } else if(await Permission.photos.request().isDenied || await Permission.storage.request().isDenied ) {
                     GeneralModal.dialogRequestNotification(msg: "Storage feature needed, please activate your storage");
@@ -349,7 +351,7 @@ class ProfileProvider with ChangeNotifier {
     return true;
   }
 
-  Future<void> joinEvent(BuildContext context,String idEvent, String gender, String status, String instution) async {
+  Future<void> joinEvent(BuildContext context, String nameEvent, String idEvent, String gender, String status, String instution) async {
     try {
       final firstName = firstNameC.text.trim();
       final lastName = lastNameC.text.trim();
@@ -381,8 +383,7 @@ class ProfileProvider with ChangeNotifier {
           instution: instutionC.text,
         );
         NS.pushReplacement(context, const DashboardScreen());
-        ShowSnackbar.snackbar(context, "Successful event listing", '', ColorResources.success, const Duration(seconds: 3),
-        );
+        GeneralModal.info(msg: "Congratulations you have managed to join $nameEvent", imageSourece: AssetsConst.imageIcSuccesForm);
       }
       setStateProfileStatus(ProfileStatus.loaded);
     } on CustomException catch (e) {
@@ -624,11 +625,30 @@ class ProfileProvider with ChangeNotifier {
     } catch (_) {}
   }
 
-  Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
-    final path = (await getExternalStorageDirectory())?.path;
-    Uint8List uint8List = Uint8List.fromList(bytes);
-    FileStorage.saveFile(uint8List, fileName);
-    OpenFile.open('$path/$fileName');
+  Future<void> saveAndLaunchFile(List<int> bytes, String fileName, BuildContext context) async {
+    bool isExistFile = await FileStorage.checkFileExist(fileName);
+    if(!isExistFile) {
+      ProgressDialog pr = ProgressDialog(context: context);
+      pr.show(
+          backgroundColor: ColorResources.greyDarkPrimary,
+          msgTextAlign: TextAlign.start,
+          max: 100,
+          msgColor: ColorResources.greyLight,
+          msg: "Please wait...",
+          progressBgColor: ColorResources.greyLight,
+          progressValueColor: ColorResources.greyDarkPrimary,
+          onStatusChanged: (status) async {
+            if (status == DialogStatus.opened){
+              Uint8List uint8List = Uint8List.fromList(bytes);
+              await FileStorage.saveFile(uint8List, fileName);
+              pr.close();
+              await FileStorage.getFileFromAsset(fileName, context, isExistFile);
+            }
+          }
+      );
+    }else{
+      await FileStorage.getFileFromAsset(fileName, context, isExistFile);
+    }
   }
 
   Future<Uint8List> readImageData(String name) async {

@@ -82,6 +82,21 @@ class _CardHeaderPostState extends State<CardHeaderPost> {
             PopupMenuItem(
                 value: "/report-user",
                 child: Text(
+                "It's racist",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 11.sp
+                )),
+                onTap: () async {
+                  setState(() {
+                    content = "Racist";
+                  });
+                  await GeneralModal.reportUser(content: content, feedId: widget.feedId ?? "");
+                },
+            ),
+            PopupMenuItem(
+                value: "/report-user",
+                child: Text(
                 "It's spam",
                 style: TextStyle(
                     color: Colors.black,

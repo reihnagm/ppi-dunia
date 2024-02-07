@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 
 import 'package:ppidunia/features/sos/data/repositories/sos.dart';
@@ -67,7 +68,7 @@ class SosScreenModel with ChangeNotifier {
                   "${place.thoroughfare} ${place.subThoroughfare} \n${place.locality}, ${place.postalCode}");
 
               if (lp.getCurrentLat == 0.0 || lp.getCurrentLng == 0.0) {
-                GeneralModal.info(msg: "Location not found", isBackHome: true);
+                GeneralModal.info(msg: "Location not found", imageSourece: AssetsConst.imageIcPopUpDelete);
                 return;
               }
 

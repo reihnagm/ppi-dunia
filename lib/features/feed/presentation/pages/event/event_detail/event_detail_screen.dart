@@ -214,15 +214,21 @@ class IconText extends StatelessWidget {
       children: [
         Icon(iconData,size: 12, color: color,),
         const SizedBox(width: 5,),
-        Text(text,
-        maxLines: 1,
-        overflow: TextOverflow.visible,
-        style: TextStyle(
-          color: color,
-          fontSize: Dimensions.fontSizeSmall,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'SF Pro'
-        )),
+        Expanded(
+          flex: 3,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(text,
+            maxLines: 1,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+              color: color,
+              fontSize: Dimensions.fontSizeSmall,
+              fontFamily: 'SF Pro'
+            )),
+          ),
+        ),
       ],
     );
   }
