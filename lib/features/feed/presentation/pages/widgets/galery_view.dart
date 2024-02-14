@@ -27,7 +27,7 @@ class _GaleryViewState extends State<GaleryView> {
           return PhotoViewGalleryPageOptions(
             imageProvider: NetworkImage(widget.fsm!.feeds[widget.index].media[widget.mediaIndex].path),
             minScale: PhotoViewComputedScale.contained * 0.8,
-            maxScale: PhotoViewComputedScale.covered * 2,
+            maxScale: PhotoViewComputedScale.covered * 3,
           );
         },
         scrollPhysics: const BouncingScrollPhysics(),

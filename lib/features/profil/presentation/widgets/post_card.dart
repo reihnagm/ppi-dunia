@@ -10,9 +10,9 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
-import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/video.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
+import 'package:ppidunia/features/profil/presentation/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_posting.dart';
@@ -122,8 +122,9 @@ Widget postCard({
                             InkWell(
                               onTap: () => NS.push(
                                 context,
-                                ClippedPhotoView(
+                                ClippedPhotoViewPosting(
                                   image: pp.feeds[i].media[0].path,
+                                  index: i,
                                 ),
                               ),
                               child: Container(
@@ -156,8 +157,9 @@ Widget postCard({
                                   return InkWell(
                                     onTap: () => NS.push(
                                       context,
-                                      ClippedPhotoView(
+                                      ClippedPhotoViewPosting(
                                         image: pp.feeds[i].media[x].path,
+                                        index: i,
                                       ),
                                     ),
                                     child: CachedNetworkImage(

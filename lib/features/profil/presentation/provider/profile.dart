@@ -405,15 +405,25 @@ class ProfileProvider with ChangeNotifier {
       final bool isClear = submissionUpdate(context, firstName, lastName, email, phone);
 
       if (isClear) {
-        file == null
-            ? await pr.updateProfile(
+        if(file == null) {
+          await pr.updateProfile(
                 firtNameC: firstNameC.text,
                 lastNameC: lastNameC.text,
                 email: emailC.text,
                 userId: SharedPrefs.getUserId(),
                 phone: phoneC.text,
-              )
-            : await uploadProfile();
+              );
+        }else {
+          await uploadProfile();
+          await pr.updateProfile(
+            firtNameC: firstNameC.text,
+            lastNameC: lastNameC.text,
+            email: emailC.text,
+            userId: SharedPrefs.getUserId(),
+            phone: phoneC.text,
+          );
+        }
+
         getProfile();
         NS.pop(context);
         ShowSnackbar.snackbar(

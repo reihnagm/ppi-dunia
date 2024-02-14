@@ -179,18 +179,12 @@ class FeedScreenModel with ChangeNotifier {
   Future<void> toggleBookmark(
       {required String feedId, required FeedBookmarks feedBookmarks}) async {
     try {
-      int idxBookmarks = feedBookmarks.bookmarks
-          .indexWhere((el) => el.user.uid == SharedPrefs.getUserId());
+      int idxBookmarks = feedBookmarks.bookmarks.indexWhere((el) => el.user.uid == SharedPrefs.getUserId());
       if (idxBookmarks != -1) {
         feedBookmarks.bookmarks.removeAt(idxBookmarks);
         feedBookmarks.total = feedBookmarks.total - 1;
       } else {
-        feedBookmarks.bookmarks.add(UserLikes(
-            user: User(
-                uid: SharedPrefs.getUserId(),
-                avatar: "-",
-                name:
-                    "${SharedPrefs.getRegFistName()} ${SharedPrefs.getRegLastName()}")));
+        feedBookmarks.bookmarks.add(UserLikes(user: User( uid: SharedPrefs.getUserId(), avatar: "-", name: "${SharedPrefs.getRegFistName()} ${SharedPrefs.getRegLastName()}")));
         feedBookmarks.total = feedBookmarks.total + 1;
       }
       await fr.toggleBookmark(feedId: feedId);

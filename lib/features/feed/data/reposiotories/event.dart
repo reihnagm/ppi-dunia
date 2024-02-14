@@ -35,9 +35,12 @@ class EventRepo {
     }
   }
   Future<JoinedEventModel> getEventJoined(
+    {required int pageKey,
+      required String branch,
+      required String search}
   ) async {
     try {
-      Response res = await dioClient!.post("/api/v1/event/register/user-joined", data: {
+      Response res = await dioClient!.post("/api/v1/event/register/user-joined?page=$pageKey&limit=10&branch=$branch&search=$search", data: {
         "user_id": SharedPrefs.getUserId()
       });
       Map<String, dynamic> data = res.data;

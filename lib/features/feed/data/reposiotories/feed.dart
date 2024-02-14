@@ -74,6 +74,7 @@ class FeedRepo {
       required String path,
       required String size}) async {
     try {
+      debugPrint(path);
       await dioClient!.post("/api/v1/feed/media",
           data: {"feed_id": feedId, "path": path, "size": size});
     } on DioException catch (e) {

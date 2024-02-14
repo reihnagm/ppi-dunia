@@ -9,6 +9,7 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
+import 'package:ppidunia/features/profil/presentation/widgets/clipped_photo_view_profil.dart';
 import 'package:ppidunia/features/profil/presentation/widgets/post_card.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
@@ -183,7 +184,7 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                                     InkWell(
                                       onTap: () => NS.push(
                                         context,
-                                        ClippedPhotoView(
+                                        ClippedPhotoViewProfil(
                                           image: context.read<ProfileProvider>().pdd.avatar ?? "-",
                                         ),
                                       ),
@@ -233,12 +234,7 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                    context
-                                            .read<ProfileProvider>()
-                                            .pdd
-                                            .country
-                                            ?.name ??
-                                        "-",
+                                    pp.pdd.country?.name ?? "-",
                                     style: const TextStyle(
                                       color: ColorResources.white,
                                       fontSize: Dimensions.marginSizeDefault,
@@ -265,12 +261,7 @@ class ProfileViewScreenState extends State<ProfileViewScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                    context
-                                            .read<ProfileProvider>()
-                                            .pdd
-                                            .country
-                                            ?.branch ??
-                                        "-",
+                                    pp.pdd.country?.branch ?? "-",
                                     style: const TextStyle(
                                       color: ColorResources.white,
                                       fontSize: Dimensions.marginSizeDefault,

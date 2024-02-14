@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
-import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_posting.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
@@ -129,19 +128,11 @@ class BookmarkList extends StatelessWidget {
                           if (bsm.feeds[i].feedType == "image")
                             if (bsm.feeds[i].media.length == 1)
                               bsm.feeds[i].media.isNotEmpty ?
-                              InkWell(
-                                onTap: () => NS.push(
-                                  context,
-                                  ClippedPhotoView(
-                                    image: bsm.feeds[i].media[0].path,
-                                  ),
-                                ),
-                                child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 25.0, vertical: 20.0),
-                                    child: imageCard(bsm.feeds[i].media[0].path,
-                                        180.0, 12.0)),
-                              ) : Container(),
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0, vertical: 20.0),
+                                  child: imageCard(bsm.feeds[i].media[0].path,
+                                      180.0, 12.0)) : Container(),
                           if (bsm.feeds[i].media.length > 1)
                             Container(
                               padding:

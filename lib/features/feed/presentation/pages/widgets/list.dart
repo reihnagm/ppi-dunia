@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/extensions/snackbar.dart';
-import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/modals.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
 import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
-import 'package:ppidunia/features/feed/provider/forum_download.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_posting.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
@@ -144,6 +142,7 @@ class _FeedListState extends State<FeedList> {
                                   context,
                                   ClippedPhotoView(
                                     image: fsm.feeds[i].media[0].path,
+                                    index: i,
                                   ),
                                 ),
                                 child: Container(
@@ -181,6 +180,7 @@ class _FeedListState extends State<FeedList> {
                                         context,
                                         ClippedPhotoView(
                                           image: fsm.feeds[i].media[x].path,
+                                          index: i,
                                         ),
                                       ),
                                       child: CachedNetworkImage(
@@ -360,10 +360,8 @@ class _FeedListState extends State<FeedList> {
                                           borderRadius:
                                               BorderRadius.circular(8.0),
                                           onTap: () async {
-                                            await fsm.toggleLike(
-                                              feedId: fsm.feeds[i].uid,
-                                              feedLikes: fsm.feeds[i].feedLikes);
-                                              fsm.panelC.open();
+                                            await fsm.toggleLike(feedId: fsm.feeds[i].uid,feedLikes: fsm.feeds[i].feedLikes);
+                                            fsm.panelC.open();
                                           },
                                           child: Padding(
                                               padding:
@@ -376,46 +374,21 @@ class _FeedListState extends State<FeedList> {
                                                         .spaceBetween,
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
-                                                  fsm.feeds[i].feedLikes.likes
-                                                          .where((el) =>
-                                                              el.user.uid ==
-                                                              SharedPrefs
-                                                                  .getUserId())
-                                                          .isEmpty
-                                                      ? Image.asset(
-                                                          AssetsConst
-                                                              .imageIcLove,
-                                                          width: 18.0,
-                                                        )
-                                                      : Image.asset(
-                                                          AssetsConst
-                                                              .imageIcLoveFill,
-                                                          width: 18.0,
-                                                        ),
-                                                  fsm.feeds[i].feedLikes.likes
-                                                          .isEmpty
-                                                      ? const SizedBox()
-                                                      : const SizedBox(
-                                                          width: 12.0),
-                                                  fsm.feeds[i].feedLikes.likes
-                                                          .isEmpty
-                                                      ? const SizedBox()
-                                                      : Text(
-                                                          fsm.feeds[i].feedLikes
-                                                              .total
-                                                              .toString(),
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  ColorResources
-                                                                      .white,
-                                                              fontSize: Dimensions
-                                                                  .fontSizeSmall,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  'SF Pro'),
-                                                        )
+                                                fsm.feeds[i].feedLikes.likes.where((el) => el.user.uid == SharedPrefs.getUserId()).isEmpty
+                                                    ? Image.asset(AssetsConst.imageIcLove, width: 18.0)
+                                                    : Image.asset(AssetsConst.imageIcLoveFill, width: 18.0,),
+                                                fsm.feeds[i].feedLikes.likes.isEmpty
+                                                    ? const SizedBox()
+                                                    : const SizedBox(width: 12.0),
+                                                fsm.feeds[i].feedLikes.likes.isEmpty
+                                                    ? const SizedBox()
+                                                    : Text(fsm.feeds[i].feedLikes.total.toString(),
+                                                        style: const TextStyle(
+                                                          color: ColorResources.white,
+                                                          fontSize: Dimensions.fontSizeSmall,
+                                                          fontWeight: FontWeight.w600,
+                                                          fontFamily: 'SF Pro'),
+                                                      ),
                                                 ],
                                               )),
                                         ),

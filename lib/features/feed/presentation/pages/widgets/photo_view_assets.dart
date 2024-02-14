@@ -10,31 +10,44 @@ class PhotoViewAssets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "image-view",
-      child: Center(
-        child: ClipRect(
-          child: PhotoView(
-            imageProvider: Image.file(
-              image,
-              fit: BoxFit.contain,
-            ).image,
-            minScale: PhotoViewComputedScale.contained * 0.8,
-            maxScale: PhotoViewComputedScale.covered * 2,
-            loadingBuilder: (context, event) => Center(
-              child: SizedBox(
-                width: 20.0,
-                height: 20.0,
-                child: CircularProgressIndicator(
-                  value: event == null
-                      ? 0
-                      : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Hero(
+          tag: "image-view",
+          child: Center(
+            child: ClipRect(
+              child: PhotoView(
+                imageProvider: Image.file(
+                  image,
+                  fit: BoxFit.contain,
+                ).image,
+                minScale: PhotoViewComputedScale.contained * 0.8,
+                maxScale: PhotoViewComputedScale.covered * 3,
+                loadingBuilder: (context, event) => Center(
+                  child: SizedBox(
+                    width: 20.0,
+                    height: 20.0,
+                    child: CircularProgressIndicator(
+                      value: event == null
+                          ? 0
+                          : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+        Positioned(
+          bottom: 0.0,
+          child: Container(
+            width: double.infinity,
+            height: 400,
+            color: Colors.amber,
+          )
+        ),
+      ],
     );
   }
 }

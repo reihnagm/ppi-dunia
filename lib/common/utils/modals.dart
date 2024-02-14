@@ -510,7 +510,7 @@ class GeneralModal {
                                       Navigator.pop(context);
                                     });
                                   },
-                                  btnTxt: "Aktifkan",
+                                  btnTxt: "Activate",
                                 )),
                             Positioned(
                               top: 0.0,
@@ -565,8 +565,9 @@ class GeneralModal {
                                   children: [
                                     Text(
                                       msg,
-                                      style: TextStyle(
-                                          fontSize: 13.sp,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: Dimensions.fontSizeLarge,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black),
                                     )

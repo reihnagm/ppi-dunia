@@ -10,8 +10,7 @@ import 'package:ppidunia/features/feed/data/models/detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
-import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
-import 'package:ppidunia/features/feed/provider/forum_download.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/widget/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_comment.dart';
@@ -292,7 +291,7 @@ class CommentScreenState extends State<CommentScreen> {
                                           InkWell(
                                             onTap: () => NS.push(
                                               context,
-                                              ClippedPhotoView(
+                                              ClippedPhotoViewComment(
                                                 image: c.feedDetailData
                                                     .media![0].path,
                                               ),
@@ -339,7 +338,7 @@ class CommentScreenState extends State<CommentScreen> {
                                                 return InkWell(
                                                   onTap: () => NS.push(
                                                     context,
-                                                    ClippedPhotoView(
+                                                    ClippedPhotoViewComment(
                                                       image: c.feedDetailData
                                                           .media![i].path,
                                                     ),
@@ -562,13 +561,7 @@ class CommentScreenState extends State<CommentScreen> {
                                                           BorderRadius.circular(
                                                               8.0),
                                                       onTap: () async {
-                                                        await c.toggleLike(
-                                                            feedId: c
-                                                                .feedDetailData
-                                                                .uid!,
-                                                            feedLikes: c
-                                                                .feedDetailData
-                                                                .feedLikes!);
+                                                        await c.toggleLike(feedId: c.feedDetailData.uid!, feedLikes: c.feedDetailData.feedLikes!);
                                                       },
                                                       child: Padding(
                                                           padding:

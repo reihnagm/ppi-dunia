@@ -8,10 +8,8 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_screen.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/history_join_event/history_join_event_screen.dart';
-import 'package:ppidunia/features/feed/presentation/pages/widgets/event_search.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
-import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
 

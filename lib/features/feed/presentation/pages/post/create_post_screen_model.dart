@@ -306,7 +306,7 @@ class CreatePostModel with ChangeNotifier {
             await mr.postMedia(folder: "videos", media: File(videoFile!.path));
 
         await fr.postMedia(
-            feedId: feedId, path: d["data"]["path"], size: d["data"]["size"]);
+            feedId: feedId, path: d["data"]["path"].replaceAll("[^\\p{L}\\p{M}\\p{N}\\p{P}\\p{Z}\\p{Cf}\\p{Cs}\\s]", ""), size: d["data"]["size"]);
       }
 
       if (feedType == "document") {

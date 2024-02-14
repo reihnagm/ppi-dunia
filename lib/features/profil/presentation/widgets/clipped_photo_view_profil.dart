@@ -3,31 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:ppidunia/common/consts/assets_const.dart';
-import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
-import 'package:ppidunia/common/utils/shared_preferences.dart';
-import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
-import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
+import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/button/custom.dart';
-import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:provider/provider.dart';
 
-class ClippedPhotoView extends StatefulWidget {
+class ClippedPhotoViewProfil extends StatefulWidget {
   final String image;
-  final int index;
-  const ClippedPhotoView({super.key, required this.image,required this.index});
+  const ClippedPhotoViewProfil({super.key, required this.image});
 
   @override
-  State<ClippedPhotoView> createState() => _ClippedPhotoViewState();
+  State<ClippedPhotoViewProfil> createState() => _ClippedPhotoViewProfilState();
 }
 
-class _ClippedPhotoViewState extends State<ClippedPhotoView> {
-  late FeedScreenModel fsm;
+class _ClippedPhotoViewProfilState extends State<ClippedPhotoViewProfil> {
+  late ProfileProvider pp;
 
   bool isScale = false;
   int zoom = 0;
@@ -36,14 +30,15 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fsm = context.read<FeedScreenModel>();
+    pp = context.read<ProfileProvider>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FeedScreenModel>(
-      builder: (BuildContext context, FeedScreenModel fsm, Widget? child) {
-        if (fsm.feedStatus == FeedStatus.loading) {
+    debugPrint('Image : ${widget.image}');
+    return Consumer<ProfileProvider>(
+      builder: (BuildContext context, ProfileProvider pp, Widget? child) {
+        if (pp.profileStatus == ProfileStatus.loading) {
           return SizedBox(
             height: MediaQuery.of(context).size.height * .75,
             child: const SpinKitCubeGrid(
@@ -53,7 +48,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
           );
         }
 
-        if (fsm.feedStatus == FeedStatus.error) {
+        if (pp.profileStatus == ProfileStatus.error) {
           return SizedBox(
               height: 150.0,
               child: Center(
@@ -69,7 +64,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
               ));
         }
 
-        if (fsm.feedStatus == FeedStatus.empty) {
+        if (pp.profileStatus == ProfileStatus.empty) {
           return SizedBox(
               height: 150.0,
               child: Center(
@@ -145,6 +140,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                           isPrefixIcon: true,
                           prefixIcon: const Icon(Icons.arrow_back, color: ColorResources.white,),
                         ),
+                        widget.image != "" ?
                         CustomButton(
                           width: 125,
                           isBorder: false,
@@ -159,7 +155,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                           btnTxt: "Save",
                           isPrefixIcon: true,
                           prefixIcon: const Icon(Icons.download, color: ColorResources.white,),
-                        ),
+                        ) : Container(),
                       ],
                     )
                   ),
@@ -168,114 +164,73 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                     right: 0.0,
                     bottom: 0.0,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                          padding: const EdgeInsets.all(10),
                           width: double.infinity,
                           color: ColorResources.greyPrimary.withOpacity(0.8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(fsm.feeds[widget.index].user.name,
+                              Text(pp.pdd.fullname ?? "",
                                 overflow: TextOverflow.visible,
                                 style: const TextStyle(
                                   color: ColorResources.white,
                                   fontSize: Dimensions.fontSizeLarge,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'SF Pro')),
-                              Text(
-                                DateHelper.formatDateTime(fsm.feeds[widget.index].createdAt),
-                                style: const TextStyle( color: ColorResources.greyDarkPrimary,
-                                  fontSize: Dimensions.fontSizeExtraSmall,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro')),
-                              const SizedBox(height: 10,),
-                              DetectText(text: fsm.feeds[widget.index].caption),
-                              const SizedBox(height: 10,),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Flexible(
-                                    child: CustomButton(
-                                      width: MediaQuery.sizeOf(context).width < 400 ? 100 : 120,
-                                      isBorder: false,
-                                      btnColor: ColorResources.bgSecondaryColor,
-                                      btnTextColor: Colors.white,
-                                      sizeBorderRadius: 10.0,
-                                      isBorderRadius: true,
-                                      height: 30.0,
-                                      onTap: () async {
-                                        setState(() {
-                                        fsm.toggleLike(feedId: fsm.feeds[widget.index].uid,feedLikes: fsm.feeds[widget.index].feedLikes);
-                                        fsm.panelC.open();
-                                        });
-                                      },
-                                      btnTxt: fsm.feeds[widget.index].feedLikes.likes.isEmpty ? "0" : fsm.feeds[widget.index].feedLikes.total.toString(),
-                                      isPrefixIcon: true,
-                                      prefixIcon: fsm.feeds[widget.index].feedLikes.likes.where((el) => el.user.uid == SharedPrefs.getUserId()).isEmpty
-                                        ? Image.asset(AssetsConst.imageIcLove, width: 18.0)
-                                        : Image.asset(AssetsConst.imageIcLoveFill, width: 18.0,),
-                                    ),
+                                  const Icon(
+                                    Icons.location_on,
+                                    size: 10,
+                                    color: Colors.white,
                                   ),
-                                  Flexible(
-                                    child: CustomButton(
-                                      width: MediaQuery.sizeOf(context).width < 400 ? 100 : 120,
-                                      isBorder: false,
-                                      btnColor: ColorResources.bgSecondaryColor,
-                                      btnTextColor: Colors.white,
-                                      sizeBorderRadius: 10.0,
-                                      isBorderRadius: true,
-                                      height: 30.0,
-                                      onTap: () async {
-                                        Navigator.push(context, NS.fromLeft(CommentScreen(feedId: fsm.feeds[widget.index].uid))).then((_) => setState(() {
-                                          fsm.getFeeds();
-                                        }));
-                                      },
-                                      btnTxt: fsm.feeds[widget.index].feedComments.total.toString(),
-                                      isPrefixIcon: true,
-                                      prefixIcon: fsm.feeds[widget.index].feedComments.comments.isEmpty
-                                      ? Image.asset(AssetsConst.imageIcChat, width: 18.0,)
-                                      : Image.asset(AssetsConst.imageIcChatFill, width: 18.0,),
-                                    ),
+                                  const SizedBox(
+                                    width: 5,
                                   ),
-                                  Flexible(
-                                    child: CustomButton(
-                                      width: MediaQuery.sizeOf(context).width < 400 ? 100 : 120,
-                                      isBorder: false,
-                                      btnColor: ColorResources.bgSecondaryColor,
-                                      btnTextColor: Colors.white,
-                                      sizeBorderRadius: 10.0,
-                                      isBorderRadius: true,
-                                      height: 30.0,
-                                      onTap: () async {
-                                         await fsm.toggleBookmark(
-                                          feedId: fsm.feeds[widget.index].uid,
-                                          feedBookmarks: fsm.feeds[widget.index].feedBookmarks);
-                                        fsm.panelC.open();
-                                      },
-                                      btnTxt: "",
-                                      isPrefixIcon: true,
-                                      prefixIcon: fsm.feeds[widget.index].feedBookmarks
-                                        .bookmarks
-                                        .where((el) =>
-                                            el.user.uid ==
-                                            SharedPrefs.getUserId())
-                                        .isEmpty
-                                    ? Image.asset(
-                                        'assets/images/icons/ic-save.png',
-                                        width: 18.0,
-                                      )
-                                    : Image.asset(
-                                        AssetsConst.imageIcSaveFill,
-                                        width: 18.0,
-                                      ),
+                                  Text(
+                                    pp.pdd.country?.name ?? "-",
+                                    style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.fontSizeSmall,
+                                      fontFamily: 'SF Pro',
                                     ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10,),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.school,
+                                    size: 10,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    pp.pdd.country?.branch ?? "-",
+                                    style: const TextStyle(
+                                      color: ColorResources.white,
+                                      fontSize: Dimensions.fontSizeSmall,
+                                      fontFamily: 'SF Pro',
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         )

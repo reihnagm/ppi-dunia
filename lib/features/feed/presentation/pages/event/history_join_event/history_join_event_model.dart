@@ -12,6 +12,13 @@ class JoinedEventScreenModel with ChangeNotifier {
 
   JoinedEventScreenModel({required this.er});
 
+  bool hasMore = true;
+  int pageKey = 1;
+
+  String progress = "";
+  String branch = '';
+  String search = '';
+
   List<JoinedEventData> _eventJoined = [];
   List<JoinedEventData> get eventJoined => [..._eventJoined];
 
@@ -24,8 +31,10 @@ class JoinedEventScreenModel with ChangeNotifier {
   }
 
   Future<void> getEventJoined() async {
+    pageKey = 1;
+    hasMore = true;
     try {
-      JoinedEventModel ejm = await er.getEventJoined();
+      JoinedEventModel ejm = await er.getEventJoined(pageKey: pageKey, branch: branch, search: search);
 
       _eventJoined = [];
       _eventJoined.addAll(ejm.data);
@@ -39,5 +48,13 @@ class JoinedEventScreenModel with ChangeNotifier {
     } catch (_) {
       setStateEventJoinStatus(JoinedEventStatus.error);
     }
+  }
+
+  Future<void> loadMoreEvent() async {
+    pageKey++;
+    JoinedEventModel ejm = await er.getEventJoined(pageKey: pageKey, branch: branch, search: search);
+    hasMore = ejm.pageDetail.hasMore;
+    _eventJoined.addAll(ejm.data);
+    Future.delayed(Duration.zero, () => notifyListeners());
   }
 }

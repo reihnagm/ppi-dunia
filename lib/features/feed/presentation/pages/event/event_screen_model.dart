@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ppidunia/common/errors/exceptions.dart';
 import 'package:ppidunia/features/feed/data/models/event.dart';
-import 'package:ppidunia/features/feed/data/models/user_event_join.dart';
 import 'package:ppidunia/features/feed/data/reposiotories/event.dart';
 
 enum EventStatus { idle, loading, loaded, empty, error }

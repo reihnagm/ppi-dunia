@@ -4,30 +4,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
-import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/common/utils/shared_preferences.dart';
-import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
-import 'package:ppidunia/features/feed/presentation/pages/feed/feed_screen_model.dart';
+import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:ppidunia/views/basewidgets/detecttext/detect_text.dart';
 import 'package:provider/provider.dart';
 
-class ClippedPhotoView extends StatefulWidget {
+class ClippedPhotoViewComment extends StatefulWidget {
   final String image;
-  final int index;
-  const ClippedPhotoView({super.key, required this.image,required this.index});
+  const ClippedPhotoViewComment({super.key, required this.image});
 
   @override
-  State<ClippedPhotoView> createState() => _ClippedPhotoViewState();
+  State<ClippedPhotoViewComment> createState() => _ClippedPhotoViewCommentState();
 }
 
-class _ClippedPhotoViewState extends State<ClippedPhotoView> {
-  late FeedScreenModel fsm;
+class _ClippedPhotoViewCommentState extends State<ClippedPhotoViewComment> {
+  late CommentScreenModel csm;
 
   bool isScale = false;
   int zoom = 0;
@@ -36,14 +33,14 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fsm = context.read<FeedScreenModel>();
+    csm = context.read<CommentScreenModel>();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FeedScreenModel>(
-      builder: (BuildContext context, FeedScreenModel fsm, Widget? child) {
-        if (fsm.feedStatus == FeedStatus.loading) {
+    return Consumer<CommentScreenModel>(
+      builder: (BuildContext context, CommentScreenModel csm, Widget? child) {
+        if (csm.feedDetailStatus == FeedDetailStatus.loading) {
           return SizedBox(
             height: MediaQuery.of(context).size.height * .75,
             child: const SpinKitCubeGrid(
@@ -53,7 +50,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
           );
         }
 
-        if (fsm.feedStatus == FeedStatus.error) {
+        if (csm.feedDetailStatus == FeedDetailStatus.error) {
           return SizedBox(
               height: 150.0,
               child: Center(
@@ -69,7 +66,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
               ));
         }
 
-        if (fsm.feedStatus == FeedStatus.empty) {
+        if (csm.feedDetailStatus == FeedDetailStatus.empty) {
           return SizedBox(
               height: 150.0,
               child: Center(
@@ -168,31 +165,23 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                     right: 0.0,
                     bottom: 0.0,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                          padding: const EdgeInsets.all(10),
                           width: double.infinity,
                           color: ColorResources.greyPrimary.withOpacity(0.8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(fsm.feeds[widget.index].user.name,
+                              Text(csm.feedDetailData.user!.name,
                                 overflow: TextOverflow.visible,
                                 style: const TextStyle(
                                   color: ColorResources.white,
                                   fontSize: Dimensions.fontSizeLarge,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'SF Pro')),
-                              Text(
-                                DateHelper.formatDateTime(fsm.feeds[widget.index].createdAt),
-                                style: const TextStyle( color: ColorResources.greyDarkPrimary,
-                                  fontSize: Dimensions.fontSizeExtraSmall,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'SF Pro')),
                               const SizedBox(height: 10,),
-                              DetectText(text: fsm.feeds[widget.index].caption),
+                              DetectText(text: csm.feedDetailData.caption ?? "-"),
                               const SizedBox(height: 10,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,13 +197,12 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                                       height: 30.0,
                                       onTap: () async {
                                         setState(() {
-                                        fsm.toggleLike(feedId: fsm.feeds[widget.index].uid,feedLikes: fsm.feeds[widget.index].feedLikes);
-                                        fsm.panelC.open();
+                                        csm.toggleLike(feedId: csm.feedDetailData.uid!, feedLikes: csm.feedDetailData.feedLikes!);
                                         });
                                       },
-                                      btnTxt: fsm.feeds[widget.index].feedLikes.likes.isEmpty ? "0" : fsm.feeds[widget.index].feedLikes.total.toString(),
+                                      btnTxt: csm.feedDetailData.feedLikes!.likes.isEmpty ? "0" : csm.feedDetailData.feedLikes!.total.toString(),
                                       isPrefixIcon: true,
-                                      prefixIcon: fsm.feeds[widget.index].feedLikes.likes.where((el) => el.user.uid == SharedPrefs.getUserId()).isEmpty
+                                      prefixIcon: csm.feedDetailData.feedLikes!.likes.where((el) => el.user.uid == SharedPrefs.getUserId()).isEmpty
                                         ? Image.asset(AssetsConst.imageIcLove, width: 18.0)
                                         : Image.asset(AssetsConst.imageIcLoveFill, width: 18.0,),
                                     ),
@@ -229,13 +217,11 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                                       isBorderRadius: true,
                                       height: 30.0,
                                       onTap: () async {
-                                        Navigator.push(context, NS.fromLeft(CommentScreen(feedId: fsm.feeds[widget.index].uid))).then((_) => setState(() {
-                                          fsm.getFeeds();
-                                        }));
+                                        NS.pop(context);
                                       },
-                                      btnTxt: fsm.feeds[widget.index].feedComments.total.toString(),
+                                      btnTxt: csm.feedDetailData.feedComments!.total.toString(),
                                       isPrefixIcon: true,
-                                      prefixIcon: fsm.feeds[widget.index].feedComments.comments.isEmpty
+                                      prefixIcon: csm.feedDetailData.feedComments!.comments.isEmpty
                                       ? Image.asset(AssetsConst.imageIcChat, width: 18.0,)
                                       : Image.asset(AssetsConst.imageIcChatFill, width: 18.0,),
                                     ),
@@ -250,14 +236,11 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                                       isBorderRadius: true,
                                       height: 30.0,
                                       onTap: () async {
-                                         await fsm.toggleBookmark(
-                                          feedId: fsm.feeds[widget.index].uid,
-                                          feedBookmarks: fsm.feeds[widget.index].feedBookmarks);
-                                        fsm.panelC.open();
+                                         await csm.toggleBookmark(feedId: csm.feedDetailData.uid!, feedBookmarks: csm.feedDetailData.feedBookmarks!);
                                       },
                                       btnTxt: "",
                                       isPrefixIcon: true,
-                                      prefixIcon: fsm.feeds[widget.index].feedBookmarks
+                                      prefixIcon: csm.feedDetailData.feedBookmarks!
                                         .bookmarks
                                         .where((el) =>
                                             el.user.uid ==
