@@ -54,7 +54,12 @@ class _JoinEventScreenState extends State<JoinEventScreen> {
     pp.firstNameC.text = context.read<ProfileProvider>().pd.first_name!;
     pp.lastNameC.text = context.read<ProfileProvider>().pd.last_name!;
     pp.emailC.text = context.read<ProfileProvider>().pd.email!;
-    pp.phoneC.text = context.read<ProfileProvider>().pd.phone!;
+
+    if (context.read<ProfileProvider>().pd.phone! == ""){
+      pp.phoneC.text = "08";
+    }else{
+      pp.phoneC.text = context.read<ProfileProvider>().pd.phone!;
+    }
 
 
     if (mounted) {

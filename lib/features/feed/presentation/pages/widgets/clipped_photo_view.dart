@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/date_util.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
@@ -130,36 +132,48 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomButton(
-                          width: 125,
-                          isBorder: false,
-                          btnColor: ColorResources.greyPrimary.withOpacity(0.8),
-                          btnTextColor: Colors.white,
-                          sizeBorderRadius: 10.0,
-                          isBorderRadius: true,
-                          height: 50.0,
-                          onTap: () async {
-                            NS.pop(context);
-                          },
-                          btnTxt: "Back",
-                          isPrefixIcon: true,
-                          prefixIcon: const Icon(Icons.arrow_back, color: ColorResources.white,),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorResources.greyPrimary.withOpacity(0.8),
+                          ),
+                          child: CupertinoNavigationBarBackButton(
+                            color: ColorResources.white,
+                            onPressed: () {
+                              NS.pop(context);
+                            },
+                          ),
                         ),
-                        CustomButton(
-                          width: 125,
-                          isBorder: false,
-                          btnColor: ColorResources.greyPrimary.withOpacity(0.8),
-                          btnTextColor: Colors.white,
-                          sizeBorderRadius: 10.0,
-                          isBorderRadius: true,
-                          height: 50.0,
-                          onTap: () async {
-                            await DownloadHelper.downloadDoc(context: context, url: widget.image);
-                          },
-                          btnTxt: "Save",
-                          isPrefixIcon: true,
-                          prefixIcon: const Icon(Icons.download, color: ColorResources.white,),
-                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorResources.greyPrimary.withOpacity(0.8),
+                          ),
+                          child: PopupMenuButton(
+                            color: ColorResources.white,
+                            iconColor: Colors.white,
+                            iconSize: 20,
+                            itemBuilder: (BuildContext
+                                buildContext) {
+                              return [
+                                const PopupMenuItem(
+                                  value: "/save",
+                                  child: Text("Save",
+                                    style: TextStyle(
+                                        color: ColorResources.greyDarkPrimary,
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'SF Pro'))
+                                ),
+                              ];
+                            },
+                            onSelected: (route) async {
+                              if (route == "/save") {
+                                await DownloadHelper.downloadDoc(context: context, url: widget.image);
+                              }
+                            },
+                          ),
+                        )
                       ],
                     )
                   ),

@@ -10,19 +10,23 @@ Widget imageCard(String image, double height, double radius) {
     child: CachedNetworkImage(
       imageUrl: image,
       placeholder: (BuildContext context, String val) {
-        return Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[200]!,
-          child: Card(
-            margin: EdgeInsets.zero,
-            color: ColorResources.white,
-            elevation: 4.0,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(radius),
-                  color: ColorResources.white),
+        return SizedBox(
+          width: double.infinity,
+          height: height,
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[200]!,
+            child: Card(
+              margin: EdgeInsets.zero,
+              color: ColorResources.white,
+              elevation: 4.0,
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(radius),
+                    color: ColorResources.white),
+              ),
             ),
           ),
         );

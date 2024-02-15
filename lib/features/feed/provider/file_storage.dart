@@ -35,13 +35,6 @@ class FileStorage {
     debugPrint('Filename : $path/PPI-DUNIA/$filename');
     final snackBar = SnackBar(
       backgroundColor: isExistFile ? ColorResources.primary : ColorResources.success,
-      dismissDirection: DismissDirection.up,
-      behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height - 200,
-        left: 10,
-        right: 10,
-      ),
       duration: const Duration(seconds: 5),
       content: Text("${isExistFile ? 'File already exists in ' : 'File downloaded successfully, File saved to '} $path/PPI-DUNIA/$filename"),
       action: SnackBarAction(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:chewie/chewie.dart';
+import 'package:ppidunia/common/extensions/snackbar.dart';
 import 'package:ppidunia/common/helpers/download_util.dart';
+import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/services/navigation.dart';
 import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:video_player/video_player.dart';
 
@@ -49,17 +52,67 @@ class _VideoPlayState extends State<VideoPlay> {
       autoPlay: false,
       looping: false,
       fullScreenByDefault: true,
-      additionalOptions: (context) {
-        return <OptionItem>[
-          OptionItem(
-            onTap: () async {
-              await DownloadHelper.downloadDoc(context: context, url: widget.dataSource);
-            },
-            iconData: Icons.download,
-            title: 'Download Video',
-          ),
-        ];
+      optionsBuilder: (context, defaultOptions) async {
+        await showDialog<void>(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    CustomButton(
+                      isBorder: false,
+                      btnColor: ColorResources.greyPrimary.withOpacity(0.8),
+                      btnTextColor: Colors.white,
+                      sizeBorderRadius: 10.0,
+                      isBorderRadius: true,
+                      height: 50.0,
+                      onTap: () async {
+                        Future.delayed(Duration.zero, () {
+                          NS.pop(context);
+                          ShowSnackbar.snackbar(context, "Successfully downloaded, please wait", '', ColorResources.success);
+                        });
+                        await DownloadHelper.downloadDoc(context: context, url: widget.dataSource);
+                      },
+                      btnTxt: "Save Video",
+                      isPrefixIcon: true,
+                      prefixIcon: const Icon(Icons.download, color: ColorResources.white,),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    CustomButton(
+                      isBorder: false,
+                      btnColor: ColorResources.greyPrimary.withOpacity(0.8),
+                      btnTextColor: Colors.white,
+                      sizeBorderRadius: 10.0,
+                      isBorderRadius: true,
+                      height: 50.0,
+                      onTap: () {
+                        NS.pop(context);
+                      },
+                      btnTxt: "Close",
+                      isPrefixIcon: true,
+                      prefixIcon: const Icon(Icons.cancel, color: ColorResources.white,),
+                    ),
+                  ],
+                )
+              ),
+            );
+          },
+        );
       },
+      // additionalOptions: (context) {
+      //   return <OptionItem>[
+      //     OptionItem(
+      //       onTap: () async {
+      //         await DownloadHelper.downloadDoc(context: context, url: widget.dataSource);
+      //       },
+      //       iconData: Icons.download,
+      //       title: 'Download Video',
+      //     ),
+      //   ];
+      // },
     );
 
     setState(() { });
