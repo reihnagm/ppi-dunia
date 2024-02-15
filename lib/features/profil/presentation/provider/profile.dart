@@ -382,6 +382,13 @@ class ProfileProvider with ChangeNotifier {
           status: statusC.text,
           instution: instutionC.text,
         );
+        await pr.updateProfile(
+          firtNameC: firstNameC.text,
+          lastNameC: lastNameC.text,
+          email: emailC.text,
+          userId: SharedPrefs.getUserId(),
+          phone: phoneC.text,
+        );
         NS.pushReplacement(context, const DashboardScreen());
         GeneralModal.info(msg: "Congratulations you have managed to join $nameEvent", imageSourece: AssetsConst.imageIcSuccesForm);
       }

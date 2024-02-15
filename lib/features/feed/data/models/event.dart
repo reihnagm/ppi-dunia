@@ -30,6 +30,7 @@ class EventData {
     String? location;
     String? start;
     String? end;
+    bool? isExpired;
     String? startDate;
     String? endDate;
     bool? joined;
@@ -42,6 +43,7 @@ class EventData {
         this.location,
         this.start,
         this.end,
+        this.isExpired,
         this.startDate,
         this.endDate,
         this.joined,
@@ -55,6 +57,7 @@ class EventData {
         location: json["location"],
         start: json["start"],
         end: json["end"],
+        isExpired: json["is_expired"],
         startDate: json["start_date"],
         endDate: json["end_date"],
         joined: json["joined"],

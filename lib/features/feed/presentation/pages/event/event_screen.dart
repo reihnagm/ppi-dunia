@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
+import 'package:ppidunia/common/utils/custom_themes.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_screen.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/history_join_event/history_join_event_screen.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
+import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:ppidunia/views/basewidgets/image/image_card.dart';
 import 'package:provider/provider.dart';
 
@@ -146,8 +148,9 @@ class _EventSccreenState extends State<EventSccreen> {
                                     onTap: () {
                                       NS.push(context, 
                                       EventDetailScreen(
-                                        idEvent:  esm.event[i].id!, 
-                                        isJoinEvent: esm.event[i].joined!,
+                                        idEvent:  esm.event[i].id ?? "-", 
+                                        isJoinEvent: esm.event[i].joined!, 
+                                        isExpired: esm.event[i].isExpired!,
                                       ));
                                     },
                                     child: Column(
@@ -161,21 +164,49 @@ class _EventSccreenState extends State<EventSccreen> {
                                           onTap: (){
                                             NS.push(context, 
                                             EventDetailScreen(
-                                              idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                              idEvent:  esm.event[i].id ?? "-", 
+                                              isJoinEvent: esm.event[i].joined!, 
+                                              isExpired: esm.event[i].isExpired!,
                                             ));
                                           },
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  NS.push(context, 
-                                                  EventDetailScreen(
-                                                    idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
-                                                  ));
-                                                },
-                                                child: imageCard(esm.event[i].picture ?? "-", 245.0, 15.0)),
+                                              Stack(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      NS.push(context, 
+                                                      EventDetailScreen(
+                                                        idEvent:  esm.event[i].id ?? "-", 
+                                                        isJoinEvent: esm.event[i].joined!, 
+                                                        isExpired: esm.event[i].isExpired!,
+                                                      ));
+                                                    },
+                                                    child: imageCard(esm.event[i].picture ?? "-", 245.0, 15.0)),
+                                                  esm.event[i].isExpired! ?
+                                                  Positioned(
+                                                    left: 0.0,
+                                                    right: 0.0,
+                                                    bottom: 0.0,
+                                                    top: 0.0,
+                                                    child: Container(
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(15.0),
+                                                        color: ColorResources.grey.withOpacity(0.7)
+                                                      ),
+                                                      child: Text("This event has ended",
+                                                      style: sfProRegular.copyWith(
+                                                        color: ColorResources.white,
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: Dimensions.fontSizeExtraLarge,
+                                                      )),
+                                                    )
+                                                  ) : Container(),
+                                                ],
+                                              ),
                                               const SizedBox(height: 10,),
                                               Text(esm.event[i].title ?? "",
                                               maxLines: null,
@@ -213,7 +244,9 @@ class _EventSccreenState extends State<EventSccreen> {
                                                       onTap: () {
                                                         NS.push(context, 
                                                         EventDetailScreen(
-                                                          idEvent:  esm.event[i].id ?? "-", isJoinEvent: esm.event[i].joined ?? false,
+                                                          idEvent:  esm.event[i].id ?? "-", 
+                                                          isJoinEvent: esm.event[i].joined!, 
+                                                          isExpired: esm.event[i].isExpired!,
                                                         ));
                                                       },
                                                       child: Image.asset(

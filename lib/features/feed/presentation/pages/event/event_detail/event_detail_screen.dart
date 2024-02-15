@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
+import 'package:ppidunia/common/consts/assets_const.dart';
 import 'package:ppidunia/common/utils/color_resources.dart';
 import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/feed/presentation/pages/event/event_detail/event_detail_model.dart';
@@ -15,7 +17,8 @@ import 'package:provider/provider.dart';
 class EventDetailScreen extends StatefulWidget {
   final String idEvent;
   final bool isJoinEvent;
-  const EventDetailScreen({super.key, required this.idEvent, required this.isJoinEvent});
+  final bool isExpired;
+  const EventDetailScreen({super.key, required this.idEvent, required this.isJoinEvent, required this.isExpired});
 
   @override
   State<EventDetailScreen> createState() => _EventDetailScreenState();
@@ -41,12 +44,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
         backgroundColor: ColorResources.bgSecondaryColor,
-        bottomNavigationBar: widget.isJoinEvent ? Container(
+        bottomNavigationBar: widget.isJoinEvent || widget.isExpired ? Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         decoration: const BoxDecoration(
           color: ColorResources.fillPrimary
         ),
-        child: const Text("You have joined this event", 
+        child: Text(widget.isJoinEvent ? "You have joined this event" : "This event has ended", 
         textAlign: TextAlign.center,
         style: TextStyle(
             color: ColorResources.white,

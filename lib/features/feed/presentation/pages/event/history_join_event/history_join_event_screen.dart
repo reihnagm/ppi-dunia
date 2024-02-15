@@ -143,7 +143,9 @@ class _HistoryJoinEventScreenState extends State<HistoryJoinEventScreen> {
                                     onTap: () {
                                       NS.push(context, 
                                       EventDetailScreen(
-                                        idEvent:  hesm.eventJoined[i].id!, isJoinEvent: true,
+                                        idEvent:  hesm.eventJoined[i].id!, 
+                                        isJoinEvent: true, 
+                                        isExpired: false,
                                       ));
                                     },
                                     child: Column(
@@ -157,7 +159,9 @@ class _HistoryJoinEventScreenState extends State<HistoryJoinEventScreen> {
                                           onTap: (){
                                             NS.push(context, 
                                             EventDetailScreen(
-                                              idEvent:  hesm.eventJoined[i].id!, isJoinEvent: true,
+                                              idEvent:  hesm.eventJoined[i].id!, 
+                                              isJoinEvent: true, 
+                                              isExpired: false,
                                             ));
                                           },
                                           child: Column(
@@ -168,7 +172,9 @@ class _HistoryJoinEventScreenState extends State<HistoryJoinEventScreen> {
                                                 onTap: () {
                                                   NS.push(context, 
                                                   EventDetailScreen(
-                                                    idEvent:  hesm.eventJoined[i].id!, isJoinEvent: true,
+                                                    idEvent:  hesm.eventJoined[i].id!, 
+                                                    isJoinEvent: true, 
+                                                    isExpired: false,
                                                   ));
                                                 },
                                                 child: imageCard(hesm.eventJoined[i].picture!, 245.0, 15.0)),
@@ -209,7 +215,9 @@ class _HistoryJoinEventScreenState extends State<HistoryJoinEventScreen> {
                                                       onTap: () {
                                                         NS.push(context, 
                                                         EventDetailScreen(
-                                                          idEvent:  hesm.eventJoined[i].id!, isJoinEvent: true,
+                                                          idEvent:  hesm.eventJoined[i].id!, 
+                                                          isJoinEvent: true, 
+                                                          isExpired: false,
                                                         ));
                                                       },
                                                       child: Image.asset(
