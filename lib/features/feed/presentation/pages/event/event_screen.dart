@@ -106,13 +106,25 @@ class _EventSccreenState extends State<EventSccreen> {
                           if(esm.eventStatus == EventStatus.empty){
                             return SizedBox(
                               height: MediaQuery.of(context).size.height * .75,
-                              child: Center(
-                                child: Text(getTranslated("NO_EVENT"),
-                                    style: const TextStyle(
-                                        color: ColorResources.white,
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'SF Pro')),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    AssetsConst.imageIcNoEvent,
+                                    width: 250.0,
+                                    height: 250.0,
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(getTranslated("NO_EVENT"),
+                                      style: const TextStyle(
+                                          color: ColorResources.white,
+                                          fontSize: Dimensions.fontSizeLarge,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'SF Pro')),
+                                ],
                               ),
                             );
                           }
@@ -149,8 +161,6 @@ class _EventSccreenState extends State<EventSccreen> {
                                       NS.push(context, 
                                       EventDetailScreen(
                                         idEvent:  esm.event[i].id ?? "-", 
-                                        isJoinEvent: esm.event[i].joined!, 
-                                        isExpired: esm.event[i].isExpired!,
                                       ));
                                     },
                                     child: Column(
@@ -165,8 +175,6 @@ class _EventSccreenState extends State<EventSccreen> {
                                             NS.push(context, 
                                             EventDetailScreen(
                                               idEvent:  esm.event[i].id ?? "-", 
-                                              isJoinEvent: esm.event[i].joined!, 
-                                              isExpired: esm.event[i].isExpired!,
                                             ));
                                           },
                                           child: Column(
@@ -180,8 +188,6 @@ class _EventSccreenState extends State<EventSccreen> {
                                                       NS.push(context, 
                                                       EventDetailScreen(
                                                         idEvent:  esm.event[i].id ?? "-", 
-                                                        isJoinEvent: esm.event[i].joined!, 
-                                                        isExpired: esm.event[i].isExpired!,
                                                       ));
                                                     },
                                                     child: imageCard(esm.event[i].picture ?? "-", 245.0, 15.0)),
@@ -195,7 +201,7 @@ class _EventSccreenState extends State<EventSccreen> {
                                                       alignment: Alignment.center,
                                                       decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(15.0),
-                                                        color: ColorResources.grey.withOpacity(0.7)
+                                                        color: ColorResources.black.withOpacity(0.7)
                                                       ),
                                                       child: Text("This event has ended",
                                                       style: sfProRegular.copyWith(
@@ -244,9 +250,7 @@ class _EventSccreenState extends State<EventSccreen> {
                                                       onTap: () {
                                                         NS.push(context, 
                                                         EventDetailScreen(
-                                                          idEvent:  esm.event[i].id ?? "-", 
-                                                          isJoinEvent: esm.event[i].joined!, 
-                                                          isExpired: esm.event[i].isExpired!,
+                                                          idEvent:  esm.event[i].id ?? "-",
                                                         ));
                                                       },
                                                       child: Image.asset(

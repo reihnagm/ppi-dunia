@@ -77,6 +77,7 @@ class AssetsConst {
   static const imageIcNext = "assets/images/icons/ic-next.png";
   static const imageIcForm = "assets/images/icons/ic-form.png";
   static const imageIcSuccesForm = "assets/images/icons/ic-success-register.png";
+  static const imageIcNoEvent = "assets/images/icons/ic-no-event.png";
 
   //Audio Source
   static const audioNotifMpThree = "assets/sounds/notification.mp3";
