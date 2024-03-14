@@ -122,7 +122,7 @@ class _VideoPlayState extends State<VideoPlay> {
   Widget build(BuildContext context) {
     return chewieC != null && chewieC!.videoPlayerController.value.isInitialized
     ? AspectRatio(
-        aspectRatio: videoC.value.aspectRatio*2,
+        aspectRatio: videoC.value.aspectRatio,
         child: Chewie(
           controller: chewieC!
         ),

@@ -138,13 +138,13 @@ class _FeedListState extends State<FeedList> {
                             if (fsm.feeds[i].media.length == 1)
                             fsm.feeds[i].media.isNotEmpty ?
                               InkWell(
-                                onTap: () => NS.push(
-                                  context,
-                                  ClippedPhotoView(
-                                    image: fsm.feeds[i].media[0].path,
-                                    index: i,
-                                  ),
-                                ),
+                                onTap: () => Navigator.push(
+                                  context, NS.fromLeft(
+                                    ClippedPhotoView(
+                                      feedId: fsm.feeds[i].uid, index: 0, isComment: false,)
+                                    )).then((_) => setState(() {
+                                      fsm.getFeeds();
+                                    })),
                                 child: Container(
                                     padding: const EdgeInsets.only(
                                         left: 25.0,
@@ -176,12 +176,15 @@ class _FeedListState extends State<FeedList> {
                                   itemBuilder:
                                       (BuildContext context, int x, int z) {
                                     return InkWell(
-                                      onTap: () => NS.push(
-                                        context,
+                                      onTap: () =>  Navigator.push(
+                                      context, NS.fromLeft(
                                         ClippedPhotoView(
-                                          image: fsm.feeds[i].media[x].path,
-                                          index: i,
-                                        ),
+                                          feedId: fsm.feeds[i].uid, 
+                                          index: x, isComment: false,
+                                        )
+                                        )).then((_) => setState(() {
+                                          fsm.getFeeds();
+                                        })
                                       ),
                                       child: CachedNetworkImage(
                                         imageUrl: fsm.feeds[i].media[x].path,

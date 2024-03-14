@@ -10,7 +10,6 @@ import 'package:ppidunia/common/utils/dimensions.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/localization/language_constraints.dart';
 import 'package:ppidunia/services/navigation.dart';
-import 'package:ppidunia/views/basewidgets/button/custom.dart';
 import 'package:provider/provider.dart';
 
 class ClippedPhotoViewProfil extends StatefulWidget {

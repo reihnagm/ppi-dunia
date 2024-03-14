@@ -10,7 +10,7 @@ import 'package:ppidunia/features/feed/data/models/detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_detail/comment_detail.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_screen_model.dart';
 import 'package:ppidunia/features/feed/presentation/pages/comment/comment_state.dart';
-import 'package:ppidunia/features/feed/presentation/pages/comment/widget/clipped_photo_view.dart';
+import 'package:ppidunia/features/feed/presentation/pages/widgets/clipped_photo_view.dart';
 import 'package:ppidunia/features/profil/presentation/pages/profile_view/profile_view_state.dart';
 import 'package:ppidunia/features/profil/presentation/provider/profile.dart';
 import 'package:ppidunia/views/basewidgets/card_posting/card_header_comment.dart';
@@ -289,13 +289,15 @@ class CommentScreenState extends State<CommentScreen> {
                                       if (c.feedDetailData.feedType == "image")
                                         if (c.feedDetailData.media!.length == 1)
                                           InkWell(
-                                            onTap: () => NS.push(
-                                              context,
-                                              ClippedPhotoViewComment(
-                                                image: c.feedDetailData
-                                                    .media![0].path,
-                                              ),
-                                            ),
+                                            onTap: () {
+                                              Navigator.push(
+                                              context, NS.fromLeft(
+                                              ClippedPhotoView(
+                                                feedId: c.feedDetailData.uid!, index: 0, isComment: true,)
+                                              )).then((_) => setState(() {
+                                                c.getFeedDetail(feedId: widget.feedId);
+                                              }));
+                                            },
                                             child: Container(
                                                 padding: const EdgeInsets.only(
                                                     left: 25.0,
@@ -336,16 +338,17 @@ class CommentScreenState extends State<CommentScreen> {
                                                   (BuildContext context, int i,
                                                       int z) {
                                                 return InkWell(
-                                                  onTap: () => NS.push(
-                                                    context,
-                                                    ClippedPhotoViewComment(
-                                                      image: c.feedDetailData
-                                                          .media![i].path,
-                                                    ),
-                                                  ),
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                    context, NS.fromLeft(
+                                                    ClippedPhotoView(
+                                                      feedId: c.feedDetailData.uid!, index: i, isComment: true,)
+                                                    )).then((_) => setState(() {
+                                                      c.getFeedDetail(feedId: widget.feedId);
+                                                    }));
+                                                  },
                                                   child: CachedNetworkImage(
-                                                    imageUrl: c.feedDetailData
-                                                        .media![i].path,
+                                                    imageUrl: c.feedDetailData.media![i].path,
                                                     imageBuilder:
                                                         (BuildContext context,
                                                             ImageProvider

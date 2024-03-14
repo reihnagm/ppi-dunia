@@ -599,11 +599,11 @@ class CreatePostScreenState extends State<CreatePostScreen> {
                                         ),
                                       ),
                                       child: Stack(
+                                        alignment: Alignment.center,
                                         fit: StackFit.loose,
                                         children: [
                                           Image.file(
                                             File(cpm.pickedFile[0].path),
-                                            alignment: Alignment.centerLeft,
                                             fit: BoxFit.cover,
                                           ),
                                           Positioned(
